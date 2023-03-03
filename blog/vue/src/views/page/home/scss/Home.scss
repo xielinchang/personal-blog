@@ -2,7 +2,7 @@
     display: none;
   }
   .home {
-    width: 1200px;
+    width: 100%;
     min-width: 1200px;
     min-height: calc(200vh);
     height: auto;
@@ -13,6 +13,8 @@
       0 13px 15px rgb(31 45 61 / 99%);
     padding-bottom: 50px;
     .bg-shadow {
+      width: 100%;
+      height: calc(100vh);
       position: fixed;
       top: 0;
       left: 0;
@@ -64,6 +66,8 @@
               width: 80px;
               height: 80px;
               position: absolute;
+              left: 0;
+              top: 0;
             }
             & img:hover {
               transform: scale(1.2);

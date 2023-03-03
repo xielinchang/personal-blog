@@ -101,12 +101,12 @@
 </template>
 
 <script>
-import { getUserIp } from '@/api/api'
-import QueryPage from '../../component/MyComponents/QueryPage.vue'
-import TemplatePage from '../../component/MyComponents/TemplatePage.vue'
+import { getUserIp } from '../../../api/api'
+import QueryPage from '../../component/page-component/QueryPage.vue'
+import TemplatePage from '../../component/page-component/TemplatePage.vue'
 import { baiduLocation } from '../../../api/baiduapi'
 import { commentsQuery, commentsCreate } from '../../../api/comments'
-import LocationWelcome from '../../component/element/Location-Welcome.vue'
+import LocationWelcome from '../../component/joy-design/Location-Welcome.vue'
 export default {
   name: 'EssayComments',
   components: {
@@ -125,12 +125,7 @@ export default {
       comments_list: [],
       showDialog: false,
       text: '',
-      portraitArr: [
-        '/public/uploads/2022/08/03/1659524422501607.jpg',
-        '/public/uploads/2022/08/03/1659525306960790.jpg',
-        '/public/uploads/2022/08/04/1659575550058157.jpg',
-        '/public/uploads/2022/08/04/1659575588104356.jpg'
-      ],
+      portraitArr: [''],
       publishAgain: true,
       welcomeShow: true,
       /* 当前页 */

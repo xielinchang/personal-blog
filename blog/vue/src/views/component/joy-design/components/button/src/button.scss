@@ -1,0 +1,171 @@
+@import '../../../assets/scss/var.scss';
+
+.j-button {
+  --j-button-text-color: var(--j-text-color-regular);
+  --j-button-font-weight: 500;
+  --j-button-bg-color: var(--j-color-white);
+  --j-button-border-color: var(--j-border-color);
+  --j-button-font-size-middle: var(--j-font-size-middle);
+  --j-button-radius-middle: var(--j-radius-middle);
+  --j-button-disabled-opacity: var(--j-disabled-opacity);
+  --j-button-size: #{map-get($buttonSizes, middle)};
+  --j-button-size-mini: #{map-get($buttonSizes, mini)};
+  --j-button-size-large: #{map-get($buttonSizes, large)};
+  --j-button-size-small: #{map-get($buttonSizes, small)};
+  --j-button-padding: #{map-get($paddingSizes, base) map-get($paddingSizes, middle)};
+}
+
+@mixin button-var {
+
+  @each $key,
+  $item in $colors {
+    &.j-button--#{$key} {
+      --j-button-bg-color: #{$item};
+      --j-button-text-color: #fff;
+      --j-button-border-color: #{$item};
+
+      &.is-plain {
+        --j-button-bg-color: var(--j-color-white);
+        --j-button-text-color: #{$item};
+        --j-button-border-color: #{$item};
+      }
+
+      &.is-text {
+        color: #{$item};
+      }
+    }
+  }
+}
+
+@mixin button-size {
+
+  @each $key,
+  $item in $fontSizes {
+    &.j-button--#{$key} {
+      --j-button-size: var(--j-button-size-#{$key});
+      --j-button-padding: calc(var(--j-button-size) - 20px) calc(var(--j-button-size) - 12px);
+      height: var(--j-button-size);
+      line-height: var(--j-button-size);
+      font-size: var(--j-font-size-#{$key});
+      border-radius: var(--j-radius-#{$key});
+    }
+  }
+}
+
+.j-button {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 1;
+  height: var(--j-button-size);
+  white-space: nowrap;
+  cursor: pointer;
+  color: var(--j-button-text-color);
+  text-align: center;
+  box-sizing: border-box;
+  outline: none;
+  transition: 0.1s;
+  font-weight: var(--j-button-font-weight);
+  user-select: none;
+  vertical-align: middle;
+  -webkit-appearance: none;
+  background-color: var(--j-button-bg-color);
+  border: var(--j-border);
+  border-color: var(--j-button-border-color);
+  font-size: var(--j-button-font-size-middle);
+  border-radius: var(--j-button-radius-middle);
+  padding: var(--j-button-padding);
+
+  &+& {
+    margin-left: 12px;
+  }
+
+  &::before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    background: currentColor;
+    border-radius: inherit;
+    /* inherit parent's border radius */
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    content: '';
+  }
+
+  &:hover,
+  &:active {
+    &::before {
+      opacity: 0.3;
+    }
+  }
+
+  @include button-var;
+  @include button-size;
+
+  &.is-round {
+    border-radius: var(--j-radius-round);
+  }
+
+  &.is-circle {
+    border-radius: 50%;
+    padding: 8px;
+
+    & .icon {
+      margin: 0 !important;
+    }
+  }
+
+  &.is-disabled {
+    cursor: not-allowed;
+    opacity: var(--j-button-disabled-opacity);
+
+    &::before {
+      display: none;
+    }
+  }
+
+  &.is-text {
+    color: var(--j-button-text-color);
+    border: 0 solid transparent;
+    background-color: transparent;
+
+    &.is-bg {
+      &::before {
+        opacity: 0.1;
+      }
+      &:hover,
+      &:active {
+        &::before {
+          opacity: 0.3;
+        }
+      }
+    }
+  }
+
+  &.icon-left {
+    >.icon {
+      order: 1;
+      margin-right: 0.4em;
+      margin-top: 0.1em;
+    }
+
+    >.j-button__content {
+      order: 2;
+    }
+  }
+
+  &.icon-right {
+    >.icon {
+      order: 2;
+      margin-top: 0.1em;
+      margin-left: 0.4em;
+    }
+
+    >.j-button__content {
+      order: 1;
+    }
+  }
+}

@@ -1,0 +1,48 @@
+@import '../../../assets/scss/var.scss';
+
+#message {
+  position: fixed;
+  left: 50%;
+  top: 20px;
+  transform: translate(-50%);
+  z-index: 2000;
+  max-width: calc(100% - 32px);
+  width: fit-content;
+
+  .j-message {
+    --j-message-padding: var(--j-padding-middle);
+    --j-message-bg: #fff;
+    color: var(--j-message-color);
+    box-sizing: border-box;
+    margin-bottom: 16px;
+    background-color: var(--j-message-bg);
+    transition: opacity 0.3s, transform 0.3s, top 0.3s;
+    padding: var(--j-message-padding);
+    border-radius: var(--j-radius-base);
+    display: flex;
+    align-items: center;
+    box-shadow: 0 6px 16px 0 rgb(0 0 0 / 8%), 0 3px 6px -4px rgb(0 0 0 / 12%),
+      0 9px 28px 8px rgb(0 0 0 / 5%);
+    pointer-events: all;
+
+    @each $item in $types {
+      &--#{$item} {
+        --j-message-color: var(--j-color-#{$item});
+      }
+    }
+
+    &--loading {
+      --j-message-color: #626aef;
+    }
+
+    &__content {
+      margin-left: 10px;
+    }
+  }
+
+  .message-fade-enter-from,
+  .message-fade-leave-to {
+    opacity: 0;
+    transform: translate(-50%, -100%);
+  }
+}

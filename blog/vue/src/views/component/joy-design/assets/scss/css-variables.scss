@@ -1,0 +1,63 @@
+@import './var.scss';
+
+:root {
+    --j-color-white: #ffffff;
+    --j-color-black: #000000;
+    --j-bg-color: var(--j-color-white);
+    // Padding
+    --j-padding-base: 4px;
+    --j-padding-small: 12px;
+    --j-padding-middle: 16px;
+    --j-padding-large: 24px;
+    --j-line-height-small: 18px;
+    --j-line-height-middle: 20px;
+    --j-line-height-large: 22px;
+
+    // Border
+    --j-border-color: #ebedf0;
+    --j-border-width: 1px;
+    --j-border-style: solid;
+    --j-border: var(--j-border-width) solid var(--j-border-color);
+    --j-radius-base: 4px;
+    --j-radius-small: 2px;
+    --j-radius-middle: 4px;
+    --j-radius-large: 8px;
+    --j-radius-round: 20px;
+    --j-radius-max: 999px;
+
+    --j-active-opacity: 0.6;
+    --j-disabled-opacity: 0.5;
+    --j-overlay-color-lighter: rgba(0, 0, 0, .5);
+    --j-box-shadow: 0px 12px 32px 4px rgba(0, 0, 0, .04), 0px 8px 20px rgba(0, 0, 0, .08);
+    --j-font-line-height-primary: 24px;
+
+    // Font
+    @each $key,
+    $item in $fontSizes {
+        --j-font-size-#{$key}: #{$item};
+    }
+
+
+    @each $key,
+    $item in $fontColors {
+        --j-text-color-#{$key}: #{$item};
+    }
+
+
+    @each $key,
+    $item in $disabledColors {
+        --j-disabled-#{$key}: #{$item};
+    }
+
+
+    @each $key,
+    $item in $iconSizes {
+        --j-icon-size-#{$key}: #{$item};
+    }
+
+
+    @each $key,
+    $item in $colors {
+        --j-color-#{$key}: #{$item};
+    }
+}

@@ -1,0 +1,35 @@
+
+.tabs-nav-wrap {
+    position: relative;
+  
+}
+
+.tabs-tab {
+    position: relative;
+    display: inline-block;
+    padding: 8px 16px;
+    cursor: pointer;
+    margin-right: var(--margin-right);
+}
+
+.tabs-inv-bar {
+    position: absolute;
+    left: 0px;
+    bottom: 0;
+    transition: transform .2s ease-in-out;;
+    border-radius: 3px;
+}
+
+.active {
+    // transition: all 0.1s linear;
+    --active-color: black;
+    color: var(--active-color);
+}
+
+.disabledStyle {
+    color: grey;
+}
+
+.item-content {
+    padding-top: 10px;
+}

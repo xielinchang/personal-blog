@@ -51,8 +51,8 @@
 
 <script>
 /* import getToken from '../utils/author' */
-import TemplatePage from '../../component/MyComponents/TemplatePage.vue'
-import ControlTabVue from '../../component/MyComponents/ControlTab.vue'
+import TemplatePage from '../../component/page-component/TemplatePage.vue'
+import ControlTabVue from '../../component/page-component/ControlTab.vue'
 import { shareQuery, shareDelete } from '@/api/shareapi'
 import 'animate.css'
 export default {
@@ -117,7 +117,6 @@ export default {
   }
 }
 </script>
-    <style src="../../../../public/css/main.css"></style>
     <style scoped>
     .shareControl{
       width: 100%;
