@@ -1,0 +1,25 @@
+    *[data-title]{
+    position: relative;
+    z-index: 999;
+    &:hover:after {
+      opacity: 1;
+      transition: all 0.1s ease 0.5s;
+      visibility: visible;
+    }
+    // 背景的样式 位置 字体等
+    &:after {
+      content: attr(data-title);
+      position: absolute;
+      padding: 3px 12px;
+      left: 24px;
+      bottom: -3em;
+      border-radius: 4px;
+      color: #fff;
+      background-color: rgba(80, 79, 79, 0.8);
+      box-shadow: 0 0 4px rgba(0, 0, 0, 0.16);
+      font-size: 12px;
+      white-space: nowrap;
+      visibility: hidden;
+      opacity: 0;
+    }
+  }

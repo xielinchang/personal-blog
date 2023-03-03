@@ -1,0 +1,11 @@
+.wrap-b-header span,.wrap-b-more,.prospects-header span,.prospects-more{
+    background: -webkit-linear-gradient(bottom,#68dee9,rgb(244, 144, 207));
+	background-clip: text;
+    -webkit-text-fill-color:transparent;
+}
+div {
+    cursor: url(http://1.12.36.95:7001/public/uploads/2022/08/05/1659663710655433.png), pointer !important;
+}
+a ,li, img{
+     cursor: url(http://1.12.36.95:7001/public/uploads/2022/08/05/165966375674685.png), pointer !important;
+}
