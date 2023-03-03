@@ -9,7 +9,7 @@
       :title="'返回主页'"
     >
       <img
-        src="../../../assets/icon/左箭头.png"
+        src="@/assets/icon/左箭头.png"
         alt=""
 
         @click="backHome()"
@@ -75,10 +75,10 @@
 </template>
 
 <script>
-import MyBuble from '../../component/joy-design/my-bubble.vue'
-import RightTab from '../../component/page-component/RightTab.vue'
-import { bg } from '../../../api/api'
-import { essayQuery } from '../../../api/essayapi'
+import MyBuble from '../../component/element/my-bubble.vue'
+import RightTab from '../../component/MyComponents/RightTab.vue'
+import { bg } from '@/api/api'
+import { essayQuery } from '@/api/essayapi'
 export default {
   name: 'EssayPage',
   components: {
@@ -163,6 +163,7 @@ export default {
   }
 }
 </script>
+<style src="../../../../public/css/main.css"></style>
 <!-- 头部,框架和e-banner -->
 <style scoped>
 .body{

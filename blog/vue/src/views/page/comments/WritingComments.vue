@@ -117,9 +117,9 @@
 </template>
 
 <script>
-import ControlTabVue from '../../component/page-component/ControlTab.vue'
-import QueryPage from '../../component/page-component/QueryPage.vue'
-import TemplatePage from '../../component/page-component/TemplatePage.vue'
+import ControlTabVue from '../../component/MyComponents/ControlTab.vue'
+import QueryPage from '../../component/MyComponents/QueryPage.vue'
+import TemplatePage from '../../component/MyComponents/TemplatePage.vue'
 import { baiduLocation } from '../../../api/baiduapi'
 import {
   commentsQuery,

@@ -2,19 +2,35 @@
   <div class="note-main">
     <TemplatePage></TemplatePage>
     <div class="more-container">
-      <j-button type="primary">编辑</j-button>
+      <svg-icon icon-file-name="aim"></svg-icon>
       <!-- <div class="nothing"> 啥 也 没 有 ~ </div> -->
     </div>
   </div>
 </template>
 
-<script setup lang='ts' name=''>
-import TemplatePage from '../../component/page-component/TemplatePage.vue'
+<script>
+
+import TemplatePage from '../../component/MyComponents/TemplatePage.vue'
 import 'animate.css'
-import jButton from '../../component/joy-design/components/button'
+export default {
+  name: 'NotePage',
+  components: {
+    TemplatePage
+  },
+  data () {
+    return {
+    }
+  },
+  mounted() {
+    document.documentElement.scrollTop = 0
+  },
+  methods: {
+  }
+}
 </script>
 <style>
 </style>
+<style src="../../../../public/css/main.css"></style>
 <style scoped>
 
 .note-main{
@@ -28,6 +44,7 @@ import jButton from '../../component/joy-design/components/button'
   width: 60%;
   height: 1200px;
   position: absolute;
+  margin-left: 50%;
   transform: translateX(-50%);
   top: 100px;
   border-radius: 8px;

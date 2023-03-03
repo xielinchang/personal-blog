@@ -134,8 +134,8 @@
 
 <script>
 /* import getToken from '../utils/author' */
-import ControlTabVue from '../../component/page-component/ControlTab.vue'
-import TemplatePage from '../../component/page-component/TemplatePage.vue'
+import ControlTabVue from '../../component/MyComponents/ControlTab.vue'
+import TemplatePage from '../../component/MyComponents/TemplatePage.vue'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 import { shareCreate, shareUpdate, shareQuery, shareQuerySave, shareSave } from '../../../api/shareapi'
 import Cookie from 'js-cookie'
@@ -347,6 +347,7 @@ export default {
   }
 }
 </script>
+<style src="../../../../public/css/main.css"></style>
 <style src="@wangeditor/editor/dist/css/style.css"></style>
 <style scoped>
 .writing{

@@ -4,7 +4,7 @@
     <ControlTabVue default-name="文章"></ControlTabVue>
     <div class="back-to-essay-control">
       <img
-        src="../../../assets/icon/左箭头.png"
+        src="@/assets/icon/左箭头.png"
         alt=""
         @click="backToEssayControl()"
       >
@@ -175,10 +175,10 @@
 
 <script>
 /* import getToken from '../utils/author' */
-import TemplatePage from '../../component/page-component/TemplatePage.vue'
+import TemplatePage from '../../component/MyComponents/TemplatePage.vue'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 import { essayCreate, essayQuerySave, essaySave, essayQuery, essayUpdate } from '@/api/essayapi'
-import ControlTabVue from '../../component/page-component/ControlTab.vue'
+import ControlTabVue from '../../component/MyComponents/ControlTab.vue'
 import { uploadimg } from '@/api/api'
 
 import Cookie from 'js-cookie'
@@ -438,6 +438,7 @@ export default {
   }
 }
 </script>
+<style src="../../../../public/css/main.css"></style>
 <style src="@wangeditor/editor/dist/css/style.css"></style>
 <style scoped>
 .writing{

@@ -66,8 +66,8 @@
 
 <script>
 import { essayQuery, essayDelete } from '@/api/essayapi'
-import TemplatePage from '../../component/page-component/TemplatePage.vue'
-import ControlTabVue from '../../component/page-component/ControlTab.vue'
+import TemplatePage from '../../component/MyComponents/TemplatePage.vue'
+import ControlTabVue from '../../component/MyComponents/ControlTab.vue'
 import 'animate.css'
 export default {
   name: 'EssayControlPage',
@@ -139,6 +139,7 @@ export default {
   }
 }
 </script>
+  <style src="../../../../public/css/main.css"></style>
   <style lang="scss" scoped>
 @import './scss/EssayControl.scss'
 </style>
