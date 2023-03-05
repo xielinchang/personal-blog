@@ -77,6 +77,36 @@ export default {
           id: 4
         }
       ],
+      secondTab: [
+        {
+          menuicon: 'book',
+          color: '#F5A7B2',
+          title: '文章管理',
+          router: '/essay/control',
+          id: 0
+        },
+        {
+          menuicon: 'pen',
+          color: '#00B753',
+          title: '随笔管理',
+          router: '/share/control',
+          id: 1
+        },
+        {
+          menuicon: 'comment',
+          color: '#1DA9E0',
+          title: '评论管理',
+          router: '/comments/control',
+          id: 2
+        },
+        {
+          menuicon: 'record',
+          color: '#7184AD',
+          title: '记录管理',
+          router: '/record/control',
+          id: 3
+        }
+      ],
       currentIndex: '',
       line_move: 0,
       headshow: false

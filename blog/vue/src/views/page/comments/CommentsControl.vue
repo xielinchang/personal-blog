@@ -13,8 +13,10 @@
               class="w-comment-delete-btn"
               @click="deleteComment(item.id)"
             >
-              <img
-                src="../../../assets/icon/删除.png"
+              <svg-icon
+                size="24px"
+                color="#1DA9E0"
+                icon-name="delete"
                 alt=""
               />
             </div>
@@ -35,9 +37,10 @@
               class="c-reply"
               title="回复"
             >
-              <img
-                src="../../../assets/icon/回复.png"
-                alt=""
+              <svg-icon
+                icon-name="reply"
+                size="24px"
+                color="#00B753"
                 @click="reply(item, index)"
               />
             </div>
@@ -46,9 +49,10 @@
               class="reply-container"
             >
               <div class="w-comment-delete-btn">
-                <img
-                  src="../../../assets/icon/删除2.png"
-                  alt=""
+                <svg-icon
+                  size="24px"
+                  color="#1DA9E0"
+                  icon-name="delete"
                   @click="deleteReply(item.id)"
                 />
               </div>
@@ -87,9 +91,11 @@
                   class="comments-reply-btn"
                   @click="replyComment(item.id)"
                 >
-                  <img
-                    src="../../../assets/icon/发布.png"
-                    alt=""
+                  <svg-icon
+                    size="30px"
+                    color="#1DA9E0"
+                    icon-name="publish"
+                    class="svg-icon"
                   />
                   <span>回复</span>
                 </div>
@@ -316,7 +322,7 @@ export default {
   line-height: 40px;
   font-weight: 600;
   font-family: YouYuan;
-  color: rgb(35, 121, 119);
+  color: rgb(98, 98, 98);
   cursor: pointer;
 }
 .emoji-btn-show:hover {
@@ -332,7 +338,7 @@ export default {
   padding: 0 50px;
   outline: none;
   border: none;
-  color: rgb(35, 121, 119);
+  color: rgb(87, 87, 87);
   background: rgb(255, 255, 255, 0.7);
   font-size: 24px;
   box-shadow: 0 0 0 2px rgb(255 255 255 / 40%) inset,
@@ -342,11 +348,11 @@ export default {
   overflow: hidden;
 }
 input::-webkit-input-placeholder {
-  color: rgb(35, 121, 119);
+  color: rgb(66, 66, 66);
   font-weight: 600;
 }
 textarea::-webkit-input-placeholder {
-  color: rgb(232, 143, 254);
+  color: rgb(141, 141, 141);
   font-weight: 500;
   font-size: 20px;
 }
@@ -391,21 +397,19 @@ textarea::-webkit-input-placeholder {
   top: 160px;
   text-align: center;
   line-height: 40px;
-  font-weight: 600;
-  font-family: YouYuan;
-  color: rgb(35, 121, 119, 0.7);
+  color: rgba(111, 111, 111, 0.7);
   cursor: pointer;
   line-height: 45px;
 }
 .comments-reply-btn:hover {
-  color: rgb(35, 121, 119);
+  color: rgb(85, 85, 85);
 }
-.comments-reply-btn img {
+.svg-icon {
   width: 30px;
   height: 30px;
   position: absolute;
-  left: 10px;
-  top: 8px;
+  left: 8px;
+  top: 6px;
 }
 .comments-reply-btn span {
   position: absolute;

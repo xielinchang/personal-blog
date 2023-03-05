@@ -5,7 +5,7 @@
     background-color: white;
     box-shadow: 0 0 6px rgba(0,0,0,.12);
     position: fixed;
-    bottom: 120px;
+    bottom: 60px;
     z-index: 999;
     box-sizing: border-box;
     cursor: pointer;
@@ -20,13 +20,13 @@
 .right{
     right: 0px;
     animation: inFromRight 150ms linear infinite;
-    transform: translateX(-80px);
+    transform: translateX(-50px);
     animation-iteration-count: 1;
 }
 .left{
     left: 0;
     animation: inFromLeft 150ms linear infinite;
-    transform: translateX(80px);
+    transform: translateX(50px);
     animation-iteration-count: 1;
 }
 
@@ -35,7 +35,7 @@
         transform: translateX(0);
     }
     to {
-        transform: translateX(-80px);
+        transform: translateX(-50px);
     }
 }
 @keyframes inFromLeft {
@@ -43,6 +43,6 @@
         transform: translateX(0);
     }
     to {
-        transform: translateX(80px);
+        transform: translateX(50px);
     }
 }

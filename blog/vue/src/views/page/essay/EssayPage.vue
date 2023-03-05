@@ -8,12 +8,12 @@
       class="back-home"
       :title="'返回主页'"
     >
-      <img
-        src="@/assets/icon/左箭头.png"
-        alt=""
-
+      <svg-icon
+        color="#F39800"
+        icon-name="back"
+        size="35px"
         @click="backHome()"
-      >
+      />
     </div>
     <div class="e-main-body">
       <div class="e-main-container">
@@ -91,18 +91,25 @@ export default {
       bgimg: ''
     }
   },
-
+  watch: {
+    '$route.path': function(to, from) {
+      this.initPage()
+    }
+  },
   mounted() {
-    const _this = this
-    this.date = this.getTime()
-    setInterval(() => {
-      _this.date = this.getTime()
-    }, 1000)
-    document.documentElement.scrollTop = 0
-    this.initEssay()
-    this.initBg()
+    this.initPage()
   },
   methods: {
+    initPage() {
+      const _this = this
+      this.date = this.getTime()
+      setInterval(() => {
+        _this.date = this.getTime()
+      }, 1000)
+      document.documentElement.scrollTop = 0
+      this.initEssay()
+      this.initBg()
+    },
     initEssay() {
       var that = this
       var id = this.$route.query.id
@@ -116,6 +123,7 @@ export default {
           domain: undefined
         }
       }).then(res => {
+        console.log(res)
         res.data.rows[0].coverUrl = process.env.VUE_APP_BASE_API + res.data.rows[0].coverUrl
         that.essayForm = res.data.rows[0]
       })

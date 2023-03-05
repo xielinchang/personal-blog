@@ -34,14 +34,14 @@ const routes = [
     component: () => import('../views/page/shares/WritingShare.vue')
   },
   {
-    path: '/writing/comments',
-    name: 'WritingComments',
-    component: () => import('../views/page/comments/WritingComments.vue')
+    path: '/comments/control',
+    name: 'CommentsControl',
+    component: () => import('../views/page/comments/CommentsControl.vue')
   },
   {
-    path: '/writing/record',
-    name: 'WritingRecord',
-    component: () => import('../views/page/record/WritingRecord.vue')
+    path: '/comments/record',
+    name: 'RecordControl',
+    component: () => import('../views/page/record/RecordControl.vue')
   },
   {
     path: '/comments',

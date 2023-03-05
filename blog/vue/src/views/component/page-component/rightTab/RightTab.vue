@@ -91,7 +91,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped lang="scss">
 .r-tab-box{
   position: absolute;
 }
@@ -121,7 +121,7 @@ export default {
   width: 80px;
   height: 80px;
   border-radius: 12px;
-  /* background-image: url("../../../assets/images/night.jpg"); */
+  background-image: url("../../../../assets/images/night.jpg");
   background-size: cover;
   position: absolute;
   left: 10px;
