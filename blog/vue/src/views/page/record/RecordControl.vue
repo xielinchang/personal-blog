@@ -1,6 +1,5 @@
 <template>
   <div>
-    <ControlTabVue default-name="博客记录"></ControlTabVue>
     <TemplatePage></TemplatePage>
     <div class="record-container animated animate__fadeInUp">
       <div class="all-record ">
@@ -17,10 +16,11 @@
               class="delete-btn"
               @click="deleteRecord(item.id)"
             >
-              <img
-                src="../../../assets/icon/删除.png"
-                alt=""
-              >
+              <svg-icon
+                icon-name="delete"
+                color="#1DA9E0"
+                size="20px"
+              />
             </div>
           </li>
         </ul>
@@ -46,10 +46,12 @@
             class="record-publish-btn"
             @click="publishrecord"
           >
-            <img
-              src="../../../assets/icon/发布.png"
-              alt=""
-            >
+            <svg-icon
+            class="publish"
+              icon-name="publish"
+             color="#00B753"
+             size="24px"
+            />
             <span>发布</span>
           </div>
           <VEmojiPicker
@@ -158,7 +160,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .record-container{
     height: auto;
     width: 60%;
@@ -199,7 +201,7 @@ export default {
     line-height: 40px;
     font-weight: 600;
     font-family: YouYuan;
-    color: rgb(35, 121, 119);
+    color: rgb(93, 93, 93);
     cursor: pointer;
 }
 .emoji-btn:hover{
@@ -216,7 +218,7 @@ export default {
   padding: 10px 50px;
   outline: none;
   border: none;
-  color: rgb(35, 121, 119);
+  color: rgb(76, 76, 76);
   background: rgb(255, 255, 255,0.7);
   font-size: 24px;
   box-shadow: 0 0 0 2px rgb(255 255 255 / 40%) inset,
@@ -227,11 +229,11 @@ export default {
 
 }
 input::-webkit-input-placeholder{
-  color: rgb(35, 121, 119);
+  color: rgb(81, 81, 81);
   font-weight: 600;
 }
 textarea::-webkit-input-placeholder{
-  color: rgb(232, 143, 254);
+  color: rgb(62, 125, 98);
   font-weight: 500;
   font-size: 20px;
 }
@@ -280,14 +282,14 @@ textarea::-webkit-input-placeholder{
     line-height: 40px;
     font-weight: 600;
     font-family: YouYuan;
-     color: rgb(35, 121, 119,0.7);
+     color: rgba(80, 80, 80, 0.7);
      cursor: pointer;
      line-height: 35px;
 }
 .record-publish-btn:hover{
   color: rgb(35, 121, 119);
 }
-.record-publish-btn img{
+.publish{
     width: 30px;
     height: 30px;
     position: absolute;

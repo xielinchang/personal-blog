@@ -1,24 +1,25 @@
 .header {
     width: 100%;
-    height: 70px;
+    height: 60px;
     position: fixed;
     top: 0;
-    box-shadow: 0 1px #d8e0ea, 0 0 transparent, 0 2px rgb(255 255 255);
-    background: -webkit-linear-gradient(
-      left,
-      rgba(246, 246, 246, 0.6),
-      rgba(216, 245, 255, 0.6)
-    );
     z-index: 999;
     .header-box {
       width: 100%;
+      height: 100%;
       position: relative;
       left: 0;
+      box-shadow: 0 1px #939393, 0 0 transparent, 0 2px rgb(255 255 255);
+      background: -webkit-linear-gradient(
+        left,
+        rgba(246, 246, 246, 0.6),
+        rgba(216, 245, 255, 0.6)
+      );
       .header-tab {
         width: 400px;
         height: 60px;
         position: absolute;
-        right: 180px;
+        right: 250px;
         top: 10px;
         .item {
           width: 100%;
@@ -47,14 +48,47 @@
         .line {
           width: 32px;
           height: 4px;
-          background: #7eb12d;
-          box-shadow: 0 0 1px 1px #7eb12d;
+          background: #518105;
+          box-shadow: 0 0 1px 1px #4a6f0f;
           border-radius: 2px;
           position: absolute;
           left: 80px;
-          top: 54px;
+          top: 44px;
           pointer-events: none;
           transition: 500ms;
+        }
+      }
+    }
+    .second-tab{
+      position: fixed;
+      top: 60px;
+      right: 20px;
+      width: 60%;
+      height: 60px;
+      background: -webkit-linear-gradient(
+        left,
+        rgba(246, 246, 246, 0.6),
+        rgba(216, 245, 255, 0.6)
+      );
+      .second-item{
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        list-style: none;
+        & li{
+          width: 25%;
+          height: 100%;
+          line-height: 60px;
+          text-align: center;
+          box-shadow: 1px 1px 10px 1px #9db2cc;   
+          & a{
+            text-decoration: none;
+            color: #4a6f0f;
+            font-size: 18px;
+            font-family: YouYuan;
+          }
         }
       }
     }

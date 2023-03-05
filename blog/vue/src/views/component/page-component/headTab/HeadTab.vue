@@ -10,7 +10,7 @@
             <li
               v-for="(item, index) in contract_list"
               :key="index"
-              @click="moveLine(index)"
+              @click="changeRouter(index)"
             >
               <router-link :to="item.router">
                 <svg-icon
@@ -30,6 +30,21 @@
             :style="{ transform: `translateX(${line_move}px)` }"
           ></div>
         </div>
+      </div>
+      <div
+        v-show="stShow"
+        class="second-tab"
+      >
+        <ul class="second-item">
+          <li
+            v-for="(item, index) in secondTab"
+            :key="index"
+          >
+            <router-link :to="item.router">
+              {{ item.title }}
+            </router-link>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -79,57 +94,52 @@ export default {
       ],
       secondTab: [
         {
-          menuicon: 'book',
-          color: '#F5A7B2',
           title: '文章管理',
           router: '/essay/control',
           id: 0
         },
         {
-          menuicon: 'pen',
-          color: '#00B753',
           title: '随笔管理',
           router: '/share/control',
           id: 1
         },
         {
-          menuicon: 'comment',
-          color: '#1DA9E0',
           title: '评论管理',
           router: '/comments/control',
           id: 2
         },
         {
-          menuicon: 'record',
-          color: '#7184AD',
           title: '记录管理',
           router: '/record/control',
           id: 3
         }
       ],
       currentIndex: '',
+      routerIndex: '',
       line_move: 0,
-      headshow: false
+      path: '',
+      headshow: false,
+      stShow: false,
+      stIndex: 3
     }
   },
   watch: {
     /* 监听路由变化 */
     '$route.path': function (to, from) {
-      var path = this.$router.history.current.path
-      console.log(path)
-      if (path === '/') {
+      this.path = this.$router.history.current.path
+      if (this.path === '/') {
         this.headshow = false
       } else {
         /* 处理特殊路径 */
-        if (path === '/writing') {
-          path = '/writing?id=undefined'
+        if (this.path === '/writing') {
+          this.path = '/writing?id=undefined'
         }
-        if (path === '/writing/login') {
-          path = '/writing?id=undefined'
+        if (this.path === '/writing/login') {
+          this.path = '/writing?id=undefined'
         }
         this.headshow = true
         this.contract_list.find((item) => {
-          if (item.router === path && item.id !== 0) {
+          if (item.router === this.path && item.id !== 0) {
             return this.moveLine(item.id)
           }
         })
@@ -137,31 +147,42 @@ export default {
     }
   },
   async mounted() {
-    document.onmousewheel = function () {
-      var header = document.querySelector('.header')
-      var foot = document.querySelector('.edit-foot')
-      if (document.documentElement.scrollTop < 100) {
-        header.style.boxShadow =
-          ' 0 1px #d8e0ea, 0 0 transparent, 0 2px rgb(255 255 255)'
-      } else {
-        header.style.boxShadow =
-          '0 1px rgb(64 79 93 / 5%), 0 4px 6px rgb(31 45 61 / 8%), 0 -10px rgb(255 255 255 / 0%)'
-      }
-    }
     this.lineMoveIndex()
   },
   methods: {
+    secondTabOut() {
+      var _this = this
+      var st = document.querySelector('.second-tab')
+      st.onmouseover = function() {
+        _this.stShow = true
+        _this.moveLine(_this.stIndex)
+      }
+      st.onmouseout = function() {
+        _this.stShow = false
+        _this.contract_list.find((item) => {
+          if (item.router === _this.path && item.id !== 0) {
+            return _this.moveLine(item.id)
+          }
+        })
+      }
+    },
     lineMoveIndex() {
       var _this = this
       var tab = document.querySelectorAll('.item li')
       for (let i = 0; i < this.contract_list.length; i++) {
         tab[i].onmouseover = function () {
+          if (i === 3) {
+            _this.stShow = true
+          } else {
+            _this.stShow = false
+          }
           _this.judgeIndex(i)
         }
         tab[i].onmouseout = function () {
           _this.moveOutLine(i)
         }
       }
+      this.secondTabOut()
     },
     moveLine(index) {
       /* 如果移入了 */
@@ -175,6 +196,10 @@ export default {
     judgeIndex(i) {
       /* 根据i调整每个下标对应的移动距离 */
       this.line_move = (i - 1) * 80
+    },
+    changeRouter(index) {
+      this.routerIndex = index
+      this.moveLine(index)
     }
   }
 }

@@ -39,7 +39,7 @@ const routes = [
     component: () => import('../views/page/comments/CommentsControl.vue')
   },
   {
-    path: '/comments/record',
+    path: '/record/control',
     name: 'RecordControl',
     component: () => import('../views/page/record/RecordControl.vue')
   },

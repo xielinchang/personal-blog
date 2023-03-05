@@ -9,13 +9,13 @@
           :key="index"
           class="control-share-item"
         >
-          <img
+          <svg-icon
             data-title="删除"
-            src="../../../assets/icon/删除2.png"
+            icon-name="delete"
+            color="#1AAAE0"
             class="share-delete"
-            alt=""
             @click="shareDelete(item)"
-          >
+          />
           <div class="control-share-img">
             <img
               width="100%"
@@ -33,13 +33,15 @@
         </li>
         <li class="control-share-item">
           <div class="add-share-container">
-            <div class="add-share-img">
-              <img
-                src="@/assets/icon/jiahao.png"
-                alt=""
+            <div class="add-share-icon">
+              <svg-icon
+              class="share-icon"
+                icon-name="add"
+                color="#F1DA4E"
+                size="70px"
                 data-title="添加一篇新分享"
                 @click="jumpToAddShare()"
-              >
+              />
             </div>
           </div>
 
@@ -111,7 +113,7 @@ export default {
   }
 }
 </script>
-    <style scoped>
+    <style scoped lang="scss">
     .shareControl{
       width: 100%;
       height: auto;
@@ -209,24 +211,24 @@ export default {
 .add-share-container{
   width: 100%;
   height: 100%;
-  background: rgba(213, 213, 213, 0.63);
+  background: rgb(255, 255, 255,0.7);
 }
-.add-share-img{
+.add-share-icon{
   width: 60%;
   height: 100%;
   margin: 0 20%;
-  background: rgb(255, 255, 255,0.8);
   display: flex;
   justify-content: center;
+  .share-icon{
+  width: 70px;
+  height: 70px;
+  margin-top: 60px;
 }
-.add-share-img img{
-  width: 100px;
-  height: 100px;
-  margin-top: 40px;
-}
-.add-share-img img:hover{
+.share-icon:hover{
   transform: scale(1.1);
   transition: 300ms ;
 }
+}
+
   </style>
 

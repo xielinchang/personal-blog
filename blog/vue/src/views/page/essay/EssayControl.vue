@@ -8,11 +8,11 @@
           v-for="(item, index) in essay_list"
           :key="index"
         >
-          <img
-            title="删除"
-            class="essay-delete"
-            src="../../../assets/icon/删除2.png"
-            alt=""
+          <svg-icon
+            class="close"
+            icon-name="close"
+            color="#1AAAE0"
+            size="18px"
             @click="essayDelete(item)"
           />
           <img
@@ -49,10 +49,12 @@
         </li>
         <li>
           <div class="add-essay-container">
-            <div class="add-essay-img">
-              <img
-                src="@/assets/icon/jiahao.png"
-                alt=""
+            <div class="add-essay">
+              <svg-icon
+                class="add"
+                icon-name="add"
+                size="70px"
+                color="#F1DA4E"
                 :data-title="'添加一篇新文章'"
                 @click="jumpToAddEssay()"
               />

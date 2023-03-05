@@ -157,7 +157,7 @@
 }
 }
 .query-page-box{
-  width: 64%;
+  width: 96%;
   height: 38px;
  /*  background-color: rgba(247, 247, 247, 0.8); */
   position: absolute;
@@ -279,11 +279,11 @@
 }
 
 input::-webkit-input-placeholder{
-  color: rgb(35, 121, 119);
+  color: rgb(92, 92, 92);
   font-weight: 600;
 }
 textarea::-webkit-input-placeholder{
-  color: rgb(232, 143, 254);
+  color: rgb(83, 83, 83);
   font-weight: 500;
   font-size: 20px;
 }
