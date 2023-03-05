@@ -2,7 +2,11 @@
   <div class="note-main">
     <TemplatePage></TemplatePage>
     <div class="more-container">
-      <svg-icon icon-file-name="aim"></svg-icon>
+      <svg-icon
+        icon-name="aim"
+        color="red"
+        size="66px"
+      ></svg-icon>
       <!-- <div class="nothing"> 啥 也 没 有 ~ </div> -->
     </div>
   </div>
@@ -10,13 +14,9 @@
 
 <script>
 
-import TemplatePage from '../../component/MyComponents/TemplatePage.vue'
 import 'animate.css'
 export default {
   name: 'NotePage',
-  components: {
-    TemplatePage
-  },
   data () {
     return {
     }
@@ -30,7 +30,6 @@ export default {
 </script>
 <style>
 </style>
-<style src="../../../../public/css/main.css"></style>
 <style scoped>
 
 .note-main{

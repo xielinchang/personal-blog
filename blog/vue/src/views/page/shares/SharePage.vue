@@ -44,12 +44,8 @@
 
 <script>
 import { shareQuery } from '@/api/shareapi'
-import TemplatePage from '../../component/MyComponents/TemplatePage.vue'
 import 'animate.css'
 export default {
-  components: {
-    TemplatePage
-  },
   data () {
     return {
       share: {
@@ -90,7 +86,6 @@ export default {
   }
 }
 </script>
-<style src="../../../..//public/css/main.css"></style>
 <style scoped>
 .share{
    width: 100%;

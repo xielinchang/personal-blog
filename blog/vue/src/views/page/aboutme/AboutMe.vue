@@ -27,13 +27,9 @@
 
 <script>
 
-import TemplatePage from '../../component/MyComponents/TemplatePage.vue'
 import 'animate.css'
 export default {
   name: 'NotePage',
-  components: {
-    TemplatePage
-  },
   data () {
     return {
       introduce_list: [{
@@ -59,7 +55,6 @@ export default {
   }
 }
 </script>
-<style src="../../../../public/css/main.css"></style>
 <style lang="scss" scoped>
 @import './scss/AboutMe.scss';
 </style>

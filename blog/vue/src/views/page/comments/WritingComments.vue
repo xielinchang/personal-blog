@@ -117,9 +117,6 @@
 </template>
 
 <script>
-import ControlTabVue from '../../component/MyComponents/ControlTab.vue'
-import QueryPage from '../../component/MyComponents/QueryPage.vue'
-import TemplatePage from '../../component/MyComponents/TemplatePage.vue'
 import { baiduLocation } from '../../../api/baiduapi'
 import {
   commentsQuery,
@@ -129,11 +126,6 @@ import {
 } from '../../../api/comments'
 export default {
   name: 'WitingComments',
-  components: {
-    TemplatePage,
-    QueryPage,
-    ControlTabVue
-  },
   data() {
     return {
       comments_list: [],

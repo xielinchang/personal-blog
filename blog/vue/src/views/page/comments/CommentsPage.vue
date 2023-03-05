@@ -102,18 +102,10 @@
 
 <script>
 import { getUserIp } from '@/api/api'
-import QueryPage from '../../component/MyComponents/QueryPage.vue'
-import TemplatePage from '../../component/MyComponents/TemplatePage.vue'
 import { baiduLocation } from '../../../api/baiduapi'
 import { commentsQuery, commentsCreate } from '../../../api/comments'
-import LocationWelcome from '../../component/element/Location-Welcome.vue'
 export default {
   name: 'EssayComments',
-  components: {
-    TemplatePage,
-    LocationWelcome,
-    QueryPage
-  },
   data () {
     return {
       newessayComment: {

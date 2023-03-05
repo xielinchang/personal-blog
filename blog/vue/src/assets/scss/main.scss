@@ -1,7 +1,10 @@
     *[data-title]{
-    position: relative;
-    z-index: 999;
-    &:hover:after {
+      width: auto;
+      height: 30px;
+      line-height: 30px;
+      position: relative;
+      z-index: 999;
+      &:hover:after {
       opacity: 1;
       transition: all 0.1s ease 0.5s;
       visibility: visible;
@@ -23,3 +26,9 @@
       opacity: 0;
     }
   }
+div{
+    cursor: url(http://1.12.36.95:7001/public/uploads/2022/08/05/1659663710655433.png), pointer !important;
+}
+// a,li{
+//      cursor: url(http://1.12.36.95:7001/public/uploads/2022/08/05/165966375674685.png), pointer !important;
+// }

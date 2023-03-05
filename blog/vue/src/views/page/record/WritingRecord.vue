@@ -24,14 +24,6 @@
             </div>
           </li>
         </ul>
-        <!-- 方法名不能加括号 -->
-        <!--         <QueryPage
-          class="record-page"
-          :current-page="currentPage"
-          :total="total"
-          :page-size="pageSize"
-          @change-page="changePage"
-        ></QueryPage> -->
       </div>
       <div class="record-body">
         <div class="record-main">
@@ -73,17 +65,9 @@
 </template>
 
 <script>
-import ControlTabVue from '../../component/MyComponents/ControlTab.vue'
 import { recordQuery, recordCreate, recordDelete } from '@/api/api'
-import QueryPage from '../../component/MyComponents/QueryPage.vue'
-import TemplatePage from '../../component/MyComponents/TemplatePage.vue'
 export default {
   name: 'EssayRecord',
-  components: {
-    TemplatePage,
-    /* QueryPage, */
-    ControlTabVue
-  },
   data () {
     return {
       newrecord: {

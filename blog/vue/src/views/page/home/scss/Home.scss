@@ -146,66 +146,12 @@
       height: auto;
       margin: auto;
       position: relative;
-      top: 0px;
-      .main-b,
-      .main-a {
-        width: 100%;
-        position: relative;
-        top: 50px;
-        height: auto;
-        transition: 800ms;
-      }
-      .bubbles {
-        position: fixed;
-        bottom: 0;
-        opacity: 0;
-      }
+      top: 100px;
     }
     .right-tab {
       position: absolute;
       right: 0px;
-      top: 50px;
+      top: 0px;
     }
-    .wrap-main-type {
-      width: 100px;
-      height: 40px;
-      border-radius: 60px;
-      background: #03c0f4;
-      margin-left: 50px;
-      position: relative;
-      box-shadow: 0 1px rgb(255 255 255 / 50%), 0 8px 13px rgb(0 0 0 / 15%) inset;
-      .wrap-main-btn {
-        width: 34px;
-        height: 34px;
-        position: absolute;
-        left: 3px;
-        top: 3px;
-        border-radius: 50%;
-        background: white;
-        transition: 800ms;
-        box-shadow: 0 1px rgb(255 255 255 / 50%),
-          0 8px 13px rgb(0 0 0 / 15%) inset;
-  
-        & img {
-          width: 25px;
-          height: 25px;
-          margin: 4px;
-          margin-left: 5px;
-        }
-      }
-      .wrap-main-name {
-        width: 50px;
-        height: 30px;
-        position: absolute;
-        right: 10px;
-        top: 5px;
-        text-align: center;
-        text-shadow: 0 1px rgb(255 255 255 / 50%);
-        line-height: 30px;
-        color: #fb61f6;
-        font-size: 18px;
-        font-weight: 500;
-        transition: 800ms;
-      }
-    }
+   
   }

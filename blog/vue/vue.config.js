@@ -38,38 +38,13 @@ module.exports = {
     // config.module.rules.delete('svg') // 重点：删除默认配置中处理 svg
     config.module.rule('svg-sprite-loader').test(/\.svg$/)
       .include
-      .add(path.resolve('./src/icons/svg')) // 处理 svg 保存路径
+      .add(path.resolve('./src/views/component/default-component/SvgIcon/icons/svg')) // 处理 svg 保存路径
       .end()
       .use('svg-sprite-loader')
       .loader('svg-sprite-loader')
       .options({
         symbolId: 'icon-[name]' // 给 symbol 配置 id
       })
-    config.module.rule('svg').exclude.add(path.resolve('./src/icons/svg')) // 其他 svg loader 排除 svg 目录
+    config.module.rule('svg').exclude.add(path.resolve('./src/views/component/default-component/SvgIcon/icons/svg')) // 其他 svg loader 排除 svg 目录
   }
-  /* configureWebpack: {
-    name: name,
-    resolve: {
-      alias: {
-        '@': resolve('src')
-      }
-    },
-    plugins: [
-      new CompressionPlugin({
-        test: /\.(js|css|html)?$/i, // 压缩文件格式
-        filename: '[path].gz[query]', // 压缩后的文件名
-        algorithm: 'gzip', // 使用gzip压缩
-        minRatio: 0.8, // 压缩率小于1才会压缩
-        deleteOriginalAssets: true
-      })
-    ]
-  } */
-  /* chainWebpack: config => {
-    // 压缩图片
-    config.module.rule('images')
-      .test(/\.(png|jpe?g|gif|svg)(\?.*)?$/)
-      .use('image-webpack-loader')
-      .loader('image-webpack-loader')
-      .options({ bypassOnDebug: true })
-  } */
 }

@@ -175,10 +175,8 @@
 
 <script>
 /* import getToken from '../utils/author' */
-import TemplatePage from '../../component/MyComponents/TemplatePage.vue'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 import { essayCreate, essayQuerySave, essaySave, essayQuery, essayUpdate } from '@/api/essayapi'
-import ControlTabVue from '../../component/MyComponents/ControlTab.vue'
 import { uploadimg } from '@/api/api'
 
 import Cookie from 'js-cookie'
@@ -187,9 +185,7 @@ export default {
   name: 'WritingPage',
   components: {
     Editor,
-    Toolbar,
-    TemplatePage,
-    ControlTabVue
+    Toolbar
   },
   data() {
     return {
@@ -438,7 +434,6 @@ export default {
   }
 }
 </script>
-<style src="../../../../public/css/main.css"></style>
 <style src="@wangeditor/editor/dist/css/style.css"></style>
 <style scoped>
 .writing{

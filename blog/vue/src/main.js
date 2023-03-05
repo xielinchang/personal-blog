@@ -5,18 +5,41 @@ import store from './store'
 import axios from 'axios'
 import elementui from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import live2d4vue from 'live2d4vue'
-import VueParticles from 'vue-particles'
 import Wow from 'wowjs'
 import 'animate.css'
 import 'wowjs/css/libs/animate.css'
 import VEmojiPicker from 'v-emoji-picker'
 import './assets/scss/main.scss'
-import './icons/index'
-Vue.use(VueParticles)
+const requirePageComponent = require.context(
+  './views/component/page-component',
+  true,
+  /\.vue$/
+)
+requirePageComponent.keys().forEach(fileName => {
+  // 获取组件配置
+  const componentConfig = requirePageComponent(fileName)
+  // 全局注册组件
+  Vue.component(
+    componentConfig.default.name,
+    componentConfig.default
+  )
+})
+const requireDefaultComponent = require.context(
+  './views/component/default-component',
+  true,
+  /\.vue$/
+)
+requireDefaultComponent.keys().forEach(fileName => {
+  // 获取组件配置
+  const componentConfig = requireDefaultComponent(fileName)
+  // // 全局注册组件
+  Vue.component(
+    componentConfig.default.name,
+    componentConfig.default
+  )
+})
 Vue.use(VEmojiPicker)
 Vue.use(elementui)
-Vue.use(live2d4vue)
 Vue.prototype.$wow = Wow
 new Vue({
   router,

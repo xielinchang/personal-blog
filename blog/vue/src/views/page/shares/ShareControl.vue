@@ -51,16 +51,10 @@
 
 <script>
 /* import getToken from '../utils/author' */
-import TemplatePage from '../../component/MyComponents/TemplatePage.vue'
-import ControlTabVue from '../../component/MyComponents/ControlTab.vue'
 import { shareQuery, shareDelete } from '@/api/shareapi'
 import 'animate.css'
 export default {
   name: 'ShareControlPage',
-  components: {
-    TemplatePage,
-    ControlTabVue
-  },
   data() {
     return {
       share_list: []
@@ -117,7 +111,6 @@ export default {
   }
 }
 </script>
-    <style src="../../../../public/css/main.css"></style>
     <style scoped>
     .shareControl{
       width: 100%;
@@ -176,7 +169,6 @@ export default {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  cursor: url(http://qkongtao.cn/wp-control-share-content/uploads/2021/08/arr41-1.png), pointer!important;
 }
 .control-share-img img:hover{
   transform: scale(1.1);
