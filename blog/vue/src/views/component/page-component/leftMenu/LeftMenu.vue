@@ -13,18 +13,17 @@
           <div class="user-portrait">
             <img
               :src="portrait"
-              alt=""
               @contextmenu.prevent="show()"
             />
           </div>
           <ul
+            v-show="logoutShow"
             class="logout"
-            :style="{
-              display: $store.state.logout.display,
-              opacity: $store.state.logout.opacity,
-            }"
           >
-            <li @click="logoutUser()">退出登录</li>
+            <li
+              ref="box"
+              @click="logoutUser()"
+            >退出登录</li>
           </ul>
           <div
             v-if="token"
@@ -113,13 +112,11 @@ export default {
           router: '/more'
         }
       ],
-      logout: {
-        display: 'none',
-        opacity: 0
-      },
+
       portrait: require('@/assets/images/动漫2.webp'),
       token: '',
-      name: ''
+      name: '',
+      logoutShow: false
     }
   },
   watch: {},
@@ -145,6 +142,11 @@ export default {
     })
     window.addEventListener('portrait_url', (e) => {
       this.portrait = process.env.VUE_APP_BASE_API + e.newValue
+    })
+    document.addEventListener('click', (e) => {
+      if (!this.$refs.box.contains(e.target)) {
+        this.logoutShow = false
+      }
     })
   },
   methods: {
@@ -193,10 +195,10 @@ export default {
       }
     },
     show() {
-      this.$store.state.logout.display = 'block'
-      this.$store.state.logout.opacity = 1
+      this.logoutShow = true
     },
     logoutUser() {
+      this.logoutShow = false
       Cookie.remove('token')
       localStorage.removeItem('token')
       localStorage.removeItem('name')

@@ -188,3 +188,10 @@
       }
     }
   }
+  .portrait-box:hover .user-name-login{
+    transform: translateY(35px);
+    transition: 200ms;
+  }
+  .user-name-login:hover{
+    display: block;
+  }

@@ -5,7 +5,6 @@
       :src="bgimg"
     >
     <div class="template-body">
-      <myBubble class="bubbles"></myBubble>
     </div>
   </div>
 </template>

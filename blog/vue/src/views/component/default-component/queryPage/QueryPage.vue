@@ -1,15 +1,48 @@
 <template>
-  <div class="query-page">
+  <div
+    v-show="isOneShow === true ? (pageTotal === 1 ? false : true) : true"
+    class="query-page"
+  >
+    <!-- 显示总页数 -->
+    <div
+      v-show="totalShow == true"
+      class="total-page"
+      :style="{
+        /* 与分页器对齐 */
+        marginTop: itemStyle.height - 22 + 'px',
+      }"
+    >
+      共
+      {{ total }}
+      条
+    </div>
+    <!-- 选择一页所展示的条目 -->
+    <div
+      v-show="sizeOptions.length > 0"
+      class="page-size"
+    >
+      <my-select
+        :options="sizeOptions"
+        :selected="selectedValue"
+        :width="100"
+        :height="30"
+        style="margin: 0 10px"
+        @change-select="changeSelect"
+      ></my-select>
+    </div>
     <div
       class="query-btn"
       @click="prevEvent"
-    >＜</div>
+    ><svg-icon
+      icon-name="arrow-left"
+      :color="btnStyle.color"
+    ></svg-icon></div>
     <div
       v-for="(item, index) in pageList"
       :key="index"
       :data-title="item == '...' ? (index < pageCount / 2 ? '向前五页' : '向后五页') : ''"
       class="page-mian-item"
-      :style="justStlye(item, index)"
+      :style="justStyle(item, index)"
       @click="itemEvent(item, index)"
     >
       {{ item }}
@@ -17,7 +50,27 @@
     <div
       class="query-btn"
       @click="nextEvent"
-    >＞</div>
+    ><svg-icon
+      icon-name="arrow-right"
+      :color="btnStyle.color"
+    ></svg-icon></div>
+    <div
+      v-show="jumperShow == true"
+      class="to-page"
+      :style="{
+        /* 与分页器对齐 */
+        marginTop: itemStyle.height - 22 + 'px',
+      }"
+    >
+      <span>前往</span>
+      <input
+        v-model="toNumber"
+        type="text"
+        @blur="handleAddNumber(toNumber)"
+        @keyup.enter="handleAddNumber(toNumber)"
+      />
+      <span>页</span>
+    </div>
   </div>
 </template>
 
@@ -49,7 +102,7 @@ export default {
       required: true
     },
     // 分页元素的尺寸
-    itemStlye: {
+    itemStyle: {
       type: Object,
       default: () => {
         return {
@@ -82,6 +135,15 @@ export default {
         }
       }
     },
+    btnStyle: {
+      type: Object,
+      default: () => {
+        return {
+          color: '#fff',
+          background: '#FD8C01'
+        }
+      }
+    },
     // 省略号是否需要边框  true：关闭省略号边框，false：打开省略号边框
     borderWidthShow: {
       type: Boolean,
@@ -91,11 +153,43 @@ export default {
     chooseShow: {
       type: Boolean,
       default: false
+    },
+    // 是否打开鼠标移至...的标题提示，true:打开，false，关闭
+    hoverShow: {
+      type: Boolean,
+      default: true
+    },
+    // 是否打开跳转第几页，true:打开，false，关闭
+    jumperShow: {
+      type: Boolean,
+      default: true
+    },
+    // 是否打开总页数，true:打开，false，关闭
+    totalShow: {
+      type: Boolean,
+      default: true
+    },
+    // 是否在只有1页时隐藏，true:打开，false，关闭
+    isOneShow: {
+      type: Boolean,
+      default: true
+    },
+    // 页面大小配置
+    sizeOptions: {
+      type: Array,
+      default: () => []
     }
   },
-  emits: ['change-page'],
+  emits: ['change-page', 'change-page-size'],
   data() {
-    return {}
+    return {
+      toNumber: '',
+      pageTotal: '',
+      selectedValue: {
+        label: '',
+        value: 0
+      }
+    }
   },
   computed: {
     // 生成一个分页数组
@@ -172,85 +266,92 @@ export default {
       }
     },
     // 分页元素的按钮状态
-    justStlye() {
+    justStyle() {
       return (item, index) => {
         return {
           // 元素的宽度
           width:
-            this.itemStlye.width == null ? '27px' : this.itemStlye.width + 'px',
+            this.itemStyle.width == null ? '27px' : this.itemStyle.width + 'px',
           // 元素的高度
           height:
-            this.itemStlye.height == null
+            this.itemStyle.height == null
               ? '27px'
-              : this.itemStlye.height + 'px',
+              : this.itemStyle.height + 'px',
           // 元素的圆角
           borderRadius:
-            this.itemStlye.borderRadius == null
+            this.itemStyle.borderRadius == null
               ? '4px'
-              : this.itemStlye.borderRadius + 'px',
+              : this.itemStyle.borderRadius + 'px',
           // 元素的边框宽度
           borderWidth:
             item === '...'
               ? this.borderWidthShow
                 ? '0px'
-                : this.itemStlye.borderWith == null
+                : this.itemStyle.borderWith == null
                   ? '1px'
-                  : this.itemStlye.borderWith + 'px'
-              : this.itemStlye.borderWidth == null
+                  : this.itemStyle.borderWith + 'px'
+              : this.itemStyle.borderWidth == null
                 ? '1px'
-                : this.itemStlye.borderWith + 'px',
+                : this.itemStyle.borderWith + 'px',
           // 元素的边框线条样式
           borderStyle:
-            this.itemStlye.borderStyle == null
+            this.itemStyle.borderStyle == null
               ? 'solid'
-              : this.itemStlye.borderStyle,
+              : this.itemStyle.borderStyle,
           // 元素的边框颜色
           borderColor:
             item === this.currentPage
-              ? this.itemStlye.borderActiveColor == null
+              ? this.itemStyle.borderActiveColor == null
                 ? '#FF6000'
-                : this.itemStlye.borderActiveColor
-              : this.itemStlye.borderDefaultColor
+                : this.itemStyle.borderActiveColor
+              : this.itemStyle.borderDefaultColor
                 ? '#ffffff'
-                : this.itemStlye.borderDefaultColor,
+                : this.itemStyle.borderDefaultColor,
           // 元素的背景颜色
           backgroundColor:
             item === this.currentPage
-              ? this.itemStlye.backgroundActiveColor == null
+              ? this.itemStyle.backgroundActiveColor == null
                 ? 'FF6000'
-                : this.itemStlye.backgroundActiveColor
-              : this.itemStlye.backgroundColor == null
+                : this.itemStyle.backgroundActiveColor
+              : this.itemStyle.backgroundColor == null
                 ? '#ffffff'
-                : this.itemStlye.backgroundColor,
+                : this.itemStyle.backgroundColor,
           // 元素的字体颜色
           color:
             item === this.currentPage
-              ? this.itemStlye.activeColor == null
+              ? this.itemStyle.activeColor == null
                 ? '#ffffff'
-                : this.itemStlye.activeColor
-              : this.itemStlye.defaultColor == null
+                : this.itemStyle.activeColor
+              : this.itemStyle.defaultColor == null
                 ? '#666666'
-                : this.itemStlye.defaultColor,
+                : this.itemStyle.defaultColor,
           // 元素的行高
           lineHeight:
-            this.itemStlye.height == null
+            this.itemStyle.height == null
               ? '25px'
-              : this.itemStlye.height - this.itemStlye.borderWith * 2 + 'px',
+              : this.itemStyle.height - this.itemStyle.borderWith * 2 + 'px',
           // 元素的字体大小
           fontSize:
-            this.itemStlye.fontSize == null
+            this.itemStyle.fontSize == null
               ? '14px'
-              : this.itemStlye.fontSize[0] + 'px',
+              : this.itemStyle.fontSize[0] + 'px',
           // 元素的粗细
           fontWeight:
-            this.itemStlye.fontSize == null ? 500 : this.itemStlye.fontSize[1],
+            this.itemStyle.fontSize == null ? 500 : this.itemStyle.fontSize[1],
           // 元素的间距
           marginRight:
-            this.itemStlye.marginRight == null
+            this.itemStyle.marginRight == null
               ? '12px'
-              : this.itemStlye.marginRight + 'px'
+              : this.itemStyle.marginRight + 'px'
         }
       }
+    }
+  },
+  mounted () {
+    if (this.sizeOptions.length > 0) {
+      this.selectedValue.label = this.sizeOptions[0].label
+      this.selectedValue.value = this.sizeOptions[0].value
+      this.$emit('change-page-size', this.selectedValue.value)
     }
   },
   methods: {
@@ -263,15 +364,15 @@ export default {
     // 下一页点击事件
     nextEvent() {
       // 总的页数
-      const pageTotal = Math.ceil(this.total / this.pageSize)
-      if (this.currentPage < pageTotal) {
+      this.pageTotal = Math.ceil(this.total / this.pageSize)
+      if (this.currentPage < this.pageTotal) {
         this.$emit('change-page', this.currentPage + 1)
       }
     },
     itemEvent(item, index) {
       // 按钮的中间数
       const center = Math.ceil((this.pageCount + 1) / 2)
-      const pageTotal = Math.ceil(this.total / this.pageSize)
+      this.pageTotal = Math.ceil(this.total / this.pageSize)
       if (item !== '...' && item !== this.currentPage) {
         this.$emit('change-page', item)
       } else if (item === '...') {
@@ -282,41 +383,122 @@ export default {
             this.$emit('change-page', this.currentPage - 5)
           }
         } else {
-          if (pageTotal - this.currentPage <= 5) {
-            this.$emit('change-page', pageTotal)
+          if (this.pageTotal - this.currentPage <= 5) {
+            this.$emit('change-page', this.pageTotal)
           } else {
             this.$emit('change-page', this.currentPage + 5)
           }
         }
       }
+    },
+    handleAddNumber(toNumber) {
+      this.pageTotal = Math.ceil(this.total / this.pageSize)
+      // 总的页数
+
+      if (toNumber <= 0) {
+        this.toNumber = 1
+        this.$emit('change-page', 1)
+      } else if (this.toNumber > this.pageTotal) {
+        this.toNumber = this.pageTotal
+        this.$emit('change-page', this.pageTotal)
+      } else {
+        this.toNumber = toNumber
+        this.$emit('change-page', Number(this.toNumber))
+      }
+    },
+    changeSelect (label, value) {
+      this.selectedValue.label = label
+      this.selectedValue.value = value
+      this.$emit('change-page-size', value)
     }
   }
 }
 </script>
 
-<style>
+<style lang="scss" scpoed>
 .query-page {
-  width: 380px;
-  height: 30px;
-  display: flex;
-  justify-content: center;
-}
-.page-mian-item {
-  box-sizing: border-box;
-  text-align: center;
-  cursor: pointer;
-  margin: 0 5px;
-}
-.query-btn {
-  width: 27px;
-  height: 27px;
-  border-radius: 4px;
-  border: 1px solid rgb(255, 162, 75);
-  background: rgb(253, 140, 1);
-  margin: 0px 10px;
-  color: white;
-  text-align: center;
-  box-sizing: border-box;
-  cursor: pointer;
-}
+    min-width: 300px;
+    width: auto;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    .page-mian-item {
+      box-sizing: border-box;
+      text-align: center;
+      cursor: pointer;
+    }
+    .hover-item[data-title]{
+      position: relative;
+      &:hover:after {
+        opacity: 1;
+        transition: all 0.1s ease 0.5s;
+        visibility: visible;
+      }
+      // 背景的样式 位置 字体等
+      &:after {
+        content: attr(data-title);
+        position: absolute;
+        padding: 1px 10px;
+        left: 24px;
+        bottom: -2.5em;
+        border-radius: 4px;
+        color: #fff;
+        background-color: rgba(80, 79, 79, 0.8);
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.16);
+        font-size: 12px;
+        white-space: nowrap;
+        visibility: hidden;
+        opacity: 0;
+      }
+    }
+    .query-btn {
+      width: 27px;
+      height: 27px;
+      border-radius: 4px;
+      background: rgb(253, 140, 1);
+      margin: 0px 10px;
+      color: white;
+      text-align: center;
+      box-sizing: border-box;
+      cursor: pointer;
+    }
+    .total-page{
+      min-width: 60px;
+    }
+    .to-page{
+      width: auto;
+      min-width: 120px;
+      position: relative;
+      height: 22px;
+      overflow: hidden;
+      display: flex;
+      justify-content: left;
+      margin-top: 5px;
+      & span{
+        font-size: 12px;
+        line-height: 22px;
+        margin: 0 8px;
+      }
+      & input{
+        width: 40px;
+        height: 22px;
+        box-sizing: border-box;
+        border-radius: 4px;
+        border: 1px solid #aaa;
+        outline: none;
+        font-size: 12px;
+        line-height: 22px;
+        &:hover{
+          border: 1px solid rgb(0, 183, 255);
+          color: rgb(0, 126, 176);
+        }
+      }
+    }
+    .total-page,.page-size{
+      width: auto;
+      height: 22px;
+      font-size: 12px;
+      line-height: 22px;
+    }
+  }
 </style>

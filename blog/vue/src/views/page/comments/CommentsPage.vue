@@ -1,11 +1,5 @@
 <template>
   <div>
-    <LocationWelcome
-      :welcome-show="welcomeShow"
-      :default-msg="defaultMsg"
-      :message="message"
-      :address="address"
-    ></LocationWelcome>
     <TemplatePage></TemplatePage>
 
     <div class="comments-container animated animate__fadeInUp">
@@ -54,6 +48,8 @@
               :total="total"
               :page-size="pageSize"
               :page-count="pageCount"
+              :size-options="sizeOptions"
+              @change-page-size="changeSize"
               @change-page="changePage"
             ></QueryPage>
           </div>
@@ -136,7 +132,12 @@ export default {
       defaultMsg: true,
       message: '',
       ip: '',
-      address: '中国'
+      address: '中国',
+      sizeOptions: [
+        { label: '5条/页', value: 5 },
+        { label: '10条/页', value: 10 },
+        { label: '15条/页', value: 15 }
+      ]
     }
   },
   created () {
@@ -244,6 +245,9 @@ export default {
     changePage(val) {
       this.currentPage = val
       this.initComments()
+    },
+    changeSize(val) {
+      this.pageSize = val
     },
     emojiPickerOff() {
       this.showDialog = false

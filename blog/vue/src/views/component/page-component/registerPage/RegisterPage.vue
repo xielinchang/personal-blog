@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="register">
     <div class="shadow">
       <div class="register-conatiner">
         <el-form
@@ -127,6 +127,13 @@ export default {
 </script>
 
   <style>
+  .register{
+    width: 100%;
+    height: calc(100vh);
+    background: url(../../../../assets/images/动漫1.webp);
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
   .shadow{
       z-index: 1;
       width: 0px;
@@ -135,11 +142,6 @@ export default {
       background: rgba(169, 169, 169, 0.3);
       top: 0;
       left: 0;
-  }
-  .canvas{
-    background: url(../../../../assets/images/动漫1.webp);
-    background-repeat: no-repeat;
-    background-size: cover;
   }
   .register-conatiner{
       width: 400px;
@@ -151,7 +153,7 @@ export default {
       position: fixed;
       border-radius: 12px;
       border: 1px solid #c0c7cf;
-      background: -webkit-linear-gradient(top, rgb(255, 232, 250), #dbeaff);
+     background: rgb(255,255,255,0.6);
       box-shadow: 0 0 0 2px rgb(255 255 255 / 40%) inset,
       0 13px 15px rgb(31 45 61 / 15%);
       padding-top: 50px;

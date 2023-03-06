@@ -1,7 +1,6 @@
 <template>
   <div
     id="app"
-    @click="offclick"
   > <back-top icon-name="rocket"></back-top>
     <head-tab></head-tab>
     <left-menu></left-menu>
@@ -35,11 +34,6 @@ export default {
     }, 0)
   },
   methods: {
-    // 取消退出登录框
-    offclick() {
-      this.$store.state.logout.display = 'none'
-      this.$store.state.logout.opacity = 0
-    }
   }
 }
 </script>

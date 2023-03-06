@@ -1,6 +1,5 @@
 <template>
   <div>
-    <ControlTabVue default-name="评论"></ControlTabVue>
     <TemplatePage></TemplatePage>
     <div class="comments-container animated animate__fadeInUp">
       <div class="all-w-comments">
@@ -113,6 +112,8 @@
             :total="total"
             :page-size="pageSize"
             :page-count="pageCount"
+            :size-options="sizeOptions"
+            @change-page-size="changeSize"
             @change-page="changePage"
           ></QueryPage>
         </ul>
@@ -146,7 +147,12 @@ export default {
       pageCount: 5,
       /* 每页的条目数 */
       pageSize: 5,
-      authorReply: ''
+      authorReply: '',
+      sizeOptions: [
+        { label: '5条/页', value: 5 },
+        { label: '10条/页', value: 10 },
+        { label: '15条/页', value: 15 }
+      ]
     }
   },
   mounted() {
@@ -215,7 +221,9 @@ export default {
     changePage(val) {
       this.currentPage = val
       this.initComments()
-      /* 分页消息提示 */
+    },
+    changeSize(val) {
+      this.pageSize = val
     },
     reply(item, index) {
       this.$nextTick(() => {

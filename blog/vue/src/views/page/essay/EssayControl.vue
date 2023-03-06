@@ -1,7 +1,6 @@
 <template>
   <div class="essayControl">
     <TemplatePage class="write-template"></TemplatePage>
-    <ControlTabVue default-name="文章"></ControlTabVue>
     <div class="essay-control">
       <ul>
         <li
