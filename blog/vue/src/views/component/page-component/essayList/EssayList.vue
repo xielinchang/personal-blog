@@ -49,27 +49,36 @@ export default {
       essay_list: []
     }
   },
+  watch: {
+    '$route.path': function(to, from) {
+      this.initEssayList()
+    }
+  },
   mounted() {
-    var _this = this
-    essayQuery({
-      limit: 999,
-      offset: 1,
-      query: {
-        id: undefined,
-        title: undefined,
-        subtitle: undefined,
-        domain: undefined
-      }
-    }).then((res) => {
-      for (let i = 0; i < res.data.rows.length; i++) {
-        res.data.rows[i].tags = res.data.rows[i].tags.split(',')
-        res.data.rows[i].coverUrl =
-          process.env.VUE_APP_BASE_API + res.data.rows[i].coverUrl
-        this.essay_list.push(res.data.rows[i])
-      }
-    })
+    this.initEssayList()
   },
   methods: {
+    initEssayList() {
+      var _this = this
+      this.essay_list = []
+      essayQuery({
+        limit: 999,
+        offset: 1,
+        query: {
+          id: undefined,
+          title: undefined,
+          subtitle: undefined,
+          domain: undefined
+        }
+      }).then((res) => {
+        for (let i = 0; i < res.data.rows.length; i++) {
+          res.data.rows[i].tags = res.data.rows[i].tags.split(',')
+          res.data.rows[i].coverUrl =
+          process.env.VUE_APP_BASE_API + res.data.rows[i].coverUrl
+          this.essay_list.push(res.data.rows[i])
+        }
+      })
+    },
     jumpToEssay(item) {
       if (this.$route.path === '/essay/control') {
         this.$router.push('/writing?id=' + item.id)

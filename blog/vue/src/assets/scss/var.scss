@@ -10,6 +10,15 @@ $colors: (
   error: #876633,
   loading: #b28fce,
 );
+$danger: #cc3600; // 危险、错误
+$primary: #6b9eee; // 主色调、链接
+$warn: #dc6a12; // 警告
+$success: #7ebf50; // 成功
+
+$danger-bg: #f79572; // 危险、错误
+$primary-bg: #b7cef4; // 主色调、链接
+$warn-bg: #eeb386; // 警告
+$success-bg: #cdf5b1; // 成功 
 
 // 文字颜色
 $fontColors: (

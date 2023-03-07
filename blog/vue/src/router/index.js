@@ -87,7 +87,7 @@ router.beforeEach((to, from, next) => {
     token = localStorage.getItem('token')
   }
   const identity = localStorage.getItem('identity')
-  var pathArr = ['/essay/control', '/share/control', '/writing/comments', '/writing/record']
+  var pathArr = ['/essay/control', '/share/control', '/comments/control', '/record/control']
   for (let i = 0; i < pathArr.length; i++) {
     if (to.path === pathArr[i]) {
       if (token && identity === '管理员') {

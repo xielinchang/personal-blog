@@ -97,6 +97,8 @@ export default {
 }
 .title-line {
   margin-top: 20px;
+  margin-left: 12px;
+  margin-bottom: 10px;
 }
 .tit-line-active {
   width: 30px;

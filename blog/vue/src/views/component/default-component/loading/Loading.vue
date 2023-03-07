@@ -33,23 +33,23 @@ export default {
       dotlist: [
         {
           opacity: 0,
-          name: '你'
+          name: '拼'
         },
         {
           opacity: 0,
-          name: '该'
+          name: '命'
         },
         {
           opacity: 0,
-          name: '减'
+          name: '加'
         },
         {
           opacity: 0,
-          name: '肥'
+          name: '载'
         },
         {
           opacity: 0,
-          name: '啦'
+          name: '中'
         },
         {
           opacity: 0,
@@ -76,7 +76,7 @@ export default {
 }
 </script>
 
-<style>
+<style scpoed>
 .loading-shadow {
   position: fixed;
   top: 0;

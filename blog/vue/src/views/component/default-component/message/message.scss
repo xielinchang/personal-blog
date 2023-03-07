@@ -1,0 +1,83 @@
+@import '../../../../assets/scss/var.scss';
+.message {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 120px;
+    min-width: 140px;
+    width: auto;
+    border-radius: 5px;
+    padding: 5px 25px;
+    line-height: 2;
+    color: #fff;
+    box-shadow: -2px 2px 5px rgba(0, 0, 0, 0.5);
+    transition: 0.4s;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    opacity: 1;
+    &-info {
+        border:1px solid $primary;
+        background-color: $primary-bg;
+      }
+      &-success {
+        border:1px solid $success;
+        background-color: $success-bg;
+      }
+      &-warn {
+        border:1px solid $warn;
+        background-color: $warn-bg;
+      }
+      &-error {
+        border:1px solid $danger;
+        background-color: $danger-bg;
+      }
+
+  }
+  .icon-box{
+    box-sizing: border-box;
+    padding-top: 5px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+  }
+  .icon {
+    margin-right: 7px;
+    &-info {
+        color: $primary;
+      }
+      &-success {
+        color: $success;
+      }
+      &-warn {
+        color: $warn;
+      }
+      &-error {
+        color: $danger;
+      }
+  }
+  .msg-fade-enter-active {
+    animation: alert-fade-in .3s;
+    }
+     
+    .msg-fade-leave-active {
+    animation: alert-fade-out .3s;
+    }
+
+  @keyframes alert-fade-in {
+    0% {
+    opacity: 0;
+    }
+    100% {
+    opacity: 1;
+    }
+    }
+     
+    @keyframes alert-fade-out {
+    0% {
+    opacity: 1;
+    }
+    100% {
+    opacity: 0;
+    }
+    }

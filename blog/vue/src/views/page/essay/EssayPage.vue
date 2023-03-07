@@ -1,7 +1,7 @@
 <template>
   <div class="body">
     <img
-      class="e-bg-img"
+      class="bg-img"
       :src="bgimg"
     >
     <div
@@ -15,9 +15,9 @@
         @click="backHome()"
       />
     </div>
-    <div class="e-main-body">
-      <div class="e-main-container">
-        <div class="e-banner">
+    <div class="main-body">
+      <div class="main-container">
+        <div class="banner">
           <div class="baner-mark">
             <div
               class="mark"
@@ -25,23 +25,23 @@
             ></div>
             <div class="shadow-mark"></div>
             <div
-              class="e-banner-img"
+              class="banner-img"
               :style="{'backgroundImage':`url(${essayForm.coverUrl})`}"
             ></div>
           </div>
           <MyBuble class="buble"></MyBuble>
-          <div class="e-banner-tit-box">
-            <div class="e-banner-title">{{ essayForm.title }}</div>
-            <div class="e-banner-line"></div>
-            <div class="e-banner-subtitle">{{ essayForm.subtitle }}</div>
+          <div class="banner-tit-box">
+            <div class="banner-title">{{ essayForm.title }}</div>
+            <div class="banner-line"></div>
+            <div class="banner-subtitle">{{ essayForm.subtitle }}</div>
           </div>
         </div>
-        <div class="e-main-page">
+        <div class="main-page">
           <div
             v-if="essayForm.digest!==''"
             class="digest-tit"
           >
-            <span>摘要</span>
+          <span>摘要</span>
           </div>
           <div
             v-if="essayForm.digest!==''"
@@ -165,8 +165,8 @@ export default {
   }
 }
 </script>
-<!-- 头部,框架和e-banner -->
-<style scoped>
+<!-- 头部,框架和banner -->
+<style scoped lang="scss">
 .body{
   position: absolute;
   top: 0;
@@ -192,7 +192,7 @@ export default {
   transform: scale(1.1);
   transition: 300ms;
 }
-.e-main-body{
+.main-body{
   width: 85%;
   min-width: 1200px;
   margin:auto;
@@ -205,7 +205,7 @@ export default {
   box-shadow: 0 0 0 2px rgb(255 255 255 / 40%) inset,
     0 13px 15px rgb(31 45 61 / 15%);
 }
-.e-banner{
+.banner{
   min-width: 100%;
   width: 100%;
   margin: auto;
@@ -215,7 +215,7 @@ export default {
   overflow: hidden;
   top: 30px;
 }
-.e-banner-mark{
+.banner-mark{
   min-width: 100%;
   width: 100%;
   height: 330px;
@@ -242,7 +242,7 @@ export default {
   background: rgb(153, 153, 153);
   opacity: 0.8;
 }
-.e-banner-img{
+.banner-img{
   width: 250px;
   height: 250px;
   position: absolute;
@@ -257,7 +257,7 @@ export default {
   box-shadow:0 0 0 2px rgb(255 255 255 / 40%) inset, 0 13px 15px rgb(31 45 61 / 15%);
 }
 
-.e-banner-tit-box{
+.banner-tit-box{
   width: 880px;
   height: 200px;
   z-index: 99;
@@ -265,7 +265,7 @@ export default {
   top: 100px;
   padding-left: 50px;
 }
-.e-banner-subtitle{
+.banner-subtitle{
   width: 300px;
   height: 25px;
   position: absolute;
@@ -274,7 +274,7 @@ export default {
   text-shadow: 0 2px 2px rgb(0 0 0 / 30%);
   opacity: .75;
 }
-.e-banner-line{
+.banner-line{
   width: 30px;
   height: 1px;
   background: rgb(255, 255, 255,0.6);
@@ -283,7 +283,7 @@ export default {
   box-shadow: 0 2px 2px rgb(0 0 0 / 30%);
   opacity: .75;
 }
-.e-banner-title{
+.banner-title{
   width: 90%;
   height: 100px;
   position: absolute;
@@ -300,14 +300,14 @@ export default {
   bottom: 0;
   z-index: 100;
 }
-.e-main-container{
+.main-container{
   width: 85%;
   min-height: 1500px;
   height: auto;
   position: relative;
   margin: auto;
 }
-.e-main-page{
+.main-page{
   top: 400px;
   width: 73%;
   height: auto;
@@ -318,13 +318,13 @@ export default {
   overflow-x: hidden;
   overflow-y: hidden;
 }
-.e-main-page img{
+.main-page img{
   max-width: 85%;
   margin-left: 8%;
   margin-top: 30px;
   border-radius: 12px;
 }
-.e-main-page span{
+.main-page span{
   font-family: 'STkaiti';
 }
 .essay-right-tab{
@@ -340,17 +340,14 @@ export default {
   width: 80px;
   height: 40px;
   line-height: 40px;
-  border-radius: 30px;
+  border-radius: 12px;
   background: rgba(255, 255, 255, 0.7);
   font-size: 22px;
   font-weight: 600;
   color: rgb(0, 0, 0);
   position: relative;
   text-align: center;
-  color: rgb(0, 128, 128);
-}
-.essay-tit{
-  color: rgb(191, 105, 0);
+  color: #d88900;
 }
 .digest{
   width: 100%;
@@ -391,7 +388,7 @@ export default {
   margin-left: 1%;
   height: 20px;
   background: -webkit-linear-gradient(top, white, #e0e6ed);
-  border-radius: 10px;
+  border-radius: 12px;
   z-index: 100;
   content: "";
 }
@@ -403,7 +400,7 @@ export default {
   height: 10px;
   filter: blur(1px);
   background: -webkit-linear-gradient(bottom, #f2f5f7, #e0e6ed);
-  border-radius: 10px;
+  border-radius: 12px;
   z-index: 100;
   content: "";
 }
@@ -423,7 +420,7 @@ export default {
   font-family: 'STkaiti';
   color: rgb(0, 0, 0);
 }
-.e-bg-img{
+.bg-img{
     width: 100%;
     height: calc(105vh);
     position: fixed;

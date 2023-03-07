@@ -10,6 +10,8 @@ import 'animate.css'
 import 'wowjs/css/libs/animate.css'
 import VEmojiPicker from 'v-emoji-picker'
 import './assets/scss/main.scss'
+import msg from './views/component/default-component/message/message'
+Vue.use(msg)
 const requirePageComponent = require.context(
   './views/component/page-component',
   true,

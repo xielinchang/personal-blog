@@ -30,7 +30,7 @@
 
 <script>
 export default {
-  name: 'WaveItem',
+  name: 'Click',
   data() {
     return {
       waves: [],

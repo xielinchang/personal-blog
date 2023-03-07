@@ -4,6 +4,7 @@
   > <back-top icon-name="rocket"></back-top>
     <head-tab></head-tab>
     <left-menu></left-menu>
+    <click></click>
     <keep-alive include="">
       <router-view></router-view>
     </keep-alive>

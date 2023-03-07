@@ -48,6 +48,7 @@ export default {
     },
     initShare() {
       var _this = this
+      this.share_list = []
       shareQuery({
         limit: 999,
         offset: 1,
@@ -73,7 +74,7 @@ export default {
 }
 </script>
 
-<style scpoed>
+<style scoped>
 .share-body {
   width: 98%;
   margin-left: 1%;

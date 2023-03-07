@@ -1,20 +1,43 @@
 <template>
-  <div class="note-main">
+  <div
+    class="note-main"
+  >
     <TemplatePage></TemplatePage>
     <div class="more-container">
-      <svg-icon
-        icon-name="aim"
-        color="red"
-        size="66px"
-      ></svg-icon>
-      <!-- <div class="nothing"> 啥 也 没 有 ~ </div> -->
+      <my-button
+        name="编辑"
+        icon="edit"
+        type="success"
+      ></my-button>
+      <my-button
+        name="编辑"
+        icon="edit"
+        plain
+      ></my-button>
+      <my-button
+        name="编辑"
+        icon="edit"
+        type="info"
+        size="mini"
+      ></my-button>
+      <my-button
+        name="编辑"
+        icon="edit"
+        type="warning"
+      ></my-button>
+      <my-button
+        name="编辑"
+        icon="edit"
+        type="danger"
+        size="large"
+        icon-position="right"
+        @click="open()"
+      ></my-button>
     </div>
   </div>
 </template>
 
 <script>
-
-import 'animate.css'
 export default {
   name: 'NotePage',
   data () {
@@ -25,6 +48,12 @@ export default {
     document.documentElement.scrollTop = 0
   },
   methods: {
+    open() {
+      this.$msg({
+        type: 'error',
+        content: '这是一条自定义消息'
+      })
+    }
   }
 }
 </script>
@@ -50,15 +79,5 @@ export default {
   background: rgb(255,255,255 ,0.6);
   box-shadow: 0 0 0 1px rgb(255 255 255 / 40%) inset,
     0 13px 15px rgb(31 45 61 / 15%);
-}
-.nothing{
-  width: 100%;
-  height: 100px;
-  font-size: 60px;
-  font-weight: 900;
-  text-align: center;
-  line-height: 100px;
-  margin-top: 10%;
-  color: rgba(116, 116, 116, 0.6);
 }
 </style>

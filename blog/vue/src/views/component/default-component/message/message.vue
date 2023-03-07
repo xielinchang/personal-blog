@@ -1,88 +1,96 @@
 <template>
-  <div>
+  <transition name="msg-fade">
     <div
-      class="welcome-msg animated"
-      :class="welcomeShow ? 'animate__bounceInDown' : 'animate__hinge'"
+      v-show="visible"
+      class="message"
+      :class="'message-'+type"
     >
-      <span v-if="defaultMsg">欢迎来自 &nbsp; <strong> {{ address }} </strong>&nbsp;
-        的小朋友!</span>
-      <span v-else>{{ message }}</span>
+      <div class="icon-box">
+        <svg-icon
+          size="24px"
+          :icon-name="icon"
+          class="icon"
+          :class="'icon-'+type"
+          color=""
+        ></svg-icon>
+      </div>
+      <div
+        class="content"
+      >
+        <slot>
+          {{ content }}
+        </slot>
+      </div>
     </div>
-  </div>
+  </transition>
 </template>
-
 <script>
-
-export default {
-  // eslint-disable-next-line vue/multi-word-component-names
-  name: 'Message',
-  props: {
-    defaultMsg: {
-      type: Boolean,
-      default: true
-    },
-    message: {
-      type: String,
-      default: null
-    },
-    address: {
-      type: String,
-      default: null
-    },
-    /* true代表执行移入动画 false表示执行离开动画 */
-    welcomeShow: {
-      type: Boolean,
-      default: true
-    }
-  },
-  data () {
+const classMap = {
+  info: 'info-filled',
+  success: 'circle-check-filled',
+  warning: 'warning-filled',
+  error: 'circle-close-filled',
+  loading: 'loading'
+}
+export const types = Object.keys(classMap)
+const Msg = {
+  name: 'message',
+  data() {
     return {
+      icon: '',
+      visible: false,
+      type: {
+        validator: function (value) {
+          return ['info', 'success', 'warning', 'error', 'loading'].indexOf(value) !== -1
+        },
+        default: 'info'
+      },
+      content: ''
     }
   },
   mounted () {
+    this.icon = classMap[this.type]
+  },
+  install(Vue) {
+    Vue.prototype.$msg = (config) => { // 通过原型注册一个方法
+      const MessageConstructor = Vue.extend(Msg) // 生成一个Vue子类，子类就是这个组件
+      const instance = new MessageConstructor({ data: config }) // 生成该子类的实例
+      instance.vm = instance.$mount() // 将该实例手动挂载
+      document.body.appendChild(instance.vm.$el) // 将实例挂载到body上
+      instance.vm.visible = true
+    }
+  },
+  watch: {
+    visible(v) {
+      var that = this
+      if (v) {
+        setTimeout(() => {
+          that.onClose()
+        }, 1000)
+      }
+    }
   },
   methods: {
+    onClose() {
+      this.visible = false
+      this.$el.parentNode.removeChild(this.$el)
+    },
+    show() {
+      this.visible = true
+    },
+    onCancle() {
+      if (this.cancelBtn) {
+        this.cancelBtn.apply(this.content)
+      }
+      this.onClose()
+    }
   }
+
 }
+
+export default Msg
 </script>
 
-<style>
-.welcome-msg {
-  position: fixed;
-  margin: auto;
-  left: 40%;
-  top: 100px;
-  width: 380px;
-  height: 40px;
-  border-radius: 8px;
-  box-shadow: 0 0 3px 1px rgb(164, 228, 255);
-  background: rgb(164, 228, 255, 0.5);
-  color: #006c97;
-  z-index: 999999;
-  line-height: 40px;
-}
-.welcome-icon {
-  width: 20px;
-  height: 20px;
-  position: absolute;
-  left: 10px;
-  top: 5px;
-}
-.welcome-icon img {
-  width: 100%;
-  height: 100%;
-}
-.welcome-msg span {
-  width: 80%;
-  position: absolute;
-  height: 100%;
-  left: 40px;
-  line-height: 40px;
-  font-size: 16px;
-}
-.welcome-msg span strong {
-  font-family: YouYuan;
-  color: #004a75;
-  font-size: 18px;
-}
+<style scoped lang='scss'>
+@import './message.scss';
 </style>

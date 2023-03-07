@@ -120,7 +120,6 @@ export default {
         '/public/uploads/2022/08/04/1659575588104356.jpg'
       ],
       publishAgain: true,
-      welcomeShow: true,
       /* 当前页 */
       currentPage: 1,
       /* 评论总数 */
@@ -129,8 +128,6 @@ export default {
       pageCount: 5,
       /* 每页的条目数 */
       pageSize: 5,
-      defaultMsg: true,
-      message: '',
       ip: '',
       address: '中国',
       sizeOptions: [
@@ -151,7 +148,6 @@ export default {
   mounted () {
     document.documentElement.scrollTop = 0
     this.initComments()
-    this.initWelcome()
     this.newessayComment.name = localStorage.getItem('name')
     this.newessayComment.portrait_url = localStorage.getItem('portrait_url')
     window.addEventListener('setName', (e) => {
@@ -173,13 +169,6 @@ export default {
         })
         _this.newessayComment.address = res.data.content.address
       })
-    },
-    initWelcome() {
-      var _this = this
-      this.welcomeShow = true
-      setTimeout(() => {
-        _this.welcomeShow = false
-      }, 3000)
     },
     initComments() {
       var _this = this

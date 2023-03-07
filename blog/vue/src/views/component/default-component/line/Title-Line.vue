@@ -24,8 +24,6 @@ export default {
     border-radius: 30px;
 }
 .tit-line-name{
-    margin-left: 12px;
-    margin-bottom: 10px;
     font-size: 14px;
     font-family: YouYuan;
     font-weight: 600;

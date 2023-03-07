@@ -30,6 +30,7 @@ export default {
       default: '#666'
     },
     size: {
+      // 提供mini small，large三种默认尺寸
       type: [String || Number],
       default: '16px'
     }
@@ -37,7 +38,7 @@ export default {
   computed: {
     style() {
       return {
-        fontSize: this.size,
+        fontSize: this.size === 'mini' ? '14px' : this.size === 'small' ? '16px' : this.size === 'large' ? '18px' : this.size,
         color: this.color
       }
     }
