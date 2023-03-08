@@ -51,6 +51,7 @@ class FileController extends Controller {
     try {
     // 异步把文件流 写入
       await awaitWriteStream(stream.pipe(writeStream));
+     
     } catch (err) {
     // 如果出现错误，关闭管道
       await sendToWormhole(stream);
@@ -59,7 +60,14 @@ class FileController extends Controller {
     // const { port, hostname } = this.app.config.cluster.listen;
     // const url = Base64.encode([ '/public/uploads/', dirname, '/', filename ].join(''));
     const url = [ '/public/uploads/', dirname, '/', filename ].join('');
-    this.success(url);
+    ctx.body = {
+      errno: 0, // 注意：值是数字，不能是字符串
+      data: {
+        url: url, // 图片 src ，必须
+        alt: '无', // 图片描述文字，非必须
+        href: '无', // 图片的链接，非必须
+      },
+    };
   }
 }
 

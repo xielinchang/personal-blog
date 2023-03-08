@@ -1,13 +1,13 @@
 <template>
   <div class="writing">
     <TemplatePage class="write-template"></TemplatePage>
-    <ControlTabVue default-name="文章"></ControlTabVue>
     <div class="back-to-essay-control">
-      <img
-        src="@/assets/icon/左箭头.png"
-        alt=""
+      <svg-icon
+        icon-name="back"
+        color="#FC9709"
+        size="40px"
         @click="backToEssayControl()"
-      >
+      />
     </div>
     <div class="write-main">
       <div
@@ -198,8 +198,13 @@ export default {
         placeholder: '请输入文章内容...',
         MENU_CONF: {
           uploadImage: {
-            server: process.env.VUE_APP_BASE_API + '/api/file'
+            server: process.env.VUE_APP_BASE_API + '/api/file',
+            // 自定义插入图片，修改地址
+            async customInsert(res, insertFn) {
+              await insertFn(process.env.VUE_APP_BASE_API + res.data.url)
+            }
           }
+
         }
       },
       uploadApi: process.env.VUE_APP_BASE_API + '/api/file',
@@ -217,7 +222,6 @@ export default {
         domain: null,
         radio: '1'
       },
-      /* 涉及到保存时数组要转换成字符串，而字符串在el-icon中会显示错误，故分开封装 */
       newTags: [],
       options: [
         {
@@ -283,18 +287,11 @@ export default {
   async mounted () {
     var _this = this
     this.headers.Authorization = Cookie.get('token')
-    document.onmousewheel = function () {
-      var foot = document.querySelector('.edit-foot')
-      if (document.documentElement.scrollTop < 100) {
-        foot.style.boxShadow = ' 0px 1px #d8e0ea, 0px 0px transparent, 0px 2px rgb(255 255 255)'
-      } else {
-        foot.style.boxShadow = '0 1px rgb(64 79 93 / 5%), 0 4px 6px rgb(31 45 61 / 8%), 0 10px rgb(255 255 255 / 0%)'
-      }
-    }
     document.documentElement.scrollTop = 0
     this.initEssay()
   },
   created () {
+
   },
   beforeUnmount() {
     const editor = this.editor
@@ -338,11 +335,13 @@ export default {
       this.editor = Object.seal(editor) // 一定要用 Object.seal() ，否则会报错
     },
     handleAvatarSuccess(res) {
+      console.log(res)
       this.Essay.coverUrl = res.data
       this.imgurl = process.env.VUE_APP_BASE_API + res.data
     },
     beforeAvatarUpload(file) {
       const isJPGorPNG = file.type === 'image/jpeg' || 'image/png'
+      console.log(file)
       const isLt3M = file.size / 1024 / 1024 < 3
 
       if (!isJPGorPNG) {
@@ -367,7 +366,7 @@ export default {
         title: '',
         subtitle: '',
         digest: '',
-        tags: '',
+        tags: [],
         domain: null,
         radio: null
       }
@@ -377,7 +376,10 @@ export default {
     save() {
       /* join=>数组转字符串，split=>字符串转数组 */
       var _this = this
-      this.Essay.tags = this.newTags.join(',')
+      if (this.Essay.tags.length > 0) {
+        this.Essay.tags = this.newTags.join(',')
+      }
+      console.log(this.Essay.tags)
       essaySave(this.Essay).then(res => {
         this.$message({
           message: '保存成功',

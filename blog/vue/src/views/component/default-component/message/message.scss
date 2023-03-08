@@ -1,9 +1,10 @@
 @import '../../../../assets/scss/var.scss';
 .message {
+  z-index: 9999;
     position: fixed;
     left: 50%;
     transform: translateX(-50%);
-    top: 120px;
+    top: 40px;
     min-width: 140px;
     width: auto;
     border-radius: 5px;

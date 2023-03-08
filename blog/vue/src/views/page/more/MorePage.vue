@@ -33,6 +33,17 @@
         icon-position="right"
         @click="open()"
       ></my-button>
+      <my-input
+        v-model="value"
+        :placeholder="placeholder"
+        icon="user"
+      ></my-input>
+      <my-tags
+        :value="['1','2']"
+        @input="input"
+        @update:tags="update"
+      ></my-tags>
+      <my-upload></my-upload>
     </div>
   </div>
 </template>
@@ -42,6 +53,8 @@ export default {
   name: 'NotePage',
   data () {
     return {
+      value: '111',
+      placeholder: '请输入账号'
     }
   },
   mounted() {
@@ -53,6 +66,12 @@ export default {
         type: 'error',
         content: '这是一条自定义消息'
       })
+    },
+    input(e) {
+      console.log(e)
+    },
+    update(e) {
+      console.log(e)
     }
   }
 }

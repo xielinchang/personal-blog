@@ -1,6 +1,5 @@
 <template>
   <div class="writing">
-    <ControlTabVue default-name="随笔"></ControlTabVue>
     <TemplatePage></TemplatePage>
     <div class="back-to-share-control">
       <img
@@ -270,7 +269,7 @@ export default {
         html: ' ',
         url: null,
         title: '',
-        tags: '',
+        tags: [],
         id: 0
       }
       this.newTags = []
@@ -279,7 +278,10 @@ export default {
     save() {
       /* join=>数组转字符串，split=>字符串转数组 */
       var _this = this
-      this.Share.tags = this.newTags.join(',')
+      if (this.Share.tags.length > 0) {
+        this.Share.tags = this.newTags.join(',')
+      }
+
       /* 如果是空数组，直接转换 */
       /* 保存接口 */
       console.log(this.Share)

@@ -44,3 +44,11 @@ export function bgGif(data) {
     data
   })
 }
+
+export function uploadimg(data) {
+  return request({
+    url: '/api/file',
+    method: 'post',
+    data
+  })
+}

@@ -21,10 +21,8 @@
         <div class="tab-author-name">{{ name }}</div>
         <div class="tab-author-saying">{{ saying }}</div>
       </div>
-      <TitleLine
-        name="博客记录"
-        class="title-line"
-      ></TitleLine>
+      <div class="tit-line-name">博客记录</div>
+      <div class="tit-line"></div>
       <div class="time-line"></div>
       <div class="tit-line-active"></div>
       <div class="record">
@@ -261,6 +259,22 @@ export default {
   border-radius: 10px;
   z-index: 100;
   content: "";
+}
+.tit-line{
+    width: 90%;
+    margin-left: 5%;
+    height: 1px;
+    border-radius: 30px;
+    background: #B9C3CD;
+}
+.tit-line-name{
+  position: relative;
+    font-size: 14px;
+    font-family: YouYuan;
+    font-weight: 600;
+    color: rgb(126, 127, 128);
+    margin: 15px;
+    margin-left: 10px;
 }
 .record-content {
   width: 140px;

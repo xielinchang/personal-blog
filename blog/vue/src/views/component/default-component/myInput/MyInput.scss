@@ -1,0 +1,32 @@
+.my-input{
+    width: 200px;
+    height: 40px; 
+    .main{
+        width: 200px;
+        height: 40px;
+        padding: 0 10px;
+        background-color: #fff;
+        border-radius: 4px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        border: 1px solid #ddd;
+        transition: 300ms;
+        & input{
+            width: 150px;
+            height: 40px;
+            outline: none;
+            border: none;  
+            color: #393939;
+            & ::placeholder{
+                color: #ddd;
+            }
+            .is-disabled{
+                cursor: not-allowed;
+            }
+        }
+        .right-icon{
+            display: flex;
+        }
+    }
+}
