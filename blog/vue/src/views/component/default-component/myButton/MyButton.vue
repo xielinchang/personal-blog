@@ -6,7 +6,10 @@
       :class="[ type,size,plain===true?type+'plain':'']"
       :style="{color:textColor}"
       @click="$emit('click',$event)"
-    > <svg-icon
+    > <div>
+      </div>
+      <svg-icon
+        v-show="icon!==''"
         v-if="iconPosition==='left'"
         class="icon"
         :icon-name="icon"
@@ -15,6 +18,7 @@
       ></svg-icon>
       <slot>{{ name }}</slot>
       <svg-icon
+        v-show="icon!==''"
         v-if="iconPosition==='right'"
         class="icon"
         :icon-name="icon"
@@ -26,14 +30,20 @@
 </template>
 
 <script>
+// 解决消息弹框报错未注册此组件
+import SvgIcon from '../SvgIcon/SvgIcon.vue'
 export default {
   name: 'MyButton',
+  components: {
+    SvgIcon
+  },
   props: {
     name: {
       type: [String, Number],
       default: ''
     },
     type: {
+      type: String,
       validator: function (value) {
         return ['primary', 'info', 'success', 'warning', 'danger'].indexOf(value) !== -1
       },
@@ -76,6 +86,6 @@ export default {
 }
 </script>
 
-<style lang="scss" scpoed>
+<style lang="scss" scoped>
 @import './MyButton.scss';
 </style>

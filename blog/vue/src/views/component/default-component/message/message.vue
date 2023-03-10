@@ -66,7 +66,7 @@ const Msg = {
       if (v) {
         setTimeout(() => {
           that.onClose()
-        }, 1000)
+        }, 1500)
       }
     }
   },

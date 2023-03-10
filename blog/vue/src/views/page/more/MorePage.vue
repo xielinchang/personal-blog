@@ -24,6 +24,7 @@
         name="编辑"
         icon="edit"
         type="warning"
+        @click="openBox()"
       ></my-button>
       <my-button
         name="编辑"
@@ -43,7 +44,11 @@
         @input="input"
         @update:tags="update"
       ></my-tags>
-      <my-upload></my-upload>
+      <my-upload
+        v-model="file"
+        :action="uploadUrl"
+        @change="uploadOneCallback"
+      ></my-upload>
     </div>
   </div>
 </template>
@@ -54,7 +59,10 @@ export default {
   data () {
     return {
       value: '111',
-      placeholder: '请输入账号'
+      placeholder: '请输入账号',
+      file: {},
+      files: {},
+      uploadUrl: process.env.VUE_APP_BASE_API + '/api/file'
     }
   },
   mounted() {
@@ -72,6 +80,27 @@ export default {
     },
     update(e) {
       console.log(e)
+    },
+    uploadOneCallback: function(value) {
+      console.log('我是单个文件父元素接收到的值')
+      if (value) {
+        this.fileNameList = value
+      } else {
+        this.fileNameList = []
+      }
+    },
+    openBox() {
+      this.$msgBox.confirm({
+        title: '提醒',
+        content: '要删除吗？一旦删除将不可恢复',
+        type: 'info',
+        onOK: () => {
+          console.log(111)
+        },
+        onCancel: () => {
+          console.log(222)
+        }
+      })
     }
   }
 }

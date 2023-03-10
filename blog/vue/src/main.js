@@ -12,6 +12,9 @@ import VEmojiPicker from 'v-emoji-picker'
 import './assets/scss/main.scss'
 import msg from './views/component/default-component/message/message'
 Vue.use(msg)
+import msgBox from './views/component/default-component/messageBox/index'
+Vue.use(msgBox)
+
 const requirePageComponent = require.context(
   './views/component/page-component',
   true,
