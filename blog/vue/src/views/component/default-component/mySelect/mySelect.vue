@@ -1,9 +1,12 @@
 <template>
-  <div class="select-container">
+  <div
+    class="select-container"
+    :style="{ width: width + 'px', height: height + 'px' }"
+  >
     <div
       ref="box"
       :class="openFlag.valueOf() ? 'selecting' : 'select'"
-      :style="{ width: width + 'px', height: height + 'px' }"
+
       @click="openOptions()"
     >
       <!-- 输入框 -->
@@ -28,7 +31,7 @@
       <div
         class="select-arrow"
         :style="{
-          lineHeight: height + 2 + 'px',
+          lineHeight: height + 'px',
         }"
       >
         <svg-icon

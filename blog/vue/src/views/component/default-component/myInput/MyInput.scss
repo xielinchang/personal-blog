@@ -1,6 +1,14 @@
 .my-input{
-    width: 200px;
-    height: 40px; 
+    width: auto;
+    height: 40px;
+    display: flex;
+    & span{
+        min-width: 50px;
+        width: auto;
+        height: 40px;
+        line-height: 40px;
+        color: #666;
+    }
     .main{
         width: 200px;
         height: 40px;
@@ -8,13 +16,13 @@
         background-color: #fff;
         border-radius: 4px;
         display: flex;
-        justify-content: space-around;
+        justify-content: space-between;
         align-items: center;
         border: 1px solid #ddd;
         transition: 300ms;
         & input{
-            width: 150px;
-            height: 40px;
+            width: calc(100% - 50px);
+            height: 38px;
             outline: none;
             border: none;  
             color: #393939;

@@ -1,3 +1,4 @@
+@import '../../../../assets/scss/index.scss';
 .my-button {
   position: relative;
   display: inline-flex;
@@ -6,6 +7,7 @@
   white-space: nowrap;
   transition: 0.1s;
   border-radius: 4px;
+  color: white;
   .icon{
     margin: 0 4px;
   }
@@ -25,68 +27,26 @@
     height: 30px;
     font-size: 12px;
 }
-.primary{
-    background-color: #409EFF;
-    border: 1px solid #2e96ff;
-    color: white;
-    &:hover{
-        background-color: #66B1FF;
+@each $key,$val in $bg-colors {
+    .#{$key} {
+        background-color: $val;
+    }
+    .#{$key}plain {
+        color: $val;
+        border: 1px solid $val;
+    }
+    .#{$key}plain:hover {
+        background-color: $val;
         color: white;
     }
   }
-  .primaryplain{
-    background-color: #ECF5FF;
-    color: #409EFF;
-}
-.success{
-    background-color: #67C23A;
-    border: 1px solid #5ebe2e;
-    color: white;
-    &:hover{
-        background-color: #85CE61;
-        color: white;
+@each $key,$val in $bg-hover {
+    .#{$key}:hover {
+        background-color: $val;
     }
- }
- .successplain{
-    background-color: #F0F9EB;
-    color: #67C23A;
-}
- .info{
-    background-color: #909399;
-    border: 1px solid #787a7f;
-    color: white;
-    &:hover{
-        background-color: #A6A9AD;
-        color: white;
+  }
+  @each $key,$val in $plain-bg-colors {
+    .#{$key}plain {
+        background-color: $val;
     }
- }
- .infoplain{
-    background-color: white;
-    color: #787a7f;
-}
- .warning{
-    background-color: #E6A23C;
-    border: 1px solid #e1982a;
-    color: white;
-    &:hover{
-        background-color: #EBB563;
-        color: white;
-    }
- }
- .warningplain{
-    background-color: #FDF6EC;
-    color: #e1982a;
-}
- .danger{
-    background-color: #F56C6C;
-    border: 1px solid #f55a5a;
-    color: white;
-    &:hover{
-        background-color: #F78989;
-        color: white;
-    }
- }
- .warningplain{
-    background-color: #FEF0F0;
-    color: #F56C6C;
-}
+  }

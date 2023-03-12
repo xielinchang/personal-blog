@@ -32,142 +32,92 @@
         </div>
         <div class="form-container block2">
           <div class="form-main">
-            <el-form
-              ref="Essay"
-              :model="Essay"
-              label-width="80px"
+            封面：
+            <my-upload
+              v-model="file"
+              :action="uploadApi"
+              :image="imgurl"
+              @delete-img="deleteCallback"
+              @upload-success="uploadCallback"
             >
-              <el-form-item label="封面：">
-                <!-- 上传图片需要token时要加headers -->
-                <el-upload
-                  class="avatar-uploader"
-                  :auto-upload="true"
-                  :action="uploadApi"
-                  :headers="headers"
-                  :show-file-list="false"
-                  :on-success="handleAvatarSuccess"
-                  :before-upload="beforeAvatarUpload"
-                >
-                  <img
-                    v-if="imgurl"
-                    :src="imgurl"
-                    class="avatar"
-                  />
-                  <el-button
-                    class="upload-btn"
-                    type="primary"
-                    plain
-                  >上传<i class="el-icon-upload el-icon--right" />
-                  </el-button>
-                </el-upload>
-              </el-form-item>
-              <el-form-item label="标题：">
-                <el-input
-                  v-model="Essay.title"
-                  placeholder="请输入标题"
-                  prefix-icon="el-icon-edit"
-                >
-                </el-input>
-              </el-form-item>
-              <el-form-item label="副标题：">
-                <el-input
-                  v-model="Essay.subtitle"
-                  placeholder="请输入副标题"
-                  prefix-icon="el-icon-edit"
-                >
-                </el-input>
-              </el-form-item>
-              <el-form-item label="摘要：">
-                <el-input
-                  v-model="Essay.digest"
-                  type="textarea"
-                  placeholder="（选填）简要的摘要能帮助读者更好的了解内容"
-                  prefix-icon="el-icon-edit"
-                >
-                </el-input>
-              </el-form-item>
-              <el-form-item label="标签：">
-                <el-tag
-                  v-for="tag in newTags"
-                  :key="tag"
-                  closable
-                  :disable-transitions="false"
-                  @close="handleClose(tag)"
-                >
-                  {{ tag }}
-                </el-tag>
-                <el-input
-                  v-if="inputVisible"
-                  ref="saveTagInput"
-                  v-model="inputValue"
-                  class="input-new-tag"
-                  size="small"
-                  @keyup.enter.native="handleInputConfirm"
-                  @blur="handleInputConfirm"
-                >
-                </el-input>
-                <el-button
-                  v-else
-                  class="button-new-tag"
-                  size="small"
-                  @click="showInput"
-                >+ New Tag</el-button>
-              </el-form-item>
-              <el-form-item label="领域：">
-                <el-select
-                  v-model="Essay.domain"
-                  placeholder="请选择"
-                >
-                  <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  >
-                  </el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="类型：">
-                <el-radio
-                  v-model="Essay.radio"
-                  label="1"
-                >原创</el-radio>
-                <el-radio
-                  v-model="Essay.radio"
-                  label="2"
-                >转载</el-radio>
-              </el-form-item>
-            </el-form>
+            </my-upload>
+            标题：
+            <my-input
+              v-model="Essay.title"
+              :width="inputSize"
+              placeholder="请输入标题"
+              icon-name="edit"
+            >
+            </my-input>
+            副标题：
+            <my-input
+              v-model="Essay.subtitle"
+              placeholder="请输入副标题"
+              :width="inputSize"
+              icon-name="edit"
+            >
+            </my-input>
+            摘要：
+            <my-input
+              v-model="Essay.digest"
+              :width="inputSize"
+              placeholder="（选填）简要的摘要能帮助读者更好的了解内容"
+              icon-name="edit"
+            >
+            </my-input>
+            标签：
+            <my-tags
+              :value="newTags"
+            ></my-tags>
+            领域：
+            <my-select
+              :options="options"
+              :selected="selected"
+              @change-select="changeSelect"
+            >
+            </my-select>
+            类型：
+            <div>
+              <my-radio
+                v-model="Essay.radio"
+                label="1"
+              >原创</my-radio>
+              <my-radio
+                v-model="Essay.radio"
+                label="2"
+              >转载</my-radio>
+            </div>
+
           </div>
         </div>
       </div>
     </div>
     <div class="edit-foot">
       <div class="foot-box">
-        <div
-          class="reset-btn"
+        <my-button
           @click="reset"
-        >重置</div>
-        <div
-          class="save-btn"
+        >重置</my-button>
+        <my-button
           :style="{'display':publishdis}"
+          plain
+          type="info"
           @click="save"
-        >保存草稿</div>
-        <div
-          class="publish-btn"
+        >保存草稿</my-button>
+        <my-button
           :style="{'display':publishdis}"
+          type="danger"
           @click="publish"
-        >发布</div>
-        <div
-          class="edit-btn"
+        >发布</my-button>
+        <my-button
           :style="{'display':editdis}"
+          type="warning"
           @click="edit"
-        >修改</div>
-        <div
-          class="del-btn"
+        >修改</my-button>
+        <my-button
           :style="{'display':editdis}"
+          type="danger"
           @click="deleted"
-        >删除</div>
+        >删除</my-button>
       </div>
     </div>
   </div>
@@ -177,7 +127,6 @@
 /* import getToken from '../utils/author' */
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 import { essayCreate, essayQuerySave, essaySave, essayQuery, essayUpdate } from '@/api/essayapi'
-import { uploadimg } from '@/api/api'
 
 import Cookie from 'js-cookie'
 import 'animate.css'
@@ -222,66 +171,35 @@ export default {
         domain: null,
         radio: '1'
       },
+      inputSize: 600,
+      imgurl: '',
+      file: {},
       newTags: [],
-      options: [
-        {
-          value: 1,
-          label: 'Html'
-        },
-        {
-          value: 2,
-          label: 'Css'
-        },
-        {
-          value: 3,
-          label: 'Js'
-        },
-        {
-          value: 4,
-          label: 'JQ'
-        },
-        {
-          value: 5,
-          label: 'Vue'
-        },
-        {
-          value: 6,
-          label: 'Node.js'
-        },
-        {
-          value: 7,
-          label: 'Mysql'
-        },
-        {
-          value: 8,
-          label: '其他'
-        }
-      ],
-      rules: {
-        coverUrl: [
-          { required: true, message: '请放入封面图片', trigger: 'blur' }
-        ],
-        title: [
-          { required: false, message: '请输入文章标题', trigger: 'blur' }
-        ],
-        subtitle: [
-          { required: false, message: '请输入文章副标题', trigger: 'blur' }
-        ],
-        digest: [
-          { required: false, message: '请输入文章摘要', trigger: 'blur' }
-        ],
-        dynamicTags: [
-          { required: false, message: '请输入文章标签', trigger: 'blur' }
-        ],
-        domain: [{ required: false, message: '请输入摘要', trigger: 'blur' }],
-        radio: [
-          { required: true, message: '请选择发布类型', trigger: 'change' }
-        ]
+      options: [{
+        label: 'html',
+        value: 'html'
+      }, {
+        label: 'css',
+        value: 'css'
+      }, {
+        label: 'js',
+        value: 'js'
+      }, {
+        label: 'vue',
+        value: 'vue'
+      }],
+      selected: {
+        label: 'html',
+        value: '1'
       },
       headers: {
         Authorization: ''
-      },
-      imgurl: ''
+      }
+    }
+  },
+  watch: {
+    '$route.path': function(to, from) {
+      this.initEssay()
     }
   },
   async mounted () {
@@ -302,6 +220,7 @@ export default {
     initEssay() {
       var that = this
       var id = this.$route.query.id
+      this.imgurl = null
       if (id === 'undefined') {
         this.publishdis = 'block'
         this.editdis = 'none'
@@ -310,7 +229,11 @@ export default {
             this.imgurl = process.env.VUE_APP_BASE_API + res.data.rows[0].coverUrl
           }
           this.Essay = res.data.rows[0]
-          this.newTags = this.Essay.tags.split(',')
+          if (this.Essay.tags !== '') {
+            this.newTags = this.Essay.tags.split(',')
+          } else {
+            this.newTags = []
+          }
         })
       } else {
         this.publishdis = 'none'
@@ -331,32 +254,17 @@ export default {
         })
       }
     },
+    uploadCallback(file, res) {
+      console.log(res)
+      this.Essay.coverUrl = res.data.data.url
+      this.imgurl = process.env.VUE_APP_BASE_API + res.data.data.url
+    },
+    deleteCallback() {
+      this.imgurl = ''
+      this.Essay.url = ''
+    },
     onCreated(editor) {
       this.editor = Object.seal(editor) // 一定要用 Object.seal() ，否则会报错
-    },
-    handleAvatarSuccess(res) {
-      console.log(res)
-      this.Essay.coverUrl = res.data
-      this.imgurl = process.env.VUE_APP_BASE_API + res.data
-    },
-    beforeAvatarUpload(file) {
-      const isJPGorPNG = file.type === 'image/jpeg' || 'image/png'
-      console.log(file)
-      const isLt3M = file.size / 1024 / 1024 < 3
-
-      if (!isJPGorPNG) {
-        this.$message.error('上传头像图片只能是 JPG 或 PNG 格式!')
-      }
-      if (!isLt3M) {
-        this.$message.error('上传头像图片大小不能超过 3MB!')
-      }
-      return isJPGorPNG && isLt3M
-    },
-    handleClose(tag) {
-      this.newTags.splice(
-        this.newTags.indexOf(tag),
-        1
-      )
     },
     reset() {
       this.Essay = {
@@ -366,12 +274,12 @@ export default {
         title: '',
         subtitle: '',
         digest: '',
-        tags: [],
+        tags: '',
         domain: null,
         radio: null
       }
       this.newTags = []
-      this.imgurl = null
+      this.imgurl = ''
     },
     save() {
       /* join=>数组转字符串，split=>字符串转数组 */
@@ -379,10 +287,9 @@ export default {
       if (this.Essay.tags.length > 0) {
         this.Essay.tags = this.newTags.join(',')
       }
-      console.log(this.Essay.tags)
       essaySave(this.Essay).then(res => {
-        this.$message({
-          message: '保存成功',
+        this.$msg({
+          content: '保存成功',
           type: 'success'
         })
         _this.initEssay()
@@ -405,8 +312,8 @@ export default {
       var _this = this
       this.Essay.tags = this.newTags.join(',')
       essayUpdate(this.Essay).then(res => {
-        this.$message({
-          message: '更新成功',
+        this.$msg({
+          content: '更新成功',
           type: 'success'
         })
         this.$router.push('/')
@@ -415,22 +322,14 @@ export default {
     deleted() {
 
     },
-    showInput() {
-      this.inputVisible = true
-      this.$nextTick(() => {
-        this.$refs.saveTagInput.$refs.input.focus()
-      })
-    },
-    handleInputConfirm() {
-      const inputValue = this.inputValue
-      if (inputValue) {
-        this.newTags.push(inputValue)
-      }
-      this.inputVisible = false
-      this.inputValue = ''
-    },
     backToEssayControl() {
       this.$router.push('/essay/control')
+    },
+    changeSelect(label, value) {
+      console.log(label, value)
+      this.selected.label = label
+      this.selected.value = value
+      this.Essay.domain = value
     }
 
   }
@@ -472,7 +371,6 @@ export default {
 .edit-main {
   width: 96%;
   margin-left: 2%;
-
   position: absolute;
 }
 .block2 {
@@ -499,33 +397,18 @@ export default {
 .form-main {
   position: absolute;
   width: 90%;
-  height: auto;
+  height: 70%;
   margin-left: 5%;
   top: 20px;
-}
-.el-tag + .el-tag {
-  margin-left: 10px;
-}
-.button-new-tag {
-  margin-left: 10px;
-  height: 32px;
-  line-height: 30px;
-  padding-top: 0;
-  padding-bottom: 0;
-}
-.input-new-tag {
-  width: 90px;
-  margin-left: 10px;
-  vertical-align: bottom;
+  display: flex;
+  color: #666;
+  flex-direction: column;
+  justify-content: space-around;
 }
 .btns {
   margin-left: 50%;
   transform: translateX(-50%);
   margin-top: 20px;
-}
-.bubbles{
-  position: fixed;
-  bottom: 0;
 }
 .edit-foot{
   width: 100%;
@@ -538,103 +421,14 @@ export default {
   border-top: 2px solid #f0f5fb;
 }
 .foot-box{
-  width: 33%;
+  width: 24%;
   position: fixed;
   right: 300px;
   height: 100%;
+  line-height: 50px;
+  display: flex;
+  justify-content: space-around;
 }
-.save-btn,.publish-btn,.reset-btn,.edit-btn,.del-btn{
-  width: 100px;
-  height: 36px;
-  border-radius: 20px;
-  border: 1px solid #aaa;
-  margin-top: 15px;
-  font-size: 16px;
-  color: rgb(117, 117, 117);
-  text-align: center;
-  line-height: 36px;
-  float: left;
-  margin-left: 20px;
-  cursor: pointer;
-}
-.save-btn:hover{
-  border: 1px solid rgb(117, 117, 117);
-  color: rgb(79, 79, 79);
-}
-.publish-btn{
-  border: none;
-  background: #FC5531;
-  color: white;
-}
-.save-btn{
-  margin-left: 15px;
-}
-.reset-btn{
-  border: none;
-  margin-left: 20px;
-  background: #409cff;
-  color: white;
-}
-.edit-btn{
-  border: none;
-  margin-left: 20px;
-  background: #02b4a8;
-  color: white;
-}
-.del-btn{
-  border: none;
-  margin-left: 20px;
-  background: #FC5531;
-  color: white;
-}
-.del-btn:hover{
-  background: #fb3b10;
-}
-.reset-btn:hover{
-  background: #3295ff;
-}
-.publish-btn:hover{
-  background: #fb3b10;
-}
-.edit-btn:hover{
-  background: rgb(0, 163, 120);
-}
-
-.avatar-uploader {
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-.avatar {
-    width: 100%;
-    height: auto;
-    min-height: 50px;
-    display: block;
-    margin-top: 45px;
-  }
-  .avatar-uploader{
-    width: 40%;
-  }
- .el-button--primary.is-plain{
-    position: absolute;
-    left: 0;
-    top: 0;
-  }
-  .turn-to-share{
-    position: fixed;
-    width: 40px;
-    height: 40px;
-    bottom: 10px;
-    right: 50px;
-    background-image: url(../../../assets/icon/右箭头.png);
-    background-size: cover;
-    list-style: none;
-  }
-  .turn-to-share:hover{
-    transform: scale(1.1);
-    transition: 300ms;
-  }
   .back-to-essay-control{
     width: 35px;
     height: 35px;
@@ -642,13 +436,5 @@ export default {
     left: 250px;
     top: 150px;
     z-index: 99999;
-  }
-  .back-to-essay-control img{
-    width: 100%;
-    height: 100%;
-  }
-  .back-to-essay-control img:hover{
-    transform: scale(1.1);
-    transition: 300ms;
   }
 </style>

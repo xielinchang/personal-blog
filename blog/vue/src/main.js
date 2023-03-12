@@ -3,13 +3,9 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import axios from 'axios'
-import elementui from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
-import Wow from 'wowjs'
 import 'animate.css'
-import 'wowjs/css/libs/animate.css'
 import VEmojiPicker from 'v-emoji-picker'
-import './assets/scss/main.scss'
+import './assets/scss/index.scss'
 import msg from './views/component/default-component/message/message'
 Vue.use(msg)
 import msgBox from './views/component/default-component/messageBox/index'
@@ -44,8 +40,6 @@ requireDefaultComponent.keys().forEach(fileName => {
   )
 })
 Vue.use(VEmojiPicker)
-Vue.use(elementui)
-Vue.prototype.$wow = Wow
 new Vue({
   router,
   store,

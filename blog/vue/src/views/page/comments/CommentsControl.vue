@@ -2,14 +2,14 @@
   <div>
     <TemplatePage></TemplatePage>
     <div class="comments-container animated animate__fadeInUp">
-      <div class="all-w-comments">
-        <ul class="w-comments-list">
+      <div class="all-comments">
+        <ul class="comments-list">
           <li
             v-for="(item, index) in comments_list"
             :key="index"
           >
             <div
-              class="w-comment-delete-btn"
+              class="comment-delete-btn"
               @click="deleteComment(item.id)"
             >
               <svg-icon
@@ -19,18 +19,18 @@
                 alt=""
               />
             </div>
-            <div class="w-comment-portrait">
+            <div class="comment-portrait">
               <img
                 :src="item.portrait_url"
                 alt=""
               />
             </div>
-            <div class="w-comment-name">
+            <div class="comment-name">
               <span> {{ item.name }}</span>&nbsp;
               <span>{{ item.address }}</span>
             </div>
-            <div class="w-comment-time">{{ item.created_at }}</div>
-            <div class="w-comment-message">{{ item.content }}</div>
+            <div class="comment-time">{{ item.created_at }}</div>
+            <div class="comment-message">{{ item.content }}</div>
             <div
               v-if="item.isreply === 'false' || item.isreply === null"
               class="c-reply"
@@ -47,7 +47,7 @@
               v-if="item.isreply === 'true'"
               class="reply-container"
             >
-              <div class="w-comment-delete-btn">
+              <div class="comment-delete-btn">
                 <svg-icon
                   size="24px"
                   color="#1DA9E0"
@@ -107,7 +107,7 @@
             </div>
           </li>
           <QueryPage
-            class="w-comment-page"
+            class="comment-page"
             :current-page="currentPage"
             :total="total"
             :page-size="pageSize"
@@ -215,7 +215,10 @@ export default {
           this.initComments()
         })
       } else if (this.commentReply.content === '') {
-        this.$message.error('不能发送空的信息哦~')
+        this.$msg({
+          type: 'error',
+          content: '不能发送空消息'
+        })
       }
     },
     changePage(val) {
@@ -240,53 +243,55 @@ export default {
       })
     },
     deleteReply(id) {
-      this.$confirm('是否要删除这条回复?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
-        .then(() => {
-          commentsUpdate({
-            id: id,
-            reply: null
-          }).then(() => {
-            this.initComments()
-          })
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          })
-        })
-        .catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          })
-        })
+      this.$msgBox.confirm(
+        {
+          title: '提醒',
+          content: '要删除吗？一旦删除将不可恢复',
+          type: 'warning',
+          onOK: () => {
+            commentsUpdate({
+              id: id,
+              reply: null
+            }).then(() => {
+              this.initComments()
+            })
+            this.$msg({
+              type: 'success',
+              content: '删除成功!'
+            })
+          },
+          onCancel: () => {
+            this.$msg({
+              type: 'info',
+              content: '已取消删除'
+            })
+          }
+        }
+      )
     },
     deleteComment(id) {
-      this.$confirm('是否要删除这条评论?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
-        .then(() => {
+      this.$msgBox.confirm({
+        title: '提醒',
+        content: '要删除吗？一旦删除将不可恢复',
+        type: 'warning',
+        onOK: () => {
           commentsDelete({
             id: id
           }).then(() => {
             this.initComments()
           })
-          this.$message({
+          this.$msg({
             type: 'success',
-            message: '删除成功!'
+            content: '删除成功!'
           })
-        })
-        .catch(() => {
-          this.$message({
+        },
+        onCancel: () => {
+          this.$msg({
             type: 'info',
-            message: '已取消删除'
+            content: '已取消删除'
           })
-        })
+        }
+      })
     }
   }
 }
@@ -364,7 +369,7 @@ textarea::-webkit-input-placeholder {
   font-weight: 500;
   font-size: 20px;
 }
-.all-w-comments {
+.all-comments {
   width: 100%;
   height: auto;
   padding: 20px 0;
@@ -373,9 +378,10 @@ textarea::-webkit-input-placeholder {
     0 13px 15px rgb(31 45 61 / 15%);
   border-radius: 12px;
   margin-top: 100px;
+  position: relative;
   zoom: 1;
 }
-.w-comments-list {
+.comments-list {
   width: 76%;
   height: auto;
   background-color: rgba(247, 247, 247, 0.8);
@@ -424,7 +430,7 @@ textarea::-webkit-input-placeholder {
   right: 20px;
   font-size: 18px;
 }
-.w-comments-list li {
+.comments-list li {
   position: relative;
   width: 100%;
   margin-bottom: 10px;
@@ -432,7 +438,7 @@ textarea::-webkit-input-placeholder {
   font-family: YouYuan;
   z-index: 1;
 }
-.w-comment-portrait {
+.comment-portrait {
   width: 60px;
   height: 60px;
   border-radius: 50%;
@@ -441,11 +447,11 @@ textarea::-webkit-input-placeholder {
   left: 0;
   top: 10px;
 }
-.w-comment-portrait img {
+.comment-portrait img {
   width: 100%;
   height: 100%;
 }
-.w-comment-name {
+.comment-name {
   width: 30%;
   height: 30px;
   line-height: 30px;
@@ -455,7 +461,7 @@ textarea::-webkit-input-placeholder {
   display: flex;
   justify-content: left;
 }
-.w-comment-name span {
+.comment-name span {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -464,11 +470,11 @@ textarea::-webkit-input-placeholder {
   color: #3e8683;
   font-size: 22px;
 }
-.w-comment-name span:nth-child(2) {
+.comment-name span:nth-child(2) {
   color: #595959;
   font-size: 16px;
 }
-.w-comment-time {
+.comment-time {
   width: 200px;
   height: 30px;
   line-height: 30px;
@@ -489,7 +495,7 @@ textarea::-webkit-input-placeholder {
   font-size: 16px;
   color: rgb(83, 83, 83);
 }
-.w-comment-message {
+.comment-message {
   width: 80%;
   height: auto;
   padding-bottom: 30px;
@@ -498,7 +504,7 @@ textarea::-webkit-input-placeholder {
   top: 10px;
   font-size: 20px;
 }
-.w-comment-page {
+.comment-page {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
@@ -575,18 +581,18 @@ textarea::-webkit-input-placeholder {
 .c-reply img {
   width: 100%;
 }
-.w-comment-delete-btn {
+.comment-delete-btn {
   width: 20px;
   height: 20px;
   position: absolute;
   right: 10px;
   top: 20px;
 }
-.w-comment-delete-btn img {
+.comment-delete-btn img {
   width: 100%;
   height: 100%;
 }
-.w-comment-delete-btn img:hover {
+.comment-delete-btn img:hover {
   transform: scale(1.1);
 }
 </style>

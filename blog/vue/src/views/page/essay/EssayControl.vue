@@ -108,28 +108,27 @@ export default {
       this.$router.push('/writing?id=' + undefined)
     },
     essayDelete(item) {
-      this.$confirm('是否删除名为' + item.title + '的文章', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
-        .then(() => {
-          console.log(item.id)
+      this.$msgBox.confirm({
+        title: '提醒',
+        content: '要删除名为' + item.title + '的文章吗？一旦删除将不可恢复',
+        type: 'warning',
+        onOK: () => {
           essayDelete({ id: item.id }).then((res) => {
             console.log(res)
-            this.$message({
+            this.$msg({
               type: 'success',
-              message: '删除成功!'
+              content: '删除成功!'
             })
             this.initEssay()
           })
-        })
-        .catch(() => {
-          this.$message({
+        },
+        onCancel: () => {
+          this.$msg({
             type: 'info',
-            message: '已取消删除'
+            content: '已取消删除'
           })
-        })
+        }
+      })
     }
   }
 }

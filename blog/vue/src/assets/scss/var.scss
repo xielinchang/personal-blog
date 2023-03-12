@@ -1,33 +1,51 @@
-$types: primary, info, success, warning, danger, error, loading;
+  $types: primary, info, success, warning, danger, error, loading;
 
-// 类型颜色
-$colors: (
-  primary: #51a8dd,
-  info: #b1b479,
-  success: #e87a90,
-  warning: #f9bf45,
-  danger: #b5495b,
-  error: #876633,
-  loading: #b28fce,
-);
-$danger: #cc3600; // 危险、错误
-$primary: #6b9eee; // 主色调、链接
-$warn: #dc6a12; // 警告
-$success: #7ebf50; // 成功
+	$primary: #409EFF !default;
+	$success: #52c41a !default;
+  $warning: #f9bf45 !default;
+  $danger: #F56C6C !default;
+  $loading: #b28fce !default;
+  $info: #909399 !default;
 
-$danger-bg: #f79572; // 危险、错误
-$primary-bg: #b7cef4; // 主色调、链接
-$warn-bg: #eeb386; // 警告
-$success-bg: #cdf5b1; // 成功 
+  $danger-hover: #F78989 !default; 
+  $primary-hover: #66B1FF !default; 
+  $warning-hover: #EBB563 !default; 
+  $success-hover: #85CE61 !default; 
+  $info-hover:#A6A9AD !default;
 
-// 文字颜色
-$fontColors: (
-  primary: '#303133',
-  regular: '#606266',
-  secondary: '#909399',
-  placeholder: '#a8abb2',
-  disabled: '#c0c4cc',
-);
+  $danger-plain: #FEF0F0 !default; // 危险、错误
+  $primary-plain: #cce0ff !default; // 主色调、链接
+  $warning-plain: #FDF6EC !default; // 警告
+  $success-plain: #F0F9EB !default; // 成功 
+  $error-plain: #ffe3ba !default;
+  $info-plain:#F4F4F5 !default;
+  // 主题背景颜色
+	$bg-colors:(
+	  "primary":$primary,
+    "success":$success,
+    "warning":$warning,
+    "info": $info,
+    "danger":$danger,
+    "loading":$loading,
+    );
+    // 背景的hover颜色
+    $bg-hover:(
+      "primary":$primary-hover,
+      "success":$success-hover,
+      "warning":$warning-hover,
+      "info": $info-hover,
+      "danger":$danger-hover,
+      "loading":$loading,
+    );
+    // plain的背景颜色
+  $plain-bg-colors:(
+      "primary":$primary-plain,
+      "success":$success-plain,
+      "warning":$warning-plain,
+      "info": $info-plain,
+      "danger":$danger-plain,
+      "loading":$loading,
+    );
 
 // 禁用颜色
 $disabledColors: (
@@ -42,27 +60,4 @@ $fontSizes: (
   small: 12px,
   middle: 14px,
   large: 16px,
-);
-
-$paddingSizes: (
-  base: 4px,
-  mini: 10px,
-  small: 12px,
-  middle: 16px,
-  large: 24px,
-);
-
-// 文字大小
-$iconSizes: (
-  mini: 16px,
-  small: 18px,
-  middle: 20px,
-  large: 22px,
-);
-
-$buttonSizes: (
-  mini: 18px,
-  small: 24px,
-  middle: 32px,
-  large: 40px,
 );

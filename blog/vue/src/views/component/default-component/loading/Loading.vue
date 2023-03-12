@@ -76,7 +76,7 @@ export default {
 }
 </script>
 
-<style scpoed>
+<style scpoed lang="scss">
 .loading-shadow {
   position: fixed;
   top: 0;
@@ -99,9 +99,7 @@ export default {
   justify-content: center;
   text-align: center;
   z-index: 99999;
-}
-
-.loading .dot {
+  & .dot {
   background-color: rgb(255, 166, 0);
   display: inline-block;
   width: 48px;
@@ -116,4 +114,6 @@ export default {
   font-size: 24px;
   font-weight: 600;
 }
+}
+
 </style>

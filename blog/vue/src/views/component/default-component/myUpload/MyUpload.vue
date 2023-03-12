@@ -1,7 +1,7 @@
 <template>
   <div class="img-box">
     <div
-      v-if="!imageUrl"
+      v-if="!image"
       class="upload"
       @click="handleUpload"
     >
@@ -14,7 +14,7 @@
     >
       <div
         class="img-wrap"
-        :style="{ backgroundImage: `url(${imageUrl})` }"
+        :style="{ backgroundImage: `url(${image})` }"
       >
         <div class="cover">
           <svg-icon
@@ -54,19 +54,18 @@ export default {
     // 是否需要预览
     preview: {
       type: Boolean,
-      default: true
+      default: false
+    },
+    // 图片预览的地址
+    image: {
+      type: String,
+      default: ''
     }
   },
-  emits: ['uploadSuccess'],
+  emits: ['upload-success', 'delete-img'],
   data () {
     return {
-      imgFile: '', // input输入框value值
-      option: {
-        img: '' // 图片的地址
-      },
-      // 图片预览的地址
-      imageUrl: ''
-
+      imgFile: '' // input输入框value值
     }
   },
 
@@ -76,8 +75,7 @@ export default {
       const data = new FormData()
       data.append('file', file)
       if (this.preview) {
-        this.imageUrl = URL.createObjectURL(file)
-        this.$emit('uploadSuccess', file)
+        this.$emit('upload-success', URL.createObjectURL(file), file)
       } else {
         axios.post(this.action, data, {
           headers: {
@@ -85,8 +83,7 @@ export default {
           }
         }).then(res => {
           console.log(res)
-          this.$emit('uploadSuccess', file, res)
-          this.imageUrl = process.env.VUE_APP_BASE_API + res.data.data.url
+          this.$emit('upload-success', file, res)
         }).catch(err => {
           console.log(err)
         })
@@ -96,7 +93,8 @@ export default {
       this.$refs.fileInt.click()
     },
     handleDelete() {
-      this.imageUrl = ''
+      // 点击删除时触发事件，无参数
+      this.$emit('delete-img', '')
     }
   }
 }

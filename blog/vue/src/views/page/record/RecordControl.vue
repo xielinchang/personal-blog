@@ -1,7 +1,7 @@
 <template>
   <div>
     <TemplatePage></TemplatePage>
-    <div class="record-container animated animate__fadeInUp">
+    <div class="record-container">
       <div class="all-record ">
         <ul
           class="record-list"
@@ -47,10 +47,10 @@
             @click="publishrecord"
           >
             <svg-icon
-            class="publish"
+              class="publish"
               icon-name="publish"
-             color="#00B753"
-             size="24px"
+              color="#00B753"
+              size="24px"
             />
             <span>发布</span>
           </div>
@@ -113,25 +113,27 @@ export default {
       })
     },
     deleteRecord(id) {
-      this.$confirm('是否要删除这条博客记录?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        recordDelete({
-          id: id
-        }).then(() => {
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
+      this.$msgBox.confirm({
+        title: '提醒',
+        content: '要删除吗？一旦删除将不可恢复',
+        type: 'danger',
+        onOK: () => {
+          recordDelete({
+            id: id
+          }).then(() => {
+            this.$message({
+              type: 'success',
+              content: '删除成功!'
+            })
+            this.initrecord()
           })
-          this.initrecord()
-        })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        })
+        },
+        onCancel: () => {
+          this.$msg({
+            type: 'info',
+            content: '已取消删除'
+          })
+        }
       })
     },
     selectEmoji(emoji) {// 选择emoji后调用的函数
@@ -238,6 +240,7 @@ textarea::-webkit-input-placeholder{
   font-size: 20px;
 }
 .all-record{
+  position: relative;
     width: 100%;
     height: auto;
     padding: 20px 0;
