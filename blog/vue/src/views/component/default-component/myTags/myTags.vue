@@ -68,7 +68,7 @@ export default {
     },
     addTagOnBlur: {
       type: Boolean,
-      default: false
+      default: true
     },
     limit: {
       type: Number,
@@ -110,27 +110,25 @@ export default {
       }
       this.$el.querySelector('.new-tag').focus()
     },
-
     handleInputFocus () {
       this.isInputActive = true
     },
 
-    handleInputBlur (e) {
+    async handleInputBlur (e) {
       this.isInputActive = false
-    //   this.addNew(e.target.value)
+      this.addNew(e)
     },
 
-    async addNew (e) {
-      console.log(e)
+    addNew (e) {
       const keyShouldAddTag = e ? this.addTagOnKeys.indexOf(e.keyCode) !== -1 : true
-
       const typeIsNotBlur = e && e.type !== 'blur'
-
       if ((!keyShouldAddTag && (typeIsNotBlur || !this.addTagOnBlur)) || this.isLimit) {
         return
       }
-      const tag = this.beforeAdding ? await this.beforeAdding(this.newTag) : this.newTag
-      this.innerTags.push(tag)
+      const tag = this.beforeAdding ? this.beforeAdding(this.newTag) : this.newTag
+      if (tag.length > 0) {
+        this.innerTags.push(tag)
+      }
       this.newTag = ''
       e && e.preventDefault()
     },

@@ -194,7 +194,6 @@ export default {
   computed: {
     // 生成一个分页数组
     pageList() {
-      // 总的页数
       const pageTotal = Math.ceil(this.total / this.pageSize)
       // 总的页数数组
       const list = []
@@ -347,6 +346,11 @@ export default {
       }
     }
   },
+  watch: {
+    'pageSize': function(o, n) {
+      this.$emit('change-page', 1)
+    }
+  },
   mounted () {
     if (this.sizeOptions.length > 0) {
       this.selectedValue.label = this.sizeOptions[0].label
@@ -370,6 +374,7 @@ export default {
       }
     },
     itemEvent(item, index) {
+      this.pageTotal = Math.ceil(this.total / this.pageSize)
       // 按钮的中间数
       const center = Math.ceil((this.pageCount + 1) / 2)
       this.pageTotal = Math.ceil(this.total / this.pageSize)
@@ -393,8 +398,6 @@ export default {
     },
     handleAddNumber(toNumber) {
       this.pageTotal = Math.ceil(this.total / this.pageSize)
-      // 总的页数
-
       if (toNumber <= 0) {
         this.toNumber = 1
         this.$emit('change-page', 1)
