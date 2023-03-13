@@ -1,80 +1,56 @@
 @import '../../../../assets/scss/index.scss';
-.message {
-  z-index: 9999;
-    position: fixed;
-    left: 50%;
-    transform: translateX(-50%);
-    top: 40px;
-    min-width: 140px;
-    width: auto;
-    border-radius: 5px;
-    padding: 5px 25px;
-    line-height: 2;
-    color: #fff;
-    box-shadow: -2px 2px 5px rgba(0, 0, 0, 0.5);
-    transition: 0.4s;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    opacity: 1;
-    &-primary {
-        border:1px solid $primary;
-        background-color: $primary-plain;
-        color: $primary;
+  .message {
+    z-index: 9999;
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 20px;
+      min-width: 140px;
+      width: auto;
+      border-radius: 5px;
+      padding: 5px 25px;
+      line-height: 2;
+      color: #fff;
+      transition: 0.4s;
+      font-size: 13px;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      opacity: 1;
+      .content{
+        margin-left: 5px;
       }
-      &-info {
-        border:1px solid $info;
-        background-color: $info-plain;
-        color: $info;
+      @each $key,$val in $bg-colors {
+        &-#{$key} {
+            color: $val;
+            border: 1px solid $val;
+        }
+        .icon-#{$key}{
+          color: $val;
+        }
       }
-      &-success {
-        border:1px solid $success;
-        background-color: $success-plain;
-        color: $success;
+      @each $key,$val in $plain-bg-colors {
+        &-#{$key} {
+            background-color: $val;
+        }
       }
-      &-warn {
-        border:1px solid $warning;
-        background-color: $warning-plain;
-        color: $warning;
-      }
-      &-error {
-        border:1px solid $danger;
-        background-color: $danger-plain;
-        color: $danger;
-      }
+  
+    }
+    .icon-box{
+      box-sizing: border-box;
+      padding-top: 3px;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+   }
 
-  }
-  .icon-box{
-    box-sizing: border-box;
-    padding-top: 5px;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-  }
-  .icon {
-    margin-right: 7px;
-      &-primary {
-        color: $primary;
-      }
-      &-info {
-        color: $info;
-      }
-      &-success {
-        color: $success;
-      }
-      &-warn {
-        color: $warning;
-      }
-      &-error {
-        color: $danger;
-      }
-  }
+
   .msg-fade-enter-active {
-    animation: alert-fade-in .3s;
+    animation: alert-fade-in .4s;
     }
      
     .msg-fade-leave-active {
-    animation: alert-fade-out .3s;
+    animation: alert-fade-out .4s;
     }
 
   @keyframes alert-fade-in {
@@ -89,8 +65,10 @@
     @keyframes alert-fade-out {
     0% {
     opacity: 1;
+    top: 20px;
     }
     100% {
     opacity: 0;
+    top: 0px;
     }
     }

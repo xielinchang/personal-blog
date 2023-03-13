@@ -5,6 +5,7 @@
     <head-tab></head-tab>
     <left-menu></left-menu>
     <click></click>
+    <my-loading load-time="0ms"></my-loading>
     <keep-alive include="">
       <router-view></router-view>
     </keep-alive>

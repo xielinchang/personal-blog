@@ -250,8 +250,8 @@ export default {
       /* 更新接口 */
       this.Share.tags = this.newTags.join(',')
       shareUpdate(this.Share).then(res => {
-        this.$message({
-          message: '更新成功',
+        this.$msg({
+          content: '更新成功',
           type: 'success'
         })
         this.$router.push('/')

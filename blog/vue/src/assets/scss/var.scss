@@ -4,7 +4,6 @@
 	$success: #52c41a !default;
   $warning: #f9bf45 !default;
   $danger: #F56C6C !default;
-  $loading: #b28fce !default;
   $info: #909399 !default;
 
   $danger-hover: #F78989 !default; 
@@ -17,7 +16,6 @@
   $primary-plain: #cce0ff !default; // 主色调、链接
   $warning-plain: #FDF6EC !default; // 警告
   $success-plain: #F0F9EB !default; // 成功 
-  $error-plain: #ffe3ba !default;
   $info-plain:#F4F4F5 !default;
   // 主题背景颜色
 	$bg-colors:(
@@ -26,7 +24,6 @@
     "warning":$warning,
     "info": $info,
     "danger":$danger,
-    "loading":$loading,
     );
     // 背景的hover颜色
     $bg-hover:(
@@ -35,7 +32,6 @@
       "warning":$warning-hover,
       "info": $info-hover,
       "danger":$danger-hover,
-      "loading":$loading,
     );
     // plain的背景颜色
   $plain-bg-colors:(
@@ -44,7 +40,6 @@
       "warning":$warning-plain,
       "info": $info-plain,
       "danger":$danger-plain,
-      "loading":$loading,
     );
 
 // 禁用颜色

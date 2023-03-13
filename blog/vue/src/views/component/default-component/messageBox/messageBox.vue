@@ -1,43 +1,50 @@
 <template>
-  <div
-    v-show="isShow"
-    class="mask"
+  <transition
+    name="msg-box-fade"
   >
     <div
-      class="popup-message"
-      :class="type"
+      v-show="isShow"
+      class="mask"
+      @touchmove.prevent
+      @mousewheel.prevent
     >
-      <div class="pop-view">
-        <span class="pop-title">{{ title || '' }}</span>
-        <p
-          v-if="content"
-          class="pop-content"
-        >{{ content }}</p>
-        <div
-          class="pop-btn"
-        >
-          <my-button
-            :type="type"
-            plain
-            size="mini"
+      <div
+        class="popup-message"
+        :class="type"
+      >
+        <div class="pop-view">
+          <span class="pop-title">{{ title || '' }}</span>
+          <p
+            v-if="content"
+            class="pop-content"
+          >{{ content }}</p>
+          <div
+            class="pop-btn"
+          >
+            <my-button
+              :type="type"
+              plain
+              size="mini"
+              @click="handleCancel"
+            >取消</my-button>
+            <my-button
+              :type="type"
+              size="mini"
+              @click="handleConfirm"
+            >确定</my-button>
+          </div>
+          <svg-icon
+            icon-name="close"
+            class="close"
+            size="20px"
             @click="handleCancel"
-          >取消</my-button>
-          <my-button
-            :type="type"
-            size="mini"
-            @click="handleConfirm"
-          >确定</my-button>
+          ></svg-icon>
         </div>
-        <svg-icon
-          icon-name="close"
-          class="close"
-          size="20px"
-          @click="handleCancel"
-        ></svg-icon>
-      </div>
 
+      </div>
     </div>
-  </div>
+  </transition>
+
 </template>
 
 <script>

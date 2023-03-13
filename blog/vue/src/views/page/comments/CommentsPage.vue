@@ -218,16 +218,22 @@ export default {
             }, 5000)
           })
         } else if (this.newessayComment.content === '') {
-          this.$message.error('不能发送空的信息哦~')
+          this.$msg({
+            content: '不能发送空的消息',
+            type: 'info'
+          })
         } else {
-          this.$message.error('你讲话太快啦！！')
+          this.$msg({
+            content: '讲话太快了',
+            type: 'info'
+          })
         }
         document.documentElement.scrollTop = 0
       } else {
         this.$router.push('/login')
-        this.$message({
+        this.$msg({
           type: 'warning',
-          message: '请先登录!'
+          content: '请先登录!'
         })
       }
     },

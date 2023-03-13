@@ -6,8 +6,8 @@ import axios from 'axios'
 import 'animate.css'
 import VEmojiPicker from 'v-emoji-picker'
 import './assets/scss/index.scss'
-import msg from './views/component/default-component/message/message'
-Vue.use(msg)
+import msg from './views/component/default-component/message/index'
+Vue.prototype.$msg = msg
 import msgBox from './views/component/default-component/messageBox/index'
 Vue.use(msgBox)
 

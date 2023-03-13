@@ -35,7 +35,7 @@
           <div class="add-share-container">
             <div class="add-share-icon">
               <svg-icon
-              class="share-icon"
+                class="share-icon"
                 icon-name="add"
                 color="#F1DA4E"
                 size="70px"
@@ -92,22 +92,24 @@ export default {
       this.$router.push('/writing/share?id=' + undefined)
     },
     shareDelete(item) {
-      this.$confirm('是否删除这篇随笔', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        shareDelete({ id: item.id }).then(res => {
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
+      this.$msgBox.confirm({
+        title: '提醒',
+        content: '要删除名为' + item.title + '的随笔吗？一旦删除将不可恢复',
+        type: 'warning',
+        onOK: () => {
+          shareDelete({ id: item.id }).then(res => {
+            this.$msg({
+              type: 'success',
+              content: '删除成功!'
+            })
           })
-        })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        })
+        },
+        onCancel: () => {
+          this.$msg({
+            type: 'info',
+            content: '已取消删除'
+          })
+        }
       })
     }
   }

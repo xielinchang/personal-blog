@@ -53,6 +53,7 @@
           icon="edit"
           type="warning"
           plain
+          @click="open2()"
         ></my-button>
         <my-button
           name="编辑"
@@ -138,7 +139,13 @@ export default {
   methods: {
     open() {
       this.$msg({
-        type: 'error',
+        type: 'danger',
+        content: '这是一条自定义消息'
+      })
+    },
+    open2() {
+      this.$msg({
+        type: 'info',
         content: '这是一条自定义消息'
       })
     },

@@ -105,9 +105,9 @@ export default {
     },
     publishrecord() {
       recordCreate(this.newrecord).then(() => {
-        this.$message({
+        this.$msg({
           type: 'success',
-          message: '创建成功!'
+          content: '创建成功!'
         })
         this.initrecord()
       })
@@ -121,7 +121,7 @@ export default {
           recordDelete({
             id: id
           }).then(() => {
-            this.$message({
+            this.$msg({
               type: 'success',
               content: '删除成功!'
             })

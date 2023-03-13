@@ -255,7 +255,6 @@ export default {
       }
     },
     uploadCallback(file, res) {
-      console.log(res)
       this.Essay.coverUrl = res.data.data.url
       this.imgurl = process.env.VUE_APP_BASE_API + res.data.data.url
     },
@@ -299,8 +298,8 @@ export default {
       var _this = this
       this.Essay.tags = this.newTags.join(',')
       essayCreate(this.Essay).then(res => {
-        this.$message({
-          message: '创建成功',
+        this.$msg({
+          content: '创建成功',
           type: 'success'
         })
         this.reset()
