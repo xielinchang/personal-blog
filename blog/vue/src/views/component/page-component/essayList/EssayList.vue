@@ -101,7 +101,7 @@ export default {
   animation-duration: 0.8s;
 }
 .newblock {
-  border-radius: 20px;
+  border-radius: 4px;
   background: rgb(255, 255, 255, 0.6);
 }
 .essay-list {
@@ -118,7 +118,7 @@ export default {
   height: 275px;
   margin: 0 10px;
   margin-bottom: 30px;
-  border-radius: 12px;
+  border-radius: 4px;
   overflow: hidden;
   position: relative;
   box-shadow: 0 13px 15px rgb(31 45 61 / 15%);
@@ -179,7 +179,7 @@ export default {
   background: #e1f6da;
   color: #45c717;
   font-weight: 500;
-  border-radius: 30px;
+  border-radius: 4px;
   text-align: center;
   line-height: 20px;
   font-size: 12px;

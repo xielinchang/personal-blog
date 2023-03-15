@@ -78,10 +78,12 @@
             class="comments-publish-btn"
             @click="publishComment"
           >
-            <img
-              src="../../../assets/icon/发布.png"
-              alt=""
-            >
+            <svg-icon
+              class="publish-icon"
+              icon-name="publish"
+              size="24px"
+              color="#00B753"
+            />
             <span>发布</span>
           </div>
           <VEmojiPicker

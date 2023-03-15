@@ -94,9 +94,9 @@ export default {
           router: '/aboutme'
         },
         {
-          menuicon: 'comment',
+          menuicon: 'comment-filled',
           color: '#1DA9E0',
-          title: '评论',
+          title: '留言',
           router: '/comments'
         },
         {

@@ -3,12 +3,13 @@
     <div class="share">
       <TemplatePage class="share-template"></TemplatePage>
       <div class="back-home">
-        <img
-          src="@/assets/icon/左箭头.png"
-          alt=""
+        <svg-icon
+          icon-name="back"
+          size="40px"
+          color="#F39800"
           data-title="返回主页"
           @click="backHome()"
-        >
+        />
       </div>
       <div class="share-main">
         <div

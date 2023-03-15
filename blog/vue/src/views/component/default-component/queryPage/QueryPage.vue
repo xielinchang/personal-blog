@@ -40,7 +40,7 @@
     <div
       v-for="(item, index) in pageList"
       :key="index"
-      :data-title="item == '...' ? (index < pageCount / 2 ? '向前五页' : '向后五页') : ''"
+      :data-title="item == '...' ? (index < pageCount / 2 ? '向前五页' : '向后五页') : null"
       class="page-mian-item"
       :style="justStyle(item, index)"
       @click="itemEvent(item, index)"
@@ -491,6 +491,8 @@ export default {
         outline: none;
         font-size: 12px;
         line-height: 22px;
+        padding-left: 3px;
+        font-weight: 300;
         &:hover{
           border: 1px solid rgb(0, 183, 255);
           color: rgb(0, 126, 176);

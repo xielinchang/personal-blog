@@ -27,7 +27,8 @@
             <div
               class="banner-img"
               :style="{'backgroundImage':`url(${essayForm.coverUrl})`}"
-            ></div>
+            >
+            </div>
           </div>
           <MyBuble class="buble"></MyBuble>
           <div class="banner-tit-box">
@@ -35,44 +36,146 @@
             <div class="banner-line"></div>
             <div class="banner-subtitle">{{ essayForm.subtitle }}</div>
           </div>
+
         </div>
         <div class="main-page">
           <div
             v-if="essayForm.digest!==''"
             class="digest-tit"
           >
-          <span>摘要</span>
+            <span>摘要</span>
           </div>
           <div
             v-if="essayForm.digest!==''"
-            class="digest"
+            class="digest shadow-demo"
           >
             <div class="digest-content">{{ essayForm.digest }}</div>
           </div>
           <div
-            v-if="essayForm.digest!==''"
             class="essay-tit"
           >
             <span>内容</span>
           </div>
-          <div class="essay">
+          <div class="essay shadow-demo">
             <div
               class="essay-content"
               v-html="essayForm.html"
             ></div>
+            <div class="operation shadow-demo">
+              <div
+                class="good-icon"
+                @click="isGood=!isGood"
+              >
+                <svg-icon
+                  v-if="isGood"
+                  icon-name="good-filled"
+                  size="20px"
+                  color="#ffa109"
+                ></svg-icon>
+                <svg-icon
+                  v-else
+                  icon-name="good"
+                  size="20px"
+                  color="#666"
+                ></svg-icon>
+                {{ essayData.good }}
+              </div>
+              <div
+                class="collect-icon"
+                @click="isCollect=!isCollect"
+              >
+                <svg-icon
+                  v-if="isCollect"
+                  icon-name="collect-filled"
+                  size="20px"
+                  color="#ffa109"
+                ></svg-icon>
+                <svg-icon
+                  v-else
+                  color="#666"
+                  icon-name="collect"
+                  size="20px"
+                ></svg-icon>
+                {{ essayData.collect }}
+              </div>
+              <div
+                class="comment-icon"
+                @click="publishShow=!publishShow"
+              >
+                <svg-icon
+                  color="#666"
+                  icon-name="comment"
+                  size="20px"
+                ></svg-icon>
+                {{ essayData.comment }}
+              </div>
+            </div>
+          </div>
+          <div
+            class="comment-tit"
+          >
+            <span>评论</span>
+          </div>
+          <div class="comment shadow-demo">
+            <div
+              :class="publishShow?'':'c-publish-close'"
+              class="c-publish"
+            >
+              <textarea
+                id="input"
+                v-model="publishContent"
+                placeholder="请输入评论，最多不超过200字"
+                rows="5"
+                maxlength="200"
+                @click="showDialog = false"
+              ></textarea>
+              <div
+                class="emoji-btn"
+                @click="emojiShow"
+              >
+                Emoji😃
+              </div>
+              <div
+                class="c-publish-btn"
+              >
+                <svg-icon
+                  class="publish-icon"
+                  icon-name="publish"
+                  size="24px"
+                  color="#00B753"
+                />
+                <span>发布</span>
+              </div>
+              <VEmojiPicker
+                v-show="showDialog"
+                class="emoji-picker"
+                @select="selectEmoji"
+              />
+
+            </div>
+            <ul class="comment-list">
+              <li class="shadow-demo">
+                <div class="c-portrait"></div>
+                <div class="c-top">
+                  <div class="c-name"></div>
+                  <div class="c-publish-time"></div>
+                </div>
+
+                <div class="c-address"></div>
+                <div class="c-msg"></div>
+              </li>
+            </ul>
           </div>
         </div>
         <RightTab
           width="25"
           height="500"
-          class="essay-right-tab"
+          class="right-tab"
         ></RightTab>
       </div>
 
     </div>
-
-  </div>
-</template>
+  </div></template>
 
 <script>
 import { bg } from '@/api/api'
@@ -88,7 +191,17 @@ export default {
         digest: '',
         html: ''
       },
-      bgimg: ''
+      bgimg: '',
+      isGood: false,
+      isCollect: false,
+      essayData: {
+        good: 0,
+        collect: 0,
+        comment: 0
+      },
+      publishShow: false,
+      showDialog: false,
+      publishContent: ''
     }
   },
   watch: {
@@ -100,6 +213,27 @@ export default {
     this.initPage()
   },
   methods: {
+    selectEmoji(emoji) {// 选择emoji后调用的函数
+      const input = document.getElementById('input')
+      const startPos = input.selectionStart
+      const endPos = input.selectionEnd
+      const resultText = input.value.substring(0, startPos) + emoji.data + input.value.substring(endPos)
+      input.value = resultText
+      setTimeout(function() {
+        input.focus()
+      }, 200)
+      input.selectionStart = startPos + emoji.data.length
+      input.selectionEnd = endPos + emoji.data.length
+      this.publishContent = resultText
+    },
+    emojiShow() {
+      this.showDialog = !this.showDialog
+      const input = document.getElementById('input')
+      input.value = input.value.substring(0, input.length)
+    },
+    emojiPickerOff() {
+      this.showDialog = false
+    },
     initPage() {
       const _this = this
       this.date = this.getTime()
@@ -167,268 +301,5 @@ export default {
 </script>
 <!-- 头部,框架和banner -->
 <style scoped lang="scss">
-.body{
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height:auto;
-}
-.back-home{
-  width: 35px;
-  height: 35px;
-  overflow: hidden;
-  position: fixed;
-  top: 133px;
-  left: 140px;
-  border-radius: 12px;
-  z-index: 9999;
-}
-.back-home img{
-  width: 100%;
-  height: 100%;
-}
-.back-home img:hover{
-  transform: scale(1.1);
-  transition: 300ms;
-}
-.main-body{
-  width: 85%;
-  min-width: 1200px;
-  margin:auto;
-  margin-top: 90px;
-  min-height: 1500px;
-  height: auto;
-  overflow: hidden;
-  position: relative;
-  border-radius: 12px;
-  box-shadow: 0 0 0 2px rgb(255 255 255 / 40%) inset,
-    0 13px 15px rgb(31 45 61 / 15%);
-}
-.banner{
-  min-width: 100%;
-  width: 100%;
-  margin: auto;
-  height: 330px;
-  position: relative;
-  border-radius: 12px;
-  overflow: hidden;
-  top: 30px;
-}
-.banner-mark{
-  min-width: 100%;
-  width: 100%;
-  height: 330px;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-.mark{
-  position: absolute;
-  min-width: 100%;
-  width: 100%;
-  height: 330px;
-  background-size: cover;
-  background-position-y: center;
-  background-position-x: center;
-  filter: blur(8px);
-  opacity: 0.8;
-  z-index: 1;
-}
-.shadow-mark{
-  width: 100%;
-  height: 330px;
-  position: absolute;
-  background: rgb(153, 153, 153);
-  opacity: 0.8;
-}
-.banner-img{
-  width: 250px;
-  height: 250px;
-  position: absolute;
-  right: 50px;
-  top: 40px;
-  background-size: cover;
-  background-position-y: center;
-  background-position-x: center;
-  background-repeat: no-repeat;
-  z-index: 3;
-  border-radius: 12px;
-  box-shadow:0 0 0 2px rgb(255 255 255 / 40%) inset, 0 13px 15px rgb(31 45 61 / 15%);
-}
-
-.banner-tit-box{
-  width: 880px;
-  height: 200px;
-  z-index: 99;
-  position: absolute;
-  top: 100px;
-  padding-left: 50px;
-}
-.banner-subtitle{
-  width: 300px;
-  height: 25px;
-  position: absolute;
-  top: 20px;
-  color: white;
-  text-shadow: 0 2px 2px rgb(0 0 0 / 30%);
-  opacity: .75;
-}
-.banner-line{
-  width: 30px;
-  height: 1px;
-  background: rgb(255, 255, 255,0.6);
-  position: absolute;
-  top: 50px;
-  box-shadow: 0 2px 2px rgb(0 0 0 / 30%);
-  opacity: .75;
-}
-.banner-title{
-  width: 90%;
-  height: 100px;
-  position: absolute;
-  top: 60px;
-  font-weight: 400;
-  font-size: 32px;
-  font-family: YouYuan;
-  text-shadow: 0 3px 5px rgb(0 0 0 / 30%);
-  color: white;
-  line-height: 60px;
-}
-.buble{
-  position: absolute;
-  bottom: 0;
-  z-index: 100;
-}
-.main-container{
-  width: 85%;
-  min-height: 1500px;
-  height: auto;
-  position: relative;
-  margin: auto;
-}
-.main-page{
-  top: 400px;
-  width: 73%;
-  height: auto;
-  /* background: rgb(255, 255, 255,0.3); */
-  border-radius: 12px;
-  box-sizing: border-box;
-  margin-top: 50px;
-  overflow-x: hidden;
-  overflow-y: hidden;
-}
-.main-page img{
-  max-width: 85%;
-  margin-left: 8%;
-  margin-top: 30px;
-  border-radius: 12px;
-}
-.main-page span{
-  font-family: 'STkaiti';
-}
-.essay-right-tab{
-  position: absolute;
-  right: 0;
-  top: 400px;
-}
-.left-menu{
-  position: absolute;
-  z-index: 9999;
-}
-.digest-tit,.essay-tit{
-  width: 80px;
-  height: 40px;
-  line-height: 40px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.7);
-  font-size: 22px;
-  font-weight: 600;
-  color: rgb(0, 0, 0);
-  position: relative;
-  text-align: center;
-  color: #d88900;
-}
-.digest{
-  width: 100%;
-  height: auto;
-  min-height: 50px;
-  border-radius: 12px;
-  background: rgb(255, 255, 255,0.95);
-  z-index: 2;
-  position: relative;
-  box-shadow: 0 0 0 2px rgb(255 255 255 / 40%) inset,
-    0 13px 15px rgb(31 45 61 / 15%);
-  margin-left: 0px;
-  padding-bottom: 15px;
-  padding-right: 0px;
-  margin-top: 15px;
-  margin-bottom: 14px;
-}
-.essay{
-  width: 100%;
-  min-height: 500px;
-  height: auto;
-  background: rgba(255, 255, 255, 0.95);
-  z-index: 2;
-   border-radius: 12px;
-  position: relative;
-  margin-top: 30px;
-  box-shadow: 0 0 0 2px rgb(255 255 255 / 40%) inset,
-    0 13px 15px rgb(31 45 61 / 15%);
-   margin-left: 0px;
-  padding-bottom: 15px;
-  padding-right: 0px;
-  margin-top: 15px;
-  margin-bottom: 30px;
-}
-.digest-shadow {
-  position: absolute;
-  width: 98%;
-  margin-left: 1%;
-  height: 20px;
-  background: -webkit-linear-gradient(top, white, #e0e6ed);
-  border-radius: 12px;
-  z-index: 100;
-  content: "";
-}
-.digest-shadow-two {
-  position: absolute;
-  bottom: 0;
-  width: 98%;
-  margin-left: 1%;
-  height: 10px;
-  filter: blur(1px);
-  background: -webkit-linear-gradient(bottom, #f2f5f7, #e0e6ed);
-  border-radius: 12px;
-  z-index: 100;
-  content: "";
-}
-.digest-content ,.essay-content{
-  width: 95%;
-  height: auto;
-  min-height: 50px;
-  text-align: left;
-  text-shadow: 0 1px rgb(255 255 255 / 50%);
-  color: #5d6b7d;
-  padding: 1px 15px;
-}
-.digest-content{
-  text-align: left;
-  line-height: 40px;
-  font-size: 22px;
-  font-family: 'STkaiti';
-  color: rgb(0, 0, 0);
-}
-.bg-img{
-    width: 100%;
-    height: calc(105vh);
-    position: fixed;
-    top: 0;
-    left: 0;
-}
+@import './scss/EssayPage.scss';
 </style>
-<style>
-
-</style>
-

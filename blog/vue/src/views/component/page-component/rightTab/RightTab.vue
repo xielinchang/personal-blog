@@ -105,7 +105,7 @@ export default {
   position: absolute;
   left: 5%;
   margin-top: -3px;
-  border-radius: 12px;
+  border-radius: 4px;
   box-shadow: 1px 1px 10px rgb(96, 168, 255);
 }
 .r-tab:hover .tit-line-active {
@@ -120,7 +120,7 @@ export default {
 .tab-author-img {
   width: 80px;
   height: 80px;
-  border-radius: 12px;
+  border-radius: 4px;
   background-image: url("../../../../assets/images/night.jpg");
   background-size: cover;
   position: absolute;
@@ -148,7 +148,7 @@ export default {
   color: rgb(86, 84, 84);
 }
 .r-tab {
-  border-radius: 12px;
+  border-radius: 4px;
   background: rgb(255, 255, 255,0.75);
   width: 100%;
   height: 500px;
@@ -196,7 +196,7 @@ export default {
   width: 155px;
   height: auto;
   min-height: 50px;
-  border-radius: 12px;
+  border-radius: 4px;
   border: 1px solid #c0c7cf;
   background: #e0e6ed;
   z-index: 2;
@@ -328,7 +328,7 @@ export default {
   position: absolute;
   right: 0px;
   top: 0px;
-  border-radius: 12px;
+  border-radius: 4px;
   background: rgb(255, 255, 255,0.75);
   transition: 500ms;
   overflow: hidden;

@@ -200,7 +200,7 @@
   padding: 10px 50px;
   outline: none;
   border: none;
-  color: rgb(35, 121, 119);
+  color: rgb(47, 47, 47);
   background: rgb(255, 255, 255,0.7);
   font-size: 24px;
   box-shadow: 0 0 0 2px rgb(255 255 255 / 40%) inset,
@@ -250,12 +250,12 @@
     &:hover{
   color: rgb(35, 121, 119);
 }
-& img{
+& .publish-icon{
     width: 22px;
     height: 22px;
     position: absolute;
     left: 10px;
-    top: 8px;
+    top: 3px;
 }
 & span{
     position: absolute;

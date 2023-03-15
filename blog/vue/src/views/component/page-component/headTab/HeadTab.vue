@@ -71,9 +71,9 @@ export default {
           id: 1
         },
         {
-          menuicon: 'comment',
+          menuicon: 'comment-filled',
           color: '#1DA9E0',
-          title: '评论',
+          title: '留言',
           router: '/comments',
           id: 2
         },
@@ -104,7 +104,7 @@ export default {
           id: 1
         },
         {
-          title: '评论管理',
+          title: '留言管理',
           router: '/comments/control',
           id: 2
         },
