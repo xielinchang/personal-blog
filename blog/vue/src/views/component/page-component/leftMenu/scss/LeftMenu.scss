@@ -1,0 +1,190 @@
+.menu {
+    width: 70px;
+    height: calc(80vh);
+    position: fixed;
+    left: 0;
+    top: 90px;
+    transition: 500ms;
+    z-index: 9999;
+    background: -webkit-linear-gradient(
+      top,
+      rgb(250, 250, 250, 0.6),
+      rgb(255, 255, 255, 0.75)
+    );
+    border-radius: 0 12px 12px 0;
+    .menu-container {
+      width: 100%;
+      height: calc(80vh);
+      position: absolute;
+      top: 0;
+      .menu-header {
+        width: 80%;
+        height: 15px;
+        position: absolute;
+        top: 10px;
+        margin-left: 10%;
+        display: flex;
+        justify-content: space-around;
+        .menu-round {
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+        }
+        .menu-round:nth-child(1) {
+          background: rgb(255, 238, 0);
+        }
+        .menu-round:nth-child(2) {
+          background: rgb(224, 0, 0);
+        }
+        .menu-round:nth-child(3) {
+          background: rgb(1, 221, 206);
+        }
+      }
+      .portrait-box {
+        width: 60px;
+        height: 80px;
+        position: relative;
+        margin: auto;
+        margin-top: 50px;
+        .user-portrait {
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          position: absolute;
+          margin-left: 5px;
+          z-index: 999;
+          font-size: 16px;
+        }
+        .logout {
+          width: 80px;
+          height: 35px;
+          background: white;
+          z-index: 9999;
+          position: absolute;
+          top: 30px;
+          left: 30px;
+          list-style: none;
+          font-size: 12px;
+          text-align: center;
+          line-height: 35px;
+          padding: 0;
+          margin: 0;
+          border-radius: 0px 12px 12px 12px;
+          font-family: YouYuan;
+          transition: 300ms;
+        }
+        & img {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+        }
+        .user-name-login,
+        .user-name {
+          width: 100%;
+          height: 20px;
+          position: absolute;
+          bottom: 40px;
+          text-align: center;
+          font-size: 18px;
+          color: rgb(106, 106, 106);
+          text-decoration: none;
+        }
+        .user-name {
+          color: #000000;
+          font-family: YouYuan;
+          bottom: 0px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        .user-name-login:hover {
+          color: #000000;
+        }
+      }
+      .lock-box {
+        width: 30px;
+        height: 40px;
+        position: absolute;
+        right: -30px;
+        top: 30px;
+        border-radius: 0 30px 30px 0;
+        background: rgb(250, 250, 250, 0.6);
+        border-left: none;
+        & img {
+          width: 20px;
+          height: 20px;
+          position: absolute;
+          right: 5px;
+          top: 8px;
+        }
+        .lock-btn {
+          margin-top: 10px;
+        }
+      }
+      .menu-box {
+        width: 70px;
+        height: calc(60vh);
+        zoom: 1;
+        position: relative;
+        .menu-list {
+          width: 100%;
+          height: 90%;
+          padding: 0;
+          margin: 0;
+          list-style: none;
+          display: flex;
+          justify-content: space-around;
+          flex-direction: column;
+          position: absolute;
+          top: 0px;
+        }
+        .menu-list li {
+          width: 35px;
+          height: 30px;
+          margin-left: 10px;
+          padding: 3px;
+          position: relative;
+          color: #000;
+          font-family: YouYuan;
+          font-size: 16px;
+          box-shadow: 0 0 0 1px rgb(255 255 255 / 40%) inset,
+            0 13px 15px rgb(31 45 61 / 15%);
+          border-radius: 30px;
+          border: 1px solid #c0c7cf;
+          background: -webkit-linear-gradient(
+            top,
+            rgb(255, 255, 255, 0.3),
+            rgba(218, 238, 255, 0.3)
+          );
+          .menu-name {
+            width: 70px;
+            height: 30px;
+            text-align: center;
+            line-height: 35px;
+            position: absolute;
+            right: 0px;
+            top: 0;
+            display: none;
+            font-weight: 600;
+            color: #333;
+          }
+        }
+        & li .svg-icon {
+          width: 25px;
+          height: 25px;
+          margin-left: 5px;
+          margin-top: 2px;
+        }
+        & li:hover .menu-name {
+          display: block;
+        }
+        & li:hover {
+          width: 90px;
+          transition: 400ms;
+        }
+      }
+    }
+  }
+  .user-name-login:hover{
+    display: block;
+  }

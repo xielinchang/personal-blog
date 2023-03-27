@@ -1,0 +1,40 @@
+.my-input{
+    width: auto;
+    height: 35px;
+    display: flex;
+    & span{
+        min-width: 50px;
+        width: auto;
+        height: 35px;
+        line-height: 35px;
+        color: #666;
+    }
+    .main{
+        width: 200px;
+        height: 35px;
+        padding: 0 10px;
+        background-color: #fff;
+        border-radius: 4px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 1px solid #ddd;
+        transition: 300ms;
+        & input{
+            width: calc(100% - 50px);
+            height: 34px;
+            outline: none;
+            border: none;  
+            color: #393939;
+            & ::placeholder{
+                color: #ddd;
+            }
+            .is-disabled{
+                cursor: not-allowed;
+            }
+        }
+        .right-icon{
+            display: flex;
+        }
+    }
+}

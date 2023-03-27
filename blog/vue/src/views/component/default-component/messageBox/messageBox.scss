@@ -1,0 +1,104 @@
+.mask{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: calc(100vh);
+    background-color: rgb(0,0,0,0.3);
+    z-index: 99999;
+    .popup-message {
+        font-family: "Source Han Sans Regular";
+        color: #333333;
+        position: fixed;
+        bottom: 0;
+        
+        left: 50%;
+        top: calc(50vh);
+        transform: translate(-50%,-50%);
+        width: 400px;
+        height: fit-content;
+        border-radius: 4px;
+        background: #FFFFFF;
+        border: 1px solid #C2C2C2;
+        z-index: 9999;
+        .pop-view{
+          position: relative;
+          min-height: 120px;
+          height: auto;
+          padding-bottom: 13px;
+          .pop-title{
+            display: block;
+            font-size: 18px;
+            font-weight: 500;
+            padding: 13px;
+            position: relative;
+          }
+          .pop-content{
+            font-weight: 400;
+            font-size: 14px;
+            padding: 0 52px 5px 52px;
+          }
+          .pop-btn{
+            position: absolute;
+            bottom: 0px;
+            right: 10px;
+            width: 150px;
+            height: 40px;
+            display: flex;
+            justify-content: space-between;
+          }
+          .close{
+            position: absolute;
+            top: 10px;
+            right: 10px;
+          }
+        }
+      }
+      .success{
+        background-color: #e6fbdc;
+        border: 1px solid #5ebe2e;
+        color: #5ebe2e;
+     }
+     .info{
+        background-color: #e9e9e9;
+        border: 1px solid #787a7f;
+        color: #787a7f;
+     }
+     .warning{
+        background-color: #ffeaca;
+        border: 1px solid #e1982a;
+        color: #e1982a;
+     }
+     .danger{
+        background-color: #ffd9d9;
+        border: 1px solid #f55a5a;
+        color: #f55a5a;
+     }
+}
+
+  .msg-box-fade-enter-active {
+    animation: alert-fade-in .4s;
+    }
+     
+  .msg-box-fade-leave-active {
+    animation: alert-fade-out .4s;
+    }
+
+  @keyframes alert-fade-in {
+    0% {
+    opacity: 0;
+    }
+    100% {
+    opacity: 1;
+    }
+    }
+     
+    @keyframes alert-fade-out {
+    0% {
+    opacity: 1;
+
+    }
+    100% {
+    opacity: 0;
+    }
+    }
