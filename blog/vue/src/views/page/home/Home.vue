@@ -48,7 +48,7 @@
       <essayList
         v-if="wrapValue"
         width="74"
-      > </essayList>
+      ></essayList>
       <ShareList
         v-else
         width="74"
@@ -77,7 +77,7 @@
       </div>
       <div
         class="btn-item"
-        left-title="隐藏顶部"
+        :left-title="topShow?'隐藏顶部' : '打开顶部'"
         @click="topShow =!topShow"
       >
         <svg-icon
@@ -89,7 +89,7 @@
       </div>
       <div
         class="btn-item"
-        left-title="关闭点击特效"
+        :left-title="$store.state.clickShow?'关闭点击特效' : '打开点击特效'"
         @click="clickShow()"
       >
         <svg-icon
@@ -147,7 +147,8 @@ export default {
         },
         {
           wrapUrl: '',
-          opacity: 0.6 }
+          opacity: 0.6
+        }
       ],
       imglist_2: [],
       wrapValue: true,
@@ -205,15 +206,17 @@ export default {
   font-family: YouYuan;
   font-weight: 600;
 }
+
 ul {
   list-style: none;
 }
+
 .block {
   border-radius: 20px;
   background: -webkit-linear-gradient(
-    right,
-    rgb(253, 241, 255),
-    rgb(220, 255, 253)
+      right,
+      rgb(253, 241, 255),
+      rgb(220, 255, 253)
   );
 }
 </style>

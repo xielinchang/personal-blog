@@ -259,8 +259,8 @@ export default {
       })
     },
     jumpToEssay(item) {
-      if (this.$route.path === '/essay/control') {
-        this.$router.push('/writing?id=' + item.id)
+      if (this.$route.path === '/control/essay') {
+        this.$router.push('/control/essay/writing?id=' + item.id)
       } else {
         this.$router.push('/note/essay?id=' + item.id)
       }

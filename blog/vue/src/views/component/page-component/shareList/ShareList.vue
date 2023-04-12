@@ -59,8 +59,8 @@ export default {
       })
     },
     jumpToShare(item) {
-      if (this.$route.path === '/share/control') {
-        this.$router.push('/writing/share?id=' + item.id)
+      if (this.$route.path === '/control/share') {
+        this.$router.push('/control/share/writing?id=' + item.id)
       } else {
         this.$router.push('/note/share?id=' + item.id)
       }

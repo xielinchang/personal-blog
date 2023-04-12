@@ -24,7 +24,7 @@ export default {
     for (let i = 0; i < 24; i++) {
       this.bubble_list.push({
         bubbletype: i,
-        size: Math.random() * 130 + 30,
+        size: Math.random() * 130 + 50,
         type: i < 15 ? i : i - 14,
         time1: Math.random() * 5,
         time2: Math.random() * 3

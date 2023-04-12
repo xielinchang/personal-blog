@@ -55,9 +55,9 @@ export default {
     /* 如果Cookie和本地存有token则验证身份 */
     if (Cookie.get('token') || localStorage.getItem('token')) {
       if (identity === '游客') {
-        this.$router.push('/user/control')
+        this.$router.push('/control/user')
       } else if (identity === '管理员') {
-        this.$router.push('/essay/control')
+        this.$router.push('/control/essay')
       }
     }
   },

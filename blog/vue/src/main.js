@@ -11,7 +11,15 @@ import msg from './views/component/default-component/message/index'
 Vue.prototype.$msg = msg
 import msgBox from './views/component/default-component/messageBox/index'
 Vue.use(msgBox)
-
+import VueLazyload from 'vue-lazyload'
+import Vant, { Lazyload } from 'vant'
+import 'vant/lib/index.css'
+Vue.use(Vant)
+Vue.use(Lazyload)
+Vue.use(VueLazyload, {
+  error: require('@/assets/images/day01.jpg'),
+  loading: require('@/assets/images/day01.jpg')
+})
 const requirePageComponent = require.context(
   './views/component/page-component',
   true,

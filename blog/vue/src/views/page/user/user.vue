@@ -128,11 +128,11 @@ export default {
     initEssayList() {
       this.essay_list = []
       queryUser({ id: localStorage.getItem('userId') * 1 }).then(res => {
+        console.log(res)
         this.user = res.data.user.rows[0]
         this.portrait = this.user.portrait
         this.user.portrait = process.env.VUE_APP_BASE_API + this.user.portrait
         const ids = this.user.user_detail.collect.split(',')
-        console.log(ids)
         for (let i = 0; i < ids.length; i++) {
           essayQuery({
             limit: 999,
@@ -144,7 +144,6 @@ export default {
               domain: undefined
             }
           }).then((res) => {
-            console.log(res)
             res.data.rows[0].tags = res.data.rows[0].tags.split(',')
             res.data.rows[0].coverUrl =
             process.env.VUE_APP_BASE_API + res.data.rows[0].coverUrl
@@ -177,10 +176,12 @@ export default {
     logout() {
       Cookie.remove('token')
       localStorage.removeItem('token')
+      localStorage.removeItem('userId')
       if (this.$route.path !== '/') {
         this.$router.replace('/')
       }
       this.token = ''
+      this.user = ''
     }
   }
 

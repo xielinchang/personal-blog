@@ -8,4 +8,9 @@ export default localStorage.setItem = function(key, newValue) {
     window.dispatchEvent(setUser)
     orignalSetItem.apply(this, arguments)
   }
+  // window.addEventListener('setUser',
+  //   function (e) {
+  //     this.user = e.newValue
+  //   })
+  // localStorage.setItem('user', this.user)
 }

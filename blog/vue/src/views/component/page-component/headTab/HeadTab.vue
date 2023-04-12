@@ -87,7 +87,7 @@ export default {
           menuicon: 'setting-filled',
           color: '#7184AD',
           title: '管理',
-          router: '/essay/control',
+          router: '/control/essay',
           id: 3
         },
         {
@@ -101,22 +101,22 @@ export default {
       secondTab: [
         {
           title: '文章管理',
-          router: '/essay/control',
+          router: '/control/essay',
           id: 0
         },
         {
           title: '随笔管理',
-          router: '/share/control',
+          router: '/control/share',
           id: 1
         },
         {
           title: '留言管理',
-          router: '/comments/control',
+          router: '/control/comments',
           id: 2
         },
         {
           title: '记录管理',
-          router: '/record/control',
+          router: '/control/record',
           id: 3
         },
         {
@@ -144,11 +144,11 @@ export default {
         this.headshow = false
       } else {
         /* 处理特殊路径 */
-        if (this.path === '/writing') {
-          this.path = '/writing?id=undefined'
+        if (this.path === '/control/essay/writing') {
+          this.path = '/control/essay/writing?id=undefined'
         }
         if (this.path === '/writing/login') {
-          this.path = '/writing?id=undefined'
+          this.path = '/control/essay/writing?id=undefined'
         }
         this.headshow = true
         this.contract_list.find((item) => {

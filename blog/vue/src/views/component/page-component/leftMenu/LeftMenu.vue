@@ -15,7 +15,7 @@
             class="user-portrait"
             right-title="点击打开用户页"
           >
-            <router-link to="/essay/control">
+            <router-link to="/control/essay">
               <img
                 :src="user.portrait"
                 @contextmenu.prevent="show()"
@@ -112,7 +112,7 @@ export default {
           menuicon: 'setting-filled',
           color: '#7184AD',
           title: '管理',
-          router: '/essay/control'
+          router: '/control/essay'
         },
         {
           menuicon: 'more-filled',
@@ -122,12 +122,13 @@ export default {
         }
       ],
       user: {
+        userId: null,
         portrait: '',
         name: ''
       },
       token: '',
-      logoutShow: false,
-      userId: ''
+      logoutShow: false
+
     }
   },
   watch: {
@@ -146,15 +147,15 @@ export default {
   },
   methods: {
     initUser() {
-      this.userId = localStorage.getItem('userId')
+      this.user.userId = localStorage.getItem('userId') * 1
       if (Cookie.get('token')) {
         this.token = Cookie.get('token')
       } else {
         this.token = localStorage.getItem('token')
       }
       if (this.token) {
-        if (this.userId !== '') {
-          queryUser({ id: this.userId * 1 }).then(res => {
+        if (this.user.userId !== '') {
+          queryUser({ id: this.user.userId * 1 }).then(res => {
             this.user = res.data.user.rows[0]
             this.user.portrait = process.env.VUE_APP_BASE_API + res.data.user.rows[0].portrait
           })
@@ -218,13 +219,13 @@ export default {
       this.logoutShow = false
       Cookie.remove('token')
       localStorage.removeItem('token')
-      localStorage.removeItem('name')
-      if (this.$route.path !== '/') {
-        this.$router.replace('/')
-      }
-      this.user.name = ''
+      localStorage.removeItem('userId')
+      location.reload()
+      // if (this.$route.path !== '/') {
+      //   this.$router.replace('/')
+      // }
+      this.user = ''
       this.token = ''
-      this.user.portrait = ''
     }
   }
 }

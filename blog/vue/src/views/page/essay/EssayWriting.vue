@@ -37,6 +37,7 @@
               v-model="file"
               :action="uploadApi"
               :image="imgurl"
+              :preview="true"
               @delete-img="deleteCallback"
               @upload-success="uploadCallback"
             >
@@ -127,8 +128,8 @@
 <script>
 /* import getToken from '../utils/author' */
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
-import { essayCreate, essayQuerySave, essaySave, essayQuery, essayUpdate } from '@/api/essayapi'
-
+import { essayCreate, essayQuerySave, essaySave, essayQuery, essayUpdate, essayDelete } from '@/api/essayapi'
+import axios from 'axios'
 import Cookie from 'js-cookie'
 import 'animate.css'
 export default {
@@ -174,6 +175,8 @@ export default {
       },
       inputSize: 600,
       imgurl: '',
+      customImageFile: null,
+      changeImg: false,
       file: {},
       newTags: [],
       options: [{
@@ -213,7 +216,6 @@ export default {
     this.initEssay()
   },
   created () {
-
   },
   beforeUnmount() {
     const editor = this.editor
@@ -257,16 +259,27 @@ export default {
           this.imgurl = process.env.VUE_APP_BASE_API + res.data.rows[0].coverUrl
           that.Essay = res.data.rows[0]
           that.newTags = that.Essay.tags.split(',')
+          console.log(this.Essay.html)
         })
       }
     },
     initDomain() {
       this.Essay.domain = this.selected.label
     },
-    uploadCallback(file, res) {
-      console.log(res)
-      this.Essay.coverUrl = res.data.data.url
-      this.imgurl = process.env.VUE_APP_BASE_API + res.data.data.url
+    uploadCallback(file) {
+      this.changeImg = true
+      this.customImageFile = file
+      // // 创建一个读取对象
+      var reader = new FileReader()
+      // // 将文件转化为一个二进制字符串
+      reader.readAsArrayBuffer(file)
+      // 监听文件读取完成
+      reader.onload = (e) => {
+      // 监听完成后，将二进制字符串转化为Blob对象，并且通过URL.createObjectURL创建一个url，指向该Blob对象
+        const data = window.URL.createObjectURL(new Blob([e.target.result]))
+        // 将生成的url赋值给需要预览的url
+        this.imgurl = data
+      }
     },
     deleteCallback() {
       this.imgurl = ''
@@ -297,26 +310,56 @@ export default {
       if (this.Essay.tags.length > 0) {
         this.Essay.tags = this.newTags.join(',')
       }
-      essaySave(this.Essay).then(res => {
-        this.$msg({
-          content: '保存成功',
-          type: 'success'
+      const data = new FormData()
+      data.append('file', this.customImageFile)
+      axios.post(this.uploadApi, data, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then((res) => {
+        console.log(res)
+        this.Essay.coverUrl = res.data.data.url
+        essaySave(this.Essay).then(res => {
+          this.$msg({
+            content: '保存成功',
+            type: 'success'
+          })
+          _this.initEssay()
         })
-        _this.initEssay()
+      }).catch(err => {
+        this.$msg({
+          content: err,
+          type: 'danger'
+        })
+        console.log(err)
       })
     },
     publish() {
       var _this = this
       this.initDomain()
       this.Essay.tags = this.newTags.join(',')
-      essayCreate(this.Essay).then(res => {
-        this.$msg({
-          content: '创建成功',
-          type: 'success'
+      const data = new FormData()
+      data.append('file', this.customImageFile)
+      axios.post(this.uploadApi, data, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then((res) => {
+        essayCreate(this.Essay).then(res => {
+          this.$msg({
+            content: '创建成功',
+            type: 'success'
+          })
+          this.reset()
+          this.save()
+          this.$router.push('/')
         })
-        this.reset()
-        this.save()
-        this.$router.push('/')
+      }).catch(err => {
+        this.$msg({
+          content: err,
+          type: 'danger'
+        })
+        console.log(err)
       })
     },
     update(e) {
@@ -335,10 +378,30 @@ export default {
       })
     },
     deleted() {
-
+      this.$msgBox.confirm({
+        title: '提醒',
+        content: '要删除名为' + this.Essay.title + '的文章吗？一旦删除将不可恢复',
+        type: 'warning',
+        onOK: () => {
+          essayDelete({ id: this.Essay.id }).then((res) => {
+            console.log(res)
+            this.$msg({
+              type: 'success',
+              content: '删除成功!'
+            })
+            this.initEssay()
+          })
+        },
+        onCancel: () => {
+          this.$msg({
+            type: 'info',
+            content: '已取消删除'
+          })
+        }
+      })
     },
     backToEssayControl() {
-      this.$router.push('/essay/control')
+      this.$router.push('/control/essay')
     },
     changeSelect(label, value) {
       this.selected.label = label
@@ -431,7 +494,7 @@ export default {
   bottom: 0;
   box-shadow: 1px 1px #d3e6fe, 0 0 transparent, 2px 2px rgb(252, 214, 245);
   background: -webkit-linear-gradient(right, rgb(252,233,253,0.5), rgb(211, 242, 252,0.5));
-  z-index: 999;
+  z-index: 2;
   border-top: 2px solid #f0f5fb;
 }
 .foot-box{
@@ -440,6 +503,7 @@ export default {
   right: 300px;
   height: 100%;
   line-height: 50px;
+  z-index: 2;
   display: flex;
   justify-content: space-around;
 }

@@ -9,7 +9,6 @@ module.exports = app => {
   router.post('/login', controller.user.login);
   router.post('/register', controller.user.register);
   router.post('/validate', jwt, controller.user.validate);
-
   router.post('/record/query', controller.recreation.queryRecord);
   router.post('/record/delete', controller.recreation.deleteRecord);
   router.post('/record/create', controller.recreation.createRecord);

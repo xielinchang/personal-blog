@@ -74,8 +74,9 @@ export default {
       const file = this.$refs.fileInt.files[0]
       const data = new FormData()
       data.append('file', file)
+      // URL.createObjectURL(file)
       if (this.preview) {
-        this.$emit('upload-success', URL.createObjectURL(file), file)
+        this.$emit('upload-success', file)
       } else {
         axios.post(this.action, data, {
           headers: {

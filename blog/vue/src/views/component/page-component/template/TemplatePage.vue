@@ -1,8 +1,10 @@
 <template>
-  <div class="template">
+  <div
+    class="template"
+  >
     <img
+      v-lazy="bgimg"
       class="bg-img"
-      :src="bgimg"
     >
     <div class="template-body">
     </div>
@@ -44,7 +46,7 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="scss" scoped>
 .template{
   width: 100%;
   height: auto;
@@ -53,12 +55,13 @@ export default {
     left: 0;
 }
 .bg-img{
-    width: 100%;
-    height: calc(105vh);
-    position: fixed;
-    top: 0;
-    left: 0;
+  width: 100%;
+  height: calc(105vh);
+  position: fixed;
+  top: 0;
+  left: 0;
 }
+
 .head-tab{
   width: 100%;
 }

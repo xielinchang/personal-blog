@@ -43,6 +43,7 @@
             <div class="digest-content">
               <div class="digest-head">
                 <svg-icon
+                  class="digest-icon"
                   color="#1DA9E0"
                   size="20px"
                   icon-name="digest"
@@ -82,7 +83,7 @@
                 @click="addCollect"
               >
                 <svg-icon
-                  v-if="isCollect"
+                  v-if="isCollect===true"
                   icon-name="collect-filled"
                   size="20px"
                   color="#ffa109"
@@ -160,26 +161,30 @@
                     alt=""
                   >
                 </div>
-                <div class="c-top">
-                  <div class="c-name">{{ item.name }}</div>
-                  <div class="c-address">{{ item.address }}</div>
+                <div class="c-right">
+                  <div class="c-top">
+                    <div class="c-name">{{ item.name }}</div>
+                    <div class="c-address">{{ item.address }}</div>
+                  </div>
+
+                  <div class="c-publish-time">{{ item.created_at }}</div>
+                  <div class="c-msg">
+                    {{ item.message }}
+                  </div>
+                  <div
+                    v-if="identity==='管理员'"
+                    class="more"
+                  >
+                    <svg-icon
+                      style="position: absolute"
+                      icon-name="delete"
+                      size="24px"
+                      right-title="删除该条评论"
+                      @click="deleteComment(item.id)"
+                    ></svg-icon>
+                  </div>
                 </div>
 
-                <div class="c-publish-time">{{ item.created_at }}</div>
-                <div class="c-msg">
-                  {{ item.message }}
-                </div>
-                <div
-                  v-if="identity==='管理员'"
-                  class="more"
-                >
-                  <svg-icon
-                    icon-name="delete"
-                    size="24px"
-                    right-title="删除该条评论"
-                    @click="deleteComment(item.id)"
-                  ></svg-icon>
-                </div>
               </li>
             </ul>
             <div
@@ -253,23 +258,21 @@ export default {
   },
   watch: {
     '$route.path': function(to, from) {
-      var that = this
-      setTimeout(() => {
-        that.initUser()
-        that.initEssay()
-      }, 100)
-      this.initPage()
+      this.init()
     }
   },
-  mounted() {
+  created() {
     // 页面高度初始化
     document.documentElement.scrollTop = 0
-    this.initPage()
-    this.initUser()
-    this.initEssay()
-    this.initComments()
+    this.init()
   },
   methods: {
+    init() {
+      this.initPage()
+      this.initUser()
+      this.initEssay()
+      this.initComments()
+    },
     selectEmoji(emoji) {// 选择emoji后调用的函数
       const input = document.getElementById('input')
       const startPos = input.selectionStart
@@ -319,8 +322,19 @@ export default {
           }
         }
         res.data.rows[0].coverUrl = process.env.VUE_APP_BASE_API + res.data.rows[0].coverUrl
-
         that.essayForm = res.data.rows[0]
+        // 修改代码块的背景色
+        setTimeout(() => {
+          const codePart = document.querySelectorAll('pre')
+          for (let i = 0; i < codePart.length; i++) {
+            codePart[i].style.background = '#F5F2F0'
+            codePart[i].style.borderRadius = '4px'
+            codePart[i].style.fontSize = '14px'
+            codePart[i].style.padding = '15px'
+            codePart[i].style.margin = '10px 0'
+            codePart[i].style.color = '#333'
+          }
+        })
       })
     },
     initComments() {
@@ -339,32 +353,43 @@ export default {
       })
     },
     initUser() {
-      var that = this
+      this.initPage()
+      console.log(localStorage.getItem('userId'))
       this.userId = localStorage.getItem('userId')
       if (this.userId) {
         queryUser({ id: this.userId * 1 }).then(res => {
+          this.commentForm.portrait = res.data.user.rows[0].portrait
+          this.commentForm.name = res.data.user.rows[0].name
+          this.commentForm.address = localStorage.getItem('address')
           this.identity = res.data.user.rows[0].identity
           if (res.data.user.rows[0].user_detail) {
             this.userDetail = res.data.user.rows[0].user_detail
             this.collectIds = this.userDetail.collect.split(',')
+            if (this.collectIds.length > 0) {
+              this.isCollect = false
+              this.collectIds.find((item, index) => {
+                if (item * 1 === this.essayData.essay_id * 1) {
+                  this.isCollect = true
+                }
+              })
+            }
             this.goodIds = this.userDetail.good.split(',')
-            this.collectIds.find((item, index) => {
-              if (item * 1 === this.essayData.essay_id) {
-                that.isCollect = true
-              } else {
-                that.isCollect = false
-              }
-            })
-            this.goodIds.find((item, index) => {
-              if (item * 1 === this.essayData.essay_id) {
-                that.isGood = true
-              } else {
-                that.isGood = false
-              }
-            })
+            if (this.goodIds.length > 0) {
+              this.isGood = false
+              this.goodIds.find((item, index) => {
+                if (item * 1 === this.essayData.essay_id) {
+                  this.isGood = true
+                }
+              })
+            }
           } else {
             this.userDetail.user_id = this.userId * 1
           }
+        })
+      } else {
+        this.$msg({
+          content: '用户尚未登录',
+          type: 'warning'
         })
       }
     },
@@ -401,6 +426,7 @@ export default {
       } else {
         this.userDetail.collect = this.collectIds.join('')
       }
+
       essayDetailUpdate(this.essayData).then(res => {
         userDetailUpdate(this.userDetail).then(res => {
           if (this.isCollect === true) {

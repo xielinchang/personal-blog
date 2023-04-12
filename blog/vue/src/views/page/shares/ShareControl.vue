@@ -85,10 +85,10 @@ export default {
       })
     },
     jumpToShare(item) {
-      this.$router.push('/writing/share?id=' + item.id)
+      this.$router.push('/control/share/writing?id=' + item.id)
     },
     jumpToAddShare() {
-      this.$router.push('/writing/share?id=' + undefined)
+      this.$router.push('/control/share/writing?id=' + undefined)
     },
     shareDelete(item) {
       this.$msgBox.confirm({

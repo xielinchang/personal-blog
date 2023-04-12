@@ -109,10 +109,10 @@ export default {
       })
     },
     jumpToEssay(item) {
-      this.$router.push('/writing?id=' + item.id)
+      this.$router.push('/control/essay/writing?id=' + item.id)
     },
     jumpToAddEssay() {
-      this.$router.push('/writing?id=' + undefined)
+      this.$router.push('/control/essay/writing?id=' + undefined)
     },
     essayDelete(item) {
       this.$msgBox.confirm({

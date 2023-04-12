@@ -94,7 +94,7 @@ export default {
       })
     },
     backHome() {
-      this.$router.push('/')
+      this.$router.go(-1)
     }
   }
 }

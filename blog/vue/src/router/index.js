@@ -15,32 +15,32 @@ const routes = [
     component: () => import('../views/page/more/MorePage.vue')
   },
   {
-    path: '/essay/control',
+    path: '/control/essay',
     name: 'EssayControl',
     component: () => import('../views/page/essay/EssayControl.vue')
   },
   {
-    path: '/share/control',
+    path: '/control/share',
     name: 'ShareControl',
     component: () => import('../views/page/shares/ShareControl.vue')
   },
   {
-    path: '/writing',
+    path: '/control/essay/writing',
     name: 'Writing',
-    component: () => import('../views/page/essay/Writing.vue')
+    component: () => import('../views/page/essay/EssayWriting.vue')
   },
   {
-    path: '/writing/share',
+    path: '/control/share/writing',
     name: 'WritingShare',
-    component: () => import('../views/page/shares/WritingShare.vue')
+    component: () => import('../views/page/shares/ShareWriting.vue')
   },
   {
-    path: '/comments/control',
+    path: '/control/comments',
     name: 'CommentsControl',
     component: () => import('../views/page/comments/CommentsControl.vue')
   },
   {
-    path: '/record/control',
+    path: '/control/record',
     name: 'RecordControl',
     component: () => import('../views/page/record/RecordControl.vue')
   },
@@ -65,14 +65,14 @@ const routes = [
     component: () => import('../views/page/shares/SharePage.vue')
   },
   {
-    path: '/user/control',
-    name: 'User',
+    path: '/control/user',
+    name: 'UserControl',
     component: () => import('@/views/page/user/user.vue')
   },
   {
-    path: '/user/manage',
-    name: 'UserManage',
-    component: () => import('@/views/page/user/userManage.vue')
+    path: '/user',
+    name: 'User',
+    component: () => import('@/views/page/user/userControl.vue')
   },
   {
     path: '/login',
@@ -106,7 +106,12 @@ router.beforeEach((to, from, next) => {
       next()
     }
   }
-  var pathArr = ['/essay/control', '/share/control', '/comments/control', '/record/control', '/user/manage']
+  var pathArr = []
+  for (let i = 0; i < routes.length; i++) {
+    if (routes[i].path.indexOf('control') === 1) {
+      pathArr.push(routes[i].path)
+    }
+  }
   var identity = '游客'
   if (localStorage.getItem('userId')) {
     queryUser({ id: localStorage.getItem('userId') * 1 }).then(res => {
@@ -117,7 +122,7 @@ router.beforeEach((to, from, next) => {
             next()
           } else if (token && identity === '游客') {
             next({
-              path: '/user/control'
+              path: '/control/user'
             })
           } else {
             next({

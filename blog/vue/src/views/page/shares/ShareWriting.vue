@@ -92,8 +92,9 @@
 <script>
 /* import getToken from '../utils/author' */
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
-import { shareCreate, shareUpdate, shareQuery, shareQuerySave, shareSave } from '../../../api/shareapi'
+import { shareCreate, shareUpdate, shareQuery, shareQuerySave, shareSave, shareDelete } from '../../../api/shareapi'
 import Cookie from 'js-cookie'
+import axios from 'axios'
 import 'animate.css'
 export default {
   name: 'WritingPage',
@@ -133,6 +134,8 @@ export default {
       },
       inputSize: 500,
       imgurl: '',
+      customImageFile: null,
+      changeImg: false,
       file: {}
     }
   },
@@ -201,8 +204,18 @@ export default {
     },
     uploadCallback(file, res) {
       console.log(res)
-      this.Share.coverUrl = res.data.data.url
-      this.imgurl = process.env.VUE_APP_BASE_API + res.data.data.url
+      this.customImageFile = file
+      // // 创建一个读取对象
+      var reader = new FileReader()
+      // // 将文件转化为一个二进制字符串
+      reader.readAsArrayBuffer(file)
+      // 监听文件读取完成
+      reader.onload = (e) => {
+      // 监听完成后，将二进制字符串转化为Blob对象，并且通过URL.createObjectURL创建一个url，指向该Blob对象
+        const data = window.URL.createObjectURL(new Blob([e.target.result]))
+        // 将生成的url赋值给需要预览的url
+        this.imgurl = data
+      }
     },
     deleteCallback() {
       this.imgurl = ''
@@ -227,12 +240,27 @@ export default {
       }
       /* 如果是空数组，直接转换 */
       /* 保存接口 */
-      shareSave(this.Share).then(res => {
-        this.$msg({
-          content: '保存成功',
-          type: 'success'
+      const data = new FormData()
+      data.append('file', this.customImageFile)
+      axios.post(this.uploadApi, data, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then((res) => {
+        this.Share.coverUrl = res.data.data.url
+        shareSave(this.Share).then(res => {
+          this.$msg({
+            content: '保存成功',
+            type: 'success'
+          })
+          this.initShare()
         })
-        this.initShare()
+      }).catch(err => {
+        this.$msg({
+          content: err,
+          type: 'danger'
+        })
+        console.log(err)
       })
     },
     publish() {
@@ -240,14 +268,29 @@ export default {
       /* 创建接口 */
       this.Share.tags = this.newTags.join(',')
       this.Share.id = undefined
-      shareCreate(this.Share).then(res => {
-        this.$msg({
-          content: '创建成功',
-          type: 'success'
+      const data = new FormData()
+      data.append('file', this.customImageFile)
+      axios.post(this.uploadApi, data, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then((res) => {
+        this.Share.coverUrl = res.data.data.url
+        shareCreate(this.Share).then(res => {
+          this.$msg({
+            content: '创建成功',
+            type: 'success'
+          })
+          this.reset()
+          this.save()
+          this.$router.push('/')
         })
-        this.reset()
-        this.save()
-        this.$router.push('/')
+      }).catch(err => {
+        this.$msg({
+          content: err,
+          type: 'danger'
+        })
+        console.log(err)
       })
     },
     update(e) {
@@ -268,10 +311,28 @@ export default {
       })
     },
     deleted() {
-
+      this.$msgBox.confirm({
+        title: '提醒',
+        content: '要删除名为' + this.Share.title + '的随笔吗？一旦删除将不可恢复',
+        type: 'warning',
+        onOK: () => {
+          shareDelete({ id: this.Share.id }).then(res => {
+            this.$msg({
+              type: 'success',
+              content: '删除成功!'
+            })
+          })
+        },
+        onCancel: () => {
+          this.$msg({
+            type: 'info',
+            content: '已取消删除'
+          })
+        }
+      })
     },
     backToShareControl() {
-      this.$router.push('/share/control')
+      this.$router.push('/control/share')
     }
   }
 }
