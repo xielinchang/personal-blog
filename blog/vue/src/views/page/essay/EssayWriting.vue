@@ -204,11 +204,11 @@ export default {
       }
     }
   },
-  watch: {
-    '$route.path': function(to, from) {
-      this.initEssay()
-    }
-  },
+  // watch: {
+  //   '$route.path': function(to, from) {
+  //     this.initEssay()
+  //   }
+  // },
   async mounted () {
     var _this = this
     this.headers.Authorization = Cookie.get('token')
@@ -216,6 +216,7 @@ export default {
     this.initEssay()
   },
   created () {
+    this.initEssay()
   },
   beforeUnmount() {
     const editor = this.editor
@@ -310,56 +311,73 @@ export default {
       if (this.Essay.tags.length > 0) {
         this.Essay.tags = this.newTags.join(',')
       }
-      const data = new FormData()
-      data.append('file', this.customImageFile)
-      axios.post(this.uploadApi, data, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      }).then((res) => {
-        console.log(res)
-        this.Essay.coverUrl = res.data.data.url
-        essaySave(this.Essay).then(res => {
+      console.log(this.Essay)
+      // 如果有上传图片，则先调用上传接口，再保存
+      if (this.customImageFile) {
+        const data = new FormData()
+        data.append('file', this.customImageFile)
+        axios.post(this.uploadApi, data, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }).then((res) => {
+          console.log(res)
+          this.Essay.coverUrl = res.data.data.url
+          this.essaySaveApi()
+        }).catch(err => {
           this.$msg({
-            content: '保存成功',
-            type: 'success'
+            content: err,
+            type: 'danger'
           })
-          _this.initEssay()
+          console.log(err)
         })
-      }).catch(err => {
+      } else {
+        this.essaySaveApi()
+      }
+    },
+    essaySaveApi() {
+      essaySave(this.Essay).then(res => {
         this.$msg({
-          content: err,
-          type: 'danger'
+          content: '保存成功',
+          type: 'success'
         })
-        console.log(err)
+        this.initEssay()
       })
     },
     publish() {
       var _this = this
       this.initDomain()
       this.Essay.tags = this.newTags.join(',')
-      const data = new FormData()
-      data.append('file', this.customImageFile)
-      axios.post(this.uploadApi, data, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      }).then((res) => {
-        essayCreate(this.Essay).then(res => {
+      if (this.customImageFile) {
+        const data = new FormData()
+        data.append('file', this.customImageFile)
+        axios.post(this.uploadApi, data, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }).then((res) => {
+          this.Essay.coverUrl = res.data.data.url
+          this.essayCreateApi()
+        }).catch(err => {
           this.$msg({
-            content: '创建成功',
-            type: 'success'
+            content: err,
+            type: 'danger'
           })
-          this.reset()
-          this.save()
-          this.$router.push('/')
+          console.log(err)
         })
-      }).catch(err => {
+      } else {
+        this.essayCreateApi()
+      }
+    },
+    essayCreateApi() {
+      essayCreate(this.Essay).then(res => {
         this.$msg({
-          content: err,
-          type: 'danger'
+          content: '创建成功',
+          type: 'success'
         })
-        console.log(err)
+        this.reset()
+        this.save()
+        this.$router.push('/')
       })
     },
     update(e) {
@@ -374,7 +392,7 @@ export default {
           content: '更新成功',
           type: 'success'
         })
-        this.$router.push('/')
+        this.initEssay()
       })
     },
     deleted() {

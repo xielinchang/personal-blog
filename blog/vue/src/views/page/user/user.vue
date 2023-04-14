@@ -128,7 +128,6 @@ export default {
     initEssayList() {
       this.essay_list = []
       queryUser({ id: localStorage.getItem('userId') * 1 }).then(res => {
-        console.log(res)
         this.user = res.data.user.rows[0]
         this.portrait = this.user.portrait
         this.user.portrait = process.env.VUE_APP_BASE_API + this.user.portrait

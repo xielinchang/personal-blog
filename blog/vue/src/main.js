@@ -17,8 +17,8 @@ import 'vant/lib/index.css'
 Vue.use(Vant)
 Vue.use(Lazyload)
 Vue.use(VueLazyload, {
-  error: require('@/assets/images/day01.jpg'),
-  loading: require('@/assets/images/day01.jpg')
+  error: require('@/assets/images/动漫1.jpg'),
+  loading: require('@/assets/images/动漫1.jpg')
 })
 const requirePageComponent = require.context(
   './views/component/page-component',

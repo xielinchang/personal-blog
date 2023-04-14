@@ -240,27 +240,34 @@ export default {
       }
       /* 如果是空数组，直接转换 */
       /* 保存接口 */
-      const data = new FormData()
-      data.append('file', this.customImageFile)
-      axios.post(this.uploadApi, data, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      }).then((res) => {
-        this.Share.coverUrl = res.data.data.url
-        shareSave(this.Share).then(res => {
+      if (this.customImageFile) {
+        const data = new FormData()
+        data.append('file', this.customImageFile)
+        axios.post(this.uploadApi, data, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }).then((res) => {
+          this.Share.coverUrl = res.data.data.url
+          this.shareSaveApi()
+        }).catch(err => {
           this.$msg({
-            content: '保存成功',
-            type: 'success'
+            content: err,
+            type: 'danger'
           })
-          this.initShare()
+          console.log(err)
         })
-      }).catch(err => {
+      } else {
+        this.shareSaveApi()
+      }
+    },
+    shareSaveApi() {
+      shareSave(this.Share).then(res => {
         this.$msg({
-          content: err,
-          type: 'danger'
+          content: '保存成功',
+          type: 'success'
         })
-        console.log(err)
+        this.initShare()
       })
     },
     publish() {
@@ -268,29 +275,36 @@ export default {
       /* 创建接口 */
       this.Share.tags = this.newTags.join(',')
       this.Share.id = undefined
-      const data = new FormData()
-      data.append('file', this.customImageFile)
-      axios.post(this.uploadApi, data, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      }).then((res) => {
-        this.Share.coverUrl = res.data.data.url
-        shareCreate(this.Share).then(res => {
+      if (this.customImageFile) {
+        const data = new FormData()
+        data.append('file', this.customImageFile)
+        axios.post(this.uploadApi, data, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }).then((res) => {
+          this.Share.coverUrl = res.data.data.url
+          this.shareCreateApi()
+        }).catch(err => {
           this.$msg({
-            content: '创建成功',
-            type: 'success'
+            content: err,
+            type: 'danger'
           })
-          this.reset()
-          this.save()
-          this.$router.push('/')
+          console.log(err)
         })
-      }).catch(err => {
+      } else {
+        this.shareCreateApi()
+      }
+    },
+    shareCreateApi() {
+      shareCreate(this.Share).then(res => {
         this.$msg({
-          content: err,
-          type: 'danger'
+          content: '创建成功',
+          type: 'success'
         })
-        console.log(err)
+        this.reset()
+        this.save()
+        this.$router.push('/')
       })
     },
     update(e) {

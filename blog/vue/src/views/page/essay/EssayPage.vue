@@ -394,10 +394,17 @@ export default {
       }
     },
     publishComment() {
-      essayCommentsCreate(this.commentForm).then(res => {
-        this.initComments()
-        this.commentForm.message = ''
-      })
+      if (this.userId) {
+        essayCommentsCreate(this.commentForm).then(res => {
+          this.initComments()
+          this.commentForm.message = ''
+        })
+      } else {
+        this.$msg({
+          content: '用户尚未登录',
+          type: 'warning'
+        })
+      }
     },
     backHome() {
       this.$router.go(-1)
@@ -413,71 +420,85 @@ export default {
     },
     addCollect() {
       this.initPage()
-      this.isCollect = !this.isCollect
-      if (this.isCollect) {
-        this.essayData.collect++
-        this.collectIds.push(this.essayData.essay_id)
-      } else {
-        this.essayData.collect--
-        this.collectIds.splice(this.collectIds.indexOf(String(this.essayData.essay_id)), 1)
-      }
-      if (this.collectIds.length > 1) {
-        this.userDetail.collect = this.collectIds.join(',')
-      } else {
-        this.userDetail.collect = this.collectIds.join('')
-      }
+      if (this.userId) {
+        this.isCollect = !this.isCollect
+        if (this.isCollect) {
+          this.essayData.collect++
+          this.collectIds.push(this.essayData.essay_id)
+        } else {
+          this.essayData.collect--
+          this.collectIds.splice(this.collectIds.indexOf(String(this.essayData.essay_id)), 1)
+        }
+        if (this.collectIds.length > 1) {
+          this.userDetail.collect = this.collectIds.join(',')
+        } else {
+          this.userDetail.collect = this.collectIds.join('')
+        }
 
-      essayDetailUpdate(this.essayData).then(res => {
-        userDetailUpdate(this.userDetail).then(res => {
-          if (this.isCollect === true) {
-            this.$msg({
-              content: '收藏成功，前往个人管理查看',
-              type: 'success'
-            })
-            this.initEssay()
-          } else {
-            this.$msg({
-              content: '已取消收藏，前往个人管理查看',
-              type: 'info'
-            })
-            this.initEssay()
-          }
+        essayDetailUpdate(this.essayData).then(res => {
+          userDetailUpdate(this.userDetail).then(res => {
+            if (this.isCollect === true) {
+              this.$msg({
+                content: '收藏成功，前往个人管理查看',
+                type: 'success'
+              })
+              this.initEssay()
+            } else {
+              this.$msg({
+                content: '已取消收藏，前往个人管理查看',
+                type: 'info'
+              })
+              this.initEssay()
+            }
+          })
         })
-      })
+      } else {
+        this.$msg({
+          content: '用户尚未登录',
+          type: 'warning'
+        })
+      }
     },
     addGood() {
       this.initPage()
-      this.isGood = !this.isGood
-      if (this.isGood) {
-        this.essayData.good++
-        this.goodIds.push(this.essayData.essay_id)
-      } else {
-        this.essayData.good--
-        this.goodIds.splice(this.goodIds.indexOf(String(this.essayData.essay_id)), 1)
-      }
-      if (this.goodIds.length > 1) {
-        this.userDetail.good = this.goodIds.join(',')
-      } else {
-        this.userDetail.good = this.goodIds.join('')
-      }
+      if (this.userId) {
+        this.isGood = !this.isGood
+        if (this.isGood) {
+          this.essayData.good++
+          this.goodIds.push(this.essayData.essay_id)
+        } else {
+          this.essayData.good--
+          this.goodIds.splice(this.goodIds.indexOf(String(this.essayData.essay_id)), 1)
+        }
+        if (this.goodIds.length > 1) {
+          this.userDetail.good = this.goodIds.join(',')
+        } else {
+          this.userDetail.good = this.goodIds.join('')
+        }
 
-      essayDetailUpdate(this.essayData).then(res => {
-        userDetailUpdate(this.userDetail).then(res => {
-          if (this.isGood === true) {
-            this.$msg({
-              content: '点赞成功',
-              type: 'success'
-            })
-            this.initEssay()
-          } else {
-            this.$msg({
-              content: '已取消点赞',
-              type: 'info'
-            })
-            this.initEssay()
-          }
+        essayDetailUpdate(this.essayData).then(res => {
+          userDetailUpdate(this.userDetail).then(res => {
+            if (this.isGood === true) {
+              this.$msg({
+                content: '点赞成功',
+                type: 'success'
+              })
+              this.initEssay()
+            } else {
+              this.$msg({
+                content: '已取消点赞',
+                type: 'info'
+              })
+              this.initEssay()
+            }
+          })
         })
-      })
+      } else {
+        this.$msg({
+          content: '用户尚未登录',
+          type: 'warning'
+        })
+      }
     }
   }
 }

@@ -1,6 +1,7 @@
 <template>
   <div class="login">
     <div class="shadow">
+
       <div class="login-conatiner">
         <my-input
           v-model="ruleForm.username"
@@ -105,7 +106,7 @@ export default {
 .login {
   width: 100%;
   height: calc(100vh);
-  background: url('../../../../assets/images/动漫2.jpg');
+  background: url('@/assets/images/动漫1.jpg');
   background-repeat: no-repeat;
   background-size: cover;
 }

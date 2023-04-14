@@ -118,7 +118,7 @@ export default {
 .register {
   width: 100%;
   height: calc(100vh);
-  background: url(../../../../assets/images/动漫4.jpg);
+  background: url(../../../../assets/images/动漫1.jpg);
   background-repeat: no-repeat;
   background-size: cover;
 }

@@ -34,8 +34,13 @@ module.exports = {
     }
   },
   chainWebpack: config => {
+    // config.module.rule('images')
+    //   .test(/\.(png|jpe?g|gif|svg)(\?.*)?$/)
+    //   .use('image-webpack-loader')
+    //   .loader('image-webpack-loader')
+    //   .options({ bypassOnDebug: true })
     // svg 配置
-    // config.module.rules.delete('svg') // 重点：删除默认配置中处理 svg
+    config.module.rules.delete('svg') // 重点：删除默认配置中处理 svg
     config.module.rule('svg-sprite-loader').test(/\.svg$/)
       .include
       .add(path.resolve('./src/views/component/default-component/SvgIcon/icons/svg')) // 处理 svg 保存路径
