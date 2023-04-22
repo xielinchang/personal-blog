@@ -48,7 +48,7 @@ export default {
         username: '',
         password: ''
       },
-      size: 240
+      size: 300
     }
   },
   mounted() {
@@ -122,8 +122,8 @@ export default {
   height: 100%;
 }
 .login-conatiner {
-  width: 400px;
-  height: 200px;
+  width: 460px;
+  height: 220px;
   margin-left: 50%;
   transform: translateX(-50%);
   top: calc(30vh);
@@ -136,7 +136,7 @@ export default {
     0 13px 15px rgb(31 45 61 / 15%);
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-evenly;
   & .input {
     margin-left: 15%;
   }

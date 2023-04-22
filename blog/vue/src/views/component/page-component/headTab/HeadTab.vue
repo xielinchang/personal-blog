@@ -5,6 +5,17 @@
       class="header"
     >
       <div class="header-box">
+        <div
+          class="back"
+        >
+          <svg-icon
+            color="#F39800"
+            icon-name="back"
+            size="35px"
+            right-title="返回"
+            @click="back()"
+          />
+        </div>
         <div class="header-tab">
           <ul class="item">
             <li
@@ -121,7 +132,7 @@ export default {
         },
         {
           title: '用户管理',
-          router: '/user/manage',
+          router: '/control/user',
           id: 4
         }
       ],
@@ -172,6 +183,10 @@ export default {
       ).then(res => {
         this.identity = res.data.user.rows[0].identity
       })
+    },
+    back() {
+      console.log(this.$router)
+      this.$router.go(-1)
     },
     secondTabOut() {
       var _this = this

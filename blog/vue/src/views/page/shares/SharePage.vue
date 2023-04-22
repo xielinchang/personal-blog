@@ -2,15 +2,6 @@
   <div>
     <div class="share">
       <TemplatePage class="share-template"></TemplatePage>
-      <div class="back-home">
-        <svg-icon
-          icon-name="back"
-          size="40px"
-          color="#F39800"
-          right-title="返回主页"
-          @click="backHome()"
-        />
-      </div>
       <div class="share-main">
         <div
           class="share-banner"
@@ -92,9 +83,6 @@ export default {
           this.share = res.data.rows[0]
         }
       })
-    },
-    backHome() {
-      this.$router.go(-1)
     }
   }
 }
@@ -201,22 +189,5 @@ export default {
   width: 79%;
   margin-left: 5%;
 }
-.back-home{
-  width: 35px;
-  height: 35px;
-  overflow: hidden;
-  position: fixed;
-  top: 133px;
-  left: 140px;
-  border-radius: 4px;
-  z-index: 9999;
-}
-.back-home img{
-  width: 100%;
-  height: 100%;
-}
-.back-home img:hover{
-  transform: scale(1.1);
-  transition: 300ms;
-}
+
 </style>

@@ -16,7 +16,6 @@
               <my-upload
                 v-model="file"
                 :action="uploadUrl"
-                :image="image"
                 @upload-success="uploadCallback($event,item.id,index)"
               >
               </my-upload>
@@ -70,8 +69,7 @@ export default {
       // 保存之前的头像路径，以便用于更新的参数
       portrait: [],
       file: {},
-      image: '',
-      user: '',
+      user: [],
       uploadUrl: process.env.VUE_APP_BASE_API + '/api/file'
     }
   },
@@ -87,12 +85,12 @@ export default {
     initUser() {
       this.userList = []
       queryUser().then(res => {
-        console.log(res)
         res.data.user.rows.forEach(item => {
           this.portrait.push(item.portrait)
           item.portrait = process.env.VUE_APP_BASE_API + item.portrait
           this.userList.push(item)
         })
+
         console.log(this.userList)
       })
     },
@@ -104,18 +102,19 @@ export default {
       // 取之前的路径作为参数，保证不改路劲
       this.user.portrait = this.portrait
       queryUser({ id: id }).then(res => {
+        console.log(res)
         this.user = res.data.user.rows[0]
+        this.user.name = this.userList[index].name
         updateUser(this.user).then(res => {
           this.editFlag = !this.editFlag
           this.user.portrait = process.env.VUE_APP_BASE_API + this.portrait[index]
-          location.reload()
         })
       })
     },
-    uploadCallback: function(file, res, id, index) {
-      this.user.portrait = res.data.data.url
+    uploadCallback(url, id, index) {
       queryUser({ id: id }).then(res => {
         this.user = res.data.user.rows[0]
+        this.user.portrait = url
         updateUser(this.user).then(res => {
           this.user.portrait = process.env.VUE_APP_BASE_API + this.portrait[index]
           location.reload()

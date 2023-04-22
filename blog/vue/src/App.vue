@@ -84,12 +84,6 @@ body {
     border-radius: 6px;
     background: rgba(253, 129, 245, 1);
   }
-  .live2d-widget-container {
-  margin-left: 30px;
-  transform: scale(1);
-  opacity: 1;
-  z-index: 9999;
-}
 }
 
 </style>

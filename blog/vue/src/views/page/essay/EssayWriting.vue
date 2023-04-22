@@ -1,14 +1,7 @@
 <template>
   <div class="writing">
     <TemplatePage class="write-template"></TemplatePage>
-    <div class="back-to-essay-control">
-      <svg-icon
-        icon-name="back"
-        color="#FC9709"
-        size="40px"
-        @click="backToEssayControl()"
-      />
-    </div>
+    <my-loading :load-show="loading"></my-loading>
     <div class="write-main">
       <div
         class="edit-container"
@@ -96,30 +89,40 @@
     </div>
     <div class="edit-foot">
       <div class="foot-box">
-        <my-button
-          @click="reset"
-        >重置</my-button>
-        <my-button
-          :style="{'display':publishdis}"
-          plain
-          type="info"
-          @click="save"
-        >保存草稿</my-button>
-        <my-button
-          :style="{'display':publishdis}"
-          type="danger"
-          @click="publish"
-        >发布</my-button>
-        <my-button
-          :style="{'display':editdis}"
-          type="warning"
-          @click="edit"
-        >修改</my-button>
-        <my-button
-          :style="{'display':editdis}"
-          type="danger"
-          @click="deleted"
-        >删除</my-button>
+        <div
+          v-if="isSave"
+          class="btns"
+        >
+          <my-button
+            @click="reset"
+          >重置</my-button>
+          <my-button
+            plain
+            type="info"
+            @click="save"
+          >保存草稿</my-button>
+          <my-button
+            type="danger"
+            @click="publish"
+          >发布</my-button>
+        </div>
+        <div
+          v-else
+          class="btns"
+        >
+          <my-button
+            @click="reset"
+          >重置</my-button>
+          <my-button
+            type="warning"
+            @click="edit"
+          >修改</my-button>
+          <my-button
+            type="danger"
+            @click="deleted"
+          >删除</my-button>
+        </div>
+
       </div>
     </div>
   </div>
@@ -143,8 +146,7 @@ export default {
       editor: null,
       toolbarConfig: {},
       html: '',
-      editdis: '',
-      publishdis: '',
+      isSave: true,
       editorConfig: {
         placeholder: '请输入文章内容...',
         MENU_CONF: {
@@ -199,38 +201,40 @@ export default {
         label: 'HTML',
         value: 'html'
       },
+      loading: false,
       headers: {
         Authorization: ''
       }
     }
   },
-  // watch: {
-  //   '$route.path': function(to, from) {
-  //     this.initEssay()
-  //   }
-  // },
-  async mounted () {
+  watch: {
+    '$route.path': function(to, from) {
+      document.documentElement.scrollTop = 0
+      setTimeout(() => {
+        this.initEssay()
+      }, 100)
+    }
+  },
+  mounted () {
     var _this = this
     this.headers.Authorization = Cookie.get('token')
     document.documentElement.scrollTop = 0
-    this.initEssay()
-  },
-  created () {
     this.initEssay()
   },
   beforeUnmount() {
     const editor = this.editor
     if (editor == null) return
     editor.destroy() // 组件销毁时，及时销毁编辑器
+    location.reload()
   },
   methods: {
     initEssay() {
       var that = this
+      this.loading = true
       var id = this.$route.query.id
       this.imgurl = null
       if (id === 'undefined') {
-        this.publishdis = 'block'
-        this.editdis = 'none'
+        this.isSave = true
         essayQuerySave().then(res => {
           this.selected.label = res.data.rows[0].domain
           if (res.data.rows[0].coverUrl !== '') {
@@ -242,10 +246,10 @@ export default {
           } else {
             this.newTags = []
           }
+          that.loading = false
         })
       } else {
-        this.publishdis = 'none'
-        this.editdis = 'block'
+        this.isSave = false
         essayQuery({
           limit: 1,
           offset: 1,
@@ -260,7 +264,7 @@ export default {
           this.imgurl = process.env.VUE_APP_BASE_API + res.data.rows[0].coverUrl
           that.Essay = res.data.rows[0]
           that.newTags = that.Essay.tags.split(',')
-          console.log(this.Essay.html)
+          that.loading = false
         })
       }
     },
@@ -285,6 +289,7 @@ export default {
     deleteCallback() {
       this.imgurl = ''
       this.Essay.coverUrl = ''
+      this.customImageFile = ''
     },
     onCreated(editor) {
       this.editor = Object.seal(editor) // 一定要用 Object.seal() ，否则会报错
@@ -308,10 +313,9 @@ export default {
       /* join=>数组转字符串，split=>字符串转数组 */
       var _this = this
       this.initDomain()
-      if (this.Essay.tags.length > 0) {
+      if (this.newTags.length > 0) {
         this.Essay.tags = this.newTags.join(',')
       }
-      console.log(this.Essay)
       // 如果有上传图片，则先调用上传接口，再保存
       if (this.customImageFile) {
         const data = new FormData()
@@ -321,7 +325,6 @@ export default {
             'Content-Type': 'multipart/form-data'
           }
         }).then((res) => {
-          console.log(res)
           this.Essay.coverUrl = res.data.data.url
           this.essaySaveApi()
         }).catch(err => {
@@ -329,7 +332,6 @@ export default {
             content: err,
             type: 'danger'
           })
-          console.log(err)
         })
       } else {
         this.essaySaveApi()
@@ -363,7 +365,6 @@ export default {
             content: err,
             type: 'danger'
           })
-          console.log(err)
         })
       } else {
         this.essayCreateApi()
@@ -383,10 +384,7 @@ export default {
     update(e) {
       this.newTags = e
     },
-    edit() {
-      var _this = this
-      this.initDomain()
-      this.Essay.tags = this.newTags.join(',')
+    essayUpdateApi() {
       essayUpdate(this.Essay).then(res => {
         this.$msg({
           content: '更新成功',
@@ -395,6 +393,30 @@ export default {
         this.initEssay()
       })
     },
+    edit() {
+      var _this = this
+      this.initDomain()
+      this.Essay.tags = this.newTags.join(',')
+      if (this.customImageFile) {
+        const data = new FormData()
+        data.append('file', this.customImageFile)
+        axios.post(this.uploadApi, data, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }).then((res) => {
+          this.Essay.coverUrl = res.data.data.url
+          this.essayUpdateApi()
+        }).catch(err => {
+          this.$msg({
+            content: err,
+            type: 'danger'
+          })
+        })
+      } else {
+        this.essayUpdateApi()
+      }
+    },
     deleted() {
       this.$msgBox.confirm({
         title: '提醒',
@@ -402,7 +424,6 @@ export default {
         type: 'warning',
         onOK: () => {
           essayDelete({ id: this.Essay.id }).then((res) => {
-            console.log(res)
             this.$msg({
               type: 'success',
               content: '删除成功!'
@@ -417,9 +438,6 @@ export default {
           })
         }
       })
-    },
-    backToEssayControl() {
-      this.$router.push('/control/essay')
     },
     changeSelect(label, value) {
       this.selected.label = label
@@ -501,9 +519,10 @@ export default {
   justify-content: space-around;
 }
 .btns {
-  margin-left: 50%;
-  transform: translateX(-50%);
-  margin-top: 20px;
+  display: flex;
+  width: 300px;
+  height: 100%;
+  justify-content: space-around;
 }
 .edit-foot{
   width: 100%;
@@ -525,12 +544,4 @@ export default {
   display: flex;
   justify-content: space-around;
 }
-  .back-to-essay-control{
-    width: 35px;
-    height: 35px;
-    position: fixed;
-    left: 250px;
-    top: 150px;
-    z-index: 999;
-  }
 </style>

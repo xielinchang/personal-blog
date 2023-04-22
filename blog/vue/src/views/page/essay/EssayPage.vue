@@ -1,17 +1,8 @@
 <template>
   <div class="body">
     <TemplatePage></TemplatePage>
-    <div
-      class="back-home"
-    >
-      <svg-icon
-        color="#F39800"
-        icon-name="back"
-        size="35px"
-        right-title="返回上个页面"
-        @click="backHome()"
-      />
-    </div>
+    <my-loading :load-show="loading"></my-loading>
+
     <div class="main-body">
       <div class="main-container">
         <div class="banner">
@@ -195,11 +186,11 @@
             </div>
           </div>
         </div>
-        <RightTab
+        <!-- <RightTab
           width="25"
           height="500"
           class="right-tab"
-        ></RightTab>
+        ></RightTab> -->
       </div>
 
     </div>
@@ -253,7 +244,8 @@ export default {
       collectIds: [],
       goodIds: [],
       // 用户id
-      userId: ''
+      userId: '',
+      loading: false
     }
   },
   watch: {
@@ -273,7 +265,8 @@ export default {
       this.initEssay()
       this.initComments()
     },
-    selectEmoji(emoji) {// 选择emoji后调用的函数
+    selectEmoji(emoji) {
+      // 选择emoji后调用的函数
       const input = document.getElementById('input')
       const startPos = input.selectionStart
       const endPos = input.selectionEnd
@@ -301,6 +294,7 @@ export default {
     },
     initEssay() {
       var that = this
+      this.loading = true
       essayQuery({
         limit: 1,
         offset: 1,
@@ -335,6 +329,7 @@ export default {
             codePart[i].style.color = '#333'
           }
         })
+        this.loading = false
       })
     },
     initComments() {
@@ -354,7 +349,6 @@ export default {
     },
     initUser() {
       this.initPage()
-      console.log(localStorage.getItem('userId'))
       this.userId = localStorage.getItem('userId')
       if (this.userId) {
         queryUser({ id: this.userId * 1 }).then(res => {
@@ -405,9 +399,6 @@ export default {
           type: 'warning'
         })
       }
-    },
-    backHome() {
-      this.$router.go(-1)
     },
     deleteComment(id) {
       essayCommentsDelete({ id: id }).then(res => {

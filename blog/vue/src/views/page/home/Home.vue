@@ -23,7 +23,7 @@
           >
             <div class="wrap-btn-box">
               <img
-                :src="item.wrapUrl"
+                :src="item.url"
                 alt=""
               />
             </div>
@@ -43,11 +43,12 @@
         </div>
       </div>
     </div>
-    <!-- 切换随笔按钮 -->
+    <!-- 文章 -->
     <div class="main">
       <essayList
         v-if="wrapValue"
         width="74"
+        style="margin-bottom: 100px;"
       ></essayList>
       <ShareList
         v-else
@@ -61,64 +62,38 @@
       ></right-tab>
     </div>
     <div class="right-btn">
-      <div
-        class="btn-item"
-        left-title="注册"
-      >
-        <router-link to="/register">
-          <div style="width: 100%;height: 100%">
-            <svg-icon
-              icon-name="register"
-              size="22px"
-              class="btn-icon"
-            ></svg-icon>
-          </div>
-        </router-link>
-      </div>
-      <div
-        class="btn-item"
+
+      <router-link to="/register">
+        <IconButton
+          left-title="注册"
+          icon="register"
+        ></IconButton>
+      </router-link>
+      <!-- native可以在子组件上自定义事件 -->
+      <IconButton
+        icon="hide-filled"
         :left-title="topShow?'隐藏顶部' : '打开顶部'"
-        @click="topShow =!topShow"
-      >
-        <svg-icon
-          icon-name="hide-filled"
-          size="20px"
-          color="#409EFF"
-          class="btn-icon"
-        ></svg-icon>
-      </div>
-      <div
-        class="btn-item"
+        @click.native="topShow =!topShow"
+      ></IconButton>
+      <IconButton
         :left-title="$store.state.clickShow?'关闭点击特效' : '打开点击特效'"
-        @click="clickShow()"
+        icon="click"
+        @click.native="clickShow()"
+      ></IconButton>
+      <IconButton
+        v-if="wrapValue"
+        :left-title="wrapValue ? '随笔' : '文章' "
+        icon="pen"
+        @click.native="wrapValue =!wrapValue"
       >
-        <svg-icon
-          icon-name="click"
-          size="20px"
-          color="#409EFF"
-          class="btn-icon"
-        ></svg-icon>
-      </div>
-      <div
-        class="btn-item"
-        :left-title="wrapValue?'随笔':'文章'"
-        @click="wrapValue =!wrapValue"
+      </IconButton>
+      <IconButton
+        v-else
+        :left-title="wrapValue ? '随笔' : '文章' "
+        icon="book"
+        @click.native="wrapValue =!wrapValue"
       >
-        <svg-icon
-          v-if="wrapValue"
-          icon-name="pen"
-          size="20px"
-          color="#409EFF"
-          class="btn-icon"
-        ></svg-icon>
-        <svg-icon
-          v-else
-          icon-name="book"
-          size="20px"
-          color="#409EFF"
-          class="btn-icon"
-        ></svg-icon>
-      </div>
+      </IconButton>
     </div>
 
   </div>
@@ -136,20 +111,7 @@ export default {
       bgimg: '',
       mainimg: '',
       bgshadow: '',
-      imglist: [
-        {
-          wrapUrl: '',
-          opacity: 1
-        },
-        {
-          wrapUrl: '',
-          opacity: 0.6
-        },
-        {
-          wrapUrl: '',
-          opacity: 0.6
-        }
-      ],
+      imglist: [],
       imglist_2: [],
       wrapValue: true,
       topShow: true
@@ -167,19 +129,15 @@ export default {
         for (let i = 0; i < item.length; i++) {
           item[i].url = process.env.VUE_APP_BASE_API + item[i].url
           this.imglist_2.push(item.data)
-          this.imglist[i].wrapUrl = item[i].url
         }
+        this.imglist = item
         this.bgimg = res.data[0].url
         this.mainimg = res.data[0].url
         this.bgshadow = res.data[0].url
       })
     },
     wrap(index) {
-      this.bgimg = this.imglist[index].wrapUrl
-      for (var i = 0; i < this.imglist.length; i++) {
-        this.imglist[i].opacity = 0.6
-      }
-      this.imglist[index].opacity = 1
+      this.bgimg = this.imglist[index].url
       this.mainimg = this.bgimg
       this.bgshadow = this.bgimg
     },

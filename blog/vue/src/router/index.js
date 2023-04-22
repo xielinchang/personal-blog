@@ -67,12 +67,12 @@ const routes = [
   {
     path: '/control/user',
     name: 'UserControl',
-    component: () => import('@/views/page/user/user.vue')
+    component: () => import('@/views/page/user/userControl.vue')
   },
   {
     path: '/user',
     name: 'User',
-    component: () => import('@/views/page/user/userControl.vue')
+    component: () => import('@/views/page/user/user.vue')
   },
   {
     path: '/login',
@@ -122,7 +122,7 @@ router.beforeEach((to, from, next) => {
             next()
           } else if (token && identity === '游客') {
             next({
-              path: '/control/user'
+              path: '/user'
             })
           } else {
             next({

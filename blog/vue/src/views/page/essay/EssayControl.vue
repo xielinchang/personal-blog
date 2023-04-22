@@ -82,7 +82,14 @@ export default {
       essay_list: []
     }
   },
-  created() {},
+  watch: {
+    '$route.path': function(to, from) {
+      this.initEssay()
+    }
+  },
+  created() {
+
+  },
   mounted() {
     this.initEssay()
   },

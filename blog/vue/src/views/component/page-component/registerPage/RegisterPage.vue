@@ -58,7 +58,7 @@ export default {
         name: '',
         portrait: ''
       },
-      size: 240
+      size: 300
     }
   },
   methods: {
@@ -132,21 +132,21 @@ export default {
   left: 0;
 }
 .register-conatiner {
-  width: 400px;
-  height: 220px;
+  width: 460px;
+  height: 260px;
   margin-left: 50%;
   transform: translateX(-50%);
-  z-index: 10000;
   top: calc(30vh);
+  z-index: 10000;
   position: fixed;
   border-radius: 12px;
   border: 1px solid #c0c7cf;
   background: rgb(255, 255, 255, 0.6);
   box-shadow: 0 0 0 2px rgb(255 255 255 / 40%) inset,
     0 13px 15px rgb(31 45 61 / 15%);
-    display: flex;
+  display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-evenly;
   & .input {
     margin-left: 15%;
   }

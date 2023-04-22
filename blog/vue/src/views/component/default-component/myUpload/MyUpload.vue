@@ -74,7 +74,6 @@ export default {
       const file = this.$refs.fileInt.files[0]
       const data = new FormData()
       data.append('file', file)
-      // URL.createObjectURL(file)
       if (this.preview) {
         this.$emit('upload-success', file)
       } else {
@@ -83,8 +82,7 @@ export default {
             'Content-Type': 'multipart/form-data'
           }
         }).then(res => {
-          console.log(res)
-          this.$emit('upload-success', file, res)
+          this.$emit('upload-success', res.data.data.url)
         }).catch(err => {
           console.log(err)
         })

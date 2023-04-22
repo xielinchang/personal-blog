@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <div
       class="my-button"
       :class="[ type,size,plain===true?type+'plain':'']"

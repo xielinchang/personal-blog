@@ -15,11 +15,16 @@
         rgba(246, 246, 246, 0.8),
         rgba(216, 245, 255, 0.8)
       );
+      .back{
+        position: absolute;
+        left: 5%;
+        top: 15px;
+      }
       .header-tab {
         width: 400px;
         height: 60px;
         position: absolute;
-        right: 250px;
+        right: 20%;
         top: 10px;
         .item {
           width: 100%;

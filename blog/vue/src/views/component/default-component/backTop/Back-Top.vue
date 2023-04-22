@@ -1,24 +1,21 @@
 <template>
-  <div
+  <IconButton
     v-show="btnShow"
     class="back-top"
     :class="direction"
-    :style="{ borderRadius: type == 'round' ? '50%' : '4px' }"
-    @click="backTop()"
+    icon="rocket"
+    @click.native="backTop()"
   >
-    <svg-icon
-      :icon-name="iconName"
-      size="20px"
-      :color="color"
-      class="back-icon"
-    ></svg-icon>
-  </div>
+  </IconButton>
 </template>
 
 <script>
-import { nextTick } from 'vue'
+import iconButton from '../iconButton/iconButton.vue'
 export default {
   name: 'BackTop',
+  components: {
+    iconButton
+  },
   props: {
     color: {
       type: String,
@@ -27,12 +24,6 @@ export default {
     iconName: {
       type: String,
       default: 'caret-top'
-    },
-    type: {
-      validator: function (value) {
-        return ['round', 'default'].indexOf(value) !== -1
-      },
-      default: 'default'
     },
     direction: {
       validator: function (value) {

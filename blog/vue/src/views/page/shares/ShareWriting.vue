@@ -1,14 +1,6 @@
 <template>
   <div class="writing">
     <TemplatePage></TemplatePage>
-    <div class="back-to-share-control">
-      <svg-icon
-        icon-name="back"
-        size="40px"
-        color="#FC9709"
-        @click="backToShareControl()"
-      />
-    </div>
     <div class="write-main">
       <div
         class="edit-container"
@@ -60,30 +52,39 @@
     </div>
     <div class="edit-foot">
       <div class="foot-box">
-        <my-button
-          @click="reset"
-        >重置</my-button>
-        <my-button
-          :style="{'display':publishdis}"
-          plain
-          type="info"
-          @click="save"
-        >保存草稿</my-button>
-        <my-button
-          :style="{'display':publishdis}"
-          type="danger"
-          @click="publish"
-        >发布</my-button>
-        <my-button
-          :style="{'display':editdis}"
-          type="warning"
-          @click="edit"
-        >修改</my-button>
-        <my-button
-          :style="{'display':editdis}"
-          type="danger"
-          @click="deleted"
-        >删除</my-button>
+        <div
+          v-if="isSave"
+          class="btns"
+        >
+          <my-button
+            @click="reset"
+          >重置</my-button>
+          <my-button
+            plain
+            type="info"
+            @click="save"
+          >保存草稿</my-button>
+          <my-button
+            type="danger"
+            @click="publish"
+          >发布</my-button>
+        </div>
+        <div
+          v-else
+          class="btns"
+        >
+          <my-button
+            @click="reset"
+          >重置</my-button>
+          <my-button
+            type="warning"
+            @click="edit"
+          >修改</my-button>
+          <my-button
+            type="danger"
+            @click="deleted"
+          >删除</my-button>
+        </div>
       </div>
     </div>
   </div>
@@ -107,8 +108,7 @@ export default {
       editor: null,
       toolbarConfig: {},
       html: '',
-      editdis: '',
-      publishdis: '',
+      isSave: true,
       editorConfig: {
         placeholder: '请输入随笔内容...',
         MENU_CONF: {
@@ -161,8 +161,7 @@ export default {
       var id = this.$route.query.id
       this.imgurl = ''
       if (id === 'undefined') {
-        this.publishdis = 'block'
-        this.editdis = 'none'
+        this.isSave = true
         /* 查询接口 */
         shareQuerySave().then(res => {
           this.Share = res.data.rows[0]
@@ -178,8 +177,7 @@ export default {
           }
         })
       } else {
-        this.publishdis = 'none'
-        this.editdis = 'block'
+        this.isSave = false
         /* 查询接口 */
         shareQuery({
           limit: 1,
@@ -220,6 +218,7 @@ export default {
     deleteCallback() {
       this.imgurl = ''
       this.Essay.coverUrl = ''
+      this.customImageFile = ''
     },
     reset() {
       this.Share = {
@@ -235,7 +234,7 @@ export default {
     save() {
       /* join=>数组转字符串，split=>字符串转数组 */
       var _this = this
-      if (this.Share.tags.length > 0) {
+      if (this.newTags.length > 0) {
         this.Share.tags = this.newTags.join(',')
       }
       /* 如果是空数组，直接转换 */
@@ -273,7 +272,9 @@ export default {
     publish() {
       var _this = this
       /* 创建接口 */
-      this.Share.tags = this.newTags.join(',')
+      if (this.newTags.length) {
+        this.Share.tags = this.newTags.join(',')
+      }
       this.Share.id = undefined
       if (this.customImageFile) {
         const data = new FormData()
@@ -307,13 +308,13 @@ export default {
         this.$router.push('/')
       })
     },
-    update(e) {
-      this.newTags = e
-    },
-    edit() {
+    shareUpdateApi() {
       var _this = this
       /* 更新接口 */
-      this.Share.tags = this.newTags.join(',')
+      if (this.newTags.length) {
+        this.Share.tags = this.newTags.join(',')
+      }
+
       shareUpdate(this.Share).then(res => {
         console.log(res)
         this.initShare()
@@ -323,6 +324,31 @@ export default {
         })
         this.$router.push('/')
       })
+    },
+    update(e) {
+      this.newTags = e
+    },
+    edit() {
+      if (this.customImageFile) {
+        const data = new FormData()
+        data.append('file', this.customImageFile)
+        axios.post(this.uploadApi, data, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }).then((res) => {
+          this.Share.coverUrl = res.data.data.url
+          this.shareUpdateApi()
+        }).catch(err => {
+          this.$msg({
+            content: err,
+            type: 'danger'
+          })
+          console.log(err)
+        })
+      } else {
+        this.shareUpdateApi()
+      }
     },
     deleted() {
       this.$msgBox.confirm({
@@ -344,23 +370,12 @@ export default {
           })
         }
       })
-    },
-    backToShareControl() {
-      this.$router.push('/control/share')
     }
   }
 }
 </script>
 <style src="@wangeditor/editor/dist/css/style.css"></style>
 <style scoped>
-.back-to-share-control{
-  width: 35px;
-  height: 35px;
-  position: fixed;
-  left: 250px;
-  top: 150px;
-  z-index: 999;
-}
 .writing{
   width: 100%;
   height: auto;
@@ -431,9 +446,10 @@ export default {
   color: #666;
 }
 .btns {
-  margin-left: 50%;
-  transform: translateX(-50%);
-  margin-top: 20px;
+  display: flex;
+  width: 300px;
+  height: 100%;
+  justify-content: space-around;
 }
 .bubbles{
   position: fixed;
