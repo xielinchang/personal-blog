@@ -99,7 +99,7 @@ export default {
   border-radius: 4px;
   overflow: hidden;
   position: relative;
-  margin-bottom: 50px;
+  margin-bottom: 80px;
 }
 .img-box{
   width: 94%;

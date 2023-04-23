@@ -9,9 +9,9 @@
     <left-menu></left-menu>
     <click v-if="$store.state.clickShow"></click>
     <my-loading load-time="0ms"></my-loading>
-    <keep-alive>
+    <!-- <keep-alive> -->
       <router-view></router-view>
-    </keep-alive>
+    <!-- </keep-alive> -->
 
   </div>
 </template>

@@ -10,6 +10,9 @@ class EssayService extends Service {
     if (body.query.id) {
       where.id = body.query.id;
     }
+    if (body.query.html) {
+      where.html = { [Op.like]: `%${body.query.html}%` };
+    }
     if (body.query.title) {
       where.title = { [Op.like]: `%${body.query.title}%` };
     }

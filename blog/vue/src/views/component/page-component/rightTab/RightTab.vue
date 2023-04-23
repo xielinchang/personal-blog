@@ -56,7 +56,16 @@
 import { recordQuery, recordDefaultQuery } from '@/api/api'
 export default {
   name: 'RightTab',
-  props: ['width', 'height'],
+  props: {
+    width: {
+      type: [Number, String],
+      default: 100
+    },
+    height: {
+      type: [Number, String],
+      default: 500
+    }
+  },
   data() {
     return {
       record_list: [],

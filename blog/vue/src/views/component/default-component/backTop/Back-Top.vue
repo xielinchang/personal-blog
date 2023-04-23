@@ -21,6 +21,11 @@ export default {
       type: String,
       default: '#409EFF'
     },
+    // 当滚到多少距离时，按钮出现
+    scrollHeight: {
+      type: [Number, String],
+      default: 300
+    },
     iconName: {
       type: String,
       default: 'caret-top'
@@ -46,7 +51,7 @@ export default {
   methods: {
     onScroll() {
       var scrollTop = document.documentElement.scrollTop || document.body.scrollTop
-      if (scrollTop > 100) {
+      if (scrollTop > this.scrollHeight) {
         this.btnShow = true
       } else {
         this.btnShow = false

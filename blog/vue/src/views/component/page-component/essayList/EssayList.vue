@@ -71,6 +71,7 @@
           <my-input
             v-else
             v-model="searchKey"
+            placeholder="请输入您想搜索的关键字"
             height="38"
             width="400"
           ></my-input>
@@ -125,6 +126,9 @@ export default {
       searchFlag: false,
       iconFlag: true,
       options: [{
+        label: '内容',
+        value: 'html'
+      }, {
         label: '标题',
         value: 'title'
       }, {
@@ -151,8 +155,8 @@ export default {
         value: 'other'
       }],
       selected: {
-        label: '标题',
-        value: 'title'
+        label: '内容',
+        value: 'html'
       },
       domainSelected: {
         label: 'HTML',
@@ -183,21 +187,47 @@ export default {
       }
     },
     search() {
-      if (this.selected.value === 'title') {
-        essayQuery({
-          limit: 999,
-          offset: 1,
-          query: {
-            id: undefined,
-            title: this.searchKey ? this.searchKey : undefined,
-            domain: undefined,
-            tags: undefined
-          }
-        }).then(res => {
-          this.foreachEssay(res.data.rows)
-          this.searchFlag = !this.searchFlag
-        })
-      } else if (this.selected.value === 'domain') {
+      /* 根据所选来进行搜索文章 */
+      var selected = this.selected.value
+      if (selected !== 'domain') {
+        if (selected === 'html') {
+          essayQuery({
+            limit: 999,
+            offset: 1,
+            query: {
+              html: this.searchKey ? this.searchKey : undefined,
+              domain: undefined
+            }
+          }).then(res => {
+            this.foreachEssay(res.data.rows)
+            this.searchFlag = !this.searchFlag
+          })
+        } else if (selected === 'title') {
+          essayQuery({
+            limit: 999,
+            offset: 1,
+            query: {
+              title: this.searchKey ? this.searchKey : undefined,
+              domain: undefined
+            }
+          }).then(res => {
+            this.foreachEssay(res.data.rows)
+            this.searchFlag = !this.searchFlag
+          })
+        } else {
+          essayQuery({
+            limit: 999,
+            offset: 1,
+            query: {
+              tags: this.searchKey ? this.searchKey : undefined,
+              domain: undefined
+            }
+          }).then(res => {
+            this.foreachEssay(res.data.rows)
+            this.searchFlag = !this.searchFlag
+          })
+        }
+      } else {
         essayQuery({
           limit: 999,
           offset: 1,
@@ -206,20 +236,6 @@ export default {
             title: undefined,
             domain: this.domainSelected.label ? this.domainSelected.label : undefined,
             tags: undefined
-          }
-        }).then(res => {
-          this.foreachEssay(res.data.rows)
-          this.searchFlag = !this.searchFlag
-        })
-      } else {
-        essayQuery({
-          limit: 999,
-          offset: 1,
-          query: {
-            id: undefined,
-            title: undefined,
-            domain: undefined,
-            tags: this.searchKey ? this.searchKey : undefined
           }
         }).then(res => {
           this.foreachEssay(res.data.rows)

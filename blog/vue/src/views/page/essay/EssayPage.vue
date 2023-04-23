@@ -1,10 +1,23 @@
 <template>
   <div class="body">
     <TemplatePage></TemplatePage>
-    <my-loading :load-show="loading"></my-loading>
 
+    <my-loading :load-show="loading"></my-loading>
+    <ul
+      class="catalog"
+      :style="justStyle"
+    >
+      目录：
+      <li
+        v-for="(item,index) in catalog"
+        :key="index"
+        @click="jumpToCatalog(item)"
+      >{{ item.key }}</li>
+    </ul>
     <div class="main-body">
+
       <div class="main-container">
+
         <div class="banner">
           <div class="baner-mark">
             <div
@@ -27,6 +40,7 @@
 
         </div>
         <div class="main-page">
+
           <div
             v-if="essayForm.digest!==''"
             class="digest shadow-demo"
@@ -186,11 +200,6 @@
             </div>
           </div>
         </div>
-        <!-- <RightTab
-          width="25"
-          height="500"
-          class="right-tab"
-        ></RightTab> -->
       </div>
 
     </div>
@@ -245,7 +254,24 @@ export default {
       goodIds: [],
       // 用户id
       userId: '',
-      loading: false
+      loading: false,
+      catalog: [],
+      scrollHeight: ''
+    }
+  },
+  computed: {
+    justStyle() {
+      if (this.scrollHeight > 400) {
+        return {
+          position: 'fixed',
+          top: 100 + 'px'
+        }
+      } else {
+        return {
+          position: 'absolute',
+          top: 490 + 'px'
+        }
+      }
     }
   },
   watch: {
@@ -256,6 +282,7 @@ export default {
   created() {
     // 页面高度初始化
     document.documentElement.scrollTop = 0
+    window.addEventListener('scroll', this.onScroll)
     this.init()
   },
   methods: {
@@ -264,6 +291,10 @@ export default {
       this.initUser()
       this.initEssay()
       this.initComments()
+    },
+    onScroll() {
+      var scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+      this.scrollHeight = scrollTop
     },
     selectEmoji(emoji) {
       // 选择emoji后调用的函数
@@ -277,7 +308,7 @@ export default {
       }, 200)
       input.selectionStart = startPos + emoji.data.length
       input.selectionEnd = endPos + emoji.data.length
-      this.message = resultText
+      this.commentForm.message = resultText
     },
     emojiShow() {
       this.showDialog = !this.showDialog
@@ -291,6 +322,35 @@ export default {
       // 获取文章id
       this.commentForm.essay_id = this.$route.query.id * 1
       this.essayData.essay_id = this.$route.query.id * 1
+    },
+    initCatalog() {
+      var titleList = document.querySelectorAll('h1, h2, h3, h4, h5, h6, h7')
+      console.log(titleList)
+      for (let i = 0; i < titleList.length; i++) {
+        const element = titleList[i]
+        this.catalog.push({
+          key: element.innerText,
+          offset: element.offsetTop
+        })
+      }
+    },
+    jumpToCatalog(item) {
+      const timer = setInterval(function() {
+        const offset = document.documentElement.scrollTop
+        const speed = 30
+        if (offset <= item.offset + 300) {
+          document.documentElement.scrollTop = offset + speed
+          // 设置一些偏差，以免与判断矛盾卡住页面
+          if (offset * 1 >= item.offset + 400) {
+            clearInterval(timer)
+          }
+        } else {
+          document.documentElement.scrollTop = offset - speed
+          if (offset * 1 <= item.offset + 400) {
+            clearInterval(timer)
+          }
+        }
+      }, 1)
     },
     initEssay() {
       var that = this
@@ -328,6 +388,8 @@ export default {
             codePart[i].style.margin = '10px 0'
             codePart[i].style.color = '#333'
           }
+          // 初始化目录
+          this.initCatalog()
         })
         this.loading = false
       })

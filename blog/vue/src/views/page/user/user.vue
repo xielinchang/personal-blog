@@ -100,7 +100,6 @@
 <script>
 import { essayQuery } from '@/api/essayapi'
 import { queryUser, updateUser } from '@/api/user'
-
 import Cookie from 'js-cookie'
 export default {
   name: 'UserPage',

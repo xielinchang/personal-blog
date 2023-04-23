@@ -4,7 +4,9 @@
   >
     <TemplatePage></TemplatePage>
     <div class="more-container">
-      <div class="btn">
+      <div
+        style=" display: flex; flex-wrap: wrap; justify-content: space-between;"
+      >
         <my-button
           name="编辑"
           icon="edit"
@@ -53,7 +55,7 @@
           icon="edit"
           type="warning"
           plain
-          @click="open2()"
+          @click="open()"
         ></my-button>
         <my-button
           name="编辑"
@@ -61,14 +63,6 @@
           type="info"
           plain
           @click="openBox()"
-        ></my-button>
-        <my-button
-          name="编辑"
-          icon="edit"
-          type="danger"
-          size="large"
-          icon-position="right"
-          @click="open()"
         ></my-button>
       </div>
       <my-input
@@ -144,14 +138,8 @@ export default {
         content: '这是一条自定义消息'
       })
     },
-    open2() {
-      this.$msg({
-        type: 'info',
-        content: '这是一条自定义消息'
-      })
-    },
     input(e) {
-      // console.log(e)
+      console.log(e)
     },
     update(e) {
       console.log(e)
