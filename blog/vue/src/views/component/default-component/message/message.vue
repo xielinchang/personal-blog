@@ -57,7 +57,7 @@ const Msg = {
       closed: false,
       onClose: null,
       timer: null,
-      verticalOffset: 20
+      verticalOffset: 30
     }
   },
   mounted () {

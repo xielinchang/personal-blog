@@ -112,6 +112,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@media screen and (max-width:500px) {
+  .r-tab-box{
+  display: none;
+}
+}
 .r-tab-box{
   position: absolute;
 }

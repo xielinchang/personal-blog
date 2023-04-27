@@ -5,18 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5390e0c0-c481-4a6a-9f36-6d0548eb2d90" name="变更" comment="">
-      <change beforePath="$PROJECT_DIR$/blog/vue/.env.development" beforeDir="false" afterPath="$PROJECT_DIR$/blog/vue/.env.development" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog/vue/.env.production" beforeDir="false" afterPath="$PROJECT_DIR$/blog/vue/.env.production" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog/vue/src/assets/scss/main.scss" beforeDir="false" afterPath="$PROJECT_DIR$/blog/vue/src/assets/scss/main.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog/vue/src/views/component/default-component/backTop/Back-Top.vue" beforeDir="false" afterPath="$PROJECT_DIR$/blog/vue/src/views/component/default-component/backTop/Back-Top.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog/vue/src/views/component/default-component/mySwitch/MySwitch.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog/vue/src/views/component/default-component/mySwitch/MySwitch.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog/vue/src/views/component/page-component/rightTab/RightTab.vue" beforeDir="false" afterPath="$PROJECT_DIR$/blog/vue/src/views/component/page-component/rightTab/RightTab.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog/vue/src/views/component/page-component/shareList/ShareList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/blog/vue/src/views/component/page-component/shareList/ShareList.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/blog/vue/src/views/component/page-component/rightButton/RightButton.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog/vue/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/blog/vue/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog/vue/src/views/component/default-component/message/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/blog/vue/src/views/component/default-component/message/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog/vue/src/views/component/page-component/essayList/EssayList.scss" beforeDir="false" afterPath="$PROJECT_DIR$/blog/vue/src/views/component/page-component/essayList/EssayList.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog/vue/src/views/component/page-component/essayList/EssayList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/blog/vue/src/views/component/page-component/essayList/EssayList.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog/vue/src/views/page/essay/EssayPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/blog/vue/src/views/page/essay/EssayPage.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog/vue/src/views/page/essay/scss/EssayPage.scss" beforeDir="false" afterPath="$PROJECT_DIR$/blog/vue/src/views/page/essay/scss/EssayPage.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog/vue/src/views/page/more/MorePage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/blog/vue/src/views/page/more/MorePage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog/vue/src/views/page/user/user.vue" beforeDir="false" afterPath="$PROJECT_DIR$/blog/vue/src/views/page/user/user.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog/vue/src/views/page/home/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/blog/vue/src/views/page/home/Home.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog/vue/src/views/page/home/scss/Home.scss" beforeDir="false" afterPath="$PROJECT_DIR$/blog/vue/src/views/page/home/scss/Home.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,10 +63,35 @@
       <recent name="D:\Desktop\文件夹\personal-blog\blog\vue\src\views\page\note" />
     </key>
   </component>
-  <component name="RunManager">
-    <configuration name=".eslintrc.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/blog/vue/.eslintrc.js" working-dir="$PROJECT_DIR$/blog/vue">
+  <component name="RunManager" selected="npm.serve">
+    <configuration name=".eslintrc.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file=".eslintrc.js" working-dir="$PROJECT_DIR$/blog/vue">
       <method v="2" />
     </configuration>
+    <configuration name="dev" type="js.build_tools.npm" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/blog/egg/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="serve" type="js.build_tools.npm" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/blog/vue/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="serve" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Node.js..eslintrc.js" />
+      <item itemvalue="npm.serve" />
+      <item itemvalue="npm.dev" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Node.js..eslintrc.js" />
@@ -99,6 +122,7 @@
       <workItem from="1681138334555" duration="1529000" />
       <workItem from="1681203143197" duration="2784000" />
       <workItem from="1682215593341" duration="147000" />
+      <workItem from="1682299631235" duration="8415000" />
     </task>
     <servers />
   </component>

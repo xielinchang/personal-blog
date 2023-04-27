@@ -93,26 +93,21 @@
       >
       </div>
     </div>
-    <div
-      class="btn-item"
-      left-title="搜索"
-      @click="searchShow"
-    >
-      <svg-icon
-        :icon-name="iconFlag?'search-filled':'close'"
-        size="20px"
-        color="#409EFF"
-        class="btn-icon"
-      ></svg-icon>
-    </div>
+    <icon-button
+      :left-title="iconFlag?'搜索':'取消'"
+      :icon="iconFlag?'search-filled':'close'"
+      @click.native="searchShow()"
+    ></icon-button>
   </div>
 
 </template>
 
 <script>
 import { essayQuery } from '@/api/essayapi'
+import IconButton from '@/views/component/default-component/iconButton/iconButton.vue'
 export default {
   name: 'EssayList',
+  components: { IconButton },
   props: {
     width: {
       type: String,
@@ -182,13 +177,14 @@ export default {
         this.searchFlag = !this.searchFlag
         this.iconFlag = !this.iconFlag
       } else {
-        this.iconFlag = !this.iconFlag
+        this.iconFlag = true
         this.initEssayList()
       }
     },
     search() {
       /* 根据所选来进行搜索文章 */
       var selected = this.selected.value
+      this.iconFlag = false
       if (selected !== 'domain') {
         if (selected === 'html') {
           essayQuery({

@@ -1,16 +1,14 @@
 <template>
   <div
     id="app"
-  > <back-top
-      icon-name="rocket"
-      left-title="返回顶部"
-    ></back-top>
+  >
+    <right-button></right-button>
     <head-tab></head-tab>
     <left-menu></left-menu>
     <click v-if="$store.state.clickShow"></click>
     <my-loading load-time="0ms"></my-loading>
     <!-- <keep-alive> -->
-      <router-view></router-view>
+    <router-view></router-view>
     <!-- </keep-alive> -->
 
   </div>
@@ -19,8 +17,10 @@
 <script>
 import { getUserIp } from '@/api/api'
 import { baiduLocation } from '@/api/baiduapi'
+import RightButton from '@/views/component/page-component/rightButton/RightButton.vue'
 export default {
   name: 'App',
+  components: { RightButton },
   data() {
     return {
       loadingshow: 'block',
@@ -74,15 +74,6 @@ body {
   margin: 0;
   &::-webkit-scrollbar {
     width: 12px;
-  }
-  &::-webkit-scrollbar-thumb {
-    border-radius: 6px;
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-    background: #72d0eb;
-  }
-  &::-webkit-scrollbar-track {
-    border-radius: 6px;
-    background: rgba(253, 129, 245, 1);
   }
 }
 

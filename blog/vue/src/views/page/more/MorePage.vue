@@ -11,6 +11,7 @@
           name="编辑"
           icon="edit"
           type="success"
+          @click="test"
         ></my-button>
         <my-button
           name="编辑"
@@ -97,7 +98,8 @@
         :selected="selected"
         @change-select="changeSelect"
       ></my-select>
-      <icon-button></icon-button>
+      <icon-button icon="rocket"></icon-button>
+
     </div>
   </div>
 </template>
@@ -137,6 +139,21 @@ export default {
         type: 'danger',
         content: '这是一条自定义消息'
       })
+    },
+    test() {
+      var obj = {}
+      // 定义一个空对象
+      Object.defineProperty(obj, 'val', {
+        // 定义要修改对象的属性
+        get: function () {
+          return console.log('获取对象的值')
+        },
+        set: function (newVal) {
+          console.log('设置对象的值：最新的值是' + newVal)
+        }
+      })
+      obj.hello = 'hello world'
+      console.log(obj)
     },
     input(e) {
       console.log(e)

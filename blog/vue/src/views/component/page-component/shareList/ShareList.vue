@@ -83,19 +83,18 @@ export default {
   border-radius: 4px;
 }
 .share-list{
-  width: 80%;
+  width: 100%;
   height: auto;
   margin: 0;
-  margin-left: 10%;
   padding: 0;
   list-style: none;
   display: flex;
   flex-direction: column;
+  background: rgb(255, 255, 255, 0.6);
 }
 .share-list li{
   width: 100%;
   height: 520px;
-  background: rgb(255, 255, 255, 0.6);
   border-radius: 4px;
   overflow: hidden;
   position: relative;

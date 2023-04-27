@@ -42,7 +42,7 @@
         min-width: 100%;
         width: 100%;
         margin: auto;
-        height: 330px;
+        height: 400px;
         position: relative;
         border-radius: 4px;
         overflow: hidden;
@@ -51,7 +51,7 @@
         .banner-mark {
           min-width: 100%;
           width: 100%;
-          height: 330px;
+          height: 400px;
           position: absolute;
           top: 0;
           left: 0;
@@ -61,7 +61,7 @@
           position: absolute;
           min-width: 100%;
           width: 100%;
-          height: 330px;
+          height: 400px;
           background-size: cover;
           background-position-y: center;
           background-position-x: center;
@@ -72,7 +72,7 @@
 
         .shadow-mark {
           width: 100%;
-          height: 330px;
+          height: 400px;
           position: absolute;
           background: rgb(153, 153, 153);
           opacity: 0.8;
@@ -83,7 +83,7 @@
           height: 250px;
           position: absolute;
           right: 50px;
-          top: 40px;
+          top: 60px;
           background-size: cover;
           background-position-y: center;
           background-position-x: center;
@@ -115,14 +115,15 @@
             color: white;
             text-shadow: 0 2px 2px rgb(0 0 0 / 30%);
             opacity: .75;
+            font-size: 20px;
           }
 
           .banner-line {
-            width: 30px;
+            width: 60px;
             height: 1px;
             background: rgb(255, 255, 255, 0.6);
             position: absolute;
-            top: 50px;
+            top: 55px;
             box-shadow: 0 2px 2px rgb(0 0 0 / 30%);
             opacity: .75;
           }
@@ -133,21 +134,61 @@
             position: absolute;
             top: 60px;
             font-weight: 400;
-            font-size: 32px;
+            font-size: 40px;
             text-shadow: 0 3px 5px rgb(0 0 0 / 30%);
             color: white;
             line-height: 60px;
           }
         }
       }
+      @media (max-width:1300px) {
+        .catalog{
+          display: none;
+        }
+      }
+      @media (min-width: 1300px)  {
+        .catalog{
+          list-style: none;
+          width: 20%;
+          font-family: YOUYUAN;
+          height: auto;
+          color: #666;
+          background-color: white;
+          position: absolute;
+          right: 0;
+          box-shadow:  0 0 5px 1px #ebebeb;
+          border-radius: 4px;
+          top: 470px;
+          box-sizing: border-box;
+          padding: 10px 8px;
+          z-index: 99;
+          max-height: 600px;
+          overflow-y: scroll;
+          &::-webkit-scrollbar{
+            opacity: 0;
+          }
+          & li{
+            margin:15px 10px;
+            padding: 0 5px;
+            border-radius: 4px;
+  
+          }
+          & li:hover{
+            background-color: rgb(255, 251, 244);
+            color: rgb(255, 0, 0);
+            box-shadow: 0 3px 10px #dedede
+          }
+        }
+      }
+     
       .main-page {
+        box-shadow:  0 0 5px 1px #ebebeb;
         position: relative;
-        width: 75%;
+        width: 78%;
         height: auto;
         border-radius: 4px;
         box-sizing: border-box;
         top: 70px;
-
         .digest {
           width: 100%;
           height: auto;
@@ -158,9 +199,8 @@
           position: relative;
           box-shadow: 0 0 0 2px rgb(255 255 255 / 40%) inset,
             0 13px 15px rgb(31 45 61 / 15%);
-          margin-left: 0px;
-          padding-bottom: 15px;
-          padding-right: 0px;
+          box-sizing: border-box;
+          padding-bottom: 10px;
           margin-bottom: 14px;
         }
 
@@ -214,18 +254,17 @@
           min-height: 50px;
           text-align: left;
           text-shadow: 0 1px rgb(255 255 255 / 50%);
-          color: #5d6b7d;
+          color: #666;
           box-sizing: border-box;
-          padding: 1px 5px;
         }
         .essay-content{
           padding-bottom: 100px;
         }
         .digest-content {
           text-align: left;
+          padding: 5px 15px;
           line-height: 40px;
-          font-size: 22px;
-          color: rgb(0, 0, 0);
+          font-size: 18px;
           .digest-head{
             display: flex;
             justify-content: space-between;
@@ -424,28 +463,4 @@
     box-shadow: 0 -1px 8px 0 rgb(0 0 0 / 13%);
   }
 }
-.right-tab {
-  position: absolute;
-  right: 0;
-  top: 400px;
-}
-.catalog{
-  list-style: none;
-  width: 17%;
-  height: auto;
-  background-color: white;
-  position: absolute;
-  right: 12%;
-  border-radius: 4px;
-  top: 490px;
-  box-sizing: border-box;
-  padding: 5px 8px;
-  z-index: 99;
-  & li{
-    margin:10px;
-  }
-  & li:hover{
-    background-color: rgb(255, 251, 244);
-    color: rgb(253, 0, 42);
-  }
-}
+

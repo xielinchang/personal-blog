@@ -5,50 +5,82 @@
   >
     <img
       class="bg-shadow"
-
       :src="bgshadow"
       alt=""
     />
     <div
-      v-show="topShow"
-      class="top-main"
+      class="banner"
+      @mouseenter="bannerIn"
+      @mouseleave="bannerOut"
     >
-      <div class="top-shadow">
-        <ul class="banner-wrap">
-          <li
-            v-for="(item, index) in imglist"
-            :key="index"
-            class="wrap-btn"
-            @click="wrap(index)"
-          >
-            <div class="wrap-btn-box">
-              <img
-                :src="item.url"
-                alt=""
-              />
-            </div>
-          </li>
-        </ul>
-        <div class="top-round-1">
-          <div class="top-round-2">
-            <div class="top-round-3">
-              <div class="background">
-                <img
-                  :src="bgimg"
-                  alt=""
-                />
-              </div>
-            </div>
-          </div>
+      <div
+        v-for="(item,index) in bannerList"
+        :key="item.id"
+        class="banner-mark"
+        :style="{opacity:index===bannerIndex?1:0,zIndex:index===bannerIndex?3:0}"
+        @click="jummpEssay(item.id)"
+      >
+        <div class="mark-shadow"></div>
+        <div
+          class="mark"
+          :style="{'backgroundImage':`url(${item.coverUrl})`}"
+        >
+        </div>
+        <img
+          :src="item.coverUrl"
+          :style="{zIndex:index===bannerIndex?3:0}"
+          alt=""
+        >
+        <div class="banner-tit-box">
+          <div class="banner-title">{{ item.title }}</div>
+          <div class="banner-line"></div>
+          <div class="banner-subtitle">{{ item.subtitle }}</div>
         </div>
       </div>
+      <div
+        class="banner-btn left"
+        @click="bannerPre"
+      >
+        <svg-icon
+          size="25px"
+          color="#F39800"
+          class="banner-svg"
+          right-title="上一页"
+          icon-name="left"
+        ></svg-icon>
+      </div>
+
+      <div
+        class="banner-btn right"
+        @click="bannerNext"
+      >
+        <svg-icon
+          size="25px"
+          color="#00B753"
+          class="banner-svg"
+          left-title="下一页"
+          icon-name="right"
+        ></svg-icon>
+      </div>
+      <ul
+        class="banner-dot"
+        style="z-index: 4;"
+      >
+        <li
+          v-for="(item,index) of 5"
+          :key="index"
+          :style="{boxShadow:index===bannerIndex?'0 0 5px .1px #fff':''}"
+          @click="bannerJump(index)"
+        ></li>
+      </ul>
     </div>
     <!-- 文章 -->
-    <div class="main">
+    <div
+      class="main"
+    >
       <essayList
         v-if="wrapValue"
         width="74"
-        style="margin-bottom: 100px;"
       ></essayList>
       <ShareList
         v-else
@@ -62,24 +94,7 @@
       ></right-tab>
     </div>
     <div class="right-btn">
-
-      <router-link to="/register">
-        <IconButton
-          left-title="注册"
-          icon="register"
-        ></IconButton>
-      </router-link>
       <!-- native可以在子组件上自定义事件 -->
-      <IconButton
-        icon="hide-filled"
-        :left-title="topShow?'隐藏顶部' : '打开顶部'"
-        @click.native="topShow =!topShow"
-      ></IconButton>
-      <IconButton
-        :left-title="$store.state.clickShow?'关闭点击特效' : '打开点击特效'"
-        icon="click"
-        @click.native="clickShow()"
-      ></IconButton>
       <IconButton
         v-if="wrapValue"
         :left-title="wrapValue ? '随笔' : '文章' "
@@ -101,7 +116,7 @@
 
 <script>
 import { bgGif } from '@/api/api'
-
+import { essayQuery } from '@/api/essayapi'
 export default {
   name: 'HomePage',
   data() {
@@ -111,49 +126,77 @@ export default {
       bgimg: '',
       mainimg: '',
       bgshadow: '',
-      imglist: [],
-      imglist_2: [],
       wrapValue: true,
-      topShow: true
+      topShow: true,
+      bannerList: [],
+      bannerIndex: 0,
+      bannerPause: null,
+      bannerTime: 4000
     }
   },
   computed: {},
   async mounted() {
     this.initBgGif()
+    this.initBanner()
+    this.bannerTimer()
   },
   methods: {
-
+    initBanner() {
+      essayQuery({
+        limit: 5,
+        offset: 1,
+        query: {
+          title: undefined,
+          domain: undefined,
+          tags: undefined
+        }
+      }).then(res => {
+        console.log(res)
+        res.data.rows.forEach(item => {
+          item.coverUrl = process.env.VUE_APP_BASE_API + item.coverUrl
+          this.bannerList.push(item)
+        })
+      })
+    },
     initBgGif() {
       bgGif().then((res) => {
         var item = res.data
-        for (let i = 0; i < item.length; i++) {
-          item[i].url = process.env.VUE_APP_BASE_API + item[i].url
-          this.imglist_2.push(item.data)
-        }
-        this.imglist = item
-        this.bgimg = res.data[0].url
-        this.mainimg = res.data[0].url
-        this.bgshadow = res.data[0].url
+        var randomNum = Math.floor(Math.random() * item.length)
+        this.bgshadow = process.env.VUE_APP_BASE_API + res.data[randomNum].url
       })
     },
-    wrap(index) {
-      this.bgimg = this.imglist[index].url
-      this.mainimg = this.bgimg
-      this.bgshadow = this.bgimg
-    },
-    clickShow() {
-      if (this.$store.state.clickShow) {
-        this.$msg({
-          content: '你已取消了点击特效',
-          type: 'success'
-        })
+    bannerPre() {
+      if (this.bannerIndex === 0) {
+        this.bannerIndex = this.bannerList.length - 1
       } else {
-        this.$msg({
-          content: '你已开启了点击特效',
-          type: 'success'
-        })
+        this.bannerIndex--
       }
-      this.$store.state.clickShow = !this.$store.state.clickShow
+    },
+    bannerNext() {
+      if (this.bannerIndex === this.bannerList.length - 1) {
+        this.bannerIndex = 0
+      } else {
+        this.bannerIndex++
+      }
+    },
+    bannerTimer() {
+      var _this = this
+      this.bannerPause = setInterval(() => {
+        _this.bannerNext()
+      }, this.bannerTime)
+    },
+    bannerIn() {
+      clearInterval(this.bannerPause)
+    },
+    bannerOut() {
+      this.bannerTimer()
+    },
+    bannerJump(index) {
+      this.bannerIndex = index
+    },
+    jummpEssay(id) {
+      console.log(id)
+      this.$router.push('/note/essay?id=' + id)
     }
   }
 }

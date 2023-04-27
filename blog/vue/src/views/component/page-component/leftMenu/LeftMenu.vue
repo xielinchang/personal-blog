@@ -94,7 +94,7 @@ export default {
           menuicon: 'home-filled',
           color: '#F5A7B2',
           title: '首页',
-          router: '/'
+          router: '/home'
         },
         {
           menuicon: 'about-me',

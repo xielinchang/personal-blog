@@ -25,7 +25,7 @@ const Message = function(options) {
   instance.id = id
   instance.$mount()
   document.body.appendChild(instance.$el)
-  let verticalOffset = options.offset || 20
+  let verticalOffset = options.offset || 30
   instances.forEach(item => {
     verticalOffset += item.$el.offsetHeight + 16
   })
@@ -56,7 +56,7 @@ Message.close = function(id, userOnClose) {
         parseInt(dom.style['top'], 10) - removedHeight - 16 + 'px'
   }
 }
-// Message.closeAll = function() {
+// Message.closeAll = functionk() {
 //   for (let i = instances.length - 1; i >= 0; i--) {
 //     instances[i].close()
 //   }

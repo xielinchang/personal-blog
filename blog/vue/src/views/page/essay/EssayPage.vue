@@ -1,19 +1,7 @@
 <template>
   <div class="body">
     <TemplatePage></TemplatePage>
-
     <my-loading :load-show="loading"></my-loading>
-    <ul
-      class="catalog"
-      :style="justStyle"
-    >
-      目录：
-      <li
-        v-for="(item,index) in catalog"
-        :key="index"
-        @click="jumpToCatalog(item)"
-      >{{ item.key }}</li>
-    </ul>
     <div class="main-body">
 
       <div class="main-container">
@@ -39,8 +27,18 @@
           </div>
 
         </div>
+        <ul
+          class="catalog"
+          :style="justStyle"
+        >
+          目录:
+          <li
+            v-for="(item,index) in catalog"
+            :key="index"
+            @click="jumpToCatalog(item)"
+          >{{ item.key }}</li>
+        </ul>
         <div class="main-page">
-
           <div
             v-if="essayForm.digest!==''"
             class="digest shadow-demo"
@@ -256,20 +254,27 @@ export default {
       userId: '',
       loading: false,
       catalog: [],
-      scrollHeight: ''
+      scrollHeight: '',
+      // 监听滚动停止
+      timer: null,
+      scrollT: 0,
+      stopscroll: 0
     }
   },
   computed: {
     justStyle() {
-      if (this.scrollHeight > 400) {
+      if (this.scrollHeight > 470) {
         return {
           position: 'fixed',
-          top: 100 + 'px'
+          top: 100 + 'px',
+          right: '11.7%',
+          width: '15.3%'
         }
       } else {
         return {
           position: 'absolute',
-          top: 490 + 'px'
+          top: 470 + 'px',
+          right: 0
         }
       }
     }
@@ -325,7 +330,6 @@ export default {
     },
     initCatalog() {
       var titleList = document.querySelectorAll('h1, h2, h3, h4, h5, h6, h7')
-      console.log(titleList)
       for (let i = 0; i < titleList.length; i++) {
         const element = titleList[i]
         this.catalog.push({
@@ -337,7 +341,7 @@ export default {
     jumpToCatalog(item) {
       const timer = setInterval(function() {
         const offset = document.documentElement.scrollTop
-        const speed = 30
+        const speed = 35
         if (offset <= item.offset + 300) {
           document.documentElement.scrollTop = offset + speed
           // 设置一些偏差，以免与判断矛盾卡住页面

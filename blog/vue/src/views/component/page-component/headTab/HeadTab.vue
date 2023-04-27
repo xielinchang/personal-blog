@@ -1,7 +1,6 @@
 <template>
   <div>
     <div
-      v-show="headshow"
       class="header"
     >
       <div class="header-box">
@@ -77,7 +76,7 @@ export default {
           menuicon: 'home-filled',
           color: '#F5A7B2',
           title: '首页',
-          router: '/',
+          router: '/home',
           id: 0
         },
         {
@@ -140,7 +139,6 @@ export default {
       routerIndex: '',
       line_move: 0,
       path: '',
-      headshow: false,
       stShow: false,
       stIndex: 3,
       identity: ''
@@ -151,23 +149,12 @@ export default {
     '$route.path': function (to, from) {
       this.initUser()
       this.path = this.$router.history.current.path
-      if (this.path === '/') {
-        this.headshow = false
-      } else {
-        /* 处理特殊路径 */
-        if (this.path === '/control/essay/writing') {
-          this.path = '/control/essay/writing?id=undefined'
+
+      this.contract_list.find((item) => {
+        if (item.router === this.path) {
+          return this.moveLine(item.id)
         }
-        if (this.path === '/writing/login') {
-          this.path = '/control/essay/writing?id=undefined'
-        }
-        this.headshow = true
-        this.contract_list.find((item) => {
-          if (item.router === this.path && item.id !== 0) {
-            return this.moveLine(item.id)
-          }
-        })
-      }
+      })
     }
   },
   async mounted() {
@@ -198,7 +185,7 @@ export default {
       st.onmouseout = function() {
         _this.stShow = false
         _this.contract_list.find((item) => {
-          if (item.router === _this.path && item.id !== 0) {
+          if (item.router === _this.path) {
             return _this.moveLine(item.id)
           }
         })
@@ -228,6 +215,7 @@ export default {
       this.judgeIndex(index)
     },
     moveOutLine(index) {
+      /* 移出时 */
       index = this.currentIndex
       this.judgeIndex(index)
     },
