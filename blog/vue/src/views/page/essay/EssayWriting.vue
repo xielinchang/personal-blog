@@ -141,11 +141,34 @@ export default {
     Editor,
     Toolbar
   },
+  beforeRouteLeave(to, from, next) {
+    if (this.isModified) {
+      this.$msgBox.confirm({
+        title: '提醒',
+        content: '您还没有保存哦，需要保存吗',
+        type: 'danger',
+        onOK: () => {
+          this.save()
+          next()
+        },
+        onCancel: () => {
+          next()
+          this.$msg({
+            type: 'warning',
+            content: '您取消了保存'
+          })
+        }
+      })
+    } else {
+      next()
+    }
+  },
   data() {
     return {
       editor: null,
       toolbarConfig: {},
       html: '',
+      // 当前页面是保存草稿还是修改文章
       isSave: true,
       editorConfig: {
         placeholder: '请输入文章内容...',
@@ -204,32 +227,62 @@ export default {
       loading: false,
       headers: {
         Authorization: ''
-      }
+      },
+      // 文章数据是否被修改
+      isModified: false,
+      editNum: 0
     }
   },
   watch: {
     '$route.path': function(to, from) {
       document.documentElement.scrollTop = 0
+      var _this = this
       setTimeout(() => {
-        this.initEssay()
+        _this.initEssay()
       }, 100)
+    },
+    Essay: {
+      handler(newval, oldval) {
+        var _this = this
+        // 第一次修改为初始化，所以要避开
+        this.editNum = this.editNum + 1
+        console.log(this.editNum)
+        if (this.editNum > 1) {
+          _this.isModified = true
+        }
+        if (_this.isModified) {
+          window.addEventListener('beforeunload', _this.beforeClose)
+        } else {
+          window.removeEventListener('beforeunload', _this.beforeClose)
+        }
+      },
+      deep: true
     }
   },
   mounted () {
+    // 关闭浏览器时确认是否保存
     var _this = this
     this.headers.Authorization = Cookie.get('token')
     document.documentElement.scrollTop = 0
-    this.initEssay()
+    setTimeout(() => {
+      _this.initEssay()
+    }, 100)
   },
   beforeUnmount() {
+    window.removeEventListener('beforeunload', this.beforeClose)
     const editor = this.editor
     if (editor == null) return
     editor.destroy() // 组件销毁时，及时销毁编辑器
     location.reload()
   },
   methods: {
+    beforeClose(e) {
+      e.preventDefault() // 阻止默认行为（此处指关闭浏览器或刷新页面）
+      e.returnValue = '' // 在某些老版本的浏览器上需要设置 returnValue 值才能生效
+      return '当前数据未保存，确定要离开吗？'
+    },
     initEssay() {
-      var that = this
+      var _this = this
       this.loading = true
       var id = this.$route.query.id
       this.imgurl = null
@@ -246,7 +299,9 @@ export default {
           } else {
             this.newTags = []
           }
-          that.loading = false
+          _this.isModified = false
+          _this.editNum = 0
+          _this.loading = false
         })
       } else {
         this.isSave = false
@@ -262,9 +317,11 @@ export default {
         }).then(res => {
           this.selected.label = res.data.rows[0].domain
           this.imgurl = process.env.VUE_APP_BASE_API + res.data.rows[0].coverUrl
-          that.Essay = res.data.rows[0]
-          that.newTags = that.Essay.tags.split(',')
-          that.loading = false
+          _this.Essay = res.data.rows[0]
+          _this.newTags = _this.Essay.tags.split(',')
+          _this.editNum = 0
+          _this.isModified = false
+          _this.loading = false
         })
       }
     },
@@ -327,6 +384,7 @@ export default {
         }).then((res) => {
           this.Essay.coverUrl = res.data.data.url
           this.essaySaveApi()
+          this.initEssay()
         }).catch(err => {
           this.$msg({
             content: err,
@@ -335,6 +393,7 @@ export default {
         })
       } else {
         this.essaySaveApi()
+        this.initEssay()
       }
     },
     essaySaveApi() {

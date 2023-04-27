@@ -136,12 +136,32 @@ export default {
       imgurl: '',
       customImageFile: null,
       changeImg: false,
-      file: {}
+      file: {},
+      // 数据是否被修改
+      isModified: false,
+      editNum: 0
     }
   },
   watch: {
     '$route.path': function(to, from) {
       this.initShare()
+    },
+    Share: {
+      handler(newval, oldval) {
+        var _this = this
+        // 第一次修改为初始化，所以要避开
+        this.editNum = this.editNum + 1
+        console.log(this.editNum)
+        if (this.editNum > 1) {
+          _this.isModified = true
+        }
+        if (_this.isModified) {
+          window.addEventListener('beforeunload', _this.beforeClose)
+        } else {
+          window.removeEventListener('beforeunload', _this.beforeClose)
+        }
+      },
+      deep: true
     }
   },
   async mounted () {
@@ -151,13 +171,14 @@ export default {
     this.initShare()
   },
   beforeUnmount() {
+    window.removeEventListener('beforeunload', this.beforeClose)
     const editor = this.editor
     if (editor == null) return
     editor.destroy() // 组件销毁时，及时销毁编辑器
   },
   methods: {
     initShare() {
-      var that = this
+      var _this = this
       var id = this.$route.query.id
       this.imgurl = ''
       if (id === 'undefined') {
@@ -166,15 +187,17 @@ export default {
         shareQuerySave().then(res => {
           this.Share = res.data.rows[0]
           if (res.data.rows[0].url !== null) {
-            that.imgurl = process.env.VUE_APP_BASE_API + res.data.rows[0].url
+            _this.imgurl = process.env.VUE_APP_BASE_API + res.data.rows[0].url
           } else {
-            that.imgurl = ''
+            _this.imgurl = ''
           }
           if (this.Share.tags !== '') {
             this.newTags = this.Share.tags.split(',')
           } else {
             this.newTags = []
           }
+          _this.editNum = 0
+          _this.isModified = false
         })
       } else {
         this.isSave = false
@@ -187,13 +210,15 @@ export default {
             title: undefined
           }
         }).then(res => {
-          that.Share = res.data.rows[0]
-          that.newTags = that.Share.tags.split(',')
+          _this.Share = res.data.rows[0]
+          _this.newTags = _this.Share.tags.split(',')
           if (res.data.rows[0].url === null) {
             this.imgurl = ''
           } else {
             this.imgurl = process.env.VUE_APP_BASE_API + res.data.rows[0].url
           }
+          _this.editNum = 0
+          _this.isModified = false
         })
       }
     },

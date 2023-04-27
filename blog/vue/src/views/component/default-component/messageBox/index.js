@@ -5,7 +5,6 @@ const MessageBox = Vue.extend(messageBox)
 const instance = new MessageBox({}).$mount()
 document.body.appendChild(instance.$el)
 messageBox.confirm = function (option) {
-  console.log(option)
   Object.assign(instance, option)
   instance.isShow = true
 }

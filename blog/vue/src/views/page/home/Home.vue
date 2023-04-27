@@ -151,7 +151,6 @@ export default {
           tags: undefined
         }
       }).then(res => {
-        console.log(res)
         res.data.rows.forEach(item => {
           item.coverUrl = process.env.VUE_APP_BASE_API + item.coverUrl
           this.bannerList.push(item)

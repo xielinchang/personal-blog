@@ -37,7 +37,7 @@
             icon-name="close"
             class="close"
             size="20px"
-            @click="handleCancel"
+            @click="cancel"
           ></svg-icon>
         </div>
 
@@ -100,6 +100,9 @@ const Message = {
       }
       // this.$destroy(true)
       // this.$el.parentNode.removeChild(this.$el)
+    },
+    cancel() {
+      this.isShow = false
     },
     handleConfirm() {
       this.isShow = false

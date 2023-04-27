@@ -253,12 +253,11 @@ export default {
       // 用户id
       userId: '',
       loading: false,
+      // 目录
       catalog: [],
-      scrollHeight: '',
-      // 监听滚动停止
-      timer: null,
-      scrollT: 0,
-      stopscroll: 0
+      // 滚动高度，(和目录相关)
+      scrollHeight: ''
+
     }
   },
   computed: {
