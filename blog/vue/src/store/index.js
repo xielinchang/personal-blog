@@ -1,11 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+import { click } from './modules/click'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    clickShow: true
   },
   getters: {
   },
@@ -14,5 +13,7 @@ export default new Vuex.Store({
   actions: {
   },
   modules: {
+    namespaced: true,
+    click
   }
 })

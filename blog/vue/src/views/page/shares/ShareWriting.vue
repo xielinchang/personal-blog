@@ -103,6 +103,29 @@ export default {
     Editor,
     Toolbar
   },
+  beforeRouteLeave(to, from, next) {
+    var _this = this
+    if (this.isModified) {
+      this.$msgBox.confirm({
+        title: '提醒',
+        content: '您还没有保存哦，需要保存吗',
+        type: 'danger',
+        onOK: () => {
+          this.edit()
+          next()
+        },
+        onCancel: () => {
+          next()
+          this.$msg({
+            type: 'warning',
+            content: '您取消了保存'
+          })
+        }
+      })
+    } else {
+      next()
+    }
+  },
   data() {
     return {
       editor: null,
@@ -151,7 +174,6 @@ export default {
         var _this = this
         // 第一次修改为初始化，所以要避开
         this.editNum = this.editNum + 1
-        console.log(this.editNum)
         if (this.editNum > 1) {
           _this.isModified = true
         }
@@ -226,7 +248,6 @@ export default {
       this.editor = Object.seal(editor) // 一定要用 Object.seal() ，否则会报错
     },
     uploadCallback(file, res) {
-      console.log(res)
       this.customImageFile = file
       // // 创建一个读取对象
       var reader = new FileReader()
@@ -279,7 +300,6 @@ export default {
             content: err,
             type: 'danger'
           })
-          console.log(err)
         })
       } else {
         this.shareSaveApi()
@@ -316,7 +336,6 @@ export default {
             content: err,
             type: 'danger'
           })
-          console.log(err)
         })
       } else {
         this.shareCreateApi()
@@ -341,7 +360,6 @@ export default {
       }
 
       shareUpdate(this.Share).then(res => {
-        console.log(res)
         this.initShare()
         this.$msg({
           content: '更新成功',
@@ -369,7 +387,6 @@ export default {
             content: err,
             type: 'danger'
           })
-          console.log(err)
         })
       } else {
         this.shareUpdateApi()

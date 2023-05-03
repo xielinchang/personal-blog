@@ -142,13 +142,14 @@ export default {
     Toolbar
   },
   beforeRouteLeave(to, from, next) {
+    var _this = this
     if (this.isModified) {
       this.$msgBox.confirm({
         title: '提醒',
         content: '您还没有保存哦，需要保存吗',
         type: 'danger',
         onOK: () => {
-          this.save()
+          this.edit()
           next()
         },
         onCancel: () => {
@@ -234,8 +235,7 @@ export default {
     }
   },
   watch: {
-    '$route.path': function(to, from) {
-      document.documentElement.scrollTop = 0
+    'route.path': function () {
       var _this = this
       setTimeout(() => {
         _this.initEssay()
@@ -243,30 +243,29 @@ export default {
     },
     Essay: {
       handler(newval, oldval) {
-        var _this = this
         // 第一次修改为初始化，所以要避开
-        this.editNum = this.editNum + 1
         console.log(this.editNum)
         if (this.editNum > 1) {
-          _this.isModified = true
+          this.isModified = true
         }
-        if (_this.isModified) {
-          window.addEventListener('beforeunload', _this.beforeClose)
+        if (this.isModified) {
+          window.addEventListener('beforeunload', this.beforeClose)
         } else {
-          window.removeEventListener('beforeunload', _this.beforeClose)
+          window.removeEventListener('beforeunload', this.beforeClose)
         }
       },
       deep: true
     }
+  },
+  beforeUpdate() {
+    // 页面发生修改时
+    this.editNum = this.editNum + 1
   },
   mounted () {
     // 关闭浏览器时确认是否保存
     var _this = this
     this.headers.Authorization = Cookie.get('token')
     document.documentElement.scrollTop = 0
-    setTimeout(() => {
-      _this.initEssay()
-    }, 100)
   },
   beforeUnmount() {
     window.removeEventListener('beforeunload', this.beforeClose)
@@ -281,49 +280,54 @@ export default {
       e.returnValue = '' // 在某些老版本的浏览器上需要设置 returnValue 值才能生效
       return '当前数据未保存，确定要离开吗？'
     },
-    initEssay() {
-      var _this = this
+    async initEssay() {
       this.loading = true
-      var id = this.$route.query.id
       this.imgurl = null
-      if (id === 'undefined') {
-        this.isSave = true
-        essayQuerySave().then(res => {
-          this.selected.label = res.data.rows[0].domain
-          if (res.data.rows[0].coverUrl !== '') {
-            this.imgurl = process.env.VUE_APP_BASE_API + res.data.rows[0].coverUrl
-          }
-          this.Essay = res.data.rows[0]
-          if (this.Essay.tags !== '') {
-            this.newTags = this.Essay.tags.split(',')
-          } else {
-            this.newTags = []
-          }
-          _this.isModified = false
-          _this.editNum = 0
-          _this.loading = false
-        })
+      this.isModified = false
+      if (this.$route.query.id === 'undefined') {
+        this.querySaveEssay()
       } else {
-        this.isSave = false
-        essayQuery({
-          limit: 1,
-          offset: 1,
-          query: {
-            id: id * 1,
-            title: undefined,
-            subtitle: undefined,
-            domain: undefined
-          }
-        }).then(res => {
-          this.selected.label = res.data.rows[0].domain
-          this.imgurl = process.env.VUE_APP_BASE_API + res.data.rows[0].coverUrl
-          _this.Essay = res.data.rows[0]
-          _this.newTags = _this.Essay.tags.split(',')
-          _this.editNum = 0
-          _this.isModified = false
-          _this.loading = false
-        })
+        this.queryEssay()
       }
+    },
+    querySaveEssay() {
+      var _this = this
+      this.isSave = true
+      essayQuerySave().then(res => {
+        _this.selected.label = res.data.rows[0].domain
+        _this.imgurl = process.env.VUE_APP_BASE_API + res.data.rows[0].coverUrl
+        _this.Essay = res.data.rows[0]
+        if (_this.Essay.tags) {
+          _this.newTags = _this.Essay.tags.split(',')
+        } else {
+          _this.newTags = []
+        }
+        _this.loading = false
+
+        _this.editNum = 0
+      })
+    },
+    queryEssay() {
+      var _this = this
+      var id = this.$route.query.id
+      this.isSave = false
+      essayQuery({
+        limit: 1,
+        offset: 1,
+        query: {
+          id: id * 1,
+          title: undefined,
+          subtitle: undefined,
+          domain: undefined
+        }
+      }).then(res => {
+        _this.selected.label = res.data.rows[0].domain
+        _this.imgurl = process.env.VUE_APP_BASE_API + res.data.rows[0].coverUrl
+        _this.Essay = res.data.rows[0]
+        _this.newTags = _this.Essay.tags.split(',')
+        _this.loading = false
+        _this.editNum = 0
+      })
     },
     initDomain() {
       this.Essay.domain = this.selected.label
@@ -348,8 +352,13 @@ export default {
       this.Essay.coverUrl = ''
       this.customImageFile = ''
     },
-    onCreated(editor) {
+    async onCreated(editor) {
+      var _this = this
       this.editor = Object.seal(editor) // 一定要用 Object.seal() ，否则会报错
+      // 初始化富文本后初始化文章
+      if (this.editor) {
+        await this.initEssay()
+      }
     },
     reset() {
       this.Essay = {
@@ -384,7 +393,6 @@ export default {
         }).then((res) => {
           this.Essay.coverUrl = res.data.data.url
           this.essaySaveApi()
-          this.initEssay()
         }).catch(err => {
           this.$msg({
             content: err,
@@ -393,16 +401,19 @@ export default {
         })
       } else {
         this.essaySaveApi()
-        this.initEssay()
+        console.log(this.Essay.html)
       }
     },
     essaySaveApi() {
+      var _this = this
       essaySave(this.Essay).then(res => {
         this.$msg({
           content: '保存成功',
           type: 'success'
         })
-        this.initEssay()
+        setTimeout(() => {
+          _this.initEssay()
+        }, 100)
       })
     },
     publish() {
@@ -437,7 +448,7 @@ export default {
         })
         this.reset()
         this.save()
-        this.$router.push('/')
+        this.$router.push('/home')
       })
     },
     update(e) {

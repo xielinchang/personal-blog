@@ -9,7 +9,7 @@
       ></IconButton>
     </router-link>
     <IconButton
-      :left-title="$store.state.clickShow?'关闭点击特效' : '打开点击特效'"
+      :left-title="$store.state.click.clickShow?'关闭点击特效' : '打开点击特效'"
       icon="click"
       @click.native="clickShow()"
     ></IconButton>
@@ -25,7 +25,6 @@ export default {
   name: 'RightButton',
   data() {
     return {
-
     }
   },
   mounted() {
@@ -33,7 +32,7 @@ export default {
   },
   methods: {
     clickShow() {
-      if (this.$store.state.clickShow) {
+      if (this.$store.state.click.clickShow) {
         this.$msg({
           content: '你已取消了点击特效',
           type: 'success'
@@ -44,7 +43,7 @@ export default {
           type: 'success'
         })
       }
-      this.$store.state.clickShow = !this.$store.state.clickShow
+      this.$store.state.click.clickShow = !this.$store.state.click.clickShow
     }
   }
 }

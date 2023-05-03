@@ -5,16 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5390e0c0-c481-4a6a-9f36-6d0548eb2d90" name="变更" comment="">
-      <change afterPath="$PROJECT_DIR$/blog/vue/src/views/component/page-component/rightButton/RightButton.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/blog/egg/app/blog_bg.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/blog/vue/src/store/modules/click.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog/vue/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/blog/vue/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog/vue/src/views/component/default-component/message/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/blog/vue/src/views/component/default-component/message/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog/vue/src/views/component/page-component/essayList/EssayList.scss" beforeDir="false" afterPath="$PROJECT_DIR$/blog/vue/src/views/component/page-component/essayList/EssayList.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog/vue/src/store/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/blog/vue/src/store/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog/vue/src/views/component/default-component/myInput/MyInput.scss" beforeDir="false" afterPath="$PROJECT_DIR$/blog/vue/src/views/component/default-component/myInput/MyInput.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog/vue/src/views/component/default-component/mySelect/mySelect.vue" beforeDir="false" afterPath="$PROJECT_DIR$/blog/vue/src/views/component/default-component/mySelect/mySelect.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog/vue/src/views/component/page-component/essayList/EssayList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/blog/vue/src/views/component/page-component/essayList/EssayList.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog/vue/src/views/page/essay/EssayPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/blog/vue/src/views/page/essay/EssayPage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog/vue/src/views/component/page-component/rightButton/RightButton.vue" beforeDir="false" afterPath="$PROJECT_DIR$/blog/vue/src/views/component/page-component/rightButton/RightButton.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog/vue/src/views/page/essay/EssayControl.vue" beforeDir="false" afterPath="$PROJECT_DIR$/blog/vue/src/views/page/essay/EssayControl.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog/vue/src/views/page/essay/EssayWriting.vue" beforeDir="false" afterPath="$PROJECT_DIR$/blog/vue/src/views/page/essay/EssayWriting.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog/vue/src/views/page/essay/scss/EssayPage.scss" beforeDir="false" afterPath="$PROJECT_DIR$/blog/vue/src/views/page/essay/scss/EssayPage.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog/vue/src/views/page/home/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/blog/vue/src/views/page/home/Home.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog/vue/src/views/page/home/scss/Home.scss" beforeDir="false" afterPath="$PROJECT_DIR$/blog/vue/src/views/page/home/scss/Home.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog/vue/src/views/page/shares/ShareControl.vue" beforeDir="false" afterPath="$PROJECT_DIR$/blog/vue/src/views/page/shares/ShareControl.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog/vue/src/views/page/shares/SharePage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/blog/vue/src/views/page/shares/SharePage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog/vue/src/views/page/shares/ShareWriting.vue" beforeDir="false" afterPath="$PROJECT_DIR$/blog/vue/src/views/page/shares/ShareWriting.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog/vue/vue.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/blog/vue/vue.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,6 +130,7 @@
       <workItem from="1681203143197" duration="2784000" />
       <workItem from="1682215593341" duration="147000" />
       <workItem from="1682299631235" duration="8415000" />
+      <workItem from="1683080714440" duration="9272000" />
     </task>
     <servers />
   </component>
@@ -131,5 +139,17 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/blog/vue/src/views/page/essay/EssayWriting.vue</url>
+          <line>377</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

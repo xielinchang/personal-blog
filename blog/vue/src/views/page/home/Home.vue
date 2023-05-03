@@ -194,7 +194,6 @@ export default {
       this.bannerIndex = index
     },
     jummpEssay(id) {
-      console.log(id)
       this.$router.push('/note/essay?id=' + id)
     }
   }

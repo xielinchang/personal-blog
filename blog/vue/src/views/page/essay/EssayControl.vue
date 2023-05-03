@@ -128,7 +128,6 @@ export default {
         type: 'warning',
         onOK: () => {
           essayDelete({ id: item.id }).then((res) => {
-            console.log(res)
             this.$msg({
               type: 'success',
               content: '删除成功!'

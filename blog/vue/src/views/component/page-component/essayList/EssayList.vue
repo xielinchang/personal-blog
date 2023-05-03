@@ -80,6 +80,7 @@
             style="height: 38px"
             icon="search"
             type="info"
+            @keyup.enter="search"
             @click="search"
           >
             搜索
@@ -94,8 +95,8 @@
       </div>
     </div>
     <icon-button
-      :left-title="iconFlag?'搜索':'取消'"
-      :icon="iconFlag?'search-filled':'close'"
+      :left-title="hasSearch==0?'搜索':'取消'"
+      :icon="hasSearch==0?'search-filled':'close'"
       @click.native="searchShow()"
     ></icon-button>
   </div>
@@ -117,9 +118,11 @@ export default {
   data() {
     return {
       essay_list: [],
+      // 搜索的关键字
       searchKey: '',
+      // 搜索框是否打开
       searchFlag: false,
-      iconFlag: true,
+      params: {},
       options: [{
         label: '内容',
         value: 'html'
@@ -159,85 +162,47 @@ export default {
       }
     }
   },
+  computed: {
+    hasSearch() {
+      return Object.keys(this.$route.query).length
+    }
+  },
   watch: {
     '$route.path': function(to, from) {
-      this.initEssayList()
+      this.init()
+    },
+    '$route.params': function(to, from) {
+      this.init()
     }
   },
   mounted() {
-    this.initEssayList()
+    this.init()
   },
   methods: {
+    init() {
+      this.params = this.$route.query
+      this.initEssayList()
+    },
     offShadow() {
-      this.iconFlag = true
       this.searchFlag = !this.searchFlag
     },
     searchShow() {
-      if (this.iconFlag) {
-        this.searchFlag = !this.searchFlag
-        this.iconFlag = !this.iconFlag
+      if (Object.keys(this.$route.query).length > 0) {
+        this.$router.push('/home')
       } else {
-        this.iconFlag = true
-        this.initEssayList()
+        this.searchFlag = true
       }
     },
     search() {
       /* 根据所选来进行搜索文章 */
+      this.searchFlag = !this.searchFlag
       var selected = this.selected.value
-      this.iconFlag = false
       if (selected !== 'domain') {
-        if (selected === 'html') {
-          essayQuery({
-            limit: 999,
-            offset: 1,
-            query: {
-              html: this.searchKey ? this.searchKey : undefined,
-              domain: undefined
-            }
-          }).then(res => {
-            this.foreachEssay(res.data.rows)
-            this.searchFlag = !this.searchFlag
-          })
-        } else if (selected === 'title') {
-          essayQuery({
-            limit: 999,
-            offset: 1,
-            query: {
-              title: this.searchKey ? this.searchKey : undefined,
-              domain: undefined
-            }
-          }).then(res => {
-            this.foreachEssay(res.data.rows)
-            this.searchFlag = !this.searchFlag
-          })
-        } else {
-          essayQuery({
-            limit: 999,
-            offset: 1,
-            query: {
-              tags: this.searchKey ? this.searchKey : undefined,
-              domain: undefined
-            }
-          }).then(res => {
-            this.foreachEssay(res.data.rows)
-            this.searchFlag = !this.searchFlag
-          })
-        }
+        this.$router.push('/home?' + selected + '=' + this.searchKey)
       } else {
-        essayQuery({
-          limit: 999,
-          offset: 1,
-          query: {
-            id: undefined,
-            title: undefined,
-            domain: this.domainSelected.label ? this.domainSelected.label : undefined,
-            tags: undefined
-          }
-        }).then(res => {
-          this.foreachEssay(res.data.rows)
-          this.searchFlag = !this.searchFlag
-        })
+        this.$router.push('/home?' + selected + '=' + this.domainSelected.label)
       }
+      this.initEssayList()
     },
     foreachEssay(item) {
       this.essay_list = []
@@ -257,18 +222,23 @@ export default {
       this.domainSelected.value = value
     },
     initEssayList() {
+      var params = this.params
       var _this = this
+      var query = {
+        id: undefined,
+        domain: undefined,
+        html: undefined,
+        tags: undefined
+      }
+      Object.assign(query, params)
       essayQuery({
         limit: 999,
         offset: 1,
-        query: {
-          title: undefined,
-          domain: undefined,
-          tags: undefined
-        }
-      }).then((res) => {
+        query: query
+      }).then(res => {
         this.foreachEssay(res.data.rows)
       })
+      this.searchFlag = false
     },
     jumpToEssay(item) {
       if (this.$route.path === '/control/essay') {

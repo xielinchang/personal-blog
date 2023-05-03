@@ -5,7 +5,7 @@
     <right-button></right-button>
     <head-tab></head-tab>
     <left-menu></left-menu>
-    <click v-if="$store.state.clickShow"></click>
+    <click v-if="$store.state.click.clickShow"></click>
     <my-loading load-time="0ms"></my-loading>
     <!-- <keep-alive> -->
     <router-view></router-view>
@@ -17,14 +17,11 @@
 <script>
 import { getUserIp } from '@/api/api'
 import { baiduLocation } from '@/api/baiduapi'
-import RightButton from '@/views/component/page-component/rightButton/RightButton.vue'
 export default {
   name: 'App',
-  components: { RightButton },
   data() {
     return {
-      loadingshow: 'block',
-      clickShow: true
+      loadingshow: 'block'
     }
   },
   created() {
@@ -39,7 +36,6 @@ export default {
     setTimeout(function () {
       that.loadingshow = 'none'
     }, 0)
-    this.clickShow = this.$store.state.clickShow
     this.getIp()
   },
   methods: {

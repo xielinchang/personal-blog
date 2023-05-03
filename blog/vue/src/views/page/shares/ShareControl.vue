@@ -31,19 +31,16 @@
           </div>
         </li>
         <li class="control-share-item">
-          <div class="add-share-container">
-            <div class="add-share-icon">
-              <svg-icon
-                class="share-icon"
-                icon-name="add"
-                color="#F1DA4E"
-                size="70px"
-                right-title="添加一篇新分享"
-                @click="jumpToAddShare()"
-              />
-            </div>
+          <div class="add-share">
+            <svg-icon
+              class="share-icon"
+              icon-name="add"
+              color="#F1DA4E"
+              size="70px"
+              right-title="添加一篇新分享"
+              @click="jumpToAddShare()"
+            />
           </div>
-
         </li>
       </ul>
     </div>
@@ -209,25 +206,20 @@ export default {
 .control-share-item:hover .share-delete{
   opacity: 1;
 }
-.add-share-container{
+.add-share{
   width: 100%;
   height: 100%;
+  position: relative;
   background: rgb(255, 255, 255,0.7);
-}
-.add-share-icon{
-  width: 60%;
-  height: 100%;
-  margin: 0 20%;
-  display: flex;
-  justify-content: center;
   .share-icon{
-  width: 70px;
-  height: 70px;
-  margin-top: 60px;
-}
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-100%);
 .share-icon:hover{
   transform: scale(1.1);
   transition: 300ms ;
+}
 }
 }
 

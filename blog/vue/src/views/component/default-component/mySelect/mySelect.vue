@@ -136,15 +136,15 @@ export default {
     if (this.type === 'search') {
       this.filterData(this.selected.label)
     }
-    document.addEventListener('click', (e) => {
-      if (!this.$refs.box.contains(e.target) && this.openFlag === true) {
-        this.openOptions()
-      }
-    })
   },
   methods: {
     openOptions() {
       this.openFlag = !this.openFlag
+      document.addEventListener('click', (e) => {
+        if (!this.$refs.box.contains(e.target) && this.openFlag === true) {
+          this.openFlag = false
+        }
+      })
     },
     selectValue (item) {
       this.$emit('change-select', item.label, item.value)

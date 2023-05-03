@@ -68,7 +68,6 @@ export default {
     initShare() {
       var _this = this
       var id = this.$route.query.id
-      console.log(this.$route.query)
       shareQuery({
         limit: 1,
         offset: 1,

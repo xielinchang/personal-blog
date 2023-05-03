@@ -21,14 +21,12 @@
         border: 1px solid #ddd;
         transition: 300ms;
         & input{
+            
             width: calc(100% - 50px);
             height: 34px;
             outline: none;
             border: none;  
             color: #393939;
-            & ::placeholder{
-                color: #ddd;
-            }
             .is-disabled{
                 cursor: not-allowed;
             }
@@ -37,4 +35,8 @@
             display: flex;
         }
     }
+}
+::placeholder{
+    font-size: 13px;
+    color: #999;
 }
