@@ -29,13 +29,11 @@
             <div class="control-item-time">{{ item.updated_at }}</div>
             <div
               class="control-item-title"
-              :right-title="item.title"
             >
               {{ item.title }}
             </div>
             <div
               class="item-sub-title"
-              :right-title="item.subtitle"
             >
               {{ item.subtitle }}
             </div>

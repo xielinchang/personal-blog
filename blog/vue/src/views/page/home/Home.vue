@@ -221,5 +221,5 @@ ul {
 </style>
 /* 背景框架 */
 <style scoped lang="scss">
-@import './scss/Home.scss';
+@import './Home.scss';
 </style>

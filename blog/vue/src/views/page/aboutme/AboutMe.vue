@@ -40,7 +40,7 @@ export default {
         message: ['JQ', 'vue', 'node', 'egg']
       }, {
         title: '项目经验',
-        message: ['码上学生管理系统', '欧美特卫浴官网', '个人博客']
+        message: ['码上学生管理系统', '欧美特卫浴官网', '微信奶茶订餐小程序']
       }, {
         title: '一起成长',
         message: ['好好学习', '天天向上']
@@ -56,5 +56,5 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import './scss/AboutMe.scss';
+@import './AboutMe';
 </style>

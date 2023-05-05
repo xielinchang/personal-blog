@@ -77,14 +77,19 @@
               margin-left: 10px;
               position: absolute;
               top: 40px;
-              //overflow: hidden;
-              //white-space: nowrap;
-              //text-overflow: ellipsis;
+              overflow: hidden;
+            }
+            .control-item-title{
+              white-space: nowrap;
+              text-overflow: ellipsis;
             }
             .item-sub-title {
               top: 65px;
               font-size: 14px;
               color: rgb(117, 117, 117);
+              display:-webkit-box;
+              -webkit-box-orient:vertical;/*设置方向*/
+              -webkit-line-clamp:2;/*设置超过为省略号的行数*/
             }
             .control-item-type {
               list-style: none;
@@ -135,7 +140,7 @@
                 top: 40px;
               }
             }
-            
+
           }
         }
       }

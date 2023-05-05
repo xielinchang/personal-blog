@@ -12,7 +12,10 @@
     top: 0;
     left: 0;
   }
-
+  .icon-button{
+    position: fixed;
+    right: 50px;
+  }
   .back-home {
     width: 35px;
     height: 35px;
@@ -165,7 +168,7 @@
             margin:15px 10px;
             padding: 0 5px;
             border-radius: 4px;
-  
+
           }
           & li:hover{
             background-color: rgb(255, 251, 244);
@@ -220,7 +223,7 @@
           position: relative;
           box-shadow: 0 0 0 2px rgb(255 255 255 / 40%) inset,
             0 13px 15px rgb(31 45 61 / 15%);
-          padding: 10px 10px 10px 15px;
+          padding: 15px 15px 20px 20px;
           box-sizing: border-box;
 
           .operation {
@@ -310,7 +313,7 @@
               width: 100%;
               height: 100%;
               padding: 10px 15px;
-              font-size: 24px;
+              font-size: 20px;
               border-radius: 4px;
               outline: none;
               border: none;
@@ -327,7 +330,7 @@
             textarea::-webkit-input-placeholder {
               color: rgb(83, 83, 83);
               font-weight: 500;
-              font-size: 20px;
+              font-size: 16px;
             }
             .emoji-btn,.c-publish-btn{
               box-shadow: 0 0 0 2px rgb(255 255 255 / 40%) inset,
@@ -337,7 +340,7 @@
                 width: 100px;
               height: 35px;
               position: absolute;
-              border-radius: 12px;
+              border-radius: 8px;
               text-align: center;
               color: rgb(78, 78, 78);
               line-height: 35px;

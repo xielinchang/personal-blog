@@ -36,6 +36,10 @@
     ><svg-icon
       icon-name="arrow-left"
       :color="btnStyle.color"
+      :style="{
+        /* 与分页器对齐 */
+        marginTop: itemStyle.height - 22 + 'px',
+      }"
     ></svg-icon></div>
     <div
       v-for="(item, index) in pageList"
@@ -53,6 +57,10 @@
     ><svg-icon
       icon-name="arrow-right"
       :color="btnStyle.color"
+      :style="{
+        /* 与分页器对齐 */
+        marginTop: itemStyle.height - 22 + 'px',
+      }"
     ></svg-icon></div>
     <div
       v-show="jumperShow == true"

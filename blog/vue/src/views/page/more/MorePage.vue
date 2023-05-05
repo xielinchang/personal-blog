@@ -193,27 +193,6 @@ export default {
   }
 }
 </script>
-<style>
-</style>
-<style scoped>
-
-.note-main{
-    width: 100%;
-    min-height: calc(100vh);
-}
-.head-tab{
-    margin: auto;
-}
-.more-container {
-  width: 60%;
-  height: 1200px;
-  position: absolute;
-  margin-left: 50%;
-  transform: translateX(-50%);
-  top: 100px;
-  border-radius: 8px;
-  background: rgb(255,255,255 ,0.6);
-  box-shadow: 0 0 0 1px rgb(255 255 255 / 40%) inset,
-    0 13px 15px rgb(31 45 61 / 15%);
-}
+<style lang="scss" scoped>
+@import "./MorePage.scss";
 </style>

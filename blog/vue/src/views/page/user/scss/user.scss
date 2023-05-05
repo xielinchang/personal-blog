@@ -1,0 +1,177 @@
+.main{
+  width: 60%;
+  margin-left: 20%;
+  border-radius: 4px;
+  height: auto;
+  background: rgb(255,255,255,0.7);
+  position: relative;
+  top: 100px;
+  padding: 20px 3%;
+  padding-top: 40px;
+  box-sizing: border-box;
+  .user{
+    width: 100%;
+    margin-bottom: 20px;
+    min-height: 200px;
+    height: auto;
+    background: rgb(255,255,255,0.6);
+    font-family: YOUYUAN;
+    border-radius: 4px;
+    position: relative;
+    .portrait{
+      width: 80px;
+      height: 80px;
+      position: absolute;
+      left: 5%;
+      top: 5%;
+      & img{
+        position: absolute;
+        top: 0;
+        border-radius: 4px;
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .user-r{
+      position: absolute;
+      width: calc(100% - 100px - 5%);
+      height: 100%;
+      right: 0;
+      box-sizing: border-box;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: top;
+      & span{
+        margin-right: 10px;
+        float: left;
+      }
+      .user-r-item{
+        margin-bottom: 10px;
+      }
+      .logout{
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+      }
+    }
+  }
+  & ul {
+    width: 100%;
+    height: auto;
+    margin: auto;
+    margin-top: 20px;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    .essay-list-item {
+      width: 48%;
+      height: 155px;
+      margin-bottom: 10px;
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 13px 15px rgb(31 45 61 / 15%);
+      & .close {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        width: 15px;
+        height: 15px;
+        z-index: 999;
+        opacity: 0.3;
+      }
+      .control-item-img {
+        width: 40%;
+        height: 100%;
+        overflow: hidden;
+        position: absolute;
+        top: 0;
+      }
+      .control-item-right {
+        width: 60%;
+        height: 100%;
+        right: 0;
+        position: absolute;
+        background: rgb(255, 255, 255, 0.8);
+        bottom: 0;
+        .control-item-time {
+          width: 100%;
+          height: 20px;
+          font-size: 14px;
+          color: rgb(155, 155, 155);
+          position: absolute;
+          margin-left: 10px;
+          margin-top: 15px;
+        }
+        .control-item-title,
+        .item-sub-title {
+          width: 90%;
+          height: 30px;
+          font-size: 16px;
+          font-weight: 400;
+          font-family: YouYuan;
+          margin-left: 10px;
+          position: absolute;
+          top: 40px;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+        .item-sub-title {
+          top: 65px;
+          font-size: 14px;
+          color: rgb(117, 117, 117);
+        }
+        .control-item-type {
+          list-style: none;
+          width: 100%;
+          position: absolute;
+          bottom: 10px;
+          height: 26px;
+          padding: 0;
+          display: flex;
+          justify-content: left;
+          & li {
+            min-width: 30px;
+            padding: 0 5px;
+            width: auto;
+            height: 20px;
+            background: #e1f6da;
+            color: #45c717;
+            font-weight: 500;
+            border-radius: 4px;
+            text-align: center;
+            line-height: 20px;
+            font-size: 12px;
+            margin-left: 10px;
+            &:nth-child(2) {
+              background: #def1ff;
+              color: #31a8ff;
+            }
+          }
+        }
+      }
+      .add-essay-container {
+        width: 100%;
+        height: 100%;
+        background: rgb(255, 255, 255, 0.7);
+        .add-essay {
+          width: 60%;
+          height: 100%;
+          margin: auto;
+          & .add {
+            text-align: center;
+            width: 70px;
+            height: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 40px;
+          }
+        }
+
+      }
+    }
+  }
+}

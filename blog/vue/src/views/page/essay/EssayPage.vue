@@ -3,9 +3,7 @@
     <TemplatePage></TemplatePage>
     <my-loading :load-show="loading"></my-loading>
     <div class="main-body">
-
       <div class="main-container">
-
         <div class="banner">
           <div class="baner-mark">
             <div
@@ -28,6 +26,7 @@
 
         </div>
         <ul
+          v-show="catalog.length>0&&catalogShow"
           class="catalog"
           :style="justStyle"
         >
@@ -38,7 +37,10 @@
             @click="jumpToCatalog(item)"
           >{{ item.key }}</li>
         </ul>
-        <div class="main-page">
+        <div
+          class="main-page"
+          :style="{width: (catalog.length>0&&catalogShow)?'78%':'100%'}"
+        >
           <div
             v-if="essayForm.digest!==''"
             class="digest shadow-demo"
@@ -201,7 +203,30 @@
       </div>
 
     </div>
-  </div></template>
+    <icon-button
+      class="icon-button"
+      icon="left"
+      style="bottom: 180px"
+      left-title="上一篇"
+      @click.native="preEssay()"
+    ></icon-button>
+    <icon-button
+      class="icon-button"
+      style="bottom: 230px"
+      icon="right"
+      left-title="下一篇"
+      @click.native="nextEssay()"
+    ></icon-button>
+    <icon-button
+      v-show="catalog.length>0"
+      class="icon-button"
+      style="bottom: 280px"
+      icon="hide-filled"
+      :left-title="catalogShow?'隐藏目录':'打开目录'"
+      @click.native="catalogShow=!catalogShow"
+    ></icon-button>
+  </div>
+</template>
 
 <script>
 // import user from './user.vue'
@@ -213,6 +238,7 @@ export default {
   data () {
     return {
       essayForm: {
+        essay_id: null,
         coverUrl: '',
         title: '',
         subtitle: '',
@@ -256,8 +282,9 @@ export default {
       // 目录
       catalog: [],
       // 滚动高度，(和目录相关)
-      scrollHeight: ''
-
+      scrollHeight: '',
+      // 目录显示
+      catalogShow: true
     }
   },
   computed: {
@@ -279,9 +306,21 @@ export default {
     }
   },
   watch: {
-    '$route.path': function(to, from) {
-      this.init()
+    '$route.path': {
+      immediate: true,
+      handler(value, oldValue) {
+        // 处理路由参数变化的逻辑
+        this.init()
+      }
+    },
+    '$route.query': {
+      immediate: true,
+      handler(value, oldValue) {
+        this.init()
+      },
+      deep: true
     }
+
   },
   created() {
     // 页面高度初始化
@@ -299,6 +338,54 @@ export default {
     onScroll() {
       var scrollTop = document.documentElement.scrollTop || document.body.scrollTop
       this.scrollHeight = scrollTop
+    },
+    preEssay() {
+      essayQuery({
+        limit: 999,
+        offset: 1,
+        query: {
+          id: undefined,
+          title: undefined,
+          subtitle: undefined,
+          domain: undefined
+        }
+      }).then(res => {
+        const arr = res.data.rows
+        const idIndex = arr.findIndex(item => item.id * 1 === this.commentForm.essay_id * 1)
+        if (idIndex === 0) {
+          this.$msg({
+            content: '已经是第一篇了',
+            type: 'info'
+          })
+        } else {
+          this.$router.push('/note/essay?id=' + arr[idIndex - 1].id)
+          // 直接初始化无效，需要监听路由参数变化再执行初始化
+          // this.init()
+        }
+      })
+    },
+    nextEssay() {
+      essayQuery({
+        limit: 999,
+        offset: 1,
+        query: {
+          id: undefined,
+          title: undefined,
+          subtitle: undefined,
+          domain: undefined
+        }
+      }).then(res => {
+        const arr = res.data.rows
+        const idIndex = arr.findIndex(item => item.id * 1 === this.commentForm.essay_id * 1)
+        if (idIndex * 1 === arr.length - 1) {
+          this.$msg({
+            content: '已经是最后一篇了',
+            type: 'info'
+          })
+        } else {
+          this.$router.push('/note/essay?id=' + arr[idIndex + 1].id)
+        }
+      })
     },
     selectEmoji(emoji) {
       // 选择emoji后调用的函数
@@ -324,7 +411,9 @@ export default {
     },
     initPage() {
       // 获取文章id
+      // 评论表单的文章id
       this.commentForm.essay_id = this.$route.query.id * 1
+      // 文章详细信息的文章id
       this.essayData.essay_id = this.$route.query.id * 1
     },
     initCatalog() {
@@ -386,7 +475,7 @@ export default {
           for (let i = 0; i < codePart.length; i++) {
             codePart[i].style.background = '#F5F2F0'
             codePart[i].style.borderRadius = '4px'
-            codePart[i].style.fontSize = '14px'
+            codePart[i].style.fontSize = '18px'
             codePart[i].style.padding = '15px'
             codePart[i].style.margin = '10px 0'
             codePart[i].style.color = '#333'
