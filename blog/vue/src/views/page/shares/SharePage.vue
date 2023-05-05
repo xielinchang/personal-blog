@@ -42,6 +42,20 @@
           </div>
         </div>
       </div>
+      <icon-button
+        class="icon-button"
+        icon="left"
+        style="bottom: 180px"
+        left-title="上一篇"
+        @click.native="preShare()"
+      ></icon-button>
+      <icon-button
+        class="icon-button"
+        style="bottom: 230px"
+        icon="right"
+        left-title="下一篇"
+        @click.native="nextShare()"
+      ></icon-button>
     </div>
   </div>
 </template>
@@ -60,11 +74,64 @@ export default {
       }
     }
   },
+  watch: {
+    '$route.path': {
+      immediate: true,
+      handler(value, oldValue) {
+        // 处理路由参数变化的逻辑
+        this.initShare()
+      }
+    },
+    '$route.query': {
+      immediate: true,
+      handler(value, oldValue) {
+        this.initShare()
+      },
+      deep: true
+    }
+
+  },
   mounted () {
     document.documentElement.scrollTop = 0
     this.initShare()
   },
   methods: {
+    changeEssay(type) {
+      shareQuery({
+        limit: 999,
+        offset: 1,
+        query: {
+          id: undefined,
+          title: undefined
+        }
+      }).then(res => {
+        const arr = res.data.rows
+        const idIndex = arr.findIndex(item => item.id * 1 === this.$route.query.id * 1)
+        if (idIndex * 1 === arr.length - 1) {
+          this.$msg({
+            content: '已经是最后一篇了',
+            type: 'info'
+          })
+        } else if (idIndex * 1 === 0) {
+          this.$msg({
+            content: '已经是第一篇了',
+            type: 'info'
+          })
+        } else {
+          if (type === 'next') {
+            this.$router.push('/note/share?id=' + arr[idIndex + 1].id)
+          } else if (type === 'pre') {
+            this.$router.push('/note/share?id=' + arr[idIndex - 1].id)
+          }
+        }
+      })
+    },
+    preShare() {
+      this.changeShare('pre')
+    },
+    nextShare() {
+      this.changeShare('next')
+    },
     initShare() {
       var _this = this
       var id = this.$route.query.id

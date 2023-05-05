@@ -339,32 +339,7 @@ export default {
       var scrollTop = document.documentElement.scrollTop || document.body.scrollTop
       this.scrollHeight = scrollTop
     },
-    preEssay() {
-      essayQuery({
-        limit: 999,
-        offset: 1,
-        query: {
-          id: undefined,
-          title: undefined,
-          subtitle: undefined,
-          domain: undefined
-        }
-      }).then(res => {
-        const arr = res.data.rows
-        const idIndex = arr.findIndex(item => item.id * 1 === this.commentForm.essay_id * 1)
-        if (idIndex === 0) {
-          this.$msg({
-            content: '已经是第一篇了',
-            type: 'info'
-          })
-        } else {
-          this.$router.push('/note/essay?id=' + arr[idIndex - 1].id)
-          // 直接初始化无效，需要监听路由参数变化再执行初始化
-          // this.init()
-        }
-      })
-    },
-    nextEssay() {
+    changeEssay(type) {
       essayQuery({
         limit: 999,
         offset: 1,
@@ -383,9 +358,19 @@ export default {
             type: 'info'
           })
         } else {
-          this.$router.push('/note/essay?id=' + arr[idIndex + 1].id)
+          if (type === 'next') {
+            this.$router.push('/note/essay?id=' + arr[idIndex + 1].id)
+          } else if (type === 'pre') {
+            this.$router.push('/note/essay?id=' + arr[idIndex - 1].id)
+          }
         }
       })
+    },
+    preEssay() {
+      this.changeEssay('pre')
+    },
+    nextEssay() {
+      this.changeEssay('next')
     },
     selectEmoji(emoji) {
       // 选择emoji后调用的函数
