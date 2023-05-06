@@ -203,28 +203,36 @@
       </div>
 
     </div>
-    <icon-button
-      class="icon-button"
-      icon="left"
-      style="bottom: 180px"
-      left-title="上一篇"
-      @click.native="preEssay()"
-    ></icon-button>
-    <icon-button
-      class="icon-button"
-      style="bottom: 230px"
-      icon="right"
-      left-title="下一篇"
-      @click.native="nextEssay()"
-    ></icon-button>
-    <icon-button
-      v-show="catalog.length>0"
-      class="icon-button"
-      style="bottom: 280px"
-      icon="hide-filled"
-      :left-title="catalogShow?'隐藏目录':'打开目录'"
-      @click.native="catalogShow=!catalogShow"
-    ></icon-button>
+    <div class="icon-buttons">
+      <router-link :to="'/control/essay/writing?id='+essay_id">
+        <icon-button
+          v-if="identity==='管理员'"
+          class="icon-button"
+          icon="edit"
+          left-title="编辑"
+        ></icon-button>
+      </router-link>
+      <icon-button
+        v-show="catalog.length>0"
+        class="icon-button"
+        icon="hide-filled"
+        :left-title="catalogShow?'隐藏目录':'打开目录'"
+        @click.native="catalogShow=!catalogShow"
+      ></icon-button>
+      <icon-button
+        class="icon-button"
+        icon="left"
+        left-title="上一篇"
+        @click.native="preEssay()"
+      ></icon-button>
+      <icon-button
+        class="icon-button"
+        icon="right"
+        left-title="下一篇"
+        @click.native="nextEssay()"
+      ></icon-button>
+    </div>
+
   </div>
 </template>
 
@@ -260,6 +268,7 @@ export default {
         good: 0,
         collect: 0
       },
+      essay_id: '',
       commentNum: 0,
       publishShow: false,
       showDialog: false,
@@ -306,16 +315,15 @@ export default {
     }
   },
   watch: {
-    '$route.path': {
-      immediate: true,
-      handler(value, oldValue) {
-        // 处理路由参数变化的逻辑
-        this.init()
-      }
-    },
+    // '$route.path': {
+    //   immediate: true,
+    //   handler(value, oldValue) {
+    //     this.init()
+    //   }
+    // },
     '$route.query': {
-      immediate: true,
       handler(value, oldValue) {
+        var _this = this
         this.init()
       },
       deep: true
@@ -334,6 +342,7 @@ export default {
       this.initUser()
       this.initEssay()
       this.initComments()
+      this.initCatalog()
     },
     onScroll() {
       var scrollTop = document.documentElement.scrollTop || document.body.scrollTop
@@ -352,9 +361,14 @@ export default {
       }).then(res => {
         const arr = res.data.rows
         const idIndex = arr.findIndex(item => item.id * 1 === this.commentForm.essay_id * 1)
-        if (idIndex * 1 === arr.length - 1) {
+        if (idIndex * 1 === arr.length - 1 && type === 'next') {
           this.$msg({
             content: '已经是最后一篇了',
+            type: 'info'
+          })
+        } else if (idIndex * 1 === 0 && type === 'pre') {
+          this.$msg({
+            content: '已经是第一篇了',
             type: 'info'
           })
         } else {
@@ -400,8 +414,11 @@ export default {
       this.commentForm.essay_id = this.$route.query.id * 1
       // 文章详细信息的文章id
       this.essayData.essay_id = this.$route.query.id * 1
+      // 通用id
+      this.essay_id = this.$route.query.id * 1
     },
     initCatalog() {
+      this.catalog = []
       var titleList = document.querySelectorAll('h1, h2, h3, h4, h5, h6, h7')
       for (let i = 0; i < titleList.length; i++) {
         const element = titleList[i]
@@ -520,10 +537,7 @@ export default {
           }
         })
       } else {
-        this.$msg({
-          content: '用户尚未登录',
-          type: 'warning'
-        })
+        console.log('用户尚未登录')
       }
     },
     publishComment() {

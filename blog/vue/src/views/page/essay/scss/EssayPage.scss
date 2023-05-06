@@ -12,10 +12,22 @@
     top: 0;
     left: 0;
   }
-  .icon-button{
+  .icon-buttons{
     position: fixed;
     right: 50px;
+    bottom: 170px;
+    width: 40px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+
+    z-index: 999;
+    .icon-button{
+      box-sizing: border-box;
+     margin-bottom: 10px;
+    }
   }
+  
   .back-home {
     width: 35px;
     height: 35px;

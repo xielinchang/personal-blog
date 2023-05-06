@@ -42,26 +42,36 @@
           </div>
         </div>
       </div>
-      <icon-button
-        class="icon-button"
-        icon="left"
-        style="bottom: 180px"
-        left-title="上一篇"
-        @click.native="preShare()"
-      ></icon-button>
-      <icon-button
-        class="icon-button"
-        style="bottom: 230px"
-        icon="right"
-        left-title="下一篇"
-        @click.native="nextShare()"
-      ></icon-button>
+      <div class="icon-buttons">
+        <router-link :to="'/control/share/writing?id='+share_id">
+          <icon-button
+            v-if="identity==='管理员'"
+            class="icon-button"
+            icon="edit"
+            left-title="编辑"
+          ></icon-button>
+        </router-link>
+        <icon-button
+          class="icon-button"
+          icon="left"
+          left-title="上一篇"
+          @click.native="preShare()"
+        ></icon-button>
+        <icon-button
+          class="icon-button"
+          icon="right"
+          left-title="下一篇"
+          @click.native="nextShare()"
+        ></icon-button>
+      </div>
+
     </div>
   </div>
 </template>
 
 <script>
 import { shareQuery } from '@/api/shareapi'
+import { queryUser } from '@/api/user'
 import 'animate.css'
 export default {
   data () {
@@ -71,7 +81,9 @@ export default {
         created_at: '',
         tags: [],
         html: ''
-      }
+      },
+      share_id: '',
+      identity: null
     }
   },
   watch: {
@@ -94,9 +106,15 @@ export default {
   mounted () {
     document.documentElement.scrollTop = 0
     this.initShare()
+    this.initUser()
   },
   methods: {
-    changeEssay(type) {
+    initUser() {
+      queryUser({ id: localStorage.getItem('userId') }).then(res => {
+        this.identity = res.data.user.rows[0].identity
+      })
+    },
+    changeShare(type) {
       shareQuery({
         limit: 999,
         offset: 1,
@@ -105,14 +123,15 @@ export default {
           title: undefined
         }
       }).then(res => {
+        console.log(res)
         const arr = res.data.rows
         const idIndex = arr.findIndex(item => item.id * 1 === this.$route.query.id * 1)
-        if (idIndex * 1 === arr.length - 1) {
+        if (idIndex * 1 === arr.length - 1 && type === 'next') {
           this.$msg({
             content: '已经是最后一篇了',
             type: 'info'
           })
-        } else if (idIndex * 1 === 0) {
+        } else if (idIndex * 1 === 0 && type === 'pre') {
           this.$msg({
             content: '已经是第一篇了',
             type: 'info'
@@ -134,7 +153,8 @@ export default {
     },
     initShare() {
       var _this = this
-      var id = this.$route.query.id
+      this.share_id = this.$route.query.id
+      var id = this.share_id
       shareQuery({
         limit: 1,
         offset: 1,

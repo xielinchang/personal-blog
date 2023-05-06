@@ -117,6 +117,7 @@
 <script>
 import { bgGif } from '@/api/api'
 import { essayQuery } from '@/api/essayapi'
+import { shuffleArray } from '@/utils/array'
 export default {
   name: 'HomePage',
   data() {
@@ -143,7 +144,7 @@ export default {
   methods: {
     initBanner() {
       essayQuery({
-        limit: 5,
+        limit: 999,
         offset: 1,
         query: {
           title: undefined,
@@ -151,9 +152,13 @@ export default {
           tags: undefined
         }
       }).then(res => {
-        res.data.rows.forEach(item => {
-          item.coverUrl = process.env.VUE_APP_BASE_API + item.coverUrl
-          this.bannerList.push(item)
+        var data = res.data.rows
+        var bannerList = shuffleArray(data)
+        bannerList.forEach((item, index) => {
+          if (index < 5) {
+            item.coverUrl = process.env.VUE_APP_BASE_API + item.coverUrl
+            this.bannerList.push(item)
+          }
         })
       })
     },

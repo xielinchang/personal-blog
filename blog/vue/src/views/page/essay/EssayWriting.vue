@@ -125,6 +125,13 @@
 
       </div>
     </div>
+    <router-link :to="'/note/essay?id='+Essay.id">
+      <icon-button
+        class="icon-button"
+        icon="back"
+        left-title="回到对应文章"
+      ></icon-button>
+    </router-link>
   </div>
 </template>
 

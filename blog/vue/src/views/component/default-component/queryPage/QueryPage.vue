@@ -179,7 +179,7 @@ export default {
     },
     // 是否在只有1页时隐藏，true:打开，false，关闭
     isOneShow: {
-      type: Boolean,
+      type: [Boolean, String],
       default: true
     },
     // 页面大小配置
