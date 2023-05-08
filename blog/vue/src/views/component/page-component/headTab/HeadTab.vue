@@ -71,70 +71,8 @@ export default {
   name: 'HeadTab',
   data() {
     return {
-      contract_list: [
-        {
-          menuicon: 'home-filled',
-          color: '#F5A7B2',
-          title: '首页',
-          router: '/home',
-          id: 0
-        },
-        {
-          menuicon: 'about-me',
-          color: '#00B753',
-          title: '关于我',
-          router: '/aboutme',
-          id: 1
-        },
-        {
-          menuicon: 'comment-filled',
-          color: '#1DA9E0',
-          title: '留言',
-          router: '/comments',
-          id: 2
-        },
-        {
-          menuicon: 'setting-filled',
-          color: '#7184AD',
-          title: '管理',
-          router: '/control/essay',
-          id: 3
-        },
-        {
-          menuicon: 'more-filled',
-          color: '#FC9709',
-          title: '更多',
-          router: '/more',
-          id: 4
-        }
-      ],
-      secondTab: [
-        {
-          title: '文章管理',
-          router: '/control/essay',
-          id: 0
-        },
-        {
-          title: '随笔管理',
-          router: '/control/share',
-          id: 1
-        },
-        {
-          title: '留言管理',
-          router: '/control/comments',
-          id: 2
-        },
-        {
-          title: '记录管理',
-          router: '/control/record',
-          id: 3
-        },
-        {
-          title: '用户管理',
-          router: '/control/user',
-          id: 4
-        }
-      ],
+      contract_list: [],
+      secondTab: [],
       currentIndex: '',
       routerIndex: '',
       line_move: 0,
@@ -156,6 +94,10 @@ export default {
         }
       })
     }
+  },
+  created () {
+    this.contract_list = this.$store.state.dictionary.menu
+    this.secondTab = this.$store.state.dictionary.secondMenu
   },
   async mounted() {
     this.initUser()

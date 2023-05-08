@@ -49,7 +49,7 @@
     >
       <div class="select-options-icon"> </div>
       <div
-        v-for="(item, index) in options"
+        v-for="(item, index) in type!='search'?options:data.itemList"
         :key="index"
         :style="{
           color: selected.label === item.label ? '#21A0FF' : '',
@@ -120,9 +120,11 @@ export default {
   data () {
     return {
       openFlag: false,
+      // 搜索框过滤后的选项
       data: {
         itemList: []
-      }
+      },
+      componentInstance: null
     }
   },
   watch: {
@@ -135,16 +137,27 @@ export default {
   mounted () {
     if (this.type === 'search') {
       this.filterData(this.selected.label)
+      console.log(this.data.itemList)
     }
   },
   methods: {
     openOptions() {
       this.openFlag = !this.openFlag
+      // 当点击其他空白处，关闭选择框
       document.addEventListener('click', (e) => {
-        if (!this.$refs.box.contains(e.target) && this.openFlag === true) {
-          this.openFlag = false
+        if (this.$refs.box) {
+          // 如果有这个实例，则执行，因为是全局组件，不添加判断会报错
+          if (!this.$refs.box.contains(e.target) && this.openFlag === true) {
+            this.openFlag = false
+          }
+        } else {
+          return
         }
       })
+    },
+    searchOptions(e) {
+      this.openFlag = true
+      this.filterData(e.target.value)
     },
     selectValue (item) {
       this.$emit('change-select', item.label, item.value)

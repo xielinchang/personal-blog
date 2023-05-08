@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { click } from './modules/click'
+import { dictionary } from './modules/dictionary'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -14,6 +15,7 @@ export default new Vuex.Store({
   },
   modules: {
     namespaced: true,
-    click
+    click,
+    dictionary
   }
 })

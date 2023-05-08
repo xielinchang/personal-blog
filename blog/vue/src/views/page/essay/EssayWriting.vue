@@ -66,7 +66,7 @@
             ></my-tags>
             领域：
             <my-select
-              :options="options"
+              :options="domain"
               :selected="selected"
               @change-select="changeSelect"
             >
@@ -212,22 +212,7 @@ export default {
       changeImg: false,
       file: {},
       newTags: [],
-      options: [{
-        label: 'HTML',
-        value: 'html'
-      }, {
-        label: 'CSS',
-        value: 'css'
-      }, {
-        label: 'JS',
-        value: 'js'
-      }, {
-        label: 'VUE',
-        value: 'vue'
-      }, {
-        label: '其他',
-        value: 'other'
-      }],
+      domain: [],
       selected: {
         label: 'HTML',
         value: 'html'
@@ -267,6 +252,9 @@ export default {
   beforeUpdate() {
     // 页面发生修改时
     this.editNum = this.editNum + 1
+  },
+  created() {
+    this.domain = this.$store.state.dictionary.domain
   },
   mounted () {
     // 关闭浏览器时确认是否保存

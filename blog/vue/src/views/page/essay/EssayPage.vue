@@ -322,6 +322,7 @@ export default {
     //   }
     // },
     '$route.query': {
+      // 监听参数变化重新初始化，比直接location.href刷新页面更加顺滑
       handler(value, oldValue) {
         var _this = this
         this.init()
@@ -373,6 +374,9 @@ export default {
           })
         } else {
           if (type === 'next') {
+            // 直接跳转路由再初始化并不会生效，因为只改变了参数的值
+            // 可以直接使用location.href刷新页面来重新初始化
+            // 通过监听参数变化来重新初始化可以避免刷新
             this.$router.push('/note/essay?id=' + arr[idIndex + 1].id)
           } else if (type === 'pre') {
             this.$router.push('/note/essay?id=' + arr[idIndex - 1].id)

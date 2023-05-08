@@ -70,7 +70,7 @@
           <my-select
             width="150"
             :right-title="'根据'+selected.label+'来搜索'"
-            :options="options"
+            :options="essaySearchList"
             :selected="selected"
             @change-select="changeSelect"
           >
@@ -139,35 +139,8 @@ export default {
       // 搜索框是否打开
       searchFlag: false,
       params: {},
-      options: [{
-        label: '内容',
-        value: 'html'
-      }, {
-        label: '标题',
-        value: 'title'
-      }, {
-        label: '领域',
-        value: 'domain'
-      }, {
-        label: '标签',
-        value: 'tags'
-      }],
-      domainOptions: [{
-        label: 'HTML',
-        value: 'html'
-      }, {
-        label: 'CSS',
-        value: 'css'
-      }, {
-        label: 'JS',
-        value: 'js'
-      }, {
-        label: 'VUE',
-        value: 'vue'
-      }, {
-        label: '其他',
-        value: 'other'
-      }],
+      essaySearchList: [],
+      domainOptions: [],
       selected: {
         label: '内容',
         value: 'html'
@@ -203,6 +176,10 @@ export default {
     '$route.params': function(to, from) {
       this.init()
     }
+  },
+  created () {
+    this.domainOptions = this.$store.state.dictionary.domain
+    this.essaySearchList = this.$store.state.dictionary.essaySearchList
   },
   mounted() {
     this.init()

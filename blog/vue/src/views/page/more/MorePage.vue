@@ -98,6 +98,12 @@
         :selected="selected"
         @change-select="changeSelect"
       ></my-select>
+      <my-select
+        :options="searchOptions"
+        :selected="searchSelected"
+        type="search"
+        @change-select="changeSearchSelect"
+      ></my-select>
       <icon-button icon="rocket"></icon-button>
 
     </div>
@@ -125,6 +131,20 @@ export default {
         value: '3'
       }],
       selected: {
+        label: '橘子',
+        value: '3'
+      },
+      searchOptions: [{
+        label: '苹果',
+        value: '1'
+      }, {
+        label: '香蕉',
+        value: '2'
+      }, {
+        label: '橘子',
+        value: '3'
+      }],
+      searchSelected: {
         label: '橘子',
         value: '3'
       }
@@ -189,6 +209,10 @@ export default {
       console.log(label, value)
       this.selected.label = label
       this.selected.value = value
+    },
+    changeSearchSelect(label, value) {
+      this.searchSelected.label = label
+      this.searchSelected.value = value
     }
   }
 }

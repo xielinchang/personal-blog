@@ -89,38 +89,7 @@ export default {
   data() {
     return {
       isLock: 'lock',
-      menu_list: [
-        {
-          menuicon: 'home-filled',
-          color: '#F5A7B2',
-          title: '首页',
-          router: '/home'
-        },
-        {
-          menuicon: 'about-me',
-          color: '#00B753',
-          title: '关于我',
-          router: '/aboutme'
-        },
-        {
-          menuicon: 'comment-filled',
-          color: '#1DA9E0',
-          title: '留言',
-          router: '/comments'
-        },
-        {
-          menuicon: 'setting-filled',
-          color: '#7184AD',
-          title: '管理',
-          router: '/control/essay'
-        },
-        {
-          menuicon: 'more-filled',
-          color: '#FC9709',
-          title: '更多',
-          router: '/more'
-        }
-      ],
+      menu_list: [],
       user: {
         userId: null,
         portrait: '',
@@ -135,6 +104,9 @@ export default {
     '$route.path': function(to, from) {
       this.initUser()
     }
+  },
+  created() {
+    this.menu_list = this.$store.state.dictionary.menu
   },
   mounted() {
     this.menuitemhover()
