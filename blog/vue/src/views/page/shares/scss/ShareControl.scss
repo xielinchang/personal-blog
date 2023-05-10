@@ -92,19 +92,33 @@
 .control-share-item:hover .share-delete{
   opacity: 1;
 }
-.add-share{
+.add-share-container {
   width: 100%;
   height: 100%;
-  position: relative;
-  background: rgb(255, 255, 255,0.7);
-  .share-icon{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-100%);
-    .share-icon:hover{
-      transform: scale(1.1);
-      transition: 300ms ;
+  background: rgb(255, 255, 255, 0.7);
+  .add-share {
+    width: 60%;
+    height: 100%;
+    margin: auto;
+    position: relative;
+    & .add {
+      position: absolute;
+      text-align: center;
+      width: 70px;
+      height: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 60px;
     }
   }
 }
+.icon-button{
+  position: fixed;
+  right: 50px;
+  bottom: 170px;
+  width: 40px;
+  height: 40px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  }
+

@@ -150,7 +150,6 @@
                 class="emoji-picker"
                 @select="selectEmoji"
               />
-
             </div>
             <ul
               v-if="commentList.length>0"
@@ -477,15 +476,6 @@ export default {
         that.essayForm = res.data.rows[0]
         // 修改代码块的背景色
         setTimeout(() => {
-          const codePart = document.querySelectorAll('pre')
-          for (let i = 0; i < codePart.length; i++) {
-            codePart[i].style.background = '#F5F2F0'
-            codePart[i].style.borderRadius = '4px'
-            codePart[i].style.fontSize = '18px'
-            codePart[i].style.padding = '15px'
-            codePart[i].style.margin = '10px 0'
-            codePart[i].style.color = '#333'
-          }
           // 初始化目录
           this.initCatalog()
         })

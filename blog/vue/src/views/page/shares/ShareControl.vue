@@ -30,10 +30,10 @@
             {{ item.title }}
           </div>
         </li>
-        <li class="control-share-item">
+        <li class="add-share-container">
           <div class="add-share">
             <svg-icon
-              class="share-icon"
+              class="add"
               icon-name="add"
               color="#F1DA4E"
               size="70px"
@@ -44,6 +44,13 @@
         </li>
       </ul>
     </div>
+    <router-link to="/control/share/writing?id=undefined">
+      <icon-button
+        icon="add"
+        class="icon-button"
+        left-title="添加新随笔"
+      ></icon-button>
+    </router-link>
   </div>
 </template>
 

@@ -12,18 +12,22 @@
     margin: 0 4px;
   }
 }
+.large,.small,.mini{
+  width: auto;
+}
 .large{
-    width: 90px;
+  
+    min-width: 90px;
     height: 42px;
     font-size: 16px;
 }
 .small{
-    width: 80px;
+    min-width: 80px;
     height: 38px;
     font-size: 14px;
 }
 .mini{
-    width: 70px;
+    min-width: 70px;
     height: 32px;
     font-size: 12px;
 }

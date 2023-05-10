@@ -144,7 +144,7 @@ export default {
         this.newessayComment.user_id = localStorage.getItem('userId')
       } else {
         this.$msg({
-          content: '登陆后才能发送评论',
+          content: '请先登录',
           type: 'warning'
         })
       }

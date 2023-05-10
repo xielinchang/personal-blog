@@ -55,7 +55,7 @@
                 icon-name="add"
                 size="70px"
                 color="#F1DA4E"
-                :right-title="'添加一篇新文章'"
+                right-title="添加一篇新文章"
                 @click="jumpToAddEssay()"
               />
             </div>
@@ -63,6 +63,13 @@
         </li>
       </ul>
     </div>
+    <router-link to="/control/essay/writing?id=undefined">
+      <icon-button
+        icon="add"
+        class="icon-button"
+        left-title="添加新文章"
+      ></icon-button>
+    </router-link>
   </div>
 </template>
 
@@ -146,4 +153,4 @@ export default {
 </script>
   <style lang="scss" scoped>
 @import './scss/EssayControl.scss'
-</style>
+  </style>

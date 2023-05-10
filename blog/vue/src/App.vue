@@ -6,10 +6,9 @@
     <head-tab></head-tab>
     <left-menu></left-menu>
     <click v-if="$store.state.click.clickShow"></click>
-    <my-loading load-time="0ms"></my-loading>
-    <!-- <keep-alive> -->
-    <router-view></router-view>
-    <!-- </keep-alive> -->
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
 
   </div>
 </template>
@@ -17,11 +16,11 @@
 <script>
 import { getUserIp } from '@/api/api'
 import { baiduLocation } from '@/api/baiduapi'
+import { getToken } from './utils/author'
 export default {
   name: 'App',
   data() {
     return {
-      loadingshow: 'block'
     }
   },
   created() {
@@ -31,11 +30,15 @@ export default {
     })
   },
   mounted() {
+    // if (!getToken()) {
+    //   setTimeout(() => {
+    //     this.$msg({
+    //       content: '登录已过期',
+    //       type: 'info'
+    //     })
+    //   }, 2000)
+    // }
     var that = this
-    // loading组件
-    setTimeout(function () {
-      that.loadingshow = 'none'
-    }, 0)
     this.getIp()
   },
   methods: {

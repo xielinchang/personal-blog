@@ -77,6 +77,9 @@ export const dictionary = {
       label: 'VUE',
       value: 'vue'
     }, {
+      label: 'NODE',
+      value: 'node'
+    }, {
       label: '其他',
       value: 'other'
     }],

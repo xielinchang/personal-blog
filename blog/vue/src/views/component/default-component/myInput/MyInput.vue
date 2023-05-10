@@ -6,7 +6,7 @@
     >
       <span v-show="label!==''">{{ label }}</span>
       <div
-        class="main"
+        class="input-main"
         :style="justStyle"
       >
         <div

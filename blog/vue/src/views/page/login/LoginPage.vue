@@ -1,8 +1,8 @@
 <template>
-  <div class="login">
+  <div class="main">
     <div class="shadow">
 
-      <div class="login-conatiner">
+      <div class="main-conatiner">
         <my-input
           v-model="ruleForm.username"
           :width="size"
@@ -38,7 +38,7 @@
 
 <script>
 import { login, validate } from '@/api/loginapi'
-import Cookie from 'js-cookie'
+import { setToken, getToken } from '@/utils/author'
 export default {
   name: 'LoginPage',
   components: {},
@@ -54,7 +54,7 @@ export default {
   mounted() {
     const identity = localStorage.getItem('identity')
     /* 如果Cookie和本地存有token则验证身份 */
-    if (Cookie.get('token') || localStorage.getItem('token')) {
+    if (getToken() || localStorage.getItem('token')) {
       if (identity === '游客') {
         this.$router.push('/control/user')
       } else if (identity === '管理员') {
@@ -68,7 +68,7 @@ export default {
         console.log(res)
         if (res.data.success) {
           /* cookie存储token,可持久性储存 */
-          Cookie.set('token', res.data.token)
+          setToken(res.data.token, 60 * 60 * 48)
           localStorage.setItem('token', res.data.token)
           validate().then((res) => {
             /* 本地储存 */
@@ -89,8 +89,8 @@ export default {
           })
         } else {
           this.$msg({
-            content: '失败',
-            type: 'warning'
+            content: res.data.msg,
+            type: 'danger'
           })
         }
       })
@@ -103,46 +103,5 @@ export default {
 </script>
 
 <style scpoed lang="scss">
-.login {
-  width: 100%;
-  height: calc(100vh);
-  background: url('@/assets/images/动漫1.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-.shadow {
-  z-index: 1;
-  width: 0px;
-  height: calc(100%);
-  position: fixed;
-  background: rgba(169, 169, 169, 0.3);
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-.login-conatiner {
-  width: 460px;
-  height: 220px;
-  margin-left: 50%;
-  transform: translateX(-50%);
-  top: calc(30vh);
-  z-index: 10000;
-  position: fixed;
-  border-radius: 12px;
-  border: 1px solid #c0c7cf;
-  background: rgb(255, 255, 255, 0.6);
-  box-shadow: 0 0 0 2px rgb(255 255 255 / 40%) inset,
-    0 13px 15px rgb(31 45 61 / 15%);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  & .input {
-    margin-left: 15%;
-  }
-  .btns {
-    display: flex;
-    justify-content: center;
-  }
-}
+@import './index.scss'
 </style>

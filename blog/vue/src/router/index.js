@@ -6,7 +6,7 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    redirect: '/home',
+    redirect: '/home'
   },
   {
     path: '/home',
@@ -17,6 +17,11 @@ const routes = [
     path: '/more',
     name: 'More',
     component: () => import('../views/page/more/MorePage.vue')
+  },
+  {
+    path: '/more/component',
+    name: 'component',
+    component: () => import('@/views/page/more/componentTest/index.vue')
   },
   {
     path: '/control/essay',
@@ -81,12 +86,12 @@ const routes = [
   {
     path: '/login',
     name: 'Login',
-    component: () => import('../views/component/page-component/loginPage/LoginPage.vue')
+    component: () => import('../views/page/login/LoginPage.vue')
   },
   {
     path: '/register',
     name: 'Register',
-    component: () => import('../views/component/page-component/registerPage/RegisterPage.vue')
+    component: () => import('../views/page/login/RegisterPage.vue')
   }
 ]
 

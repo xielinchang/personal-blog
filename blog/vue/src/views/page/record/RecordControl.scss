@@ -36,7 +36,6 @@
 .record-body{
   width: 100%;
   height: 500px;
-  margin-top: 30px;
   min-height: 50px;
 }
 .record-main{
@@ -52,25 +51,25 @@
   margin-bottom: 30px;
   border-radius: 4px;
 }
-.emoji-btn{
-  width: 100px;
+.emoji-btn,.record-publish-btn{
+  width: 90px;
   height:35px;
   box-shadow: 0 0 0 2px rgb(255 255 255 / 40%) inset,
   0 13px 15px rgb(31 45 61 / 15%);
   border-radius: 4px;
   position: absolute;
-  right: 220px;
-  bottom: 35px;
+  right: 200px;
+  bottom: 40px;
   background: rgb(255, 255, 255,0.75);
   text-align: center;
-  line-height: 40px;
+  line-height: 35px;
   font-weight: 600;
   font-family: YouYuan;
   color: rgb(93, 93, 93);
   cursor: pointer;
 }
-.emoji-btn:hover{
-  color: rgb(255, 120, 241);
+.record-publish-btn{
+  right: 100px;
 }
 .record-msg-main{
   width: 80%;
@@ -85,41 +84,39 @@
   border: none;
   color: rgb(76, 76, 76);
   background: rgb(255, 255, 255,0.7);
-  font-size: 24px;
+  font-size: 20px;
   border-radius: 4px;
   resize: none;
   overflow: hidden;
-
 }
 input::-webkit-input-placeholder{
   color: rgb(81, 81, 81);
   font-weight: 600;
 }
 textarea::-webkit-input-placeholder{
-  color: rgb(62, 125, 98);
+  color: rgb(86, 85, 85);
   font-weight: 500;
-  font-size: 20px;
+  font-size: 14px;
 }
 .all-record{
   position: relative;
-  width: 100%;
+  width: 80%;
+  margin: auto;
   height: auto;
   padding: 20px 0;
   padding-bottom: 40px;
   border-radius: 4px;
+  background-color: rgba(247, 247, 247, 0.8);
   margin-top: 10px;
   zoom:1;
   overflow:hidden;
 }
 .record-list{
-  width: 76%;
+  width: 100%;
   height: auto;
-  background-color: rgba(247, 247, 247, 0.8);
   padding: 0;
   margin: 0;
-  padding: 0 2%;
   padding-bottom: 30px;
-  margin-left: 10%;
   border-radius: 4px;
   list-style: none;
 }
@@ -129,25 +126,7 @@ textarea::-webkit-input-placeholder{
   top: 210px;
   z-index: 9999;
 }
-.record-publish-btn{
-  width: 100px;
-  height:35px;
-  margin-top: 6px;
-  box-shadow: 0 0 0 2px rgb(255 255 255 / 40%) inset,
-  0 13px 15px rgb(31 45 61 / 15%);
-  background: rgb(220, 220, 220,0.5);
-  border-radius: 30px;
-  position: absolute;
-  right: 100px;
-  bottom: 35px;
-  text-align: center;
-  line-height: 40px;
-  font-weight: 600;
-  font-family: YouYuan;
-  color: rgba(80, 80, 80, 0.7);
-  cursor: pointer;
-  line-height: 35px;
-}
+
 .record-publish-btn:hover{
   color: rgb(35, 121, 119);
 }
@@ -161,7 +140,7 @@ textarea::-webkit-input-placeholder{
 .record-publish-btn span{
   position: absolute;
   right: 20px;
-  font-size: 18px;
+  font-size: 16px;
 }
 .record-list li{
   position: relative;
@@ -188,7 +167,7 @@ textarea::-webkit-input-placeholder{
   position: relative;
   left: 30px;
   top: 10px;
-  font-size: 20px;
+  font-size: 18px;
 }
 .record-page{
   position: absolute;

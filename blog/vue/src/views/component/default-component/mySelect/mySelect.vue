@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-mutating-props -->
 <template>
   <div
     class="select-container"
@@ -137,7 +138,6 @@ export default {
   mounted () {
     if (this.type === 'search') {
       this.filterData(this.selected.label)
-      console.log(this.data.itemList)
     }
   },
   methods: {

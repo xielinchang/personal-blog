@@ -37,11 +37,16 @@
             class="user-name"
             style="font-size: 14px;"
           >{{ user.name }}</div>
-          <div
+          <router-link
             v-else
-            class="user-name-login"
-            @click="jumpToLogin"
-          >登陆</div>
+            to="/login"
+          >
+            <div
+              class="user-name-login"
+            >登陆
+            </div>
+          </router-link>
+
         </div>
         <div
           class="lock-box"
@@ -82,7 +87,7 @@
 </template>
 
 <script>
-import Cookie from 'js-cookie'
+import { getToken, removeToken } from '@/utils/author'
 import { queryUser, updateUser } from '@/api/user'
 export default {
   name: 'LeftMenu',
@@ -120,8 +125,8 @@ export default {
   methods: {
     initUser() {
       this.user.userId = localStorage.getItem('userId') * 1
-      if (Cookie.get('token')) {
-        this.token = Cookie.get('token')
+      if (getToken()) {
+        this.token = getToken()
       } else {
         this.token = localStorage.getItem('token')
       }
@@ -139,9 +144,6 @@ export default {
         this.user.name = null
         this.user.portrait = ''
       }
-    },
-    jumpToLogin() {
-      this.$router.push('/login')
     },
     menuitemhover() {
       var menuitem = document.querySelectorAll('.menu-list li')
@@ -189,13 +191,10 @@ export default {
     },
     logoutUser() {
       this.logoutShow = false
-      Cookie.remove('token')
+      removeToken()
       localStorage.removeItem('token')
       localStorage.removeItem('userId')
       location.reload()
-      // if (this.$route.path !== '/') {
-      //   this.$router.replace('/')
-      // }
       this.user = ''
       this.token = ''
     }

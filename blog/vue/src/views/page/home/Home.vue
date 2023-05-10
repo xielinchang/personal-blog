@@ -13,12 +13,12 @@
       @mouseenter="bannerIn"
       @mouseleave="bannerOut"
     >
+
       <div
         v-for="(item,index) in bannerList"
         :key="item.id"
         class="banner-mark"
         :style="{opacity:index===bannerIndex?1:0,zIndex:index===bannerIndex?3:0}"
-        @click="jummpEssay(item.id)"
       >
         <div class="mark-shadow"></div>
         <div
@@ -26,11 +26,13 @@
           :style="{'backgroundImage':`url(${item.coverUrl})`}"
         >
         </div>
-        <img
-          :src="item.coverUrl"
-          :style="{zIndex:index===bannerIndex?3:0}"
-          alt=""
-        >
+        <router-link :to="'/note/essay?id='+item.id">
+          <img
+            :src="item.coverUrl"
+            :style="{zIndex:index===bannerIndex?3:0}"
+            alt=""
+          >
+        </router-link>
         <div class="banner-tit-box">
           <div class="banner-title">{{ item.title }}</div>
           <div class="banner-line"></div>
@@ -197,9 +199,6 @@ export default {
     },
     bannerJump(index) {
       this.bannerIndex = index
-    },
-    jummpEssay(id) {
-      this.$router.push('/note/essay?id=' + id)
     }
   }
 }

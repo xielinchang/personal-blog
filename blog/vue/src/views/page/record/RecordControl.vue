@@ -11,7 +11,6 @@
           <my-upload
             v-model="file"
             :action="uploadUrl"
-            :image="image"
             @upload-success="uploadCallback"
           >
           </my-upload>
@@ -33,7 +32,7 @@
         </div>
         <my-button
           icon="edit"
-          @click="updateRecordDefault"
+          @click="uploadCallback"
         >修改</my-button>
       </div>
       <div class="all-record ">
@@ -58,6 +57,15 @@
             </div>
           </li>
         </ul>
+        <QueryPage
+          class="query-page"
+          :current-page="currentPage"
+          :total="total"
+          :is-one-show="false"
+          :page-size="pageSize"
+          :page-count="pageCount"
+          @change-page="changePage"
+        ></QueryPage>
       </div>
       <div class="record-body">
         <div class="record-main">
@@ -116,12 +124,12 @@ export default {
       file: {},
       // 未加前缀的图片路劲
       img: '',
-      image: '',
       uploadUrl: process.env.VUE_APP_BASE_API + '/api/file',
       publishAgain: true,
       currentPage: 1,
       total: 0,
-      pageSize: 6,
+      pageCount: 5,
+      pageSize: 5,
       size: 400
     }
   },
@@ -132,17 +140,19 @@ export default {
   methods: {
     initrecord() {
       recordQuery({
-        limit: 5,
+        limit: this.pageSize,
         offset: this.currentPage
       }).then((res) => {
+        this.total = res.data.count
         this.record_list.splice(0, this.record_list.length)
         for (let i = 0; i < res.data.rows.length; i++) {
           this.record_list.push(res.data.rows[i])
         }
       })
       recordDefaultQuery().then(res => {
-        res.data[0].img = process.env.VUE_APP_BASE_API + res.data[0].img
+        this.img = res.data[0].img
         this.record_default = res.data[0]
+        this.record_default.img = process.env.VUE_APP_BASE_API + res.data[0].img
       })
     },
     emojiPickerOff() {
@@ -203,8 +213,8 @@ export default {
       this.currentPage = val
       this.initrecord()
     },
-    uploadCallback: function(file, res) {
-      this.record_default.img = res.data.data.url
+    recordDefaultUpdateApi() {
+      this.record_default.img = this.img
       recordDefaultUpdate(this.record_default).then(res => {
         this.record_default.img = process.env.VUE_APP_BASE_API + this.img
         this.$msg({
@@ -214,8 +224,13 @@ export default {
         this.initrecord()
       })
     },
-    updateRecordDefault() {
-      this.uploadCallback()
+    uploadCallback(url) {
+      if (url) {
+        this.record_default.img = url
+        this.recordDefaultUpdateApi()
+      } else {
+        this.recordDefaultUpdateApi()
+      }
     }
   }
 }

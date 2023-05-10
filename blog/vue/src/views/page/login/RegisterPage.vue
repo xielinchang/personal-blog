@@ -1,7 +1,7 @@
 <template>
-  <div class="register">
+  <div class="main">
     <div class="shadow">
-      <div class="register-conatiner">
+      <div class="main-conatiner">
         <my-input
           v-model="ruleForm.username"
           :width="size"
@@ -114,46 +114,7 @@ export default {
 }
 </script>
 
-  <style scpoed lang="scss">
-.register {
-  width: 100%;
-  height: calc(100vh);
-  background: url(../../../../assets/images/动漫1.jpg);
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-.shadow {
-  z-index: 1;
-  width: 0px;
-  height: calc(100%);
-  position: fixed;
-  background: rgba(169, 169, 169, 0.3);
-  top: 0;
-  left: 0;
-}
-.register-conatiner {
-  width: 460px;
-  height: 260px;
-  margin-left: 50%;
-  transform: translateX(-50%);
-  top: calc(30vh);
-  z-index: 10000;
-  position: fixed;
-  border-radius: 12px;
-  border: 1px solid #c0c7cf;
-  background: rgb(255, 255, 255, 0.6);
-  box-shadow: 0 0 0 2px rgb(255 255 255 / 40%) inset,
-    0 13px 15px rgb(31 45 61 / 15%);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  & .input {
-    margin-left: 15%;
-  }
-  .btns {
-    display: flex;
-    justify-content: center;
-  }
-}
+<style scpoed lang="scss">
+@import './index.scss'
 </style>
 

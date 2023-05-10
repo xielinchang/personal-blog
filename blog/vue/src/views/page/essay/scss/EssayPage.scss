@@ -20,22 +20,11 @@
     height: auto;
     display: flex;
     flex-direction: column;
-
     z-index: 999;
     .icon-button{
       box-sizing: border-box;
      margin-bottom: 10px;
     }
-  }
-  
-  .back-home {
-    width: 35px;
-    height: 35px;
-    position: fixed;
-    top: 133px;
-    left: 140px;
-    border-radius: 4px;
-    z-index: 9999;
   }
   .main-body {
     width: 85%;
@@ -115,15 +104,19 @@
         }
 
         .banner-tit-box {
-          width: 880px;
+          width: 60%;
           height: 200px;
           z-index: 2;
           position: absolute;
           top: 100px;
           padding-left: 50px;
+          box-sizing: border-box;
 
           .banner-subtitle {
-            width: 300px;
+            width: 90%;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
             height: 25px;
             position: absolute;
             top: 20px;
@@ -153,6 +146,9 @@
             text-shadow: 0 3px 5px rgb(0 0 0 / 30%);
             color: white;
             line-height: 60px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
           }
         }
       }
@@ -170,7 +166,7 @@
           top: 470px;
           box-sizing: border-box;
           padding: 10px 8px;
-          z-index: 99;
+          z-index: 2;
           max-height: 600px;
           overflow-y: scroll;
           &::-webkit-scrollbar{
@@ -204,7 +200,6 @@
           }
         }
       .main-page {
-        box-shadow:  0 0 5px 1px #ebebeb;
         position: relative;
         height: auto;
         border-radius: 4px;
@@ -342,14 +337,15 @@
             textarea::-webkit-input-placeholder {
               color: rgb(83, 83, 83);
               font-weight: 500;
-              font-size: 16px;
+              font-size: 14px;
             }
             .emoji-btn,.c-publish-btn{
               box-shadow: 0 0 0 2px rgb(255 255 255 / 40%) inset,
-                0 13px 15px rgb(31 45 61 / 15%);
-                background: rgb(233, 233, 233, 0.75);
+              0 13px 15px rgb(31 45 61 / 15%);
+                background: rgb(240, 240, 240,0.75);
                 margin-top: 6px;
-                width: 100px;
+                width: 90px;
+                font-size: 16px;
               height: 35px;
               position: absolute;
               border-radius: 8px;
@@ -373,15 +369,14 @@
                 left: 10px;
                 top: 3px;
               }
-
               & span {
                 position: absolute;
                 right: 20px;
-                font-size: 18px;
               }
             }
             .emoji-picker {
               position: absolute;
+              z-index: 999;
               right: -176px;
               top: 191px;
             }

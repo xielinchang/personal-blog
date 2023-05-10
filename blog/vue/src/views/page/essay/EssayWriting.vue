@@ -82,7 +82,6 @@
                 label="2"
               >转载</my-radio>
             </div>
-
           </div>
         </div>
       </div>
@@ -127,6 +126,7 @@
     </div>
     <router-link :to="'/note/essay?id='+Essay.id">
       <icon-button
+        v-if="$route.query.id!=='undefined'"
         class="icon-button"
         icon="back"
         left-title="回到对应文章"

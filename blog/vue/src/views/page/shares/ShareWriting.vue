@@ -87,11 +87,14 @@
         </div>
       </div>
     </div>
-    <router-link :to="'/note/share?id='+Share.id">
+    <router-link
+      v-if="$route.query.id!=='undefined'"
+      :to="'/note/share?id='+Share.id"
+    >
       <icon-button
         class="icon-button"
         icon="back"
-        left-title="回到对应文章"
+        left-title="回到对应随笔"
       ></icon-button>
     </router-link>
   </div>
@@ -282,7 +285,7 @@ export default {
         id: 0
       }
       this.newTags = []
-      this.imgurl = null
+      this.imgurl = ''
     },
     save() {
       /* join=>数组转字符串，split=>字符串转数组 */

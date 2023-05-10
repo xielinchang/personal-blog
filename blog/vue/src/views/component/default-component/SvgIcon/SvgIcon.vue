@@ -25,7 +25,7 @@ export default {
       default: '#666'
     },
     size: {
-      // 提供mini small，large三种默认尺寸
+      // 提供mini small，large三种默认尺寸,也可以自定义尺寸
       type: [String || Number],
       default: '16px'
     }

@@ -42,7 +42,6 @@
         class="query-page-box"
       >
         <QueryPage
-
           class="query-page"
           :current-page="currentPage"
           :total="total"
