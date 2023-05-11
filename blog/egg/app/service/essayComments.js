@@ -4,8 +4,9 @@ const Service = require('egg').Service;
 
 class EssayCommentsService extends Service {
   async queryEssayComments(body) {
-    const { ctx } = this;
-    const where = {};
+    const { ctx, app } = this;
+    const Op = app.Sequelize.Op;
+    const where = { upt_act: { [Op.ne]: 'D' } };
     if (body.query.essay_id) {
       where.essay_id = body.query.essay_id;
     }

@@ -47,8 +47,7 @@ module.exports = appInfo => {
     define: {
       freezeTableName: true,
       timezone: '+08:00',
-      createdAt: 'created_at',
-      updatedAt: 'updated_at',
+      timestamps: false,
     },
   };
   config.proxy = true;

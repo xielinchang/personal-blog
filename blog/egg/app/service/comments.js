@@ -4,11 +4,15 @@ const Service = require('egg').Service;
 
 class CommentsService extends Service {
   async queryComments(body) {
-    const { ctx } = this;
+    const { ctx, app } = this;
+    const Op = app.Sequelize.Op;
     const comments = await ctx.model.BlogComments.findAndCountAll({
       limit: body.limit * 1,
       offset: (body.offset - 1) * body.limit,
       order: [[ 'id', 'desc' ]],
+      where: {
+        upt_act: { [Op.ne]: 'D' },
+      },
       include: [{
         model: this.app.model.CommentsReply,
       }],
@@ -26,7 +30,7 @@ class CommentsService extends Service {
   }
   async deleteComments(body) {
     const { ctx } = this;
-    const deleted = await ctx.model.BlogComments.destroy({
+    const deleted = await ctx.model.BlogComments.update({ upt_act: 'D' }, {
       where: { id: body.id },
     });
     if (deleted) {

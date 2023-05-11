@@ -15,6 +15,7 @@
             @click="back()"
           />
         </div>
+        <SearchBox class="search-box"></SearchBox>
         <div class="header-tab">
           <ul class="item">
             <li
@@ -66,9 +67,13 @@
 </template>
 
 <script>
+import SearchBox from './search/search.vue'
 import { queryUser } from '@/api/user'
 export default {
   name: 'HeadTab',
+  components: {
+    SearchBox
+  },
   data() {
     return {
       contract_list: [],

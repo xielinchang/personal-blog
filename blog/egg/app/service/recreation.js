@@ -4,17 +4,20 @@ const Service = require('egg').Service;
 
 class RecreationService extends Service {
   async queryRecord(body) {
-    const { ctx } = this;
+    const { ctx, app } = this;
+    const Op = app.Sequelize.Op;
+    const where = { upt_act: { [Op.ne]: 'D' } };
     const msg = await ctx.model.BlogRecord.findAndCountAll({
       limit: body.limit * 1,
       offset: (body.offset - 1) * body.limit,
+      where,
       order: [[ 'id', 'desc' ]],
     });
     return msg;
   }
   async deleteRecord(body) {
     const { ctx } = this;
-    const deleted = await ctx.model.BlogRecord.destroy({
+    const deleted = await ctx.model.BlogRecord.update({ upt_act: 'D' }, {
       where: { id: body.id },
     });
     if (deleted) {

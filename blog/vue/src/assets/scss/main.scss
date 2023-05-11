@@ -56,6 +56,18 @@
         opacity: 0;
       }
     }
+    // 无内容时的css样式
+    .nothing{
+      width: 100%;
+      height: 100px;
+      position: absolute;
+      text-align: center;
+      left: 50%;
+      transform: translateX(-50%);
+      line-height: 60px;
+      font-size: 30px;
+      color: #666;
+    }
 div{
     cursor: url(http://127.0.0.1:7001/public/uploads/2022/08/05/1659663710655433.png), pointer !important;
 }

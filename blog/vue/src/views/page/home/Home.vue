@@ -20,24 +20,27 @@
         class="banner-mark"
         :style="{opacity:index===bannerIndex?1:0,zIndex:index===bannerIndex?3:0}"
       >
-        <div class="mark-shadow"></div>
-        <div
-          class="mark"
-          :style="{'backgroundImage':`url(${item.coverUrl})`}"
-        >
-        </div>
         <router-link :to="'/note/essay?id='+item.id">
+          <div class="mark-shadow"></div>
+
+          <div
+            class="mark"
+            :style="{'backgroundImage':`url(${item.coverUrl})`}"
+          >
+          </div>
+
           <img
             :src="item.coverUrl"
             :style="{zIndex:index===bannerIndex?3:0}"
             alt=""
           >
+
+          <div class="banner-tit-box">
+            <div class="banner-title">{{ item.title }}</div>
+            <div class="banner-line"></div>
+            <div class="banner-subtitle">{{ item.subtitle }}</div>
+          </div>
         </router-link>
-        <div class="banner-tit-box">
-          <div class="banner-title">{{ item.title }}</div>
-          <div class="banner-line"></div>
-          <div class="banner-subtitle">{{ item.subtitle }}</div>
-        </div>
       </div>
       <div
         class="banner-btn left"
@@ -81,36 +84,14 @@
       class="main"
     >
       <essayList
-        v-if="wrapValue"
         width="74"
       ></essayList>
-      <ShareList
-        v-else
-        width="74"
-      ></ShareList>
       <right-tab
         id="right-tab"
         class="right-tab"
         width="23"
         height="500"
       ></right-tab>
-    </div>
-    <div class="right-btn">
-      <!-- native可以在子组件上自定义事件 -->
-      <IconButton
-        v-if="wrapValue"
-        :left-title="wrapValue ? '随笔' : '文章' "
-        icon="pen"
-        @click.native="wrapValue =!wrapValue"
-      >
-      </IconButton>
-      <IconButton
-        v-else
-        :left-title="wrapValue ? '随笔' : '文章' "
-        icon="book"
-        @click.native="wrapValue =!wrapValue"
-      >
-      </IconButton>
     </div>
 
   </div>
@@ -129,7 +110,6 @@ export default {
       bgimg: '',
       mainimg: '',
       bgshadow: '',
-      wrapValue: true,
       topShow: true,
       bannerList: [],
       bannerIndex: 0,

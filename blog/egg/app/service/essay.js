@@ -6,7 +6,7 @@ class EssayService extends Service {
   async queryEssay(body) {
     const { ctx, app } = this;
     const Op = app.Sequelize.Op;
-    const where = {};
+    const where = { upt_act: { [Op.ne]: 'D' } };
     if (body.query.id) {
       where.id = body.query.id;
     }
@@ -22,6 +22,7 @@ class EssayService extends Service {
     if (body.query.tags) {
       where.tags = { [Op.like]: `%${body.query.tags}%` };
     }
+
     const essay = await ctx.model.BlogEssay.findAndCountAll({
       where,
       limit: body.limit * 1,
@@ -43,7 +44,7 @@ class EssayService extends Service {
   }
   async deleteEssay(body) {
     const { ctx } = this;
-    const deleted = await ctx.model.BlogEssay.destroy({
+    const deleted = await ctx.model.BlogEssay.update({ upt_act: 'D' }, {
       where: { id: body.id },
     });
     if (deleted) {
@@ -52,6 +53,7 @@ class EssayService extends Service {
   }
   async updateEssay(body) {
     const { ctx } = this;
+    body.upt_act = 'U';
     const updated = await ctx.model.BlogEssay.update(body, {
       where: {
         id: body.id,

@@ -29,6 +29,7 @@ export default {
     // map传入一个函数，遍历数组中的每个对象，被webpack自动进行导入
     // eslint-disable-next-line
     const req = require.context('@/views/component/default-component/SvgIcon/icons', true, /\.svg$/)
+    // 图标的id由icon-前缀和名字组成
     const prefix = 'icon-'
     requireAll(req).forEach(element => {
       var item = element.default.id.slice(prefix.length)

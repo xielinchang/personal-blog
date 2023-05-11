@@ -29,19 +29,9 @@ const routes = [
     component: () => import('../views/page/essay/EssayControl.vue')
   },
   {
-    path: '/control/share',
-    name: 'ShareControl',
-    component: () => import('../views/page/shares/ShareControl.vue')
-  },
-  {
     path: '/control/essay/writing',
     name: 'Writing',
     component: () => import('../views/page/essay/EssayWriting.vue')
-  },
-  {
-    path: '/control/share/writing',
-    name: 'WritingShare',
-    component: () => import('../views/page/shares/ShareWriting.vue')
   },
   {
     path: '/control/comments',
@@ -67,11 +57,6 @@ const routes = [
     path: '/note/essay',
     name: 'Essay',
     component: () => import('../views/page/essay/EssayPage.vue')
-  },
-  {
-    path: '/note/share',
-    name: 'Share',
-    component: () => import('../views/page/shares/SharePage.vue')
   },
   {
     path: '/control/user',

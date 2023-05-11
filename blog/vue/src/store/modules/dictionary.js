@@ -43,24 +43,19 @@ export const dictionary = {
         id: 0
       },
       {
-        title: '随笔管理',
-        router: '/control/share',
-        id: 1
-      },
-      {
         title: '留言管理',
         router: '/control/comments',
-        id: 2
+        id: 1
       },
       {
         title: '记录管理',
         router: '/control/record',
-        id: 3
+        id: 2
       },
       {
         title: '用户管理',
         router: '/control/user',
-        id: 4
+        id: 3
       }
     ],
     // 文章的领域

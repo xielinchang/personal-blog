@@ -28,6 +28,7 @@ class UserService extends Service {
   }
   async updateUser(body) {
     const { ctx } = this;
+    body.upt_act = 'U';
     const updateMsg = {};
     if (body.username) {
       updateMsg.username = body.username;
@@ -38,9 +39,9 @@ class UserService extends Service {
     if (body.password) {
       updateMsg.password = body.password;
     }
-    if (body.identity) {
-      updateMsg.identity = body.identity;
-    }
+    // if (body.identity) {
+    //   updateMsg.identity = body.identity;
+    // }
     if (body.portrait) {
       updateMsg.portrait = body.portrait;
     }
@@ -57,8 +58,7 @@ class UserService extends Service {
   }
   async deleteUser(body) {
     const { ctx } = this;
-
-    const deleted = await ctx.model.User.destroy({
+    const deleted = await ctx.model.User.update({ upt_act: 'D' }, {
       where: {
         id: body.id,
       },

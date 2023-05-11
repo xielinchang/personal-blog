@@ -5,6 +5,7 @@
     <div class="comments-container animated animate__fadeInUp">
       <div class="all-comments">
         <ul
+          v-if="comments_list.length>0"
           class="comments-list"
         >
           <li
@@ -54,6 +55,10 @@
             ></QueryPage>
           </div>
         </ul>
+        <div
+          v-else
+          class="nothing"
+        >暂无留言</div>
         <!-- 方法名不能加括号 -->
 
       </div>

@@ -13,7 +13,7 @@ class CommentsReplyService extends Service {
   }
   async deleteCommentsReply(body) {
     const { ctx } = this;
-    const deleted = await ctx.model.CommentsReply.destroy({
+    const deleted = await ctx.model.CommentsReply.update({ upt_act: 'D' }, {
       where: { id: body.id },
     });
     if (deleted) {

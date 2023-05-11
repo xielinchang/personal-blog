@@ -54,76 +54,15 @@
         ></QueryPage>
       </div>
     </div>
-    <div
-      v-show="searchFlag"
-      class="search-box"
-    >
 
-      <div
-        ref="searchBox"
-        class="search-main"
-      >
-        <div
-          class="search"
-        >
-          <my-select
-            width="150"
-            :right-title="'根据'+selected.label+'来搜索'"
-            :options="essaySearchList"
-            :selected="selected"
-            @change-select="changeSelect"
-          >
-          </my-select>
-          <my-select
-            v-if="selected.value==='domain'"
-            width="400"
-            :options="domainOptions"
-            :selected="domainSelected"
-            @change-select="changeDomainSelect"
-          >
-
-          </my-select>
-          <my-input
-            v-else
-            v-model="searchKey"
-            placeholder="请输入您想搜索的关键字"
-            height="38"
-            width="400"
-          ></my-input>
-          <my-button
-            plain
-            style="height: 38px"
-            icon="search"
-            type="info"
-            @keyup.enter="search"
-            @click="search"
-          >
-            搜索
-          </my-button>
-        </div>
-
-      </div>
-      <div
-        class="shadow"
-        @click="offShadow"
-      >
-      </div>
-    </div>
-    <icon-button
-      :left-title="hasSearch==0?'搜索':'取消'"
-      :icon="hasSearch==0?'search-filled':'close'"
-      @click.native="searchShow()"
-    ></icon-button>
   </div>
 
 </template>
 
 <script>
 import { essayQuery } from '@/api/essayapi'
-import IconButton from '@/views/component/default-component/iconButton/iconButton.vue'
 export default {
   name: 'EssayList',
-  components: { IconButton },
   props: {
     width: {
       type: String,
@@ -133,21 +72,7 @@ export default {
   data() {
     return {
       essay_list: [],
-      // 搜索的关键字
-      searchKey: '',
-      // 搜索框是否打开
-      searchFlag: false,
       params: {},
-      essaySearchList: [],
-      domainOptions: [],
-      selected: {
-        label: '内容',
-        value: 'html'
-      },
-      domainSelected: {
-        label: 'HTML',
-        value: 'html'
-      },
       /* 当前页 */
       currentPage: 1,
       /* 总数 */
@@ -163,11 +88,7 @@ export default {
       ]
     }
   },
-  computed: {
-    hasSearch() {
-      return Object.keys(this.$route.query).length
-    }
-  },
+
   watch: {
     '$route.path': function(to, from) {
       this.init()
@@ -176,10 +97,7 @@ export default {
       this.init()
     }
   },
-  created () {
-    this.domainOptions = this.$store.state.dictionary.domain
-    this.essaySearchList = this.$store.state.dictionary.essaySearchList
-  },
+
   mounted() {
     this.init()
   },
@@ -188,27 +106,8 @@ export default {
       this.params = this.$route.query
       this.initEssayList()
     },
-    offShadow() {
-      this.searchFlag = !this.searchFlag
-    },
-    searchShow() {
-      if (Object.keys(this.$route.query).length > 0) {
-        this.$router.push('/home')
-      } else {
-        this.searchFlag = true
-      }
-    },
-    search() {
-      /* 根据所选来进行搜索文章 */
-      this.searchFlag = !this.searchFlag
-      var selected = this.selected.value
-      if (selected !== 'domain') {
-        this.$router.push('/home?' + selected + '=' + this.searchKey)
-      } else {
-        this.$router.push('/home?' + selected + '=' + this.domainSelected.label)
-      }
-      this.initEssayList()
-    },
+
+
     foreachEssay(item) {
       this.essay_list = []
       for (let i = 0; i < item.length; i++) {
@@ -217,14 +116,6 @@ export default {
             process.env.VUE_APP_BASE_API + item[i].coverUrl
         this.essay_list.push(item[i])
       }
-    },
-    changeSelect(label, value) {
-      this.selected.label = label
-      this.selected.value = value
-    },
-    changeDomainSelect(label, value) {
-      this.domainSelected.label = label
-      this.domainSelected.value = value
     },
     initEssayList() {
       var params = this.params
@@ -241,10 +132,11 @@ export default {
         offset: this.currentPage,
         query: query
       }).then(res => {
+        console.log(res)
         this.total = res.data.count
         this.foreachEssay(res.data.rows)
       })
-      this.searchFlag = false
+      // this.searchFlag = false
     },
     jumpToEssay(item) {
       if (this.$route.path === '/control/essay') {

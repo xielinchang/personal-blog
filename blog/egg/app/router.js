@@ -39,14 +39,6 @@ module.exports = app => {
   router.post('/essay/detail/update', controller.essayDetail.updateEssayDetail);
   router.post('/user/detail/update', controller.userDetail.updateUserDetail);
 
-
-  router.post('/share/query', controller.share.queryShare);
-  router.post('/share/create', controller.share.createShare);
-  router.post('/share/update', controller.share.updateShare);
-  router.post('/share/delete', controller.share.deleteShare);
-  router.post('/share/save', controller.share.saveShare);
-  router.post('/share/querysave', controller.share.querySaveShare);
-
   router.post('/comments/query', controller.comments.queryComments);
   router.post('/comments/create', controller.comments.createComments);
   router.post('/comments/delete', controller.comments.deleteComments);
