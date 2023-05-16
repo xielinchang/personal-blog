@@ -10,33 +10,34 @@
           ></div>
         </div>
         <div class="portrait-box">
-          <div
-            v-show="user.portrait"
-            class="user-portrait"
-            right-title="点击打开用户页"
-          >
-            <router-link to="/control/essay">
-              <img
-                :src="user.portrait"
-                @contextmenu.prevent="show()"
-              />
-            </router-link>
-
+          <div v-if="userInfo.portrait">
+            <div
+              class="user-portrait"
+              right-title="点击打开用户页"
+            >
+              <router-link to="/control/essay">
+                <img
+                  :src="userInfo.portrait"
+                  @contextmenu.prevent="show()"
+                />
+              </router-link>
+            </div>
+            <ul
+              v-show="logoutShow"
+              class="logout"
+            >
+              <li
+                ref="box"
+                @click="logoutUser()"
+              >退出登录</li>
+            </ul>
+            <div
+              v-if="userInfo.name"
+              class="user-name"
+              style="font-size: 14px;"
+            >{{ userInfo.name }}</div>
           </div>
-          <ul
-            v-show="logoutShow"
-            class="logout"
-          >
-            <li
-              ref="box"
-              @click="logoutUser()"
-            >退出登录</li>
-          </ul>
-          <div
-            v-if="token"
-            class="user-name"
-            style="font-size: 14px;"
-          >{{ user.name }}</div>
+
           <router-link
             v-else
             to="/login"
@@ -95,19 +96,22 @@ export default {
     return {
       isLock: 'lock',
       menu_list: [],
-      user: {
-        userid: null,
-        portrait: '',
-        name: ''
-      },
-      token: '',
       logoutShow: false
 
     }
   },
-  watch: {
-    '$route.path': function(to, from) {
-      this.initUser()
+  computed: {
+    userInfo() {
+      if (Object.keys(this.$store.state.user).length > 0) {
+        var userInfo = this.$store.state.user.user
+        console.log(userInfo)
+        return {
+          portrait: process.env.VUE_APP_BASE_API + userInfo.portrait,
+          name: userInfo.name
+        }
+      } else {
+        return false
+      }
     }
   },
   created() {
@@ -120,31 +124,8 @@ export default {
         this.logoutShow = false
       }
     })
-    this.initUser()
   },
   methods: {
-    initUser() {
-      this.user.userid = localStorage.getItem('userid') * 1
-      if (getToken()) {
-        this.token = getToken()
-      } else {
-        this.token = localStorage.getItem('token')
-      }
-      if (this.token) {
-        if (this.user.userid !== '') {
-          queryUser({ id: this.user.userid * 1 }).then(res => {
-            this.user = res.data.user.rows[0]
-            this.user.portrait = process.env.VUE_APP_BASE_API + res.data.user.rows[0].portrait
-          })
-        } else {
-          this.user.name = null
-          this.user.portrait = ''
-        }
-      } else {
-        this.user.name = null
-        this.user.portrait = ''
-      }
-    },
     menuitemhover() {
       var menuitem = document.querySelectorAll('.menu-list li')
       for (let i = 0; i < menuitem.length; i++) {
@@ -191,10 +172,8 @@ export default {
     },
     logoutUser() {
       this.logoutShow = false
-      removeToken()
-      localStorage.removeItem('token')
-      localStorage.removeItem('userid')
-      location.reload()
+      removeToken('token')
+      // location.reload()
       this.user = ''
       this.token = ''
     }

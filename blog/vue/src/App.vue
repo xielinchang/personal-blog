@@ -2,6 +2,7 @@
   <div
     id="app"
   >
+    <my-loading :load-show="$store.state.loadShow"></my-loading>
     <right-button></right-button>
     <head-tab></head-tab>
     <left-menu></left-menu>

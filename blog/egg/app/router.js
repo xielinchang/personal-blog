@@ -32,14 +32,14 @@ module.exports = app => {
   router.post('/user/delete', controller.user.user.deleteUser);
 
   // 用户信息修改
-  router.post('/user/detail/update', controller.user.userDetail.updateUserDetail);
+  router.post('/user/detail/update', jwt, controller.user.userDetail.updateUserDetail);
 
   // 记录的增删改查
   router.post('/record/query', controller.blog.recreation.queryRecord);
-  router.post('/record/delete', controller.blog.recreation.deleteRecord);
-  router.post('/record/create', controller.blog.recreation.createRecord);
+  router.post('/record/delete', jwt, controller.blog.recreation.deleteRecord);
+  router.post('/record/create', jwt, controller.blog.recreation.createRecord);
   router.post('/record/default/query', controller.blog.recreation.queryRecordDefault);
-  router.post('/record/default/update', controller.blog.recreation.updateRecordDefault);
+  router.post('/record/default/update', jwt, controller.blog.recreation.updateRecordDefault);
 
   // 默认头像列表
   router.post('/default/portrait', controller.blog.defaultPortrait.queryDefaultPortrait);
@@ -50,9 +50,9 @@ module.exports = app => {
 
   // 文章的增删改查
   router.post('/essay/query', controller.blog.essay.queryEssay);
-  router.post('/essay/create', controller.blog.essay.createEssay);
-  router.post('/essay/update', controller.blog.essay.updateEssay);
-  router.post('/essay/delete', controller.blog.essay.deleteEssay);
+  router.post('/essay/create', jwt, controller.blog.essay.createEssay);
+  router.post('/essay/update', jwt, controller.blog.essay.updateEssay);
+  router.post('/essay/delete', jwt, controller.blog.essay.deleteEssay);
 
   // 保存草稿
   router.post('/essay/save', controller.blog.essay.saveEssay);
@@ -60,28 +60,28 @@ module.exports = app => {
 
   // 文章的评论
   router.post('/essay/comments/query', controller.blog.essayComments.queryEssayComments);
-  router.post('/essay/comments/create', controller.blog.essayComments.createEssayComments);
-  router.post('/essay/comments/delete', controller.blog.essayComments.deleteEssayComments);
+  router.post('/essay/comments/create', jwt, controller.blog.essayComments.createEssayComments);
+  router.post('/essay/comments/delete', jwt, controller.blog.essayComments.deleteEssayComments);
 
-  // 文章详情
+  // 文章详情修改
   router.post('/essay/detail/update', controller.blog.essayDetail.updateEssayDetail);
 
   // 博客留言
   router.post('/comments/query', controller.blog.comments.queryComments);
-  router.post('/comments/create', controller.blog.comments.createComments);
-  router.post('/comments/delete', controller.blog.comments.deleteComments);
+  router.post('/comments/create', jwt, controller.blog.comments.createComments);
+  router.post('/comments/delete', jwt, controller.blog.comments.deleteComments);
 
   // 留言回复
-  router.post('/comments/reply/create', controller.blog.commentsReply.createCommentsReply);
-  router.post('/comments/reply/delete', controller.blog.commentsReply.deleteCommentsReply);
+  router.post('/comments/reply/create', jwt, controller.blog.commentsReply.createCommentsReply);
+  router.post('/comments/reply/delete', jwt, controller.blog.commentsReply.deleteCommentsReply);
 
   // '关于我'详情
   router.post('/aboutme/detail/query', controller.blog.aboutmeDetail.queryAboutme);
-  router.post('/aboutme/detail/update', controller.blog.aboutmeDetail.updateAboutme);
+  router.post('/aboutme/detail/update', jwt, controller.blog.aboutmeDetail.updateAboutme);
 
   // 项目的增删改查
   router.post('/project/query', controller.blog.project.queryProject);
-  router.post('/project/update', controller.blog.project.updateProject);
-  router.post('/project/delete', controller.blog.project.deleteProject);
-  router.post('/project/create', controller.blog.project.createProject);
+  router.post('/project/update', jwt, controller.blog.project.updateProject);
+  router.post('/project/delete', jwt, controller.blog.project.deleteProject);
+  router.post('/project/create', jwt, controller.blog.project.createProject);
 };

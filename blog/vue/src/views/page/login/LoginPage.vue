@@ -57,7 +57,6 @@ export default {
         if (res.data.success) {
           /* cookie存储token,可持久性储存 */
           setToken('token', res.data.data.token)
-          localStorage.setItem('token', res.data.data.token)
           this.$msg({
             content: '登录成功',
             type: 'success'

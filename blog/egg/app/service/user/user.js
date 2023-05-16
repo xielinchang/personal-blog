@@ -60,13 +60,9 @@ class UserService extends Service {
           id: userid,
         },
       });
-      const role_name = await ctx.model.User.Role.findOne({
+      const role = await ctx.model.User.Role.findOne({
         where: { id: roles },
       });
-      const role = {
-        role_id: roles,
-        role_name,
-      };
       console.log(user);
       return { user, role };
     } catch (error) {

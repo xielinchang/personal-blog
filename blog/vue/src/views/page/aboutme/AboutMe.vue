@@ -59,8 +59,6 @@
             class="block"
             @click="jumpToProject(item)"
           >
-            <img>
-            </img>
             {{ item.name }}
 
           </li>

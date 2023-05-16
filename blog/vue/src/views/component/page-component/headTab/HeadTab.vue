@@ -42,7 +42,7 @@
           ></div>
         </div>
       </div>
-      <div v-show="identity==='管理员'? true:false">
+      <div v-show="haspermi">
         <div
           v-show="stShow"
           class="second-tab"
@@ -68,7 +68,7 @@
 
 <script>
 import SearchBox from './search/search.vue'
-import { queryUser } from '@/api/default/user'
+import store from '@/store'
 export default {
   name: 'HeadTab',
   components: {
@@ -83,16 +83,18 @@ export default {
       line_move: 0,
       path: '',
       stShow: false,
-      stIndex: 3,
-      identity: ''
+      stIndex: 3
+    }
+  },
+  computed: {
+    haspermi() {
+      return store.state.hasPermi
     }
   },
   watch: {
     /* 监听路由变化 */
     '$route.path': function (to, from) {
-      this.initUser()
       this.path = this.$router.history.current.path
-
       this.contract_list.find((item) => {
         if (item.router === this.path) {
           return this.moveLine(item.id)
@@ -105,19 +107,9 @@ export default {
     this.secondTab = this.$store.state.dictionary.secondMenu
   },
   async mounted() {
-    this.initUser()
     this.lineMoveIndex()
   },
   methods: {
-    initUser() {
-      queryUser(
-        {
-          id: localStorage.getItem('userid') * 1
-        }
-      ).then(res => {
-        this.identity = res.data.user.rows[0].identity
-      })
-    },
     back() {
       this.$router.go(-1)
     },

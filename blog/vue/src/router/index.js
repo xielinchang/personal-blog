@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Cookie from 'js-cookie'
+import { getToken } from '@/utils/author'
 import VueRouter from 'vue-router'
 import store from '../store'
 import { queryUser, queryeRoleList, getUserInfo, queryeUserRole } from '@/api/default/user'
@@ -86,11 +86,11 @@ const router = new VueRouter({
   routes
 })
 router.beforeEach((to, from, next) => {
-  var token = Cookie.get('token')
-  if (Cookie.get('token')) {
-    token = Cookie.get('token')
+  var token = getToken('token')
+  if (getToken('token')) {
+    token = getToken('token')
   } else {
-    token = localStorage.getItem('token')
+    token = null
   }
   if (to.path === '/login') {
     next()
@@ -108,15 +108,15 @@ router.beforeEach((to, from, next) => {
       pathArr.push(routes[i].path)
     }
   }
+  var role_code = 'user'
   store.dispatch('getUserInfo')
-  var role_name = '游客'
-  if (localStorage.getItem('userId')) {
-    queryUser({ id: localStorage.getItem('userId') * 1 }).then(res => {
+    .then(user => {
+      role_code = user.role.code
       for (let i = 0; i < pathArr.length; i++) {
         if (to.path === pathArr[i]) {
-          if (token && role_name === '管理员') {
+          if (token && (role_code === 'admin' || role_code === 'superAdmin')) {
             next()
-          } else if (token && role_name === '游客') {
+          } else if (token && role_code === 'user') {
             next({
               path: '/user'
             })
@@ -130,17 +130,10 @@ router.beforeEach((to, from, next) => {
         }
       }
     })
-  } else {
-    for (let i = 0; i < pathArr.length; i++) {
-      if (to.path === pathArr[i]) {
-        next({
-          path: '/login'
-        })
-      } else {
-        next()
-      }
-    }
-  }
+    .catch(error => {
+      console.error(error)
+      next('/')
+    })
 })
 
 export default router

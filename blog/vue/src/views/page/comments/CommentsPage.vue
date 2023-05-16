@@ -104,6 +104,7 @@
 </template>
 
 <script>
+import store from '@/store'
 import { commentsQuery, commentsCreate } from '@/api/main/comments'
 import { queryUser } from '@/api/default/user'
 export default {
@@ -141,12 +142,12 @@ export default {
   mounted () {
     document.documentElement.scrollTop = 0
     this.initComments()
-    this.initUSer()
+    this.initUser()
   },
   methods: {
-    initUSer() {
-      if (localStorage.getItem('userid')) {
-        this.newessayComment.user_id = localStorage.getItem('userid')
+    initUser() {
+      if (store.state.user.user.id) {
+        this.newessayComment.user_id = store.state.user.user.id
       } else {
         this.$msg({
           content: '请先登录',

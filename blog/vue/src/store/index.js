@@ -8,7 +8,10 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     user: {},
-    loginInvalidBox: false // 登录失效盒子，只要显示一次
+    loginInvalidBox: false, // 登录失效盒子，只要显示一次
+    loading: true, // 响应
+    hasPermi: false, // 基础权限
+    hasSuperPermi: false// 超级管理员权限
   },
   getters: {
   },
@@ -16,8 +19,22 @@ export default new Vuex.Store({
     setLoginInvalidBox(state, flag) {
       state.loginInvalidBox = flag
     },
+    setLoading(state) {
+      state.loading = true
+    },
+    setPermi(state) {
+      if (state.user.role.code === 'superAdmin' || state.user.role.code === 'admin') {
+        state.hasPermi = true
+        if (state.user.role.code === 'superAdmin') {
+          state.hasSuperPermi = true
+        }
+      } else {
+        state.hasPermi = false
+      }
+    },
     setUserInfo(state, user) {
       state.user = user
+      state.loading = false
     },
     reSetUserInfo(state) {
       state.user = {}
@@ -25,9 +42,12 @@ export default new Vuex.Store({
   },
   actions: {
     getUserInfo({ commit }) {
+      commit('setLoading')
+
       return new Promise((resolve, reject) => {
         getUserInfo().then(async response => {
           commit('setUserInfo', response.data.data)
+          commit('setPermi')
           resolve(response.data.data)
         }).catch(error => { reject(error) })
       })

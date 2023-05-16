@@ -176,7 +176,7 @@
                     {{ item.message }}
                   </div>
                   <div
-                    v-if="identity==='管理员'"
+                    v-if="hasPermi"
                     class="more"
                   >
                     <svg-icon
@@ -205,7 +205,7 @@
     <div class="icon-buttons">
       <router-link :to="'/control/essay/writing?id='+essay_id">
         <icon-button
-          v-if="identity==='管理员'"
+          v-if="hasPermi"
           class="icon-button"
           icon="edit"
           left-title="编辑"
@@ -237,6 +237,7 @@
 
 <script>
 // import user from './user.vue'
+import store from '@/store'
 import { userDetailUpdate, queryUser } from '@/api/default/user'
 import { essayQuery, essayDetailUpdate } from '@/api/main/essayapi'
 import { essayCommentsQuery, essayCommentsCreate, essayCommentsDelete } from '@/api/main/essayComments'
@@ -297,6 +298,9 @@ export default {
     }
   },
   computed: {
+    hasPermi() {
+      return store.state.hasPermi
+    },
     justStyle() {
       if (this.scrollHeight > 470) {
         return {
