@@ -104,8 +104,8 @@
 </template>
 
 <script>
-import { commentsQuery, commentsCreate } from '../../../api/comments'
-import { queryUser } from '@/api/user'
+import { commentsQuery, commentsCreate } from '@/api/main/comments'
+import { queryUser } from '@/api/default/user'
 export default {
   name: 'EssayComments',
   data () {
@@ -145,8 +145,8 @@ export default {
   },
   methods: {
     initUSer() {
-      if (localStorage.getItem('userId')) {
-        this.newessayComment.user_id = localStorage.getItem('userId')
+      if (localStorage.getItem('userid')) {
+        this.newessayComment.user_id = localStorage.getItem('userid')
       } else {
         this.$msg({
           content: '请先登录',
@@ -211,7 +211,7 @@ export default {
     publishComment() {
       var _this = this
       this.newessayComment.address = localStorage.getItem('address')
-      if (localStorage.getItem('userId')) {
+      if (localStorage.getItem('userid')) {
         if (this.newessayComment.content !== '' && this.publishAgain === true) {
           commentsCreate(this.newessayComment).then(res => {
             // this.initComments()

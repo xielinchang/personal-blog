@@ -62,6 +62,18 @@
           </div>
         </li>
       </ul>
+      <QueryPage
+        style="margin-top: 20px;"
+        class="query-page"
+        :current-page="currentPage"
+        :total="total"
+        :is-one-show="false"
+        :page-size="pageSize"
+        :page-count="pageCount"
+        :size-options="sizeOptions"
+        @change-page-size="changeSize"
+        @change-page="changePage"
+      ></QueryPage>
     </div>
     <router-link to="/control/essay/writing?id=undefined">
       <icon-button
@@ -74,7 +86,7 @@
 </template>
 
 <script>
-import { essayQuery, essayDelete } from '@/api/essayapi'
+import { essayQuery, essayDelete } from '@/api/main/essayapi'
 import UserPage from '../../page/user/user.vue'
 import 'animate.css'
 export default {
@@ -84,7 +96,20 @@ export default {
   },
   data() {
     return {
-      essay_list: []
+      essay_list: [],
+      /* 当前页 */
+      currentPage: 1,
+      /* 总数 */
+      total: 0,
+      /* 需要显示多少个按钮，即在第几个按钮上加‘...’ */
+      pageCount: 5,
+      /* 每页的条目数 */
+      pageSize: 8,
+      sizeOptions: [
+        { label: '8条/页', value: 8 },
+        { label: '12条/页', value: 12 },
+        { label: '16条/页', value: 16 }
+      ]
     }
   },
   watch: {
@@ -103,8 +128,8 @@ export default {
       this.essay_list = []
       var _this = this
       essayQuery({
-        limit: 999,
-        offset: 1,
+        limit: this.pageSize,
+        offset: this.currentPage,
         query: {
           id: undefined,
           title: undefined,
@@ -112,6 +137,7 @@ export default {
           domain: undefined
         }
       }).then((res) => {
+        this.total = res.data.count
         for (let i = 0; i < res.data.rows.length; i++) {
           res.data.rows[i].tags = res.data.rows[i].tags.split(',')
           res.data.rows[i].coverUrl =
@@ -125,6 +151,13 @@ export default {
     },
     jumpToAddEssay() {
       this.$router.push('/control/essay/writing?id=' + undefined)
+    },
+    changePage(val) {
+      this.currentPage = val
+      this.initEssay()
+    },
+    changeSize(val) {
+      this.pageSize = val
     },
     essayDelete(item) {
       this.$msgBox.confirm({

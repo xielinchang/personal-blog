@@ -12,7 +12,8 @@
 </template>
 
 <script>
-import { bg } from '@/api/api'
+import { isDay } from '@/utils/tool'
+import { bg } from '@/api/default/api'
 export default {
   name: 'TemplatePage',
   data() {
@@ -29,9 +30,9 @@ export default {
     initBg() {
       bg().then(res => {
         this.isday = this.getdayTime() * 1
-        if (this.isday >= 5 && this.isday < 17) {
+        if (isDay(5, 17, 19).type === 'daytime') {
           this.bgimg = process.env.VUE_APP_BASE_API + res.data[0].url
-        } else if (this.isday >= 17 && this.isday <= 18) {
+        } else if (isDay(5, 17, 19).type === 'dusk') {
           this.bgimg = process.env.VUE_APP_BASE_API + res.data[1].url
         } else {
           this.bgimg = process.env.VUE_APP_BASE_API + res.data[2].url

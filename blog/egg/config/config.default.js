@@ -23,9 +23,6 @@ module.exports = appInfo => {
     // myAppName: 'egg',
     salt: 'asjdKASHFKBask_12#@$',
   };
-  config.jwt = {
-    secret: '123456',
-  };
   config.sequelize = {
     timezone: '+08:00',
     dialect: 'mysql',
@@ -56,6 +53,9 @@ module.exports = appInfo => {
     allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS',
     // 下面这条加上才能共享跨域session，同时前端ajax请求也要加上响应的参数
     credentials: true,
+  };
+  config.jwt = {
+    secret: '123edasfvbyj6SDG$t35W',
   };
   exports.security = {
     csrf: {

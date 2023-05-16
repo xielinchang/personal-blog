@@ -188,10 +188,8 @@
           .catalog{
             display: none;
           }
-        }
-        @media screen and (max-width:1300px) {
           .main-page{
-            width: 100%;
+            width: 100% !important;
           }
         }
         @media screen and (min-width:1300px) {

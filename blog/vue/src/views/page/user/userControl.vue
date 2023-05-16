@@ -25,7 +25,7 @@
               <div class="username user-r-item"> 账号：{{ item.username }}</div>
 
               <div class="name user-r-item">
-                <div v-if="editFlag">
+                <div v-if="!item.editFlag">
                   <span> 名称：{{ item.name }}</span>
                   <svg-icon
                     icon-name="edit"
@@ -40,7 +40,6 @@
                   <my-button @click="updateName(item.id,index)">确认修改</my-button>
                 </div>
               </div>
-
               <div class="identity user-r-item">
                 身份：{{ item.identity }}
               </div>
@@ -59,13 +58,12 @@
   </div>
 </template>
 <script>
-import { queryUser, updateUser, deleteUser } from '@/api/user'
+import { queryUser, updateUser, deleteUser } from '@/api/default/user'
 export default {
   name: 'UserManage',
   data () {
     return {
       userList: [],
-      editFlag: true,
       // 保存之前的头像路径，以便用于更新的参数
       portrait: [],
       file: {},
@@ -88,6 +86,7 @@ export default {
         res.data.user.rows.forEach(item => {
           this.portrait.push(item.portrait)
           item.portrait = process.env.VUE_APP_BASE_API + item.portrait
+          item.editFlag = false
           this.userList.push(item)
         })
 
@@ -95,8 +94,7 @@ export default {
       })
     },
     editShow(index) {
-      this.editFlag = !this.editFlag
-      console.log(this.editFlag)
+      this.userList[index].editFlag = !this.userList[index].editFlag
     },
     updateName(id, index) {
       // 取之前的路径作为参数，保证不改路劲
@@ -106,7 +104,7 @@ export default {
         this.user = res.data.user.rows[0]
         this.user.name = this.userList[index].name
         updateUser(this.user).then(res => {
-          this.editFlag = !this.editFlag
+          this.editShow(index)
           this.user.portrait = process.env.VUE_APP_BASE_API + this.portrait[index]
         })
       })

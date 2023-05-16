@@ -88,7 +88,7 @@
 
 <script>
 import { getToken, removeToken } from '@/utils/author'
-import { queryUser, updateUser } from '@/api/user'
+import { queryUser, updateUser } from '@/api/default/user'
 export default {
   name: 'LeftMenu',
   data() {
@@ -96,7 +96,7 @@ export default {
       isLock: 'lock',
       menu_list: [],
       user: {
-        userId: null,
+        userid: null,
         portrait: '',
         name: ''
       },
@@ -124,15 +124,15 @@ export default {
   },
   methods: {
     initUser() {
-      this.user.userId = localStorage.getItem('userId') * 1
+      this.user.userid = localStorage.getItem('userid') * 1
       if (getToken()) {
         this.token = getToken()
       } else {
         this.token = localStorage.getItem('token')
       }
       if (this.token) {
-        if (this.user.userId !== '') {
-          queryUser({ id: this.user.userId * 1 }).then(res => {
+        if (this.user.userid !== '') {
+          queryUser({ id: this.user.userid * 1 }).then(res => {
             this.user = res.data.user.rows[0]
             this.user.portrait = process.env.VUE_APP_BASE_API + res.data.user.rows[0].portrait
           })
@@ -193,7 +193,7 @@ export default {
       this.logoutShow = false
       removeToken()
       localStorage.removeItem('token')
-      localStorage.removeItem('userId')
+      localStorage.removeItem('userid')
       location.reload()
       this.user = ''
       this.token = ''

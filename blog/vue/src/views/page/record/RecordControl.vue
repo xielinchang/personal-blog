@@ -109,7 +109,7 @@
 </template>
 
 <script>
-import { recordQuery, recordCreate, recordDelete, recordDefaultQuery, recordDefaultUpdate } from '@/api/api'
+import { recordQuery, recordCreate, recordDelete, recordDefaultQuery, recordDefaultUpdate } from '@/api/default/api'
 export default {
   name: 'EssayRecord',
   data () {

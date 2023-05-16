@@ -13,7 +13,7 @@
               @click="deleteComment(item.id)"
             >
               <svg-icon
-                size="24px"
+                size="20px"
                 color="#1DA9E0"
                 icon-name="delete"
                 alt=""
@@ -49,7 +49,7 @@
             >
               <div class="comment-delete-btn">
                 <svg-icon
-                  size="24px"
+                  size="20px"
                   color="#1DA9E0"
                   icon-name="delete"
                   @click="deleteReply(item.comment_reply.id)"
@@ -91,18 +91,18 @@
                   @click="replyComment()"
                 >
                   <svg-icon
-                    size="30px"
+                    size="20px"
                     color="#1DA9E0"
                     icon-name="publish"
                   />
                   <span>回复</span>
                 </div>
-                <VEmojiPicker
-                  v-show="showDialog"
-                  class="emoji-picker-show"
-                  @select="selectEmoji"
-                />
               </div>
+              <VEmojiPicker
+                v-show="showDialog"
+                class="emoji-picker-show"
+                @select="selectEmoji"
+              />
             </div>
           </li>
           <QueryPage
@@ -123,13 +123,13 @@
 </template>
 
 <script>
-import { queryUser } from '@/api/user'
+import { queryUser } from '@/api/default/user'
 import {
   commentsQuery,
   commentsDelete,
   commentsReplyCreate,
   commentsReplyDelete
-} from '../../../api/comments'
+} from '@/api/main/comments'
 export default {
   name: 'WitingComments',
   data() {
@@ -173,7 +173,7 @@ export default {
         comment_id: '',
         reply: ''
       }
-      this.newReply.user_id = localStorage.getItem('userId')
+      this.newReply.user_id = localStorage.getItem('userid')
       commentsQuery({
         limit: this.pageSize,
         offset: this.currentPage
@@ -215,7 +215,7 @@ export default {
       }, 200)
       input.selectionStart = startPos + emoji.data.length
       input.selectionEnd = endPos + emoji.data.length
-      this.replymsg = resultText
+      this.newReply.reply = resultText
     },
     emojiShow() {
       this.showDialog = !this.showDialog

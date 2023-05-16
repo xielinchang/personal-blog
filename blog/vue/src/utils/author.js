@@ -1,17 +1,16 @@
 import Cookies from 'js-cookie'
 
-const TokenKey = 'token'
-
-export function getToken() {
-  return Cookies.get(TokenKey)
+export function getToken(key) {
+  return Cookies.get(key)
 }
 
-export function setToken(token, seconds) {
+export function setToken(key, token) {
   // 经过seconds秒后过期
+  const seconds = 60 * 60 * 48
   const expires = new Date(new Date() * 1 + seconds * 1000)
-  return Cookies.set(TokenKey, token, { expires: expires })
+  return Cookies.set(key, token, { expires: expires })
 }
 
-export function removeToken() {
-  return Cookies.remove(TokenKey)
+export function removeToken(key) {
+  return Cookies.remove(key)
 }

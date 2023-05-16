@@ -237,9 +237,9 @@
 
 <script>
 // import user from './user.vue'
-import { userDetailUpdate, queryUser } from '@/api/user'
-import { essayQuery, essayDetailUpdate } from '@/api/essayapi'
-import { essayCommentsQuery, essayCommentsCreate, essayCommentsDelete } from '@/api/essayComments'
+import { userDetailUpdate, queryUser } from '@/api/default/user'
+import { essayQuery, essayDetailUpdate } from '@/api/main/essayapi'
+import { essayCommentsQuery, essayCommentsCreate, essayCommentsDelete } from '@/api/main/essayComments'
 export default {
   name: 'EssayPage',
   data () {
@@ -253,6 +253,7 @@ export default {
         html: ''
       },
       commentForm: {
+        user_id: '',
         essay_id: '',
         message: '',
         portrait: '',
@@ -285,7 +286,7 @@ export default {
       collectIds: [],
       goodIds: [],
       // 用户id
-      userId: '',
+      userid: '',
       loading: false,
       // 目录
       catalog: [],
@@ -450,7 +451,7 @@ export default {
       }, 1)
     },
     initEssay() {
-      var that = this
+      var _this = this
       this.loading = true
       essayQuery({
         limit: 1,
@@ -463,9 +464,9 @@ export default {
         }
       }).then(res => {
         if (res.data.rows[0].essay_detail) {
-          that.essayData = res.data.rows[0].essay_detail
+          _this.essayData = res.data.rows[0].essay_detail
         } else {
-          that.essayData = {
+          _this.essayData = {
             id: null,
             essay_id: null,
             good: 0,
@@ -473,11 +474,11 @@ export default {
           }
         }
         res.data.rows[0].coverUrl = process.env.VUE_APP_BASE_API + res.data.rows[0].coverUrl
-        that.essayForm = res.data.rows[0]
+        _this.essayForm = res.data.rows[0]
         // 修改代码块的背景色
         setTimeout(() => {
           // 初始化目录
-          this.initCatalog()
+          _this.initCatalog()
         })
         this.loading = false
       })
@@ -492,16 +493,22 @@ export default {
       }).then(res => {
         this.commentNum = res.data.count
         res.data.rows.forEach(element => {
-          element.portrait = process.env.VUE_APP_BASE_API + element.portrait
+          queryUser({ id: element.user_id }).then(res => {
+            console.log(res)
+            Object.assign(element, {
+              portrait: process.env.VUE_APP_BASE_API + res.data.user.rows[0].portrait,
+              name: res.data.user.rows[0].name
+            })
+          })
         })
         this.commentList = res.data.rows
       })
     },
     initUser() {
       this.initPage()
-      this.userId = localStorage.getItem('userId')
-      if (this.userId) {
-        queryUser({ id: this.userId * 1 }).then(res => {
+      this.userid = localStorage.getItem('userid')
+      if (this.userid) {
+        queryUser({ id: this.userid * 1 }).then(res => {
           this.commentForm.portrait = res.data.user.rows[0].portrait
           this.commentForm.name = res.data.user.rows[0].name
           this.commentForm.address = localStorage.getItem('address')
@@ -527,7 +534,7 @@ export default {
               })
             }
           } else {
-            this.userDetail.user_id = this.userId * 1
+            this.userDetail.user_id = this.userid * 1
           }
         })
       } else {
@@ -535,8 +542,8 @@ export default {
       }
     },
     publishComment() {
-      if (this.userId) {
-        essayCommentsCreate(this.commentForm).then(res => {
+      if (this.userid) {
+        essayCommentsCreate(Object.assign(this.commentForm, { user_id: this.userid })).then(res => {
           this.initComments()
           this.commentForm.message = ''
         })
@@ -558,7 +565,7 @@ export default {
     },
     addCollect() {
       this.initPage()
-      if (this.userId) {
+      if (this.userid) {
         this.isCollect = !this.isCollect
         if (this.isCollect) {
           this.essayData.collect++
@@ -599,7 +606,7 @@ export default {
     },
     addGood() {
       this.initPage()
-      if (this.userId) {
+      if (this.userid) {
         this.isGood = !this.isGood
         if (this.isGood) {
           this.essayData.good++

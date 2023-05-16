@@ -86,7 +86,10 @@
         </div>
       </div>
     </div>
-    <div class="edit-foot">
+    <div
+      class="edit-foot"
+      style="z-index: 9;"
+    >
       <div class="foot-box">
         <div
           v-if="isSave"
@@ -138,7 +141,7 @@
 <script>
 /* import getToken from '../utils/author' */
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
-import { essayCreate, essayQuerySave, essaySave, essayQuery, essayUpdate, essayDelete } from '@/api/essayapi'
+import { essayCreate, essayQuerySave, essaySave, essayQuery, essayUpdate, essayDelete } from '@/api/main/essayapi'
 import axios from 'axios'
 import Cookie from 'js-cookie'
 import 'animate.css'
@@ -233,10 +236,19 @@ export default {
         _this.initEssay()
       }, 100)
     },
+    '$route.query': {
+      // 监听参数变化重新初始化，比直接location.href刷新页面更加顺滑
+      handler(value, oldValue) {
+        var _this = this
+        setTimeout(() => {
+          _this.initEssay()
+        }, 100)
+      },
+      deep: true
+    },
     Essay: {
       handler(newval, oldval) {
         // 第一次修改为初始化，所以要避开
-        console.log(this.editNum)
         if (this.editNum > 1) {
           this.isModified = true
         }

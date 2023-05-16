@@ -1,6 +1,8 @@
 <template>
   <div>
-    <div class="baidu-whether">
+    <div
+      class="baidu-whether"
+    >
       <ul class="location">
         <li>{{ location.province }}</li>
         <li>{{ location.city }}</li>
@@ -11,10 +13,10 @@
           size="50px"
         >
         </svg-icon></div>
-      <div class="temperature">{{ now.temp }}℃</div>
+      <div class="temperature">{{ now.temp }}</div>
       <div class="whether-text">{{ now.text }}</div>
       <ul class="whether-detail">
-        <span>体感温度:</span> <li>{{ now.feels_like }}℃</li>
+        <span>体感温度:</span> <li>{{ now.feels_like }}</li>
         <span>风向:</span> <li>{{ now.wind_dir }}</li>
         <span>等级:</span> <li>{{ now.wind_class }}</li>
       </ul>
@@ -45,8 +47,8 @@
 </template>
 
 <script>
-import { getUserIp } from '@/api/api'
-import { baiduWhether, baiduLocation } from '@/api/baiduapi'
+import { getUserIp } from '@/api/default/api'
+import { baiduWhether, baiduLocation } from '@/api/baidu/baiduapi'
 export default {
   name: 'MyWhether',
   data () {
@@ -57,7 +59,6 @@ export default {
       forecasts: [],
       whetherIcon: '',
       ip: ''
-
     }
   },
   // 获取用户本地ip的方法
@@ -84,6 +85,8 @@ export default {
         baiduWhether(res.data.content.address_detail.city ? _this.district_id : '350100').then(res => {
           _this.location = res.data.result.location
           _this.now = res.data.result.now
+          _this.now.temp = _this.now.temp + '℃'
+          _this.now.feels_like = _this.now.feels_like + '℃'
           _this.whetherIcon = _this.now.text
           for (let i = 0; i < res.data.result.forecasts.length; i++) {
             _this.forecasts.push(res.data.result.forecasts[i])

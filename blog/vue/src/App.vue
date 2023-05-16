@@ -14,9 +14,8 @@
 </template>
 
 <script>
-import { getUserIp } from '@/api/api'
-import { baiduLocation } from '@/api/baiduapi'
-import { getToken } from './utils/author'
+import { getUserIp } from '@/api/default/api'
+import { baiduLocation } from '@/api/baidu/baiduapi'
 export default {
   name: 'App',
   data() {
@@ -30,15 +29,7 @@ export default {
     })
   },
   mounted() {
-    // if (!getToken()) {
-    //   setTimeout(() => {
-    //     this.$msg({
-    //       content: '登录已过期',
-    //       type: 'info'
-    //     })
-    //   }, 2000)
-    // }
-    var that = this
+    var _this = this
     this.getIp()
   },
   methods: {

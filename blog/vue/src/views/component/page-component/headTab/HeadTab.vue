@@ -68,7 +68,7 @@
 
 <script>
 import SearchBox from './search/search.vue'
-import { queryUser } from '@/api/user'
+import { queryUser } from '@/api/default/user'
 export default {
   name: 'HeadTab',
   components: {
@@ -112,7 +112,7 @@ export default {
     initUser() {
       queryUser(
         {
-          id: localStorage.getItem('userId') * 1
+          id: localStorage.getItem('userid') * 1
         }
       ).then(res => {
         this.identity = res.data.user.rows[0].identity

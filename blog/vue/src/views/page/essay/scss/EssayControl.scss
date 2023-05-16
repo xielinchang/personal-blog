@@ -1,6 +1,8 @@
+
 .essayControl {
     width: 100%;
     height: auto;
+    min-height: calc(100vh);
     font-family: YOUYUAN;
     .write-template {
       width: 100%;
@@ -20,6 +22,7 @@
       box-sizing: border-box;
       background: rgb(255,255,255,0.7);
       & ul {
+
         width: 100%;
         height: auto;
         padding: 0;

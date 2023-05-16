@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Cookie from 'js-cookie'
 import VueRouter from 'vue-router'
-import { queryUser } from '@/api/user'
+import store from '../store'
+import { queryUser, queryeRoleList, getUserInfo, queryeUserRole } from '@/api/default/user'
 Vue.use(VueRouter)
 const routes = [
   {
@@ -92,6 +93,7 @@ router.beforeEach((to, from, next) => {
     token = localStorage.getItem('token')
   }
   if (to.path === '/login') {
+    next()
     if (token) {
       next({
         path: '/'
@@ -106,15 +108,15 @@ router.beforeEach((to, from, next) => {
       pathArr.push(routes[i].path)
     }
   }
-  var identity = '游客'
+  store.dispatch('getUserInfo')
+  var role_name = '游客'
   if (localStorage.getItem('userId')) {
     queryUser({ id: localStorage.getItem('userId') * 1 }).then(res => {
-      identity = res.data.user.rows[0].identity
       for (let i = 0; i < pathArr.length; i++) {
         if (to.path === pathArr[i]) {
-          if (token && identity === '管理员') {
+          if (token && role_name === '管理员') {
             next()
-          } else if (token && identity === '游客') {
+          } else if (token && role_name === '游客') {
             next({
               path: '/user'
             })

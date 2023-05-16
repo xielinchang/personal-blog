@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import { recordQuery, recordDefaultQuery } from '@/api/api'
+import { recordQuery, recordDefaultQuery } from '@/api/default/api'
 export default {
   name: 'RightTab',
   props: {

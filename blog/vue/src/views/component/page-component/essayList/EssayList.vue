@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import { essayQuery } from '@/api/essayapi'
+import { essayQuery } from '@/api/main/essayapi'
 export default {
   name: 'EssayList',
   props: {
@@ -106,8 +106,6 @@ export default {
       this.params = this.$route.query
       this.initEssayList()
     },
-
-
     foreachEssay(item) {
       this.essay_list = []
       for (let i = 0; i < item.length; i++) {
@@ -132,7 +130,6 @@ export default {
         offset: this.currentPage,
         query: query
       }).then(res => {
-        console.log(res)
         this.total = res.data.count
         this.foreachEssay(res.data.rows)
       })

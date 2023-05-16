@@ -44,8 +44,8 @@
 </template>
 
 <script>
-import { register } from '@/api/loginapi'
-import { defaultPortrait } from '@/api/api'
+import { register } from '@/api/default/loginapi'
+import { defaultPortrait } from '@/api/default/api'
 export default {
   name: 'LoginPage',
   components: {},
@@ -54,7 +54,6 @@ export default {
       ruleForm: {
         username: '',
         password: '',
-        identity: '游客',
         name: '',
         portrait: ''
       },
@@ -68,7 +67,6 @@ export default {
           Math.random() * res.data.length
         )
         this.ruleForm.portrait = res.data[randomPortrait].url
-        console.log(res)
         if (this.ruleForm.username.length < 6 || this.ruleForm.username.length > 12) {
           this.$msg({
             content: '账号长度应该在6位到10位之间',
@@ -89,7 +87,6 @@ export default {
           this.ruleForm.name = ''
         } else {
           register(this.ruleForm).then((res) => {
-            console.log(res)
             if (res.data.success) {
               this.$msg({
                 content: '注册成功',
@@ -101,7 +98,6 @@ export default {
                 content: '账号已存在',
                 type: 'warning'
               })
-              console.log(res)
             }
           })
         }

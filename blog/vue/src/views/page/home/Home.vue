@@ -98,8 +98,8 @@
 </template>
 
 <script>
-import { bgGif } from '@/api/api'
-import { essayQuery } from '@/api/essayapi'
+import { bgGif } from '@/api/default/api'
+import { essayQuery } from '@/api/main/essayapi'
 import { shuffleArray } from '@/utils/array'
 export default {
   name: 'HomePage',

@@ -3,8 +3,8 @@
     class="right-btn"
   >
     <icon-button
-      :left-title="hasSearch==0?'更多搜索':'取消'"
-      :icon="hasSearch==0?'search-filled':'close'"
+      :left-title="isSearching()===false?'更多搜索':'取消'"
+      :icon="isSearching()===false?'search-filled':'close'"
       @click.native="searchShow()"
     ></icon-button>
     <router-link to="/register">
@@ -26,7 +26,6 @@
       v-show="searchFlag"
       class="search-box"
     >
-
       <div
         ref="searchBox"
         class="search-main"
@@ -100,24 +99,31 @@ export default {
       }
     }
   },
-  computed: {
-    hasSearch() {
-      return Object.keys(this.$route.query).length
-    }
-  },
   created () {
     this.domainOptions = this.$store.state.dictionary.domain
     this.essaySearchList = this.$store.state.dictionary.essaySearchList
   },
-  mounted() {
-
-  },
   methods: {
+    // 判断是否正在搜索
+    isSearching() {
+      var searchKey = Object.keys(this.$route.query)[0]
+      if (this.$store.state.dictionary.essaySearchList.find(item => {
+        if (item.value === searchKey) {
+          return true
+        } else {
+          return false
+        }
+      })) {
+        return true
+      } else {
+        return false
+      }
+    },
     offShadow() {
       this.searchFlag = !this.searchFlag
     },
     searchShow() {
-      if (Object.keys(this.$route.query).length > 0) {
+      if (this.isSearching()) {
         this.$router.push('/home')
       } else {
         this.searchFlag = true
@@ -159,49 +165,5 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.right-btn{
-  z-index: 999;
-  width: 40px;
-  height: calc(40px * 3 + 2 * 10px);
-  display: flex;
-  position: fixed;
-  flex-direction: column;
-  bottom: 80px;
-  right: 50px;
-  justify-content: space-between;
-}
-.search-box{
-  width: 100%;
-  height: calc(100vh);
-  z-index: 9999;
-  position: fixed;
-  top: 0;
-  left: 0;
-  .shadow{
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background: rgb(0,0,0,0.7);
-  }
-  .search-main{
-    z-index:10000;
-    border-radius: 4px;
-    position: absolute;
-    width: 50%;
-    margin-left: 25%;
-    height: 50px;
-    background: rgb(255,255,255,0.5);
-    top: calc(50vh);
-    transform: translateY(-50%);
-    & .search{
-      margin-top: 5px;
-      width: 100%;
-      height: 40px;
-      display: flex;
-      justify-content: space-around;
-    }
-  }
-}
+@import './RightButton.scss'
 </style>

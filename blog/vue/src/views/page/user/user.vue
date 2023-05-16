@@ -98,8 +98,8 @@
   </div>
 </template>
 <script>
-import { essayQuery } from '@/api/essayapi'
-import { queryUser, updateUser } from '@/api/user'
+import { essayQuery } from '@/api/main/essayapi'
+import { queryUser, updateUser } from '@/api/default/user'
 import Cookie from 'js-cookie'
 export default {
   name: 'UserPage',
@@ -126,7 +126,7 @@ export default {
   methods: {
     initEssayList() {
       this.essay_list = []
-      queryUser({ id: localStorage.getItem('userId') * 1 }).then(res => {
+      queryUser({ id: localStorage.getItem('userid') * 1 }).then(res => {
         this.user = res.data.user.rows[0]
         this.portrait = this.user.portrait
         this.user.portrait = process.env.VUE_APP_BASE_API + this.user.portrait
@@ -177,7 +177,7 @@ export default {
     logout() {
       Cookie.remove('token')
       localStorage.removeItem('token')
-      localStorage.removeItem('userId')
+      localStorage.removeItem('userid')
       if (this.$route.path !== '/') {
         this.$router.replace('/')
       }

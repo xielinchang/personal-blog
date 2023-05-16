@@ -1,4 +1,4 @@
-const name = process.env.VUE_APP_TITLE
+// const name = process.env.VUE_APP_TITLE
 const path = require('path')
 function resolve(dir) {
   return path.join(__dirname, dir)
@@ -9,9 +9,9 @@ module.exports = {
   productionSourceMap: false,
   lintOnSave: process.env.NODE_ENV === 'development',
   devServer: {
-    host: 'localhost', // 本地
-    port: 8080,
-    open: true,
+    // host: 'localhost', // 本地
+    // port: 8080,
+    // open: true,
     proxy: {
       [process.env.VUE_APP_BASE_API]: {
         target: process.env.TARGET,
@@ -20,11 +20,11 @@ module.exports = {
           ['^' + process.env.VUE_APP_BASE_API]: ''
         }
       },
-      '/api': {
+      '/baidu-api': {
         target: 'https://api.map.baidu.com',
         changeOrigin: true,
         pathRewrite: {
-          '^/api': ''
+          '^/baidu-api': ''
         }
       },
       [process.env.VUE_APP_BASE_API_BAIDU ]: {

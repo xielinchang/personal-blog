@@ -1,6 +1,6 @@
 /*
- * @Descripttion: 
- * @version: 
+ * @Descripttion:
+ * @version:
  * @Author: Liu ZiJie
  * @Date: 2022-03-13 17:52:39
  * @LastEditors: Liu ZiJie
@@ -24,17 +24,17 @@ module.exports = {
   },
   /**
    * @descrption 条件查询过滤
-   * @param {Array} array 
-   * @param {Array} queryList 
-   * @returns where
+   * @param {Array} array
+   * @param {Array} queryList
+   * @return where
    */
-  queryFilter(array,queryList){
-    let where = {}
+  queryFilter(array, queryList) {
+    const where = {};
     Object.keys(array).forEach(e => {
-      if(queryList.includes(e)){
-        where[e] = array[e]
+      if (queryList.includes(e)) {
+        where[e] = array[e];
       }
-    })
-    return where
-  }
+    });
+    return where;
+  },
 };

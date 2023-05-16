@@ -3,7 +3,7 @@
     <div class="search-main">
       <input
         v-model="message"
-        placeholder="输入搜索内容，更多搜索在右下角点击搜索按钮"
+        placeholder="输入搜索关键字，更多搜索方式点击右下角搜索按钮"
         type="text"
       >
     </div>
