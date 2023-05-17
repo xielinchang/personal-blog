@@ -212,6 +212,12 @@
         ></icon-button>
       </router-link>
       <icon-button
+        class="icon-button"
+        icon="comment-filled"
+        left-title="评论"
+        @click.native="jumpToComment()"
+      ></icon-button>
+      <icon-button
         v-show="catalog.length>0"
         class="icon-button"
         icon="hide-filled"
@@ -241,6 +247,7 @@ import store from '@/store'
 import { userDetailUpdate, queryUser } from '@/api/default/user'
 import { essayQuery, essayDetailUpdate } from '@/api/main/essayapi'
 import { essayCommentsQuery, essayCommentsCreate, essayCommentsDelete } from '@/api/main/essayComments'
+import { getToken } from '@/utils/author'
 export default {
   name: 'EssayPage',
   data () {
@@ -274,27 +281,19 @@ export default {
       publishShow: false,
       showDialog: false,
       commentList: [],
-      // 是否为游客
-      identity: '',
       // 获取用户的收藏，点赞
-      userDetail: {
-        id: null,
-        collect: '',
-        good: '',
-        user_id: ''
-      },
+      userDetail: {},
       // 收藏的文章id列表
       collectIds: [],
       goodIds: [],
-      // 用户id
-      userid: '',
       loading: false,
       // 目录
       catalog: [],
       // 滚动高度，(和目录相关)
       scrollHeight: '',
       // 目录显示
-      catalogShow: true
+      catalogShow: true,
+      prefix: process.env.VUE_APP_BASE_API
     }
   },
   computed: {
@@ -418,8 +417,6 @@ export default {
     },
     initPage() {
       // 获取文章id
-      // 评论表单的文章id
-      this.commentForm.essay_id = this.$route.query.id * 1
       // 文章详细信息的文章id
       this.essayData.essay_id = this.$route.query.id * 1
       // 通用id
@@ -461,7 +458,7 @@ export default {
         limit: 1,
         offset: 1,
         query: {
-          id: this.commentForm.essay_id * 1,
+          id: this.essayData.essay_id * 1,
           title: undefined,
           subtitle: undefined,
           domain: undefined
@@ -492,15 +489,14 @@ export default {
         limit: 999,
         offset: 1,
         query: {
-          essay_id: this.commentForm.essay_id
+          essay_id: this.essayData.essay_id
         }
       }).then(res => {
         this.commentNum = res.data.count
         res.data.rows.forEach(element => {
           queryUser({ id: element.user_id }).then(res => {
-            console.log(res)
             Object.assign(element, {
-              portrait: process.env.VUE_APP_BASE_API + res.data.user.rows[0].portrait,
+              portrait: this.prefix + res.data.user.rows[0].portrait,
               name: res.data.user.rows[0].name
             })
           })
@@ -510,16 +506,16 @@ export default {
     },
     initUser() {
       this.initPage()
-      this.userid = localStorage.getItem('userid')
-      if (this.userid) {
-        queryUser({ id: this.userid * 1 }).then(res => {
-          this.commentForm.portrait = res.data.user.rows[0].portrait
-          this.commentForm.name = res.data.user.rows[0].name
-          this.commentForm.address = localStorage.getItem('address')
-          this.identity = res.data.user.rows[0].identity
-          if (res.data.user.rows[0].user_detail) {
-            this.userDetail = res.data.user.rows[0].user_detail
-            this.collectIds = this.userDetail.collect.split(',')
+      if (getToken('token')) {
+        store.dispatch('getUserInfo').then(user => {
+          if (user.user.user_detail !== null) {
+            this.userDetail = { ...user.user.user_detail }
+            // 判断文章的id是否符合此篇文章
+            if (this.userDetail.collect) {
+              this.collectIds = this.userDetail.collect.split(',')
+            } else {
+              this.collectIds = []
+            }
             if (this.collectIds.length > 0) {
               this.isCollect = false
               this.collectIds.find((item, index) => {
@@ -528,7 +524,11 @@ export default {
                 }
               })
             }
-            this.goodIds = this.userDetail.good.split(',')
+            if (this.userDetail.good) {
+              this.goodIds = this.userDetail.good.split(',')
+            } else {
+              this.goodIds = []
+            }
             if (this.goodIds.length > 0) {
               this.isGood = false
               this.goodIds.find((item, index) => {
@@ -538,22 +538,37 @@ export default {
               })
             }
           } else {
-            this.userDetail.user_id = this.userid * 1
+            this.userDetail = {
+              id: null,
+              user_id: user.user.id,
+              collect: '',
+              good: ''
+            }
           }
+          this.commentForm = {
+            ...user.user,
+            address: localStorage.getItem('address'),
+            user_id: user.user.id,
+            essay_id: this.$route.query.id * 1
+          }
+          delete this.commentForm.id
         })
       } else {
-        console.log('用户尚未登录')
+        this.$msg({
+          content: '请先登录',
+          type: 'info'
+        })
       }
     },
     publishComment() {
-      if (this.userid) {
-        essayCommentsCreate(Object.assign(this.commentForm, { user_id: this.userid })).then(res => {
+      if (getToken('token')) {
+        essayCommentsCreate(this.commentForm).then(res => {
           this.initComments()
           this.commentForm.message = ''
         })
       } else {
         this.$msg({
-          content: '用户尚未登录',
+          content: '请先登录',
           type: 'warning'
         })
       }
@@ -567,9 +582,38 @@ export default {
         this.initComments()
       })
     },
+    jumpToComment() {
+      const comment = document.getElementsByClassName('comment')
+      const height = comment[0].offsetTop
+      var _this = this
+      if (!getToken('token')) {
+        this.$msg({
+          content: '请先登录',
+          type: 'warning'
+        })
+      }
+      const timer = setInterval(function() {
+        const offset = document.documentElement.scrollTop
+        const speed = 80
+        if (offset <= height + 300) {
+          document.documentElement.scrollTop = offset + speed
+          // 设置一些偏差，以免与判断矛盾卡住页面
+          if (offset * 1 >= height + 400) {
+            _this.publishShow = true
+            clearInterval(timer)
+          }
+        } else {
+          document.documentElement.scrollTop = offset - speed
+          if (offset * 1 <= height + 400) {
+            _this.publishShow = true
+            clearInterval(timer)
+          }
+        }
+      }, 1)
+    },
     addCollect() {
       this.initPage()
-      if (this.userid) {
+      if (getToken('token')) {
         this.isCollect = !this.isCollect
         if (this.isCollect) {
           this.essayData.collect++
@@ -583,7 +627,6 @@ export default {
         } else {
           this.userDetail.collect = this.collectIds.join('')
         }
-
         essayDetailUpdate(this.essayData).then(res => {
           userDetailUpdate(this.userDetail).then(res => {
             if (this.isCollect === true) {
@@ -610,7 +653,7 @@ export default {
     },
     addGood() {
       this.initPage()
-      if (this.userid) {
+      if (getToken('token')) {
         this.isGood = !this.isGood
         if (this.isGood) {
           this.essayData.good++

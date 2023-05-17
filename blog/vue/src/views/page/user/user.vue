@@ -7,25 +7,22 @@
       <div class="user">
         <div class="portrait">
           <img
-            :src="user.portrait"
+            :src="prefix+userInfo.user.portrait"
             alt=""
           >
           <my-upload
             v-model="file"
-            :action="uploadUrl"
+            :action="prefix+uploadUrl"
             :image="image"
             @upload-success="uploadCallback"
           >
           </my-upload>
-
         </div>
         <div class="user-r">
-
-          <div class="username user-r-item"> 账号：{{ user.username }}</div>
-
+          <div class="username user-r-item"> 账号：{{ userInfo.user.username }}</div>
           <div class="name user-r-item">
             <div v-if="editFlag">
-              <span> 名称：{{ user.name }}</span>
+              <span> 名称：{{ userInfo.user.name }}</span>
               <svg-icon
                 icon-name="edit"
                 @click="editFlag=!editFlag"
@@ -33,7 +30,7 @@
             </div>
             <div v-else>
               <my-input
-                v-model="user.name"
+                v-model="userInfo.user.name"
                 style="float: left; margin-right: 5px;"
               ></my-input>
               <my-button @click="updateName">确认修改</my-button>
@@ -41,7 +38,7 @@
           </div>
 
           <div class="identity user-r-item">
-            身份：{{ user.identity }}
+            身份：{{ userInfo.role.role_name }}
           </div>
           <div class="logout">
             <my-button
@@ -98,21 +95,27 @@
   </div>
 </template>
 <script>
+import { getToken } from '@/utils/author'
 import { essayQuery } from '@/api/main/essayapi'
 import { queryUser, updateUser } from '@/api/default/user'
+import store from '@/store'
 import Cookie from 'js-cookie'
 export default {
   name: 'UserPage',
   data () {
     return {
-      user: '',
       essay_list: [],
       editFlag: true,
       // 保存之前的头像路径，以便用于更新的参数
       portrait: '',
       file: {},
       image: '',
-      uploadUrl: process.env.VUE_APP_BASE_API + '/api/file'
+      userInfo: {
+        user: '',
+        role: ''
+      },
+      prefix: process.env.VUE_APP_BASE_API,
+      uploadUrl: '/api/file'
     }
   },
   watch: {
@@ -125,33 +128,33 @@ export default {
   },
   methods: {
     initEssayList() {
-      this.essay_list = []
-      queryUser({ id: localStorage.getItem('userid') * 1 }).then(res => {
-        this.user = res.data.user.rows[0]
-        this.portrait = this.user.portrait
-        this.user.portrait = process.env.VUE_APP_BASE_API + this.user.portrait
-        const ids = this.user.user_detail.collect.split(',')
-        for (let i = 0; i < ids.length; i++) {
-          essayQuery({
-            limit: 999,
-            offset: 1,
-            query: {
-              id: Number(ids[i]),
-              title: undefined,
-              subtitle: undefined,
-              domain: undefined
-            }
-          }).then((res) => {
-            if (res.data.rows[0].tags) {
-              res.data.rows[0].tags = res.data.rows[0].tags.split(',')
-            }
-
-            res.data.rows[0].coverUrl =
-            process.env.VUE_APP_BASE_API + res.data.rows[0].coverUrl
-            if (ids[i] !== '') {
-              this.essay_list.push(res.data.rows[0])
-            }
-          })
+      store.dispatch('getUserInfo').then(user => {
+        this.userInfo = { ...user }
+        var ids = []
+        this.essay_list = []
+        if (this.userInfo.user.user_detail) {
+          ids = this.userInfo.user.user_detail.collect.split(',')
+          for (let i = 0; i < ids.length; i++) {
+            essayQuery({
+              limit: 999,
+              offset: 1,
+              query: {
+                id: Number(ids[i]),
+                title: undefined,
+                subtitle: undefined,
+                domain: undefined
+              }
+            }).then((res) => {
+              if (res.data.rows[0].tags) {
+                res.data.rows[0].tags = res.data.rows[0].tags.split(',')
+              }
+              res.data.rows[0].coverUrl =
+            this.prefix + res.data.rows[0].coverUrl
+              if (ids[i] !== '') {
+                this.essay_list.push(res.data.rows[0])
+              }
+            })
+          }
         }
       })
     },
@@ -159,19 +162,13 @@ export default {
       this.$router.push('/note/essay?id=' + item.id)
     },
     updateName() {
-      // 取之前的路径作为参数，保证不改路劲
-      this.user.portrait = this.portrait
       updateUser(this.user).then(res => {
         this.editFlag = !this.editFlag
-        this.user.portrait = process.env.VUE_APP_BASE_API + this.portrait
         location.reload()
       })
     },
     uploadCallback: function(file, res) {
-      this.user.portrait = res.data.data.url
       updateUser(this.user).then(res => {
-        this.user.portrait = process.env.VUE_APP_BASE_API + this.portrait
-        location.reload()
       })
     },
     logout() {

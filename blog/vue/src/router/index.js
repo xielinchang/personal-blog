@@ -2,6 +2,8 @@ import Vue from 'vue'
 import { getToken } from '@/utils/author'
 import VueRouter from 'vue-router'
 import store from '../store'
+import msg from '@/views/component/default-component/message/index'
+Vue.prototype.$msg = msg
 import { queryUser, queryeRoleList, getUserInfo, queryeUserRole } from '@/api/default/user'
 Vue.use(VueRouter)
 const routes = [
@@ -87,10 +89,12 @@ const router = new VueRouter({
 })
 router.beforeEach((to, from, next) => {
   var token = getToken('token')
-  if (getToken('token')) {
-    token = getToken('token')
-  } else {
-    token = null
+  var pathArr = []
+  var role_code = ''
+  for (let i = 0; i < routes.length; i++) {
+    if (routes[i].path.indexOf('control') === 1) {
+      pathArr.push(routes[i].path)
+    }
   }
   if (to.path === '/login') {
     next()
@@ -102,38 +106,53 @@ router.beforeEach((to, from, next) => {
       next()
     }
   }
-  var pathArr = []
-  for (let i = 0; i < routes.length; i++) {
-    if (routes[i].path.indexOf('control') === 1) {
-      pathArr.push(routes[i].path)
-    }
-  }
-  var role_code = 'user'
-  store.dispatch('getUserInfo')
-    .then(user => {
-      role_code = user.role.code
-      for (let i = 0; i < pathArr.length; i++) {
-        if (to.path === pathArr[i]) {
-          if (token && (role_code === 'admin' || role_code === 'superAdmin')) {
-            next()
-          } else if (token && role_code === 'user') {
-            next({
-              path: '/user'
-            })
-          } else {
-            next({
-              path: '/login'
-            })
+  if (token) {
+    store.dispatch('getUserInfo')
+      .then(user => {
+        if (Object.keys(user).length > 0) {
+          role_code = user.role.code
+        }
+        if (role_code === 'user') {
+          for (let i = 0; i < pathArr.length; i++) {
+            if (to.path === pathArr[i]) {
+              next({
+                path: '/user'
+              })
+            } else {
+              next()
+            }
           }
         } else {
           next()
         }
+      })
+      .catch(error => {
+        console.error(error)
+        next('/')
+      })
+  } else {
+    // 没登录默认用户为游客
+    var usermsg = {
+      role: {
+        code: 'visitor'
       }
-    })
-    .catch(error => {
-      console.error(error)
-      next('/')
-    })
+    }
+    store.commit('setUserInfo', usermsg)
+    role_code = 'visitor'
+    for (let i = 0; i < pathArr.length; i++) {
+      if (to.path === pathArr[i]) {
+        msg({
+          content: '请先登录',
+          type: 'warning'
+        })
+        next({
+          path: '/login'
+        })
+      } else {
+        next()
+      }
+    }
+  }
 })
 
 export default router

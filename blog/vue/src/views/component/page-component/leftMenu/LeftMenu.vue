@@ -10,14 +10,14 @@
           ></div>
         </div>
         <div class="portrait-box">
-          <div v-if="userInfo.portrait">
+          <div v-if="userInfo!==null">
             <div
               class="user-portrait"
               right-title="点击打开用户页"
             >
               <router-link to="/control/essay">
                 <img
-                  :src="userInfo.portrait"
+                  :src="prefix+userInfo.portrait"
                   @contextmenu.prevent="show()"
                 />
               </router-link>
@@ -96,21 +96,25 @@ export default {
     return {
       isLock: 'lock',
       menu_list: [],
-      logoutShow: false
+      logoutShow: false,
+      prefix: process.env.VUE_APP_BASE_API
 
     }
   },
   computed: {
     userInfo() {
-      if (Object.keys(this.$store.state.user).length > 0) {
-        var userInfo = this.$store.state.user.user
-        console.log(userInfo)
-        return {
-          portrait: process.env.VUE_APP_BASE_API + userInfo.portrait,
-          name: userInfo.name
+      if (getToken('token')) {
+        if (Object.keys(this.$store.state.user).length > 0) {
+          var userInfo = this.$store.state.user.user
+          return {
+            portrait: userInfo.portrait,
+            name: userInfo.name
+          }
+        } else {
+          return false
         }
       } else {
-        return false
+        return null
       }
     }
   },
@@ -173,7 +177,7 @@ export default {
     logoutUser() {
       this.logoutShow = false
       removeToken('token')
-      // location.reload()
+      location.reload()
       this.user = ''
       this.token = ''
     }

@@ -7,11 +7,11 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    user: {},
+    user: {}, // visitor,user,admin,superAdmin
     loginInvalidBox: false, // 登录失效盒子，只要显示一次
     loading: true, // 响应
-    hasPermi: false, // 基础权限
-    hasSuperPermi: false// 超级管理员权限
+    hasPermi: false, // 基础权限:除用户不能管理外，其他都能管理
+    hasSuperPermi: false// 超级管理员权限：所有权限
   },
   getters: {
   },

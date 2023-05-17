@@ -59,6 +59,9 @@ class UserService extends Service {
         where: {
           id: userid,
         },
+        include: [{
+          model: this.app.model.User.UserDetail,
+        }],
       });
       const role = await ctx.model.User.Role.findOne({
         where: { id: roles },

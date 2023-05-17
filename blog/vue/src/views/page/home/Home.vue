@@ -106,7 +106,6 @@ export default {
   data() {
     return {
       CurrentIndex: 0,
-      blogName: 'C o i s í n í',
       bgimg: '',
       mainimg: '',
       bgshadow: '',

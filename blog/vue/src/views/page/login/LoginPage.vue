@@ -61,6 +61,7 @@ export default {
             content: '登录成功',
             type: 'success'
           })
+          location.reload()
           this.$router.push('/')
         } else {
           this.$msg({
@@ -77,6 +78,6 @@ export default {
 }
 </script>
 
-<style scpoed lang="scss">
+<style scoped lang="scss">
 @import './index.scss'
 </style>
