@@ -9,6 +9,9 @@
         <input-test></input-test>
       </div>
       <div class="block">
+        <textarea-test></textarea-test>
+      </div>
+      <div class="block">
         <tags-test></tags-test>
       </div>
       <div class="block">

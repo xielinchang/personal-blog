@@ -22,6 +22,7 @@ module.exports = app => {
 
   // 每个用户对应的角色id
   router.post('/user/role', controller.user.userRole.queryUserRole);
+  router.post('/user/role/update', jwt, controller.user.userRole.updateUserRole);
 
   // 获取用户ip
   router.post('/user/ip', controller.user.user.queryUserIp);
@@ -84,4 +85,7 @@ module.exports = app => {
   router.post('/project/update', jwt, controller.blog.project.updateProject);
   router.post('/project/delete', jwt, controller.blog.project.deleteProject);
   router.post('/project/create', jwt, controller.blog.project.createProject);
+
+  router.post('/project/query/save', controller.blog.project.queryProjectSave);
+  router.post('/project/update', jwt, controller.blog.project.updateProjectSave);
 };

@@ -200,10 +200,9 @@
           </div>
         </div>
       </div>
-
     </div>
     <div class="icon-buttons">
-      <router-link :to="'/control/essay/writing?id='+essay_id">
+      <router-link :to="'/control/essay/writing?id=' + $route.query.id">
         <icon-button
           v-if="hasPermi"
           class="icon-button"

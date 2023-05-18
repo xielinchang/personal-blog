@@ -3,6 +3,8 @@
     <my-upload
       v-model="file"
       :action="uploadUrl"
+      preview
+      :image="img"
       @upload-success="uploadCallback"
     ></my-upload>
   </div>

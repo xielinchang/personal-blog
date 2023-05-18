@@ -4,7 +4,6 @@ import VueRouter from 'vue-router'
 import store from '../store'
 import msg from '@/views/component/default-component/message/index'
 Vue.prototype.$msg = msg
-import { queryUser, queryeRoleList, getUserInfo, queryeUserRole } from '@/api/default/user'
 Vue.use(VueRouter)
 const routes = [
   {
@@ -33,7 +32,7 @@ const routes = [
   },
   {
     path: '/control/essay/writing',
-    name: 'Writing',
+    name: 'EssayWriting',
     component: () => import('../views/page/essay/EssayWriting.vue')
   },
   {
@@ -45,6 +44,16 @@ const routes = [
     path: '/control/record',
     name: 'RecordControl',
     component: () => import('../views/page/record/RecordControl.vue')
+  },
+  {
+    path: '/control/project',
+    name: 'ProjectControl',
+    component: () => import('../views/page/project/ProjectControl.vue')
+  },
+  {
+    path: '/control/project/writing',
+    name: 'ProjectWriting',
+    component: () => import('../views/page/project/ProjectWriting.vue')
   },
   {
     path: '/comments',
@@ -60,6 +69,11 @@ const routes = [
     path: '/note/essay',
     name: 'Essay',
     component: () => import('../views/page/essay/EssayPage.vue')
+  },
+  {
+    path: '/note/project',
+    name: 'Project',
+    component: () => import('../views/page/project/ProjectPage.vue')
   },
   {
     path: '/control/user',

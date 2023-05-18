@@ -1,6 +1,6 @@
 <template>
   <div class="writing">
-    <TemplatePage class="write-template"></TemplatePage>
+    <TemplatePage></TemplatePage>
     <my-loading :load-show="loading"></my-loading>
     <div class="write-main">
       <div
@@ -15,7 +15,7 @@
               :mode="mode"
             />
             <Editor
-              v-model="Essay.html"
+              v-model="Project.html"
               style="height: 500px; overflow-y: hidden"
               :default-config="editorConfig"
               :mode="mode"
@@ -37,52 +37,20 @@
             </my-upload>
             标题：
             <my-input
-              v-model="Essay.title"
+              v-model="Project.title"
               :width="inputSize"
               placeholder="请输入标题"
-              icon-name="edit"
+              icon-title="edit"
             >
             </my-input>
-            副标题：
-            <my-input
-              v-model="Essay.subtitle"
-              placeholder="请输入副标题"
-              :width="inputSize"
-              icon-name="edit"
-            >
-            </my-input>
-            摘要：
+            链接：
             <my-textarea
-              v-model="Essay.digest"
+              v-model="Project.link"
+              height="80"
               :width="inputSize"
-              placeholder="（选填）简要的摘要能帮助读者更好的了解内容"
-              maxlength="350"
+              placeholder="(选填)项目演示链接"
+              maxlength="340"
             ></my-textarea>
-            <my-input>
-            </my-input>
-            标签：
-            <my-tags
-              :value="newTags"
-              @update-tags="update"
-            ></my-tags>
-            领域：
-            <my-select
-              :options="domain"
-              :selected="selected"
-              @change-select="changeSelect"
-            >
-            </my-select>
-            类型：
-            <div>
-              <my-radio
-                v-model="Essay.radio"
-                label="1"
-              >原创</my-radio>
-              <my-radio
-                v-model="Essay.radio"
-                label="2"
-              >转载</my-radio>
-            </div>
           </div>
         </div>
       </div>
@@ -128,7 +96,7 @@
 
       </div>
     </div>
-    <router-link :to="'/note/essay?id='+Essay.id">
+    <router-link :to="'/note/project?id='+Project.id">
       <icon-button
         v-if="$route.query.id!=='undefined'"
         class="icon-button"
@@ -138,15 +106,14 @@
     </router-link>
   </div>
 </template>
-
 <script>
-/* import getToken from '../utils/author' */
-import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
-import { essayCreate, essayQuerySave, essaySave, essayQuery, essayUpdate, essayDelete } from '@/api/main/essayapi'
+import { createProject, queryProjectSave, saveProject, queryProject, updateProject, projectDelete } from '@/api/main/project'
+import { getToken } from '@/utils/author'
 import axios from 'axios'
-import Cookie from 'js-cookie'
+import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
+
 export default {
-  name: 'WritingPage',
+  title: 'ProjectWriting',
   components: {
     Editor,
     Toolbar
@@ -174,15 +141,15 @@ export default {
       next()
     }
   },
-  data() {
+  data () {
     return {
       editor: null,
       toolbarConfig: {},
       html: '',
-      // 当前页面是保存草稿还是修改文章
+      // 当前页面是保存草稿还是修改
       isSave: true,
       editorConfig: {
-        placeholder: '请输入文章内容...',
+        placeholder: '请输入内容...',
         MENU_CONF: {
           uploadImage: {
             server: process.env.VUE_APP_BASE_API + '/api/file',
@@ -198,28 +165,18 @@ export default {
       mode: 'default', // or 'simple'
       inputVisible: false,
       inputValue: '',
-      Essay: {
+      Project: {
         id: '',
         html: '',
         coverUrl: '',
-        title: '',
-        subtitle: '',
-        digest: '',
-        tags: '',
-        domain: null,
-        radio: '1'
+        title: ''
       },
+      prefix: process.env.VUE_APP_BASE_API,
       inputSize: 600,
       imgurl: '',
       customImageFile: null,
       changeImg: false,
       file: {},
-      newTags: [],
-      domain: [],
-      selected: {
-        label: 'HTML',
-        value: 'html'
-      },
       loading: false,
       headers: {
         Authorization: ''
@@ -233,7 +190,7 @@ export default {
     'route.path': function () {
       var _this = this
       setTimeout(() => {
-        _this.initEssay()
+        _this.initProject()
       }, 100)
     },
     '$route.query': {
@@ -241,12 +198,12 @@ export default {
       handler(value, oldValue) {
         var _this = this
         setTimeout(() => {
-          _this.initEssay()
+          _this.initProject()
         }, 100)
       },
       deep: true
     },
-    Essay: {
+    Project: {
       handler(newval, oldval) {
         // 第一次修改为初始化，所以要避开
         if (this.editNum > 1) {
@@ -265,15 +222,6 @@ export default {
     // 页面发生修改时
     this.editNum = this.editNum + 1
   },
-  created() {
-    this.domain = this.$store.state.dictionary.domain
-  },
-  mounted () {
-    // 关闭浏览器时确认是否保存
-    var _this = this
-    this.headers.Authorization = Cookie.get('token')
-    document.documentElement.scrollTop = 0
-  },
   beforeUnmount() {
     window.removeEventListener('beforeunload', this.beforeClose)
     const editor = this.editor
@@ -281,63 +229,52 @@ export default {
     editor.destroy() // 组件销毁时，及时销毁编辑器
     location.reload()
   },
+  mounted () {
+    // 关闭浏览器时确认是否保存
+    var _this = this
+    this.headers.Authorization = getToken('token')
+    document.documentElement.scrollTop = 0
+  },
+
   methods: {
-    beforeClose(e) {
-      e.preventDefault() // 阻止默认行为（此处指关闭浏览器或刷新页面）
-      e.returnValue = '' // 在某些老版本的浏览器上需要设置 returnValue 值才能生效
-      return '当前数据未保存，确定要离开吗？'
-    },
-    async initEssay() {
+    async initProject() {
       this.loading = true
       this.imgurl = null
       this.isModified = false
       if (this.$route.query.id === 'undefined') {
-        this.querySaveEssay()
+        this.querySaveProject()
       } else {
-        this.queryEssay()
+        this.queryProject()
       }
     },
-    querySaveEssay() {
+    querySaveProject() {
       var _this = this
       this.isSave = true
-      essayQuerySave().then(res => {
-        _this.selected.label = res.data.rows[0].domain
-        _this.imgurl = process.env.VUE_APP_BASE_API + res.data.rows[0].coverUrl
-        _this.Essay = res.data.rows[0]
-        if (_this.Essay.tags) {
-          _this.newTags = _this.Essay.tags.split(',')
-        } else {
-          _this.newTags = []
-        }
+      queryProjectSave().then(res => {
+        _this.imgurl = process.env.VUE_APP_BASE_API + res.data.coverUrl
+        _this.Project = res.data
         _this.loading = false
-
         _this.editNum = 0
       })
     },
-    queryEssay() {
+    queryProject() {
       var _this = this
       var id = this.$route.query.id
       this.isSave = false
-      essayQuery({
+      queryProject({
         limit: 1,
         offset: 1,
         query: {
           id: id * 1,
           title: undefined,
-          subtitle: undefined,
-          domain: undefined
+          html: undefined
         }
       }).then(res => {
-        _this.selected.label = res.data.rows[0].domain
         _this.imgurl = process.env.VUE_APP_BASE_API + res.data.rows[0].coverUrl
-        _this.Essay = res.data.rows[0]
-        _this.newTags = _this.Essay.tags.split(',')
+        _this.Project = res.data.rows[0]
         _this.loading = false
         _this.editNum = 0
       })
-    },
-    initDomain() {
-      this.Essay.domain = this.selected.label
     },
     uploadCallback(file) {
       this.changeImg = true
@@ -356,7 +293,7 @@ export default {
     },
     deleteCallback() {
       this.imgurl = ''
-      this.Essay.coverUrl = ''
+      this.Project.coverUrl = ''
       this.customImageFile = ''
     },
     async onCreated(editor) {
@@ -364,31 +301,20 @@ export default {
       this.editor = Object.seal(editor) // 一定要用 Object.seal() ，否则会报错
       // 初始化富文本后初始化文章
       if (this.editor) {
-        await this.initEssay()
+        await this.initProject()
       }
     },
     reset() {
-      this.Essay = {
+      this.Project = {
         id: 0,
         html: ' ',
         coverUrl: '',
-        title: '',
-        subtitle: '',
-        digest: '',
-        tags: '',
-        domain: null,
-        radio: null
+        title: ''
       }
-      this.newTags = []
       this.imgurl = ''
     },
     save() {
-      /* join=>数组转字符串，split=>字符串转数组 */
       var _this = this
-      this.initDomain()
-      if (this.newTags.length > 0) {
-        this.Essay.tags = this.newTags.join(',')
-      }
       // 如果有上传图片，则先调用上传接口，再保存
       if (this.customImageFile) {
         const data = new FormData()
@@ -398,8 +324,8 @@ export default {
             'Content-Type': 'multipart/form-data'
           }
         }).then((res) => {
-          this.Essay.coverUrl = res.data.data.url
-          this.essaySaveApi()
+          this.Project.coverUrl = res.data.data.url
+          this.projectSaveApi()
         }).catch(err => {
           this.$msg({
             content: err,
@@ -407,26 +333,23 @@ export default {
           })
         })
       } else {
-        this.essaySaveApi()
-        console.log(this.Essay.html)
+        this.projectSaveApi()
       }
     },
-    essaySaveApi() {
+    projectSaveApi() {
       var _this = this
-      essaySave(this.Essay).then(res => {
+      saveProject(this.Project).then(res => {
         this.$msg({
           content: '保存成功',
           type: 'success'
         })
         setTimeout(() => {
-          _this.initEssay()
+          _this.initProject()
         }, 100)
       })
     },
     publish() {
       var _this = this
-      this.initDomain()
-      this.Essay.tags = this.newTags.join(',')
       if (this.customImageFile) {
         const data = new FormData()
         data.append('file', this.customImageFile)
@@ -435,8 +358,8 @@ export default {
             'Content-Type': 'multipart/form-data'
           }
         }).then((res) => {
-          this.Essay.coverUrl = res.data.data.url
-          this.essayCreateApi()
+          this.Project.coverUrl = res.data.data.url
+          this.ProjectCreateApi()
         }).catch(err => {
           this.$msg({
             content: err,
@@ -444,36 +367,31 @@ export default {
           })
         })
       } else {
-        this.essayCreateApi()
+        this.ProjectCreateApi()
       }
     },
-    essayCreateApi() {
-      essayCreate(this.Essay).then(res => {
+    ProjectCreateApi() {
+      createProject(this.Project).then(res => {
         this.$msg({
           content: '创建成功',
           type: 'success'
         })
         this.reset()
         this.save()
-        this.$router.push('/home')
+        this.$router.push('/aboutme')
       })
     },
-    update(e) {
-      this.newTags = e
-    },
-    essayUpdateApi() {
-      essayUpdate(this.Essay).then(res => {
+    projectUpdateApi() {
+      updateProject(this.Project).then(res => {
         this.$msg({
           content: '更新成功',
           type: 'success'
         })
-        this.initEssay()
+        this.initProject()
       })
     },
     edit() {
       var _this = this
-      this.initDomain()
-      this.Essay.tags = this.newTags.join(',')
       if (this.customImageFile) {
         const data = new FormData()
         data.append('file', this.customImageFile)
@@ -482,8 +400,8 @@ export default {
             'Content-Type': 'multipart/form-data'
           }
         }).then((res) => {
-          this.Essay.coverUrl = res.data.data.url
-          this.essayUpdateApi()
+          this.Project.coverUrl = res.data.data.url
+          this.projectUpdateApi()
         }).catch(err => {
           this.$msg({
             content: err,
@@ -491,21 +409,21 @@ export default {
           })
         })
       } else {
-        this.essayUpdateApi()
+        this.projectUpdateApi()
       }
     },
     deleted() {
       this.$msgBox.confirm({
         title: '提醒',
-        content: '要删除名为' + this.Essay.title + '的文章吗？一旦删除将不可恢复',
+        content: '要删除名为' + this.Project.title + '的文章吗？一旦删除将不可恢复',
         type: 'warning',
         onOK: () => {
-          essayDelete({ id: this.Essay.id }).then((res) => {
+          projectDelete({ id: this.Project.id }).then((res) => {
             this.$msg({
               type: 'success',
               content: '删除成功!'
             })
-            this.initEssay()
+            this.initProject()
           })
         },
         onCancel: () => {
@@ -515,17 +433,12 @@ export default {
           })
         }
       })
-    },
-    changeSelect(label, value) {
-      this.selected.label = label
-      this.selected.value = value
-      this.Essay.domain = label
     }
-
   }
+
 }
 </script>
 <style src="@wangeditor/editor/dist/css/style.css"></style>
-<style scoped lang="scss">
-@import "./scss/EssayWriting";
+<style lang='scss' scoped>
+@import './scss/ProjectWriting.scss'
 </style>

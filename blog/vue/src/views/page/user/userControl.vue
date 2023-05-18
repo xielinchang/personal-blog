@@ -7,10 +7,13 @@
           v-for="(item,index) in userList"
           :key="item.id"
         >
-          <div class="user">
+          <div
+            v-if="(item.username!==$store.state.user.user.username)&&(item.role_name!=='超级管理员')"
+            class="user"
+          >
             <div class="portrait">
               <img
-                :src="item.portrait"
+                :src="prefix + item.portrait"
                 alt=""
               >
               <my-upload
@@ -23,29 +26,43 @@
             <div class="user-r">
 
               <div class="username user-r-item"> 账号：{{ item.username }}</div>
-
-              <div class="name user-r-item">
-                <div v-if="!item.editFlag">
+              <div v-if="!item.editFlag">
+                <div class="name user-r-item">
                   <span> 名称：{{ item.name }}</span>
                   <svg-icon
-                    icon-name="edit"
-                    @click="editShow(index)"
+                    icon-name="user"
                   ></svg-icon>
                 </div>
-                <div v-else>
-                  <my-input
-                    v-model="item.name"
-                    style="float: left; margin-right: 5px;"
-                  ></my-input>
-                  <my-button @click="updateName(item.id,index)">确认修改</my-button>
+                <div class="identity user-r-item">
+                  身份：{{ item.role_name }}
                 </div>
               </div>
-              <div class="identity user-r-item">
-                身份：{{ item.identity }}
+
+              <div v-else>
+                <my-input
+                  v-model="item.name"
+                  style="float: left; margin-right: 5px;"
+                ></my-input>
+                <my-select
+                  style="position: absolute;top: 100px;"
+                  :options="options"
+                  :selected="selected"
+                  @change-select="changeSelect"
+                ></my-select>
               </div>
-              <div class="logout">
+
+              <div class="btns">
                 <my-button
-                  v-if="item.identity==='游客'"
+                  v-if="!item.editFlag"
+                  @click="item.editFlag=!item.editFlag"
+                >修改</my-button>
+                <my-button
+                  v-else
+                  type="success"
+                  @click="updateName(item,index)"
+                >确认修改</my-button>
+                <my-button
+                  v-if="hasSuperAdmin"
                   type="danger"
                   @click="deleteConfirm(item.id)"
                 >删除用户</my-button>
@@ -58,17 +75,27 @@
   </div>
 </template>
 <script>
-import { queryUser, updateUser, deleteUser } from '@/api/default/user'
+import store from '@/store'
+import { queryUser, updateUser, deleteUser, updateUserRole, queryeRoleList, queryeUserRole } from '@/api/default/user'
 export default {
   name: 'UserManage',
   data () {
     return {
       userList: [],
-      // 保存之前的头像路径，以便用于更新的参数
-      portrait: [],
       file: {},
       user: [],
-      uploadUrl: process.env.VUE_APP_BASE_API + '/api/file'
+      uploadUrl: process.env.VUE_APP_BASE_API + '/api/file',
+      prefix: process.env.VUE_APP_BASE_API,
+      options: [],
+      selected: {
+        label: '',
+        value: ''
+      }
+    }
+  },
+  computed: {
+    hasSuperAdmin() {
+      return store.state.hasSuperPermi
     }
   },
   watch: {
@@ -78,34 +105,67 @@ export default {
   },
   mounted () {
     this.initUser()
+    this.initRoleList()
   },
   methods: {
+    initRoleList() {
+      queryeRoleList().then(res => {
+        console.log(res)
+        this.options = []
+        res.data.forEach(item => {
+          if (item.code !== 'superAdmin') {
+            this.options.push({
+              label: item.role_name,
+              value: item.id
+            })
+          }
+        })
+      })
+    },
     initUser() {
       this.userList = []
       queryUser().then(res => {
-        res.data.user.rows.forEach(item => {
-          this.portrait.push(item.portrait)
-          item.portrait = process.env.VUE_APP_BASE_API + item.portrait
-          item.editFlag = false
-          this.userList.push(item)
+        res.data.user.rows.forEach((item) => {
+          queryeUserRole({ user_id: item.id }).then(res => {
+            queryeRoleList({ id: res.data.user.role_id }).then(res => {
+              Object.assign(item, {
+                role_code: res.data[0].role_code,
+                role_name: res.data[0].role_name
+              })
+              item.editFlag = false
+              this.userList.push(item)
+            })
+          })
         })
-
-        console.log(this.userList)
       })
+    },
+    changeSelect(label, value) {
+      console.log(label, value)
+      this.selected.label = label
+      this.selected.value = value
     },
     editShow(index) {
       this.userList[index].editFlag = !this.userList[index].editFlag
     },
-    updateName(id, index) {
-      // 取之前的路径作为参数，保证不改路劲
-      this.user.portrait = this.portrait
-      queryUser({ id: id }).then(res => {
-        console.log(res)
+    updateName(item, index) {
+      queryUser({ id: item.id }).then(res => {
+        if (this.selected.value !== '' && item.name !== '') {
+          updateUserRole({ role_id: this.selected.value * 1, user_id: item.id }).then(res => {
+            this.selected = ''
+            this.initUser()
+          })
+        } else {
+          location.reload()
+          this.$msg({
+            content: '名字或身份不能为空',
+            type: 'warning'
+          })
+        }
+
         this.user = res.data.user.rows[0]
         this.user.name = this.userList[index].name
         updateUser(this.user).then(res => {
           this.editShow(index)
-          this.user.portrait = process.env.VUE_APP_BASE_API + this.portrait[index]
         })
       })
     },
@@ -114,7 +174,7 @@ export default {
         this.user = res.data.user.rows[0]
         this.user.portrait = url
         updateUser(this.user).then(res => {
-          this.user.portrait = process.env.VUE_APP_BASE_API + this.portrait[index]
+          this.user.portrait = this.prefix + this.portrait[index]
           location.reload()
         })
       })

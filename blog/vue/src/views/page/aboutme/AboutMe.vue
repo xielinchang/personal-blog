@@ -9,7 +9,7 @@
         <div class="introduce-main">
           <div class="my-portrait">
             <img
-              :src="detail.portrait"
+              :src="prefix+detail.portrait"
               alt=""
             >
           </div>
@@ -50,17 +50,37 @@
       </div>
       <div class="project block">
         <div class="label">
-          有点东西但不多
+          项目之旅
         </div>
         <ul class="project-list">
           <li
             v-for="item in projectList"
             :key="item.id"
             class="block"
-            @click="jumpToProject(item)"
           >
-            {{ item.name }}
+            <router-link
+              style="color:#333"
+              :to="'/note/project?id=' + item.id"
+            >
+              <div class="p-item">
+                <div class="cover">
+                  <img
+                    :src="prefix+item.coverUrl"
+                    alt=""
+                  >
+                </div>
+                <div class="project-msg">
+                  <div class="p-name">
+                    {{ item.title }}
+                  </div>
+                  <div class="p-create">
+                    {{ item.created_at }}
+                  </div>
 
+                </div>
+              </div>
+
+            </router-link>
           </li>
         </ul>
       </div>
@@ -70,14 +90,15 @@
 
 <script>
 import { queryAboutme } from '@/api/main/aboutme'
-import { projectQuery } from '@/api/main/project'
+import { queryProject } from '@/api/main/project'
 import { queryUser } from '@/api/default/user'
 export default {
   name: 'NotePage',
   data () {
     return {
       detail: {},
-      projectList: []
+      projectList: [],
+      prefix: process.env.VUE_APP_BASE_API
     }
   },
   mounted () {
@@ -95,11 +116,11 @@ export default {
     },
     initUser() {
       queryUser({ id: localStorage.getItem('userid') }).then(res => {
-        this.detail = { ...this.detail, portrait: process.env.VUE_APP_BASE_API + res.data.user.rows[0].portrait }
+        this.detail = { ...this.detail, portrait: res.data.user.rows[0].portrait }
       })
     },
     initProject() {
-      projectQuery({
+      queryProject({
         limit: 999,
         offset: 1,
         query: {
@@ -108,8 +129,8 @@ export default {
           name: undefined
         }
       }).then(res => {
-        this.projectList = res.data.rows
         console.log(res)
+        this.projectList = res.data.rows
       }
       )
     }

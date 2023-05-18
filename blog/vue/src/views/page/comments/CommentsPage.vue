@@ -14,7 +14,7 @@
           >
             <div class="c-portrait">
               <img
-                :src="item.portrait"
+                :src="prefix+item.portrait"
                 alt=""
               >
             </div>
@@ -30,7 +30,7 @@
             >
               <div class="author-portrait">
                 <img
-                  :src="item.comment_reply.portrait"
+                  :src="prefix+item.comment_reply.portrait"
                   alt=""
                 >
               </div>
@@ -135,7 +135,8 @@ export default {
         { label: '5条/页', value: 5 },
         { label: '10条/页', value: 10 },
         { label: '15条/页', value: 15 }
-      ]
+      ],
+      prefix: process.env.VUE_APP_BASE_API
     }
   },
 
@@ -167,11 +168,11 @@ export default {
           queryUser({ id: item.user_id }).then(res => {
             // 由于只有data里的数据是响应式的，可以通过$set来添加属性
             this.$set(item, 'name', res.data.user.rows[0].name)
-            this.$set(item, 'portrait', process.env.VUE_APP_BASE_API + res.data.user.rows[0].portrait)
+            this.$set(item, 'portrait', res.data.user.rows[0].portrait)
             if (item.comment_reply !== null) {
               queryUser({ id: item.comment_reply.user_id }).then(res => {
                 this.$set(item.comment_reply, 'name', res.data.user.rows[0].name)
-                this.$set(item.comment_reply, 'portrait', process.env.VUE_APP_BASE_API + res.data.user.rows[0].portrait)
+                this.$set(item.comment_reply, 'portrait', res.data.user.rows[0].portrait)
               })
             } else {
               item.comment_reply = false

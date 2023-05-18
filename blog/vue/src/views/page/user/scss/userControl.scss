@@ -6,17 +6,17 @@
   height: auto;
   position: relative;
   top: 100px;
-  padding: 0 5%;
-  padding-top: 40px;
+  padding: 40px 5%;
   box-sizing: border-box;
   & ul{
     list-style: none;
     margin: 0;
     padding: 0;
+    height: auto;
     .user{
       width: 100%;
       margin-bottom: 20px;
-      min-height: 200px;
+      min-height: 180px;
       height: auto;
       background: rgb(255,255,255,0.6);
       font-family: YOUYUAN;
@@ -53,8 +53,11 @@
         .user-r-item{
           margin-bottom: 10px;
         }
-        .logout{
+        .btns{
           position: absolute;
+          display: flex;
+          width: 200px;
+          justify-content: space-between;
           bottom: 20px;
           right: 20px;
         }

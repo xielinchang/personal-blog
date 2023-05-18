@@ -23,6 +23,16 @@ class ProjectController extends Controller {
     const project = await ctx.service.blog.project.updateProject(ctx.request.body);
     ctx.body = project;
   }
+  async queryProjectSave() {
+    const { ctx } = this;
+    const project = await ctx.service.blog.project.queryProjectSave(ctx.request.body);
+    ctx.body = project;
+  }
+  async updateProjectSave() {
+    const { ctx } = this;
+    const project = await ctx.service.blog.project.updateProjectSave(ctx.request.body);
+    ctx.body = project;
+  }
 }
 
 module.exports = ProjectController;

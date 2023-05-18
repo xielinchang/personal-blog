@@ -2,9 +2,13 @@
 const Service = require('egg').Service;
 
 class UserRoleService extends Service {
-  async queryUserRole() {
+  async queryUserRole(body) {
     const { ctx } = this;
-    const user = await ctx.model.User.UserRole.findAll();
+    const user = await ctx.model.User.UserRole.findOne({
+      where: {
+        user_id: body.user_id,
+      },
+    });
     if (user) {
       return { success: true, user };
     }
@@ -13,7 +17,7 @@ class UserRoleService extends Service {
     const { ctx } = this;
     const updated = await ctx.model.User.UserRole.update(body, {
       where: {
-        id: body.id,
+        user_id: body.user_id,
       },
     });
     if (updated) {

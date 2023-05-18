@@ -1,17 +1,18 @@
 <template>
   <div>
-    <my-input
+    <my-textarea
       v-model="value"
       label="账号:"
       width="350"
       :placeholder="placeholder"
-      icon="user"
-    ></my-input>
+      maxlength="350"
+      height="100"
+    ></my-textarea>
   </div>
 </template>
 <script>
 export default {
-  name: 'InputTest',
+  name: 'TextTest',
   data () {
     return {
       value: '111',
@@ -20,6 +21,7 @@ export default {
   }
 }
 </script>
-<style lang='scss' scoped>
+  <style lang='scss' scoped>
 
-</style>
+  </style>
+

@@ -56,6 +56,11 @@ export const dictionary = {
         title: '用户管理',
         router: '/control/user',
         id: 3
+      },
+      {
+        title: '项目管理',
+        router: '/control/project',
+        id: 4
       }
     ],
     // 文章的领域

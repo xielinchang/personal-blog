@@ -36,6 +36,13 @@ export function queryeUserRole(data) {
     data
   })
 }
+export function updateUserRole(data) {
+  return request({
+    url: '/user/role/update',
+    method: 'post',
+    data
+  })
+}
 // 角色列表
 export function queryeRoleList(data) {
   return request({

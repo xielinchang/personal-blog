@@ -39,7 +39,6 @@ class UserService extends Service {
     const roles = await ctx.model.User.UserRole.findOne({
       where: { user_id: user.id },
     });
-    console.log(roles);
     if (user.password === md5(password)) {
       const token = app.jwt.sign({
         userid: user.id,

@@ -13,8 +13,8 @@ class ProjectService extends Service {
     if (body.query.html) {
       where.html = { [Op.like]: `%${body.query.html}%` };
     }
-    if (body.query.name) {
-      where.name = { [Op.like]: `%${body.query.name}%` };
+    if (body.query.title) {
+      where.title = { [Op.like]: `%${body.query.title}%` };
     }
     const Project = await ctx.model.Blog.Project.findAndCountAll({
       where,
@@ -51,7 +51,23 @@ class ProjectService extends Service {
       return { success: true, data: body };
     }
   }
-
+  async queryProjectSave() {
+    const { ctx } = this;
+    const Project = await ctx.model.Blog.SaveProject.findOne();
+    return Project;
+  }
+  async updateProjectSave(body) {
+    const { ctx } = this;
+    body.upt_act = 'U';
+    const updated = await ctx.model.Blog.Project.update(body, {
+      where: {
+        id: body.id,
+      },
+    });
+    if (updated) {
+      return { success: true, data: body };
+    }
+  }
 }
 
 module.exports = ProjectService;
