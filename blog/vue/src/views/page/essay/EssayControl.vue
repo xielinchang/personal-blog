@@ -18,8 +18,8 @@
             @click="essayDelete(item)"
           />
           <img
+            v-lazy="item.coverUrl"
             class="control-item-img"
-            :src="item.coverUrl"
             @click="jumpToEssay(item)"
           />
           <div

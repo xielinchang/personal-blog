@@ -1,5 +1,9 @@
 <template>
   <div class="main">
+    <img
+      v-lazy="imgurl"
+      alt=""
+    >
     <div class="shadow">
       <div class="main-conatiner">
         <my-input
@@ -47,6 +51,7 @@ export default {
         username: '',
         password: ''
       },
+      imgurl: require('@/assets/images/动漫1.jpg'),
       size: 300
     }
   },

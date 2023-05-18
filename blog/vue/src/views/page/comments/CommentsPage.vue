@@ -14,7 +14,7 @@
           >
             <div class="c-portrait">
               <img
-                :src="prefix+item.portrait"
+                v-lazy="prefix+item.portrait"
                 alt=""
               >
             </div>
@@ -30,7 +30,7 @@
             >
               <div class="author-portrait">
                 <img
-                  :src="prefix+item.comment_reply.portrait"
+                  v-lazy="prefix+item.comment_reply.portrait"
                   alt=""
                 >
               </div>

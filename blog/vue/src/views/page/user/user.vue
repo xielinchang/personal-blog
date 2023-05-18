@@ -7,7 +7,7 @@
       <div class="user">
         <div class="portrait">
           <img
-            :src="prefix+userInfo.user.portrait"
+            v-lazy="prefix+userInfo.user.portrait"
             alt=""
           >
           <my-upload

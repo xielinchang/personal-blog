@@ -5,7 +5,7 @@
       <div class="record-default">
         <div class="r-d-img">
           <img
-            :src="record_default.img"
+          v-lazy="record_default.img"
             alt=""
           >
           <my-upload

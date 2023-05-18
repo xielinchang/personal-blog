@@ -9,7 +9,7 @@
         <div class="introduce-main">
           <div class="my-portrait">
             <img
-              :src="prefix+detail.portrait"
+            v-lazy="prefix+detail.portrait"
               alt=""
             >
           </div>
@@ -65,7 +65,7 @@
               <div class="p-item">
                 <div class="cover">
                   <img
-                    :src="prefix+item.coverUrl"
+                  v-lazy="prefix+item.coverUrl"
                     alt=""
                   >
                 </div>

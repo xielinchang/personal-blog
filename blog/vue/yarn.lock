@@ -931,7 +931,7 @@
   "resolved" "https://registry.npmmirror.com/@babel/regjsgen/-/regjsgen-0.8.0.tgz"
   "version" "0.8.0"
 
-"@babel/runtime@^7.12.0", "@babel/runtime@^7.12.13", "@babel/runtime@^7.8.4", "@babel/runtime@7.x":
+"@babel/runtime@^7.12.0", "@babel/runtime@^7.12.13", "@babel/runtime@^7.8.4":
   "integrity" "sha512-xwII0//EObnq89Ji5AKYQaRYiW/nZ3llSv29d49IuxPhKbtJoLP+9QUUZ4nVragQVtaVGeZrpB+ZtG/Pdy/POw=="
   "resolved" "https://registry.npmmirror.com/@babel/runtime/-/runtime-7.21.0.tgz"
   "version" "7.21.0"
@@ -1401,17 +1401,7 @@
     "@uppy/utils" "^4.1.2"
     "nanoid" "^3.1.25"
 
-"@vant/icons@^1.7.1":
-  "integrity" "sha512-sKfEUo2/CkQFuERxvkuF6mGQZDKu3IQdj5rV9Fm0weJXtchDSSQ+zt8qPCNUEhh9Y8shy5PzxbvAfOOkCwlCXg=="
-  "resolved" "https://registry.npmmirror.com/@vant/icons/-/icons-1.8.0.tgz"
-  "version" "1.8.0"
-
-"@vant/popperjs@^1.1.0":
-  "integrity" "sha512-hB+czUG+aHtjhaEmCJDuXOep0YTZjdlRR+4MSmIFnkCQIxJaXLQdSsR90XWvAI2yvKUI7TCGqR8pQg2RtvkMHw=="
-  "resolved" "https://registry.npmmirror.com/@vant/popperjs/-/popperjs-1.3.0.tgz"
-  "version" "1.3.0"
-
-"@vue/babel-helper-vue-jsx-merge-props@^1.0.0", "@vue/babel-helper-vue-jsx-merge-props@^1.4.0":
+"@vue/babel-helper-vue-jsx-merge-props@^1.4.0":
   "integrity" "sha512-JkqXfCkUDp4PIlFdDQ0TdXoIejMtTHP67/pvxlgeY+u5k3LEdKuWZ3LK6xkxo52uDoABIVyRwqVkfLQJhk7VBA=="
   "resolved" "https://registry.npmmirror.com/@vue/babel-helper-vue-jsx-merge-props/-/babel-helper-vue-jsx-merge-props-1.4.0.tgz"
   "version" "1.4.0"
@@ -8302,17 +8292,6 @@
     "spdx-correct" "^3.0.0"
     "spdx-expression-parse" "^3.0.0"
 
-"vant@^2.12.47":
-  "integrity" "sha512-D9QgxirzWuSJbLqU+TGgXRZ88OTmGDEtwxDrBr2JuLCZyijrYzc5KIrErd4c1MJoZsmYupqydyLqotoBkbQDjQ=="
-  "resolved" "https://registry.npmmirror.com/vant/-/vant-2.12.47.tgz"
-  "version" "2.12.47"
-  dependencies:
-    "@babel/runtime" "7.x"
-    "@vant/icons" "^1.7.1"
-    "@vant/popperjs" "^1.1.0"
-    "@vue/babel-helper-vue-jsx-merge-props" "^1.0.0"
-    "vue-lazyload" "1.2.3"
-
 "vary@~1.1.2":
   "integrity" "sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg=="
   "resolved" "https://registry.npmmirror.com/vary/-/vary-1.1.2.tgz"
@@ -8354,15 +8333,10 @@
   "resolved" "https://registry.npmmirror.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.4.tgz"
   "version" "2.3.4"
 
-"vue-lazyload@^3.0.0-rc.2":
-  "integrity" "sha512-Cg7Gqb7jAoiImMPH3EMfAwJ8gZuFoBJCEtA7+TGRljrtktDtV7JAHIyKvuTgQR8DFAd7MhKi1Ys8QHdSrnGdZQ=="
-  "resolved" "https://registry.npmmirror.com/vue-lazyload/-/vue-lazyload-3.0.0-rc.2.tgz"
-  "version" "3.0.0-rc.2"
-
-"vue-lazyload@1.2.3":
-  "integrity" "sha512-DC0ZwxanbRhx79tlA3zY5OYJkH8FYp3WBAnAJbrcuoS8eye1P73rcgAZhyxFSPUluJUTelMB+i/+VkNU/qVm7g=="
-  "resolved" "https://registry.npmmirror.com/vue-lazyload/-/vue-lazyload-1.2.3.tgz"
-  "version" "1.2.3"
+"vue-lazyload@^1.3.4":
+  "integrity" "sha512-SCO/LWgCCbjaregHO4wg2buzITBdPBZRlIS104vERGpT88uxXsK26veuzZpgGAXMR8WpkaR+JDqz80OedpaLiA=="
+  "resolved" "https://registry.npmmirror.com/vue-lazyload/-/vue-lazyload-1.3.5.tgz"
+  "version" "1.3.5"
 
 "vue-loader@^17.0.0":
   "integrity" "sha512-/OOyugJnImKCkAKrAvdsWMuwoCqGxWT5USLsjohzWbMgOwpA5wQmzQiLMzZd7DjhIfunzAGIApTOgIylz/kwcg=="
@@ -8404,7 +8378,7 @@
   "resolved" "https://registry.npmmirror.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz"
   "version" "1.9.1"
 
-"vue@*", "vue@^2 || ^3.2.13", "vue@^2.0.0", "vue@^2.6.11", "vue@^2.6.14", "vue@>= 2.6.0":
+"vue@*", "vue@^2 || ^3.2.13", "vue@^2.0.0", "vue@^2.6.11", "vue@^2.6.14":
   "integrity" "sha512-b2qkFyOM0kwqWFuQmgd4o+uHGU7T+2z3T+WQp8UBjADfEv2n4FEMffzBmCKNP0IGzOEEfYjvtcC62xaSKeQDrQ=="
   "resolved" "https://registry.npmmirror.com/vue/-/vue-2.7.14.tgz"
   "version" "2.7.14"

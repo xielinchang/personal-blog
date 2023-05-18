@@ -15,7 +15,7 @@
             <div class="p-item">
               <div class="cover">
                 <img
-                  :src="prefix+item.coverUrl"
+                v-lazy="prefix+item.coverUrl"
                   alt=""
                 >
               </div>

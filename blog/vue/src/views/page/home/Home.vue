@@ -4,8 +4,8 @@
     class="home"
   >
     <img
+      v-lazy="bgshadow"
       class="bg-shadow"
-      :src="bgshadow"
       alt=""
     />
     <div
@@ -23,14 +23,13 @@
         <router-link :to="'/note/essay?id='+item.id">
           <div class="mark-shadow"></div>
 
-          <div
+          <img
+            v-lazy="item.coverUrl"
             class="mark"
-            :style="{'backgroundImage':`url(${item.coverUrl})`}"
           >
-          </div>
 
           <img
-            :src="item.coverUrl"
+            v-lazy="item.coverUrl"
             :style="{zIndex:index===bannerIndex?3:0}"
             alt=""
           >

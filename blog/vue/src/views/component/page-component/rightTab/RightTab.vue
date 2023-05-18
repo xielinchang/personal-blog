@@ -19,7 +19,7 @@
       <div class="tab-author">
         <div class="tab-author-img">
           <img
-            :src="record_default.img"
+            v-lazy="record_default.img"
             alt=""
           >
         </div>

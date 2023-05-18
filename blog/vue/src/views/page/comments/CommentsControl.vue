@@ -21,7 +21,7 @@
             </div>
             <div class="comment-portrait">
               <img
-                :src="item.portrait"
+              v-lazy="item.portrait"
                 alt=""
               />
             </div>
@@ -57,7 +57,7 @@
               </div>
               <div class="author-portrait">
                 <img
-                  :src="item.comment_reply.portrait"
+                v-lazy="item.comment_reply.portrait"
                   alt=""
                 />
               </div>

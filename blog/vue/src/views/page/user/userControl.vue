@@ -13,7 +13,7 @@
           >
             <div class="portrait">
               <img
-                :src="prefix + item.portrait"
+              v-lazy="prefix + item.portrait"
                 alt=""
               >
               <my-upload

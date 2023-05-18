@@ -161,7 +161,7 @@
               >
                 <div class="c-portrait">
                   <img
-                    :src="item.portrait"
+                  v-lazy="item.portrait"
                     alt=""
                   >
                 </div>

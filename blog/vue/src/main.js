@@ -12,13 +12,11 @@ Vue.prototype.$msg = msg
 import msgBox from './views/component/default-component/messageBox/index'
 Vue.use(msgBox)
 import VueLazyload from 'vue-lazyload'
-import Vant, { Lazyload } from 'vant'
-import 'vant/lib/index.css'
-Vue.use(Vant)
-Vue.use(Lazyload)
 Vue.use(VueLazyload, {
-  error: require('@/assets/images/动漫1.jpg'),
-  loading: require('@/assets/images/动漫1.jpg')
+  preLoad: 1.3,
+  error: require('./assets/images/loading.gif'),
+  loading: require('./assets/images/loading.gif'),
+  attempt: 1
 })
 const requirePageComponent = require.context(
   './views/component/page-component',

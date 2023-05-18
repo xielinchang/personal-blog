@@ -1,9 +1,16 @@
 .main{
     width: 100%;
     height: calc(100vh);
-    background: url('@/assets/images/动漫1.jpg');
     background-repeat: no-repeat;
     background-size: cover;
+    position: relative;
+    & img{
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+    }
   }
   .shadow {
     z-index: 1;

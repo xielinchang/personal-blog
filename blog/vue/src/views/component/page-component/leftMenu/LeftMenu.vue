@@ -17,7 +17,7 @@
             >
               <router-link to="/control/essay">
                 <img
-                  :src="prefix+userInfo.portrait"
+                  v-lazy="prefix+userInfo.portrait"
                   @contextmenu.prevent="show()"
                 />
               </router-link>

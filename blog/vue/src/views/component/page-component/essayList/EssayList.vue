@@ -12,8 +12,8 @@
           @click="jumpToEssay(item)"
         >
           <img
+            v-lazy="item.coverUrl"
             class="item-main"
-            :src="item.coverUrl"
           />
           <div
             class="item-bottom"
