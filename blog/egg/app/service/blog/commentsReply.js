@@ -13,11 +13,14 @@ class CommentsReplyService extends Service {
   }
   async deleteCommentsReply(body) {
     const { ctx } = this;
-    const deleted = await ctx.model.Blog.CommentsReply.update({ upt_act: 'D' }, {
-      where: { id: body.id },
-    });
-    if (deleted) {
-      return { success: true, data: deleted };
+    const { roles } = ctx.state.user;
+    if (roles.code !== 'user') {
+      const deleted = await ctx.model.Blog.CommentsReply.update({ upt_act: 'D' }, {
+        where: { id: body.id },
+      });
+      if (deleted) {
+        return { success: true, data: deleted };
+      }
     }
   }
 }

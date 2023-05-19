@@ -110,43 +110,74 @@ class UserService extends Service {
     if (body.portrait) {
       updateMsg.portrait = body.portrait;
     }
-    const updated = await ctx.model.User.User.update(
-      updateMsg,
-      {
+    const { roles } = ctx.state.user;
+    const superAdmin = await ctx.model.User.User.findAll({
+      attributes: [ 'id', 'name' ],
+      include: {
+        model: ctx.model.User.Role,
+        where: { code: 'superAdmin' },
+      },
+    });
+
+    // 用户必须是管理员才能调用此接口，且不能修改超级管理员
+    // 超级管理员可以修改所有
+    if (roles.code !== 'user') {
+      if (body.id !== superAdmin[0].id) {
+        const updated = await ctx.model.User.User.update(
+          updateMsg,
+          {
+            where: {
+              id: body.id,
+            },
+          });
+        if (updated) {
+          return { success: true, data: body };
+        }
+      } else if (roles.code === 'superAdmin') {
+        const updated = await ctx.model.User.User.update(
+          updateMsg,
+          {
+            where: {
+              id: body.id,
+            },
+          });
+        if (updated) {
+          return { success: true, data: body };
+        }
+      }
+
+    }
+
+
+  }
+  async deleteUser(body) {
+    const { ctx } = this;
+    const { roles } = ctx.state.user;
+    if (roles.code !== 'superAdmin') {
+      const deleted = await ctx.model.User.User.update({ upt_act: 'D' }, {
         where: {
           id: body.id,
         },
       });
-    if (updated) {
-      return { success: true, data: body };
+      if (deleted) {
+        return { success: true, data: body };
+      }
     }
+
   }
-  async deleteUser(body) {
-    const { ctx } = this;
-    const deleted = await ctx.model.User.User.update({ upt_act: 'D' }, {
-      where: {
-        id: body.id,
-      },
-    });
-    console.log(body, deleted);
-    if (deleted) {
-      return { success: true, data: body };
-    }
-  }
-  async getUsersByRole(role_code, name) {
+  async getUsersByRole(body) {
     const { app, ctx } = this;
     const Op = app.Sequelize.Op;
     const where = { upt_act: { [Op.ne]: 'D' } };
-    if (name) {
-      where.name = { [Op.like]: `%${name}%` };
+    if (body.name) {
+      where.name = { [Op.like]: `%${body.name}%` };
     }
-
     try {
       const users = await ctx.model.User.User.findAll({
         attributes: [ 'id', 'name' ],
         include: {
           model: ctx.model.User.Role,
-          where: { code: role_code },
+          where: { code: body.role_code },
         },
         where,
       });

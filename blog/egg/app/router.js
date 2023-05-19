@@ -15,7 +15,7 @@ module.exports = app => {
   router.get('/user/info', jwt, controller.user.user.getUserInfo);
 
   // 通过角色获取对应的用户
-  router.post('/users/by/role', jwt, controller.user.user.getUsersByRole);
+  router.post('/users/by/role', controller.user.user.getUsersByRole);
 
   // 角色列表
   router.post('/role/list', controller.user.role.queryRoleList);

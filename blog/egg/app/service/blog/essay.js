@@ -36,31 +36,40 @@ class EssayService extends Service {
   }
   async createEssay(body) {
     const { ctx } = this;
-    const created = await ctx.model.Blog.BlogEssay.create(body);
-
-    if (created) {
-      return { success: true, data: body };
+    const { roles } = ctx.state.user;
+    if (roles.code !== 'user') {
+      const created = await ctx.model.Blog.BlogEssay.create(body);
+      if (created) {
+        return { success: true, data: body };
+      }
     }
+
   }
   async deleteEssay(body) {
     const { ctx } = this;
-    const deleted = await ctx.model.Blog.BlogEssay.update({ upt_act: 'D' }, {
-      where: { id: body.id },
-    });
-    if (deleted) {
-      return { success: true, data: deleted };
+    const { roles } = ctx.state.user;
+    if (roles.code !== 'user') {
+      const deleted = await ctx.model.Blog.BlogEssay.update({ upt_act: 'D' }, {
+        where: { id: body.id },
+      });
+      if (deleted) {
+        return { success: true, data: deleted };
+      }
     }
   }
   async updateEssay(body) {
     const { ctx } = this;
     body.upt_act = 'U';
-    const updated = await ctx.model.Blog.BlogEssay.update(body, {
-      where: {
-        id: body.id,
-      },
-    });
-    if (updated) {
-      return { success: true, data: body };
+    const { roles } = ctx.state.user;
+    if (roles.code !== 'user') {
+      const updated = await ctx.model.Blog.BlogEssay.update(body, {
+        where: {
+          id: body.id,
+        },
+      });
+      if (updated) {
+        return { success: true, data: body };
+      }
     }
   }
   async querySaveEssay() {

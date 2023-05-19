@@ -22,19 +22,24 @@ class CommentsService extends Service {
   async createComments(body) {
     console.log(body);
     const { ctx } = this;
+    const { roles } = ctx.state.user;
+    if (roles.code !== 'user') {
     const created = await ctx.model.Blog.BlogComments.create(body);
-
     if (created) {
       return { success: true, data: body };
     }
   }
+  }
   async deleteComments(body) {
     const { ctx } = this;
-    const deleted = await ctx.model.Blog.BlogComments.update({ upt_act: 'D' }, {
-      where: { id: body.id },
-    });
-    if (deleted) {
-      return { success: true, data: deleted };
+    const { roles } = ctx.state.user;
+    if (roles.code !== 'user') {
+      const deleted = await ctx.model.Blog.BlogComments.update({ upt_act: 'D' }, {
+        where: { id: body.id },
+      });
+      if (deleted) {
+        return { success: true, data: deleted };
+      }
     }
   }
 }

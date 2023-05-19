@@ -53,11 +53,7 @@ class UserController extends Controller {
   }
   async getUsersByRole() {
     const { ctx } = this;
-    const query = ctx.query;
-    ctx.validate({
-      role_code: { type: 'string', required: true },
-    }, query);
-    const res = await ctx.service.user.user.getUsersByRole(query.role_code, query.name);
+    const res = await ctx.service.user.user.getUsersByRole(ctx.request.body);
     if (res) {
       this.success(res);
     } else {

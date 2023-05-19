@@ -25,30 +25,39 @@ class ProjectService extends Service {
   }
   async createProject(body) {
     const { ctx } = this;
-    const created = await ctx.model.Blog.Project.create(body);
-    if (created) {
-      return { success: true, data: body };
+    const { roles } = ctx.state.user;
+    if (roles.code !== 'user') {
+      const created = await ctx.model.Blog.Project.create(body);
+      if (created) {
+        return { success: true, data: body };
+      }
     }
   }
   async deleteProject(body) {
     const { ctx } = this;
-    const deleted = await ctx.model.Blog.Project.update({ upt_act: 'D' }, {
-      where: { id: body.id },
-    });
-    if (deleted) {
-      return { success: true, data: deleted };
+    const { roles } = ctx.state.user;
+    if (roles.code !== 'user') {
+      const deleted = await ctx.model.Blog.Project.update({ upt_act: 'D' }, {
+        where: { id: body.id },
+      });
+      if (deleted) {
+        return { success: true, data: deleted };
+      }
     }
   }
   async updateProject(body) {
     const { ctx } = this;
     body.upt_act = 'U';
-    const updated = await ctx.model.Blog.Project.update(body, {
-      where: {
-        id: body.id,
-      },
-    });
-    if (updated) {
-      return { success: true, data: body };
+    const { roles } = ctx.state.user;
+    if (roles.code !== 'user') {
+      const updated = await ctx.model.Blog.Project.update(body, {
+        where: {
+          id: body.id,
+        },
+      });
+      if (updated) {
+        return { success: true, data: body };
+      }
     }
   }
   async queryProjectSave() {

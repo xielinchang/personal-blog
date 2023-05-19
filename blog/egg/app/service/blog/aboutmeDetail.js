@@ -10,13 +10,16 @@ class AboutmeService extends Service {
   }
   async updateAboutme(body) {
     const { ctx } = this;
-    const updated = await ctx.model.Blog.AboutmeDetail.update(body, {
-      where: {
-        id: body.id,
-      },
-    });
-    if (updated) {
-      return { success: true, data: body };
+    const { roles } = ctx.state.user;
+    if (roles.code !== 'user') {
+      const updated = await ctx.model.Blog.AboutmeDetail.update(body, {
+        where: {
+          id: body.id,
+        },
+      });
+      if (updated) {
+        return { success: true, data: body };
+      }
     }
   }
 }
