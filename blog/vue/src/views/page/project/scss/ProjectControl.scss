@@ -42,12 +42,18 @@
     .project-list{
         list-style: none;
         display: flex;
+        flex-wrap: wrap;
         margin-top: 20px;
         justify-content: left;
         & li{
-            width: 30%;
-            height: auto;
-            min-height: 120px;
+            width: 45%;
+            height: 140px;
+            position: relative;
+            .delete-icon{
+                position: absolute;
+                right: 5px;
+                top: 5px;
+            }
             .p-item{
                 width: 100%;
                 height: 100%;
@@ -85,7 +91,7 @@
         .add-project-container {
             width: 100%;
             height: auto;
-            min-height: 120px;
+            min-height: 140px;
             background: rgb(255, 255, 255, 0.7);
             .add-project {
               width: 60%;

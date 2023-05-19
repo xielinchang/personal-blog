@@ -55,6 +55,16 @@
           :key="item.id"
           class="block"
         >
+          <div
+            class="delete-icon"
+            @click="deleted(item.id)"
+          >
+            <svg-icon
+              icon-name="close"
+
+              color="#999"
+            ></svg-icon>
+          </div>
           <router-link
             style="color:#333;text-decoration: none;"
             :to="'/control/project/writing?id=' + item.id"
@@ -107,7 +117,7 @@
 </template>
 <script>
 import { queryAboutme, updateAboutme } from '@/api/main/aboutme'
-import { queryProject } from '@/api/main/project'
+import { queryProject, deleteProject } from '@/api/main/project'
 export default {
   data () {
     return {
@@ -122,6 +132,16 @@ export default {
         web_declare: ''
       },
       techniques: []
+    }
+  },
+  watch: {
+    '$route.path': {
+      // 监听参数变化重新初始化，比直接location.href刷新页面更加顺滑
+      handler(value, oldValue) {
+        this.initProject()
+        this.initAboutme()
+      },
+      deep: true
     }
   },
   mounted () {
@@ -145,6 +165,14 @@ export default {
         this.aboutmeForm = res.data[0]
         this.techniques = res.data[0].techniques.split(',')
         console.log(res)
+      })
+    },
+    deleted(id) {
+      deleteProject({ id: id }).then(() => {
+        this.$msg({
+          content: '删除成功',
+          type: 'success'
+        })
       })
     },
     initProject() {

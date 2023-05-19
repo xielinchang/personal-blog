@@ -96,7 +96,7 @@ export default {
       return {
         borderColor: this.value.length > 0 ? this.isFocus ? '#1DA9E0' : '#ccc' : '#FC9709',
         width: this.width ? this.width + 'px' : '240px',
-        height: this.height ? this.height + 'px' : '35px'
+        height: this.height ? this.height + 'px' : '34px'
       }
     }
   },

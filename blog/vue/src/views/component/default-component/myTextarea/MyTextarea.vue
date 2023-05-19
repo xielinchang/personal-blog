@@ -37,6 +37,10 @@ export default {
       type: [Number, String],
       default: 35
     },
+    borderWidth: {
+      type: [Number, String],
+      default: 1
+    },
     placeholder: {
       type: String,
       default: ''
@@ -69,7 +73,8 @@ export default {
       return {
         borderColor: this.value.length > 0 ? this.isFocus ? '#1DA9E0' : '#ccc' : '#FC9709',
         width: this.width ? this.width + 'px' : '300px',
-        height: this.height ? this.height + 'px' : '35px'
+        height: this.height ? this.height + 'px' : '35px',
+        borderWidth: this.borderWidth ? this.borderWidth + 'px' : '1px'
       }
     }
   },

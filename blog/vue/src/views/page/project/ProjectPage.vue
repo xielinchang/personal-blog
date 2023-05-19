@@ -30,17 +30,22 @@
           <div class="label">
             相关链接:
           </div>
-          <span>
-            {{ projectForm.link }}
-          </span>
+          <my-textarea
+            v-model="projectForm.link"
+            :width="400"
+            :height="100"
+            border-width="0"
+            disabled
+          >
+          </my-textarea>
         </div>
       </div>
 
       <div
         class="main block"
-        v-html="projectForm.html"
       >
-
+        <div class="label">项目介绍</div>
+        <div v-html="projectForm.html"></div>
       </div>
     </div>
     <div class="icon-buttons">

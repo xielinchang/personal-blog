@@ -61,7 +61,7 @@ class ProjectService extends Service {
     body.upt_act = 'U';
     const updated = await ctx.model.Blog.Project.update(body, {
       where: {
-        id: body.id,
+        id: 1,
       },
     });
     if (updated) {

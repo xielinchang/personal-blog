@@ -506,6 +506,7 @@ export default {
               content: '删除成功!'
             })
             this.initEssay()
+            this.$router.push('/control/essay')
           })
         },
         onCancel: () => {

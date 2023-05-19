@@ -107,7 +107,7 @@
   </div>
 </template>
 <script>
-import { createProject, queryProjectSave, saveProject, queryProject, updateProject, projectDelete } from '@/api/main/project'
+import { createProject, queryProjectSave, saveProject, queryProject, updateProject, deleteProject } from '@/api/main/project'
 import { getToken } from '@/utils/author'
 import axios from 'axios'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
@@ -143,6 +143,7 @@ export default {
   },
   data () {
     return {
+      loading: true,
       editor: null,
       toolbarConfig: {},
       html: '',
@@ -177,7 +178,6 @@ export default {
       customImageFile: null,
       changeImg: false,
       file: {},
-      loading: false,
       headers: {
         Authorization: ''
       },
@@ -205,8 +205,9 @@ export default {
     },
     Project: {
       handler(newval, oldval) {
-        // 第一次修改为初始化，所以要避开
-        if (this.editNum > 1) {
+        console.log(this.editNum)
+        // 存在修改痕迹时再判断
+        if (this.editNum > 2) {
           this.isModified = true
         }
         if (this.isModified) {
@@ -306,10 +307,11 @@ export default {
     },
     reset() {
       this.Project = {
-        id: 0,
+        id: '',
         html: ' ',
         coverUrl: '',
-        title: ''
+        title: '',
+        link: ''
       }
       this.imgurl = ''
     },
@@ -338,6 +340,7 @@ export default {
     },
     projectSaveApi() {
       var _this = this
+      this.Project.id = 1
       saveProject(this.Project).then(res => {
         this.$msg({
           content: '保存成功',
@@ -371,6 +374,8 @@ export default {
       }
     },
     ProjectCreateApi() {
+      this.Project.id = undefined
+      console.log(this.Project)
       createProject(this.Project).then(res => {
         this.$msg({
           content: '创建成功',
@@ -378,7 +383,6 @@ export default {
         })
         this.reset()
         this.save()
-        this.$router.push('/aboutme')
       })
     },
     projectUpdateApi() {
@@ -418,12 +422,14 @@ export default {
         content: '要删除名为' + this.Project.title + '的文章吗？一旦删除将不可恢复',
         type: 'warning',
         onOK: () => {
-          projectDelete({ id: this.Project.id }).then((res) => {
+          console.log(1)
+          deleteProject({ id: this.$route.query.id }).then((res) => {
             this.$msg({
               type: 'success',
               content: '删除成功!'
             })
             this.initProject()
+            this.$router.push('/control/project')
           })
         },
         onCancel: () => {
