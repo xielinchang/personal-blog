@@ -1,13 +1,13 @@
 .my-textarea{
     width: auto;
     height: auto;
-    display: flex;
     & span{
-        min-width: 50px;
         width: auto;
         height: 35px;
         line-height: 35px;
         color: #666;
+        float: left;
+        margin-right: 10px;
     }
     .textarea-main{
         width: auto;

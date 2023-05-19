@@ -10,7 +10,7 @@
         color: #666;
     }
     .input-main{
-        width: 200px;
+        width: calc(100% - 55px);
         height: 35px;
         padding: 0 10px;
         background-color: #fff;
@@ -19,9 +19,9 @@
         justify-content: space-between;
         align-items: center;
         border: 1px solid #ddd;
+        box-sizing: border-box;
         transition: 300ms;
-        & input{
-            
+        & input{  
             width: calc(100% - 50px);
             height: 34px;
             outline: none;

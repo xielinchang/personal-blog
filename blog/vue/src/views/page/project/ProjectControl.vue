@@ -1,21 +1,68 @@
 <template>
   <div class="projectControl">
     <TemplatePage></TemplatePage>
+
     <div class="project block">
-      <ul class="project-list">
+      <div class="label">详细信息:</div>
+      <div class="aboutme">
+        <div class="inputs">
+          <my-input
+            v-model="aboutmeForm.qq"
+            class="my-input"
+            label="qq"
+            :width="inputSize"
+          ></my-input>
+          <my-input
+            v-model="aboutmeForm.email"
+            class="my-input"
+            label="email"
+            :width="inputSize"
+          ></my-input>
+          <my-input
+            v-model="aboutmeForm.phone"
+            class="my-input"
+            label="phone"
+            :width="inputSize"
+          ></my-input>
+        </div>
+        <div class="web-declare">
+          <my-textarea
+            v-model="aboutmeForm.web_declare"
+            style="margin-top: 10px;"
+            label="网站申明:"
+            width="400"
+            placeholder="请输入内容"
+            maxlength="200"
+            height="100"
+          ></my-textarea>
+        </div>
+        <div class="techniques">
+          <span>技术栈:</span>
+          <my-tags
+            :value="techniques"
+          ></my-tags>
+        </div>
+        <my-button
+          class="edit-btn"
+          @click="edit"
+        >确认修改</my-button>
+      </div>
+
+      <div class="label">项目管理:</div>
+      <ul class="project-list block">
         <li
           v-for="item in projectList"
           :key="item.id"
           class="block"
         >
           <router-link
-            style="color:#333"
+            style="color:#333;text-decoration: none;"
             :to="'/control/project/writing?id=' + item.id"
           >
             <div class="p-item">
               <div class="cover">
                 <img
-                v-lazy="prefix+item.coverUrl"
+                  v-lazy="prefix+item.coverUrl"
                   alt=""
                 >
               </div>
@@ -59,18 +106,47 @@
   </div>
 </template>
 <script>
+import { queryAboutme, updateAboutme } from '@/api/main/aboutme'
 import { queryProject } from '@/api/main/project'
 export default {
   data () {
     return {
       prefix: process.env.VUE_APP_BASE_API,
-      projectList: []
+      projectList: [],
+      inputSize: 350,
+      aboutmeForm: {
+        qq: '',
+        email: '',
+        phone: '',
+        techniques: '',
+        web_declare: ''
+      },
+      techniques: []
     }
   },
   mounted () {
     this.initProject()
+    this.initAboutme()
   },
   methods: {
+    edit() {
+      this.aboutmeForm.techniques = this.techniques.join(',')
+      updateAboutme(this.aboutmeForm).then(res => {
+        console.log(res)
+        this.initAboutme()
+        this.$msg({
+          content: '修改成功',
+          type: 'success'
+        })
+      })
+    },
+    initAboutme() {
+      queryAboutme().then(res => {
+        this.aboutmeForm = res.data[0]
+        this.techniques = res.data[0].techniques.split(',')
+        console.log(res)
+      })
+    },
     initProject() {
       queryProject({
         limit: 999,
