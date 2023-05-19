@@ -11,6 +11,7 @@ class AboutmeService extends Service {
   async updateAboutme(body) {
     const { ctx } = this;
     const { roles } = ctx.state.user;
+    // 有这个判断就说明普通用户是无法调用这个接口的
     if (roles.code !== 'user') {
       const updated = await ctx.model.Blog.AboutmeDetail.update(body, {
         where: {

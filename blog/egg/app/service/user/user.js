@@ -86,6 +86,8 @@ class UserService extends Service {
       where,
       include: [{
         model: this.app.model.User.UserDetail,
+      }, {
+        model: ctx.model.User.Role,
       }],
 
     });

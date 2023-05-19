@@ -8,12 +8,12 @@
           :key="item.id"
         >
           <div
-            v-if="(item.username!==$store.state.user.user.username)&&(item.role_name!=='超级管理员')"
+            v-if="(item.username!==$store.state.user.user.username)&&(item.roles[0].code!=='superAdmin')"
             class="user"
           >
             <div class="portrait">
               <img
-              v-lazy="prefix + item.portrait"
+                v-lazy="prefix + item.portrait"
                 alt=""
               >
               <my-upload
@@ -34,7 +34,7 @@
                   ></svg-icon>
                 </div>
                 <div class="identity user-r-item">
-                  身份：{{ item.role_name }}
+                  身份：{{ item.roles[0].role_name }}
                 </div>
               </div>
 
@@ -110,7 +110,6 @@ export default {
   methods: {
     initRoleList() {
       queryeRoleList().then(res => {
-        console.log(res)
         this.options = []
         res.data.forEach(item => {
           if (item.code !== 'superAdmin') {
@@ -125,17 +124,10 @@ export default {
     initUser() {
       this.userList = []
       queryUser().then(res => {
+        console.log(res)
         res.data.user.rows.forEach((item) => {
-          queryeUserRole({ user_id: item.id }).then(res => {
-            queryeRoleList({ id: res.data.user.role_id }).then(res => {
-              Object.assign(item, {
-                role_code: res.data[0].role_code,
-                role_name: res.data[0].role_name
-              })
-              item.editFlag = false
-              this.userList.push(item)
-            })
-          })
+          item.editFlag = false
+          this.userList.push(item)
         })
       })
     },

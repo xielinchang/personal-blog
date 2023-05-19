@@ -168,11 +168,26 @@ export default {
       })
     },
     deleted(id) {
-      deleteProject({ id: id }).then(() => {
-        this.$msg({
-          content: '删除成功',
-          type: 'success'
-        })
+      this.$msgBox.confirm({
+        title: '提醒',
+        content: '要删除名为' + this.Project.title + '的文章吗？一旦删除将不可恢复',
+        type: 'warning',
+        onOK: () => {
+          deleteProject({ id: id }).then(() => {
+            this.$msg({
+              content: '删除成功',
+              type: 'success'
+            })
+            this.initProject()
+            this.$router.push('/control/project')
+          })
+        },
+        onCancel: () => {
+          this.$msg({
+            type: 'info',
+            content: '已取消删除'
+          })
+        }
       })
     },
     initProject() {
