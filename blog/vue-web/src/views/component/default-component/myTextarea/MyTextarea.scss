@@ -1,0 +1,43 @@
+.my-textarea{
+    width: auto;
+    height: auto;
+    & span{
+        width: auto;
+        height: 35px;
+        line-height: 35px;
+        color: #666;
+        float: left;
+        margin-right: 10px;
+    }
+    .textarea-main{
+        width: auto;
+        height: auto;
+        border-radius: 4px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        transition: 300ms;
+        & textarea{
+            padding: 3px 5px;
+            width: 350px;
+            height: 34px;
+            outline: none;
+            box-sizing: border-box;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            color: #393939;
+            .is-disabled{
+                cursor: not-allowed;
+            }
+        }
+    }
+}
+::-webkit-scrollbar
+{
+    display: none;
+}
+::placeholder{
+    font-size: 13px;
+    color: #999;
+}

@@ -1,0 +1,58 @@
+  $types: primary, info, success, warning, danger, error, loading;
+
+	$primary: #409EFF !default;
+	$success: #52c41a !default;
+  $warning: #f9bf45 !default;
+  $danger: #F56C6C !default;
+  $info: #909399 !default;
+
+  $danger-hover: #F78989 !default; 
+  $primary-hover: #66B1FF !default; 
+  $warning-hover: #EBB563 !default; 
+  $success-hover: #85CE61 !default; 
+  $info-hover:#A6A9AD !default;
+
+  $danger-plain: #FEF0F0 !default; // 危险、错误
+  $primary-plain: #cce0ff !default; // 主色调、链接
+  $warning-plain: #FDF6EC !default; // 警告
+  $success-plain: #F0F9EB !default; // 成功 
+  $info-plain:#F4F4F5 !default;
+  // 主题背景颜色
+	$bg-colors:(
+	  "primary":$primary,
+    "success":$success,
+    "warning":$warning,
+    "info": $info,
+    "danger":$danger,
+    );
+    // 背景的hover颜色
+    $bg-hover:(
+      "primary":$primary-hover,
+      "success":$success-hover,
+      "warning":$warning-hover,
+      "info": $info-hover,
+      "danger":$danger-hover,
+    );
+    // plain的背景颜色
+  $plain-bg-colors:(
+      "primary":$primary-plain,
+      "success":$success-plain,
+      "warning":$warning-plain,
+      "info": $info-plain,
+      "danger":$danger-plain,
+    );
+
+// 禁用颜色
+$disabledColors: (
+  bg: #f5f7fa,
+  text: #a8abb2,
+  border: #e4e7ed,
+);
+
+// 文字大小
+$fontSizes: (
+  mini: 10px,
+  small: 12px,
+  middle: 14px,
+  large: 16px,
+);
