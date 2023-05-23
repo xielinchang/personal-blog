@@ -29,39 +29,17 @@ export function deleteUser(data) {
     data
   })
 }
+export function resetPsw(data) {
+  return request({
+    url: '/user/reset/psw',
+    method: 'post',
+    data
+  })
+}
 export function userDetailUpdate(data) {
   return request({
     url: '/user/detail/update',
     method: 'post',
     data
-  })
-}
-// 获取用户对应角色
-export function queryeUserRole(data) {
-  return request({
-    url: '/user/role',
-    method: 'post',
-    data
-  })
-}
-export function updateUserRole(data) {
-  return request({
-    url: '/user/role/update',
-    method: 'post',
-    data
-  })
-}
-// 角色列表
-export function queryeRoleList(data) {
-  return request({
-    url: '/role/list',
-    method: 'post',
-    data
-  })
-}
-// 查询现在用户
-export function getUserInfo() {
-  return request({
-    url: '/user/info'
   })
 }

@@ -34,7 +34,7 @@
               v-model="Essay.title"
               :width="inputSize"
               placeholder="请输入标题"
-              icon-name="edit"
+              icon="edit"
             >
             </my-input>
             副标题：
@@ -42,7 +42,7 @@
               v-model="Essay.subtitle"
               placeholder="请输入副标题"
               :width="inputSize"
-              icon-name="edit"
+              icon="edit"
             >
             </my-input>
             摘要：
@@ -97,6 +97,12 @@
           v-else
           class="btns"
         >
+        <router-link to="/blog/essay/writing">
+        <my-button
+            type="success"
+            @click="reset"
+          >新增</my-button>
+        </router-link>
           <my-button
             @click="reset"
           >重置</my-button>
@@ -123,7 +129,7 @@ import {
   essayQuery,
   essayUpdate,
   essayDelete,
-} from "@/api/main/essayapi";
+} from "@/api/main/essay";
 import axios from "axios";
 import Cookie from "js-cookie";
 export default {
@@ -167,7 +173,7 @@ export default {
             server: process.env.VUE_APP_BASE_API + "/api/file",
             // 自定义插入图片，修改地址
             async customInsert(res, insertFn) {
-              await insertFn(process.env.VUE_APP_BASE_API + res.url);
+              await insertFn(process.env.VUE_APP_BASE_API + res.data.url);
             },
           },
         },
@@ -266,7 +272,6 @@ export default {
       return "当前数据未保存，确定要离开吗？";
     },
     async initEssay() {
-        console.log(this.$route.query.id);
       this.imgurl = null;
       this.isModified = false;
       if (!this.$route.query.id) {
@@ -279,7 +284,6 @@ export default {
       var _this = this;
       this.isSave = true;
       essayQuerySave().then((res) => {
-        console.log(res);
         _this.selected.label = res.rows[0].domain;
         _this.imgurl = process.env.VUE_APP_BASE_API + res.rows[0].coverUrl;
         _this.Essay = res.rows[0];
@@ -379,7 +383,7 @@ export default {
             },
           })
           .then((res) => {
-            this.Essay.coverUrl = res.url;
+            this.Essay.coverUrl =res.data.data.url;
             this.essaySaveApi();
           })
           .catch((err) => {
@@ -390,7 +394,6 @@ export default {
           });
       } else {
         this.essaySaveApi();
-        console.log(this.Essay.html);
       }
     },
     essaySaveApi() {
@@ -419,7 +422,7 @@ export default {
             },
           })
           .then((res) => {
-            this.Essay.coverUrl = res.url;
+            this.Essay.coverUrl =res.data.data.url;
             this.essayCreateApi();
           })
           .catch((err) => {
@@ -440,7 +443,6 @@ export default {
         });
         this.reset();
         this.save();
-        this.$router.push("/home");
       });
     },
     update(e) {
@@ -469,7 +471,7 @@ export default {
             },
           })
           .then((res) => {
-            this.Essay.coverUrl = res.url;
+            this.Essay.coverUrl = res.data.data.url;
             this.essayUpdateApi();
           })
           .catch((err) => {
@@ -494,7 +496,6 @@ export default {
               message: "删除成功!",
             });
             this.initEssay();
-            this.$router.push("/control/essay");
           });
         }).catch(() => {
             this.$message({
@@ -506,26 +507,8 @@ export default {
     changeSelect(label, value) {
       this.selected.label = label;
       this.selected.value = value;
-      this.Essay.domain = label;
-    },
-    handleClose(tag) {
-        this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
-      },
-      showInput() {
-        this.inputVisible = true;
-        this.$nextTick(_ => {
-          this.$refs.saveTagInput.$refs.input.focus();
-        });
-      },
-      handleInputConfirm() {
-        let inputValue = this.inputValue;
-        if (inputValue) {
-          this.dynamicTags.push(inputValue);
-        }
-        this.inputVisible = false;
-        this.inputValue = '';
-      }
-      
+      this.Essay.domain = value;
+    },      
   },
 };
 </script>

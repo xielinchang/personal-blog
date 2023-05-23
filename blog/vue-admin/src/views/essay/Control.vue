@@ -8,35 +8,75 @@
 -->
 <template>
   <div class="essay-control">
-    <div class="header">
-      <my-input
-        label="标题"
-        size="small"
-        v-model="search.title"
-        class="input"
-        placeholder="请输入标题"
-      />
-      <div style="display: flex">
-        <span style="margin-top: 0px">发布状态</span>
+    <ul class="header">
+      <li>
+        <my-input
+          label="标题"
+          size="small"
+          width="180"
+          v-model="search.title"
+          class="input"
+          placeholder="请输入标题"
+        />
+      </li>
+      <li>
+        <my-input
+          label="内容"
+          size="small"
+          v-model="search.html"
+          class="input"
+          placeholder="请输入标题"
+        />
+      </li>
+      <li>
+        <my-input
+        width="180"
+          label="标签"
+          size="small"
+          v-model="search.tags"
+          class="input"
+          placeholder="请输入标题"
+        />
+      </li>
+      <li style="display: flex">
+        <span style="margin-top: 0px">领域：</span>
         <my-select
+          width="100"
+          style="height: 35px; z-index: 9"
+          :options="domainOptions"
+          :selected="domainSelected"
+          @change-select="changeDomain"
+        >
+        </my-select>
+      </li>
+
+      <li style="display: flex">
+        <span style="margin-top: 0px">状态:</span>
+        <my-select
+          width="100"
           style="height: 35px; z-index: 9"
           :options="options"
           :selected="selected"
           @change-select="changeSelect"
         >
         </my-select>
-      </div>
+      </li>
       <my-button
         class="my-button"
-        size="small"
+        size="mini"
         type="primary"
         icon-name="search"
+        @click="searched"
         >搜索</my-button
       >
-      <my-button class="my-button" size="small" icon-name="refresh"
+      <my-button
+        class="my-button"
+        size="mini"
+        icon-name="refresh"
+        @click="reset"
         >重置</my-button
       >
-    </div>
+    </ul>
     <el-card class="box-card">
       <div class="main">
         <el-table :data="tableData" style="width: 100%">
@@ -91,6 +131,18 @@
             align="center"
             prop="commentNum"
             label="评论数"
+            width="80"
+          />
+          <el-table-column
+            align="center"
+            prop="essay_detail.good"
+            label="点赞数"
+            width="80"
+          />
+          <el-table-column
+            align="center"
+            prop="essay_detail.collect"
+            label="收藏数"
             width="80"
           />
           <el-table-column
@@ -216,7 +268,7 @@ import {
   essayCommentsQuery,
   essayCommentsDelete,
 } from "@/api/main/essayComments";
-import { essayQuery, changeState, essayDelete } from "@/api/main/essayapi";
+import { essayQuery, changeState, essayDelete } from "@/api/main/essay";
 import { getToken } from "../../utils/cookie";
 export default {
   name: "BannerWrap",
@@ -224,22 +276,21 @@ export default {
     return {
       search: {
         title: "",
-        state: 1,
+        html: "",
+        tags: "",
+        domain: "",
+        state: 0,
       },
       selected: {
-        label: "已发布",
-        value: 1,
+        label: "",
+        value: 0,
       },
-      options: [
-        {
-          value: 1,
-          label: "已发布",
-        },
-        {
-          value: 2,
-          label: "未发布",
-        },
-      ],
+      options: [],
+      domainSelected: {
+        label: "",
+        value: "",
+      },
+      domainOptions: [],
       tableData: [],
       commentsData: [],
       /* 当前页数，页面的行数，总行数 */
@@ -255,9 +306,26 @@ export default {
   },
   mounted() {
     this.headers.Authorization = getToken();
+    this.initOptions()
     this.initEssay();
   },
   methods: {
+    initOptions(){
+      this.options = this.$store.state.dictionary.states;
+    this.domainOptions = this.$store.state.dictionary.domain;
+    },
+    reset() {
+      this.search = {
+        title: "",
+        state: 0,
+      };
+      this.changeSelect("", 0);
+      this.changeDomain("","")
+      this.initEssay();
+    },
+    searched() {
+      this.initEssay();
+    },
     initEssay() {
       this.tableData = [];
       var _this = this;
@@ -265,12 +333,19 @@ export default {
         limit: this.pagesize,
         offset: this.currentPage,
         query: {
-          id: undefined,
-          title: undefined,
-          subtitle: undefined,
-          domain: undefined,
+          title: this.search.title ? this.search.title : undefined,
+          state: this.search.state ? this.search.state : undefined,
+          html:this.search.html ? this.search.html : undefined,
+          tags: this.search.tags ? this.search.tags : undefined,
+          domain: this.search.domain ? this.search.domain : undefined,
         },
       }).then((res) => {
+        res.rows.forEach((element) => {
+          if (element.essay_detail === null) {
+            element.essay_detail = {};
+            Object.assign(element.essay_detail, { good: 0, collect: 0 });
+          }
+        });
         this.totalpage = res.count;
         res.rows.forEach((element) => {
           essayCommentsQuery({
@@ -286,7 +361,6 @@ export default {
             this.tableData.push(element);
           });
         });
-        console.log(this.tableData);
       });
     },
     changeState(item) {
@@ -366,19 +440,20 @@ export default {
     changeSelect(label, value) {
       this.selected.label = label;
       this.selected.value = value;
-      this.Essay.domain = label;
+      this.search.state = value;
     },
-    handleClose(done) {
-        this.$confirm('确认关闭？')
-          .then(_ => {
-            done();
-          })
-          .catch(_ => {});
-      },
+    changeDomain(label, value) {
+      this.domainSelected.label = label;
+      this.domainSelected.value = value;
+      this.search.domain = value;
+    },
+    handleClose() {
+      this.commentsVisible = false;
+    },
   },
 };
 </script>
-<style scoped>
+<style scoped lang="scss">
 @import "./scss/Control.scss";
 </style>
 

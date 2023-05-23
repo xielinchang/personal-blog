@@ -33,15 +33,63 @@
                 v-model="userInfo.name"
                 style="float: left; margin-right: 5px;"
               ></my-input>
-              <my-button @click="updateName">确认修改</my-button>
+              <my-button
+                style="float: left; margin-right: 5px;"
+                type="primary"
+                @click="editFlag=!editFlag"
+              >取消修改</my-button>
+              <my-button
+                type="success"
+                @click="updateName"
+              >确认修改</my-button>
             </div>
           </div>
+          <div
+            v-if="changePswFlag"
+            class="change-psw"
+          >
+            <my-input
+              v-model="changePswForm.old_pass"
+              label="原密码"
+              placeholder="请输入原密码"
+            ></my-input>
+            <my-input
+              v-model="changePswForm.pass"
+              label="新密码"
+              placeholder="请输入6-20位的新密码"
+              style="margin-top: 10px;"
+            ></my-input>
+          </div>
+          <div class="btns">
+            <div
+              v-if="!changePswFlag"
+              style="display: flex;"
+            >
+              <my-button
+                style="margin-right: 10px;"
+                type="primary"
+                @click="changePswInit"
+              >修改密码</my-button>
+              <my-button
+                type="danger"
+                @click="logout"
+              >退出登录</my-button>
+            </div>
+            <div
+              v-else
+              style="display: flex;"
+            >
+              <my-button
+                style="margin-right: 10px;"
+                type="primary"
+                @click="changePswFlag=!changePswFlag"
+              >取消修改</my-button>
+              <my-button
+                type="success"
+                @click="changePswCheck"
+              >确认修改</my-button>
+            </div>
 
-          <div class="logout">
-            <my-button
-              type="danger"
-              @click="logout"
-            >退出登录</my-button>
           </div>
         </div>
       </div>
@@ -92,10 +140,10 @@
   </div>
 </template>
 <script>
-import { essayQuery } from '@/api/main/essayapi'
+import { essayQuery } from '@/api/main/essay'
+import { changePsw } from '@/api/default/user'
 import store from '@/store'
-import { getToken } from '@/utils/author'
-import Cookie from 'js-cookie'
+import { getToken, removeToken } from '@/utils/author'
 export default {
   name: 'UserPage',
   data () {
@@ -108,7 +156,9 @@ export default {
       image: '',
       userInfo: {},
       prefix: process.env.VUE_APP_BASE_API,
-      uploadUrl: '/api/file'
+      uploadUrl: process.env.VUE_APP_BASE_API + '/api/file',
+      changePswForm: {},
+      changePswFlag: false
     }
   },
   watch: {
@@ -120,6 +170,13 @@ export default {
     this.initEssayList()
   },
   methods: {
+    changePswInit() {
+      this.changePswFlag = true
+      this.changePswForm = {
+        old_pass: '',
+        pass: ''
+      }
+    },
     initEssayList() {
       if (getToken('token')) {
         this.$store.dispatch('getUserInfo').then(user => {
@@ -127,8 +184,8 @@ export default {
           this.userInfo = userInfo
           var ids = []
           this.essay_list = []
-          if (this.userInfo.user.user_detail) {
-            ids = this.userInfo.user.user_detail.collect.split(',')
+          if (this.userInfo.user_detail !== null) {
+            ids = this.userInfo.user_detail.collect.split(',')
             for (let i = 0; i < ids.length; i++) {
               essayQuery({
                 limit: 999,
@@ -140,11 +197,11 @@ export default {
                   domain: undefined
                 }
               }).then((res) => {
-                if (res.data.rows[0].tags) {
+                if (res) {
                   res.data.rows[0].tags = res.data.rows[0].tags.split(',')
-                }
-                res.data.rows[0].coverUrl =
+                  res.data.rows[0].coverUrl =
             this.prefix + res.data.rows[0].coverUrl
+                }
                 if (ids[i] !== '') {
                   this.essay_list.push(res.data.rows[0])
                 }
@@ -154,18 +211,37 @@ export default {
         })
       }
     },
+    uploadCallback() {
+
+    },
     jumpToEssay(item) {
       this.$router.push('/note/essay?id=' + item.id)
     },
+    changePswCheck() {
+      console.log(this.changePswForm)
+      if (this.changePswForm.old_pass !== '' &&
+          this.changePswForm.pass !== '' &&
+          this.changePswForm.pass.length > 6) {
+        changePsw(this.changePswForm).then(res => {
+          this.$msg({
+            type: 'success',
+            content: res.data.msg
+          })
+          this.logout()
+        })
+      } else {
+        this.$msg({
+          content: '请按规定填写信息',
+          type: 'warning'
+        })
+      }
+    },
     logout() {
-      Cookie.remove('token')
-      localStorage.removeItem('token')
-      localStorage.removeItem('userid')
+      removeToken('token')
       if (this.$route.path !== '/') {
         this.$router.replace('/')
       }
-      this.token = ''
-      this.user = ''
+      location.reload()
     }
   }
 

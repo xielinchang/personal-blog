@@ -81,7 +81,8 @@ const store = new Vuex.Store({
 })
 
 function filterAsyncRouter(routers) {
-    // 遍历后台传来的路由字符串，转换为组件对象
+    if(routers){
+            // 遍历后台传来的路由字符串，转换为组件对象
     const accessedRouters = routers.filter(router => {
         router.meta = {
             title: router.meta_title,
@@ -100,6 +101,8 @@ function filterAsyncRouter(routers) {
         return true
     })
     return accessedRouters
+    }
+
 }
 
 function loadView(view) {

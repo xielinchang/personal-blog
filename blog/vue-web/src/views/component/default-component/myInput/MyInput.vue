@@ -20,6 +20,8 @@
           ></svg-icon>
         </div>
         <input
+          onfocus="this.removeAttribute('readonly');"
+          :readonly="readonly"
           :class="{'is-disabled':disabled}"
           :placeholder="placeholder"
           :type="type"
@@ -83,6 +85,10 @@ export default {
     label: {
       type: String,
       default: ''
+    },
+    readonly: {
+      type: [String, Boolean],
+      default: true
     }
   },
   emits: ['input'],

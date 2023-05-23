@@ -7,6 +7,13 @@ export function queryProject(data) {
     data
   })
 }
+export function changeState(data) {
+  return request({
+    url: '/project/update/state',
+    method: 'post',
+    data
+  })
+}
 export function createProject(data) {
   return request({
     url: '/project/create',

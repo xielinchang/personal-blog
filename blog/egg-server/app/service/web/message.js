@@ -1,4 +1,6 @@
 'use strict';
+
+
 /* const md5 = require('blueimp-md5'); */
 const Service = require('egg').Service;
 
@@ -34,6 +36,7 @@ class MessageService extends Service {
       return { success: true, msg: '添加成功' };
     }
   }
+
   async deleteMessage(body) {
     const { ctx } = this;
     const deleted = await ctx.model.Web.Message.update({ upt_act: 'D' }, {

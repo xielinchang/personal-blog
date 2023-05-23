@@ -10,7 +10,7 @@
           ></div>
         </div>
         <div class="portrait-box">
-          <div v-if="userInfo!==null">
+          <div v-if="userInfo">
             <div
               class="user-portrait"
               right-title="点击打开用户页"
@@ -37,7 +37,6 @@
               style="font-size: 14px;"
             >{{ userInfo.name }}</div>
           </div>
-
           <router-link
             v-else
             to="/login"
@@ -98,7 +97,6 @@ export default {
       userInfo: {},
       logoutShow: false,
       prefix: process.env.VUE_APP_BASE_API
-
     }
   },
   created() {
@@ -115,10 +113,14 @@ export default {
   },
   methods: {
     initUser() {
-      this.$store.dispatch('getUserInfo').then(res => {
-        var userInfo = res
-        this.userInfo = userInfo
-      })
+      if (getToken('token')) {
+        this.$store.dispatch('getUserInfo').then(res => {
+          var userInfo = res
+          this.userInfo = userInfo
+        })
+      } else {
+        this.userInfo = null
+      }
     },
     menuitemhover() {
       var menuitem = document.querySelectorAll('.menu-list li')
@@ -168,8 +170,7 @@ export default {
       this.logoutShow = false
       removeToken('token')
       location.reload()
-      this.user = ''
-      this.token = ''
+      this.userInfo = ''
     }
   }
 }

@@ -3,6 +3,8 @@
     <div class="search-main">
       <input
         v-model="message"
+        readonly
+        onfocus="this.removeAttribute('readonly');"
         placeholder="输入搜索关键字，更多搜索方式点击右下角搜索按钮"
         type="text"
       >
@@ -29,5 +31,5 @@ export default {
 }
 </script>
 <style lang='scss' scoped>
-@import './search.scss'
+@import './search.scss';
 </style>

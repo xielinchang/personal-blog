@@ -28,6 +28,13 @@ export function messageReplyCreate(data) {
     data
   })
 }
+export function messageReplyUpdate(data) {
+  return request({
+    url: '/message/reply/update',
+    method: 'post',
+    data
+  })
+}
 export function messageReplyDelete(data) {
   return request({
     url: '/message/reply/delete',

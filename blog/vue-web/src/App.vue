@@ -15,12 +15,17 @@
 </template>
 
 <script>
-import { getUserIp } from '@/api/default/api'
+import { getUserIp } from '@/api/default/index'
 import { baiduLocation } from '@/api/baidu/baiduapi'
 export default {
   name: 'App',
   data() {
     return {
+    }
+  },
+  watch: {
+    $route () {
+      this.updateTitle()
     }
   },
   created() {
@@ -32,6 +37,7 @@ export default {
   mounted() {
     var _this = this
     this.getIp()
+    this.updateTitle()
   },
   methods: {
     getIp() {
@@ -40,6 +46,10 @@ export default {
         _this.ip = res.data.ip
         _this.initAddress()
       })
+    },
+    updateTitle () {
+      const title = this.$route.meta.name || 'Blog'
+      document.title = title
     },
     initAddress() {
       var _this = this

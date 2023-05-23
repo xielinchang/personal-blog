@@ -48,8 +48,8 @@
 </template>
 
 <script>
-import { register } from '@/api/default/loginapi'
-import { defaultPortrait } from '@/api/default/api'
+import { register } from '@/api/default/user'
+import { defaultPortrait } from '@/api/default/index'
 export default {
   name: 'LoginPage',
   components: {},
@@ -74,7 +74,7 @@ export default {
         this.ruleForm.portrait = res.data[randomPortrait].url
         if (this.ruleForm.username.length < 6 || this.ruleForm.username.length > 12) {
           this.$msg({
-            content: '账号长度应该在6位到10位之间',
+            content: '账号长度应该在6位到12位之间',
             type: 'warning'
           })
           this.ruleForm.username = ''

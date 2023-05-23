@@ -8,6 +8,16 @@ class UserController extends Controller {
     const user = await ctx.service.user.user.register(ctx.request.body);
     ctx.body = user;
   }
+  async resetPsw() {
+    const { ctx } = this;
+    const user = await ctx.service.user.user.resetPsw(ctx.request.body);
+    ctx.body = user;
+  }
+  async changePsw() {
+    const { ctx } = this;
+    const user = await ctx.service.user.user.changePsw(ctx.request.body);
+    ctx.body = user;
+  }
   async login() {
     const { ctx } = this;
     const body = ctx.request.body;

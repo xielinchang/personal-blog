@@ -20,19 +20,19 @@ export default function request(config) {
       return Promise.reject(error)
     })
 
-  // ins.interceptors.response.use(function(response) {
-  //   return response
-  // }, function(error) {
-  //   const status = error.response.status
-  //   if (status === 401 && !store.state.loginInvalidBox) {
-  //     store.commit('setLoginInvalidBox', true)
-  //     msg({
-  //       content: '登录已过时',
-  //       type: 'warning',
-  //     })
-  //   }
-  //   return Promise.reject(error)
-  // })
+  ins.interceptors.response.use(function(response) {
+    return response
+  }, function(error) {
+    const status = error.response.status
+    if (status === 401 && !store.state.loginInvalidBox) {
+      store.commit('setLoginInvalidBox', true)
+      msg({
+        content: '登录已过时',
+        type: 'warning'
+      })
+    }
+    return Promise.reject(error)
+  })
   return ins(config)
 }
 

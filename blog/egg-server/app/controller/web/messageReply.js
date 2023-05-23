@@ -8,6 +8,11 @@ class MessageReplyController extends Controller {
     const Message = await ctx.service.web.messageReply.createMessageReply(ctx.request.body);
     ctx.body = Message;
   }
+  async updateMessageReply() {
+    const { ctx } = this;
+    const Message = await ctx.service.web.messageReply.updateMessageReply(ctx.request.body);
+    ctx.body = Message;
+  }
   async deleteMessageReply() {
     const { ctx } = this;
     const Message = await ctx.service.web.messageReply.deleteMessageReply(ctx.request.body);

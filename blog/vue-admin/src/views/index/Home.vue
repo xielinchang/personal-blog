@@ -3,7 +3,7 @@
         <div class="header">
             <div class="user-center">
                 <el-dropdown trigger="click" @command="handleCommand">
-                    <span class="el-dropdown-link">
+                    <span class="el-dropdown-link" style="color: #fff !important;">
                         {{ $store.state.user.name }}
                         <i class="el-icon-arrow-down el-icon--right" />
                     </span>
@@ -199,7 +199,6 @@ $headerHeight: 60px;
       right: 30px;
       top: 20px;
       ::v-deep .el-dropdown {
-        color: #fff;
         .el-dropdown-link {
           cursor: pointer;
         }

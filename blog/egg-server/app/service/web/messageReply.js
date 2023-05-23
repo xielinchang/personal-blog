@@ -11,6 +11,14 @@ class MessageReplyService extends Service {
       return { success: true, data: body };
     }
   }
+  async updateMessageReply(body) {
+    const updated = await this.ctx.model.Web.MessageReply.update(body, {
+      where: { id: body.id },
+    });
+    if (updated) {
+      return { success: true };
+    }
+  }
   async deleteMessageReply(body) {
     const { ctx } = this;
     const deleted = await ctx.model.Web.MessageReply.update({ upt_act: 'D' }, {

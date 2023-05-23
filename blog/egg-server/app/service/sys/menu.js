@@ -114,26 +114,29 @@ class SysMenuService extends Service {
       return null;
     }
   }
-
+// 获取现在用户的菜单
   async getCurUserMenu() {
     const { app, ctx } = this;
     const Op = app.Sequelize.Op;
-    console.log(ctx.state.user.roles);
+    console.log(ctx.state.user.roleid);
     try {
       const data = await ctx.model.Sys.Menu.findAll({
-        attributes: [ 'id', 'path', 'component', 'name', 'meta_title', 'meta_icon', 'sort', 'parent_id', 'hidden', 'keep_alive' ],
+        // attributes: [ 'id', 'path', 'component', 'name', 'meta_title', 'meta_icon', 'sort', 'parent_id', 'hidden', 'keep_alive' ],
         include: {
           model: ctx.model.Sys.Role,
           attributes: [ 'id', 'name', 'code' ],
           // 报错地方
           where: {
-            id: { [Op.or]: ctx.state.user.roles.role_id },
+            id: ctx.state.user.roleid,
           },
         },
         where: { upt_act: { [Op.ne]: 'D' } },
         order: [[ 'sort' ]],
       });
-      return this.toTree(data.map(item => item.dataValues));
+      return this.toTree(data.map(item => {
+        return item.dataValues;
+      }
+      ));
     } catch (error) {
       console.log(error);
       return null;

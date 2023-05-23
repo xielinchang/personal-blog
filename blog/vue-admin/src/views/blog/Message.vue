@@ -1,8 +1,25 @@
 <template>
   <div>
+    <div class="header block">
+      <my-input
+        label="用户名："
+        v-model="search.username"
+        class="my-input"
+        placeholder="请输入用户名"
+      />
+      <my-button class="my-button" size="mini" type="primary" icon="search"
+        >搜索</my-button
+      >
+    </div>
     <el-card class="box-card">
       <div class="main">
         <el-table :data="tableData" style="width: 100%">
+          <el-table-column
+            align="center"
+            prop="users[0].id"
+            label="用户id"
+            width="100"
+          />
           <el-table-column
             align="center"
             prop="users[0].name"
@@ -11,10 +28,33 @@
           />
           <el-table-column
             align="center"
+            prop="users[0].username"
+            label="账号"
+            width="100"
+          />
+          <el-table-column
+            align="center"
+            prop="users[0].portrait"
+            label="用户头像"
+            width="150"
+          >
+          <template slot-scope="scpoe">
+              <img width="80%" :src="prefix + scpoe.row.users[0].portrait" alt="" />
+            </template>
+        </el-table-column>
+          <el-table-column
+            align="center"
             prop="content"
             label="内容"
-            width="300"
+            width="250"
           />
+          <el-table-column
+            align="center"
+            prop="message_reply.reply"
+            label="回复"
+            width="200"
+          >
+          </el-table-column>
           <el-table-column
             align="center"
             prop="created_at"
@@ -27,13 +67,7 @@
             label="评论地点"
             width="120"
           />
-          <el-table-column
-            align="center"
-            prop="message_reply.reply"
-            label="回复"
-            width="200"
-          >
-          </el-table-column>
+
           <el-table-column fixed="right" label="操作" width="200">
             <template slot-scope="scope">
               <el-button
@@ -94,12 +128,16 @@ import {
   messageQuery,
   messageDelete,
   messageReplyCreate,
+  messageReplyUpdate,
   messageReplyDelete,
 } from "@/api/main/message";
 export default {
   name: "Witingmessage",
   data() {
     return {
+      search: {
+        username: "",
+      },
       tableData: [],
       showDialog: false,
       text: "",
@@ -120,7 +158,9 @@ export default {
         { label: "15条/页", value: 15 },
       ],
       //回复框
-      replyVisible:false
+      replyVisible:false,
+      prefix: process.env.VUE_APP_BASE_API,
+      isReply:false
     };
   },
   mounted() {
@@ -139,7 +179,6 @@ export default {
         limit: this.pageSize,
         offset: this.currentPage,
       }).then((res) => {
-        console.log(res);
         this.total = res.count;
         res.rows.forEach((item, i) => {
           queryUser({ id: item.user_id }).then((res) => {
@@ -148,18 +187,30 @@ export default {
         });
       });
     },
-
     handleReply(item, index) {
-      console.log(item);
       this.replyVisible=true
+      // 每条回复只能回复一次，但可以修改
       if(item.message_reply!==null){
+        this.isReply=true
+        this.newReply.id=item.message_reply.id
         this.newReply.reply=item.message_reply.reply
+      }else{
+        this.isReply=false
       }
       this.newReply.message_id=item.id
     },
     replymessage() {
-      console.log(this.newReply);
-      messageReplyCreate(this.newReply).then((res) => {
+      if(this.isReply){
+        messageReplyUpdate(this.newReply).then((res)=>{
+          this.$message({
+          type: "success",
+          message: "更新回复成功!",
+        });
+        this.initmessage();
+        this.replyVisible=false
+        })
+      }else{
+        messageReplyCreate(this.newReply).then((res) => {
         this.$message({
           type: "success",
           message: "回复成功!",
@@ -167,6 +218,8 @@ export default {
         this.initmessage();
         this.replyVisible=false
       });
+      }
+     
     },
     deleteReply(id) {
       this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {

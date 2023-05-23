@@ -14,7 +14,7 @@ class SysUserService extends Service {
     if (!user) {
       return false;
     }
-    const roles = await ctx.model.Sys.UserRole.findOne({
+    const role = await ctx.model.Sys.UserRole.findOne({
       where: { user_id: user.id },
     });
 
@@ -23,7 +23,7 @@ class SysUserService extends Service {
         userid: user.id,
         username: user.username,
         name: user.name,
-        roles: roles.role_id,
+        roleid: role.role_id,
       }, app.config.jwt.secret, { expiresIn: 60 * 60 * 24 * 7 });
       return token;
     }
@@ -32,7 +32,7 @@ class SysUserService extends Service {
 
   async getCurUserInfo() {
     const { ctx } = this;
-    const { userid, roles } = ctx.state.user;
+    const { userid, roleid } = ctx.state.user;
 
     try {
       const user = await ctx.model.Sys.User.findOne({
@@ -40,7 +40,7 @@ class SysUserService extends Service {
           id: userid,
         },
       });
-      user.roles = roles;
+      user.roleid = roleid;
       return user;
     } catch (error) {
       console.log(error);
@@ -167,7 +167,7 @@ class SysUserService extends Service {
     const { userid } = ctx.state.user;
     body.updated_at = ctx.helper.formatTime(new Date());
     body.updated_id = userid;
-    body.upt_act = 'U'
+    body.upt_act = 'U';
     try {
       return await ctx.model.transaction(async t => {
 

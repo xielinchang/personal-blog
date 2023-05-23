@@ -1,0 +1,21 @@
+.header{
+    width: 100%;
+    height: 80px;
+    padding: 30px 10px;
+    box-sizing: border-box;
+    background: white;
+    box-shadow: 0 0 10px 1px #eaeaea;
+    display: flex;
+    .my-button{
+      margin:12px 0 0 12px;
+    }
+   & span {
+      height: 28px;
+      display: block;
+      line-height: 28px;
+      text-align: right;
+      margin: 0 10px;
+      font-size: 14px;
+      color: #606266;
+    }
+  }

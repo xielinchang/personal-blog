@@ -1,6 +1,6 @@
 $font-size-normal: 18px;
 
-@mixin box-shadow($bulr: 20px, $color: #cdcdcd) {
+@mixin box-shadow($bulr: 20px, $color: #e0e0e0) {
   -webkit-box-shadow: 0px 0px $bulr 1px $color;
   -moz-box-shadow: 0px 0px $bulr 1px $color;
   box-shadow: 0px 0px $bulr 1px $color;
@@ -11,7 +11,7 @@ $font-size-normal: 18px;
   padding: 30px 10px;
   background-color: rgba(255, 255, 255,0.8);
   @include box-shadow;
-  margin: 5px 10px;
+  margin: 5px 0px;
   .label{
     font-size: 20px;
     font-weight: 600;

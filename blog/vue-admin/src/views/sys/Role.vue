@@ -194,7 +194,6 @@ export default {
             this.page()
         },
         page() {
-            console.log(111);
             this.tableLoading = true
             page(this.query).then(res => {
                 if (res.success) {

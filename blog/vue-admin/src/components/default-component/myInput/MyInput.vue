@@ -14,7 +14,7 @@
           class="left-icon"
         >
           <svg-icon
-            :icon-name="icon"
+            :name="icon"
             size="16px"
             color="#ddd"
           ></svg-icon>
@@ -25,6 +25,7 @@
           :type="type"
           :disabled="disabled"
           :value="value"
+          :maxlength="maxlength"
           @input="handleInput"
           @focus="handleFocus"
           @blur="handleBlur"
@@ -83,6 +84,10 @@ export default {
     label: {
       type: String,
       default: ''
+    },
+    maxlength:{
+      type: [String,Number],
+      default: 20
     }
   },
   emits: ['input'],
@@ -102,6 +107,10 @@ export default {
   },
   methods: {
     handleInput(e) {
+    const newValue = e.target.value;
+    if (newValue.length <= this.maxlength) {
+      this.$emit('input', newValue);
+    }
       this.$emit('input', e.target.value)
     },
     clear(e) {

@@ -1,5 +1,25 @@
 import request from '../../network/request'
-// 查询用户
+export function login(data) {
+  return request({
+    url: '/login',
+    method: 'post',
+    data
+  })
+}
+export function register(data) {
+  return request({
+    url: '/register',
+    method: 'post',
+    data
+  })
+}
+export function changePsw(data) {
+  return request({
+    url: '/user/change/psw',
+    method: 'post',
+    data
+  })
+}
 export function queryUser(data) {
   return request({
     url: '/user',

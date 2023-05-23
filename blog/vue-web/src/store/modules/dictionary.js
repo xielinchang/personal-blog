@@ -19,14 +19,14 @@ export const dictionary = {
       menuicon: 'comment-filled',
       color: '#1DA9E0',
       title: '留言',
-      router: '/comments',
+      router: '/message',
       id: 2
     },
     {
       menuicon: 'setting-filled',
       color: '#7184AD',
       title: '管理',
-      router: '/control/essay',
+      router: '/user',
       id: 3
     },
     {
@@ -36,33 +36,6 @@ export const dictionary = {
       router: '/more',
       id: 4
     }],
-    secondMenu: [
-      {
-        title: '文章管理',
-        router: '/control/essay',
-        id: 0
-      },
-      {
-        title: '留言管理',
-        router: '/control/comments',
-        id: 1
-      },
-      {
-        title: '记录管理',
-        router: '/control/record',
-        id: 2
-      },
-      {
-        title: '用户管理',
-        router: '/control/user',
-        id: 3
-      },
-      {
-        title: '项目管理',
-        router: '/control/project',
-        id: 4
-      }
-    ],
     // 文章的领域
     domain: [{
       label: 'HTML',

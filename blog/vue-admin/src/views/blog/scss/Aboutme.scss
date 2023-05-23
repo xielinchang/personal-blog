@@ -1,0 +1,83 @@
+@import '@/assets/scss/index.scss';
+
+.aboutme{
+    width: 80%;
+    position: relative;
+    margin-left: 10%;
+    height: auto;
+    min-height: 100px;
+    padding: 50px 5%;
+    box-sizing: border-box;
+    margin-top: 20px;
+    background-color: rgba(255, 255, 255,0.7);
+    .edit-aboutme-c{
+        width: 100%;
+        height: 300px;
+        margin-bottom: 50px;
+        display: flex;
+        position: relative;
+        justify-content: space-between;
+        flex-wrap: wrap;
+         .inputs{
+            display: flex;
+            flex-direction: column;
+            .my-input{
+                margin: 15px 0;
+            }
+        }
+        .techniques{
+            width: 100%;
+            display: flex;
+            & span{
+                line-height: 40px;
+                color: #666;
+                font-size: 16px;
+            }
+            .techniques-tags{
+                width: 60%;
+                height: auto;
+                display: flex;
+                flex-wrap: wrap;
+                list-style: none;
+                 & li{
+                    width: auto;
+                    height: 30px;
+                    line-height: 30px;
+                    margin: 10px;
+                    padding: 0 10px;
+                    background-color:$success-hover;
+                    color:  $success-plain;
+                    border-radius: 4px;
+                    text-align: center;
+                    &:nth-child(5n){
+                        background-color:$primary-hover;
+                        color:  $primary-plain;
+                    }
+                    &:nth-child(5n-1){
+                        background-color:$warning-hover;
+                        color:  $warning-plain;
+                    }
+                    &:nth-child(5n-2){
+                        background-color:$danger-hover;
+                        color:  $danger-plain;
+                    }
+                    &:nth-child(5n-3){
+                        background-color:$info-hover;
+                        color:  $info-plain;
+                    }
+                 }
+            }
+        }
+        .btns{
+            display: flex;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            .edit-btn{
+               margin-right: 20px;
+            }
+        }
+        
+    }
+
+}

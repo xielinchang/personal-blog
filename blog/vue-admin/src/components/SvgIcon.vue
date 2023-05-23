@@ -1,5 +1,8 @@
 <template>
-    <svg :style="{width:size+'px',htight:size+'px'}" :class="className" v-on="$listeners"  aria-hidden="true">
+    <svg 
+    :class="className" 
+    v-on="$listeners"  
+    aria-hidden="true">
         <title v-if="title">{{ title }}</title>
         <use :xlink:href="iconPath"  />
     </svg>
@@ -8,7 +11,6 @@
 <script>
 export default {
     name: 'SvgIcon',
-
     props: {
         name: {
             type: String,
@@ -46,8 +48,10 @@ export default {
 
 <style>
   .svg-icon {
+    width: 1em;
+    height: 1em;
+    overflow: hidden;
+    vertical-align: -0.35em;
     fill: currentColor;
-    height: 20px;
-    width: 20px;
-  }
+}
 </style>

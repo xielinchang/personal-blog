@@ -5,46 +5,44 @@
     <div class="message-container animated animate__fadeInUp">
       <div class="all-message">
         <ul
-          v-if="message_list.length>0"
+          v-if="message_list.length > 0"
           class="message-list"
         >
           <li
-            v-for="(item,index) in message_list"
+            v-for="(item, index) in message_list"
             :key="index"
           >
             <div class="c-portrait">
               <img
-                v-lazy="prefix+item.portrait"
+                v-lazy="prefix + item.users[0].portrait"
                 alt=""
-              >
+              />
             </div>
             <div class="c-name">
-              <span> {{ item.name }}</span>&nbsp;
+              <span> {{ item.users[0].name }}</span>&nbsp;
               <span>{{ item.address }}</span>
             </div>
             <div class="c-create-time">{{ item.created_at }}</div>
             <div class="c-message">{{ item.content }}</div>
+            <!-- 用v-show时不管符不符合都会将其渲染，
+              而有的为null时因不能渲染时会报错，
+              用v-if时不会将其渲染 -->
             <div
-              v-show="item.comment_reply"
+              v-if="item.message_reply !== null"
               class="reply-container"
             >
-              <div class="author-portrait">
-                <img
-                  v-lazy="prefix+item.comment_reply.portrait"
-                  alt=""
-                >
-              </div>
               <div class="author-name">
-                <span class="author-border">  {{ item.comment_reply.name }} </span>&nbsp;
-                <span> {{ item.comment_reply.address }} </span>
+                <div class="author-border">博主</div>
               </div>
-              <div class="author-update-time">{{ item.comment_reply.updated_at }}</div>
-              <div class="author-message">{{ item.comment_reply.reply }}</div>
+              <div class="author-update-time">
+                {{ item.message_reply.updated_at }}
+              </div>
+              <div class="author-message">{{ item.message_reply.reply }}</div>
             </div>
           </li>
           <div class="query-page-box">
             <QueryPage
-              class="comment-page"
+              class="message-page"
               :current-page="currentPage"
               :total="total"
               :page-size="pageSize"
@@ -60,15 +58,14 @@
           class="nothing"
         >暂无留言</div>
         <!-- 方法名不能加括号 -->
-
       </div>
-      <div class="essaycomment-body">
-        <div class="essaycomment-main">
+      <div class="message-body">
+        <div class="message-main">
           <textarea
             id="input"
-            v-model="newessayComment.content"
+            v-model="newmessage.content"
             placeholder="说点什么~😃"
-            class="essaycomment-msg"
+            class="message-msg"
             rows="5"
             maxlength="200"
             @click="emojiPickerOff()"
@@ -76,12 +73,10 @@
           <div
             class="emoji-btn"
             @click="emojiShow"
-          >
-            Emoji😃
-          </div>
+          >Emoji😃</div>
           <div
             class="message-publish-btn"
-            @click="publishComment"
+            @click="publishmessage"
           >
             <svg-icon
               class="publish-icon"
@@ -99,19 +94,18 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
 <script>
 import store from '@/store'
+import { getToken, removeToken } from '@/utils/author'
 import { messageQuery, messageCreate } from '@/api/main/message'
-import { queryUser } from '@/api/default/user'
 export default {
-  name: 'Essaymessage',
-  data () {
+  name: 'MyMessage',
+  data() {
     return {
-      newessayComment: {
+      newmessage: {
         user_id: '',
         content: '',
         address: ''
@@ -140,16 +134,17 @@ export default {
     }
   },
 
-  mounted () {
+  mounted() {
     document.documentElement.scrollTop = 0
     this.initmessage()
     this.initUser()
   },
   methods: {
     initUser() {
-      if (store.state.user.user.id) {
-        this.newessayComment.user_id = store.state.user.user.id
+      if (getToken('token')) {
+        // this.newmessage.user_id = store.state.user.id
       } else {
+        removeToken('token')
         this.$msg({
           content: '请先登录',
           type: 'warning'
@@ -158,42 +153,32 @@ export default {
     },
     initmessage() {
       var _this = this
+      _this.message_list = []
       messageQuery({
         limit: this.pageSize,
         offset: this.currentPage
-      }).then(res => {
+      }).then((res) => {
+        console.log(res)
         _this.total = res.data.count
-        _this.message_list = []
-        res.data.rows.forEach((item, i) => {
-          queryUser({ id: item.user_id }).then(res => {
-            // 由于只有data里的数据是响应式的，可以通过$set来添加属性
-            this.$set(item, 'name', res.data.user.rows[0].name)
-            this.$set(item, 'portrait', res.data.user.rows[0].portrait)
-            if (item.comment_reply !== null) {
-              queryUser({ id: item.comment_reply.user_id }).then(res => {
-                this.$set(item.comment_reply, 'name', res.data.user.rows[0].name)
-                this.$set(item.comment_reply, 'portrait', res.data.user.rows[0].portrait)
-              })
-            } else {
-              item.comment_reply = false
-            }
-            _this.message_list.push(item)
-          })
-        })
+        this.message_list = res.data.rows
       })
     },
-    selectEmoji(emoji) {// 选择emoji后调用的函数
+    selectEmoji(emoji) {
+      // 选择emoji后调用的函数
       const input = document.getElementById('input')
       const startPos = input.selectionStart
       const endPos = input.selectionEnd
-      const resultText = input.value.substring(0, startPos) + emoji.data + input.value.substring(endPos)
+      const resultText =
+        input.value.substring(0, startPos) +
+        emoji.data +
+        input.value.substring(endPos)
       input.value = resultText
-      setTimeout(function() {
+      setTimeout(function () {
         input.focus()
       }, 200)
       input.selectionStart = startPos + emoji.data.length
       input.selectionEnd = endPos + emoji.data.length
-      this.newessayComment.content = resultText
+      this.newmessage.content = resultText
     },
     emojiShow() {
       this.showDialog = !this.showDialog
@@ -202,24 +187,24 @@ export default {
     },
     reset() {
       var _this = this
-      this.newessayComment.content = ''
+      this.newmessage.content = ''
       this.publishAgain = false
       this.changePage(1)
       this.showDialog = false
-      setTimeout(function() {
+      setTimeout(function () {
         _this.publishAgain = true
       }, 5000)
     },
-    publishComment() {
+    publishmessage() {
       var _this = this
-      this.newessayComment.address = localStorage.getItem('address')
-      if (localStorage.getItem('userid')) {
-        if (this.newessayComment.content !== '' && this.publishAgain === true) {
-          messageCreate(this.newessayComment).then(res => {
+      this.newmessage.address = localStorage.getItem('address')
+      if (getToken('token')) {
+        if (this.newmessage.content !== '' && this.publishAgain === true) {
+          messageCreate(this.newmessage).then((res) => {
             // this.initmessage()
             this.reset()
           })
-        } else if (this.newessayComment.content === '') {
+        } else if (this.newmessage.content === '') {
           this.$msg({
             content: '不能发送空的消息',
             type: 'info'
@@ -254,5 +239,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import './scss/MessagePage.scss';
+@import "./scss/MessagePage.scss";
 </style>

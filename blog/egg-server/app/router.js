@@ -23,7 +23,7 @@ module.exports = app => {
   router.post('/api/reset/psw', jwt, controller.sys.user.resetPsw);
 
   // 文件上传
-  router.post('/api/file', controller.sys.file.upload);
+  router.post('/api/file', controller.file.upload);
   // 图片下载
   router.get('/api/images', controller.sys.file.getImagesByPath);
 
@@ -86,9 +86,11 @@ module.exports = app => {
 
   //* **********前端接口 */
 
-  // 前台登录、注册
+  // 前台登录、注册、重置密码、修改密码
   router.post('/login', controller.user.user.login);
   router.post('/register', controller.user.user.register);
+  router.post('/user/reset/psw', jwt, controller.user.user.resetPsw);
+  router.post('/user/change/psw', jwt, controller.user.user.changePsw);
 
   // 获取用户ip
   router.post('/user/ip', controller.user.user.queryUserIp);
@@ -145,8 +147,10 @@ module.exports = app => {
   router.post('/message/delete', jwt, controller.web.message.deleteMessage);
 
   // 留言回复
+
   router.post('/message/reply/create', jwt, controller.web.messageReply.createMessageReply);
   router.post('/message/reply/delete', jwt, controller.web.messageReply.deleteMessageReply);
+  router.post('/message/reply/update', jwt, controller.web.messageReply.updateMessageReply);
 
   // '关于我'详情
   router.post('/aboutme/detail/query', controller.web.aboutmeDetail.queryAboutme);
@@ -154,6 +158,9 @@ module.exports = app => {
 
   // 项目的增删改查
   router.post('/project/query', controller.web.project.queryProject);
+  router.post('/project/query/state', controller.web.project.queryProjectState);
+  router.post('/project/update/state', controller.web.project.changeState);
+
   router.post('/project/update', jwt, controller.web.project.updateProject);
   router.post('/project/delete', jwt, controller.web.project.deleteProject);
   router.post('/project/create', jwt, controller.web.project.createProject);

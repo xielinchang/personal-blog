@@ -2,7 +2,7 @@ import request from '../../network/request'
 
 export function queryProject(data) {
   return request({
-    url: '/project/query',
+    url: '/project/query/state',
     method: 'post',
     data
   })

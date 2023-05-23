@@ -13,86 +13,61 @@ const routes = [
   {
     path: '/home',
     name: 'home',
+    meta: { name: '首页', icon: '' },
     component: () => import('../views/page/home/Home.vue')
   },
   {
     path: '/more',
     name: 'More',
+    meta: { name: '更多', icon: '' },
     component: () => import('../views/page/more/MorePage.vue')
   },
   {
     path: '/more/component',
     name: 'component',
+    meta: { name: '组件测试', icon: '' },
     component: () => import('@/views/page/more/componentTest/index.vue')
-  },
-  {
-    path: '/control/essay',
-    name: 'EssayControl',
-    component: () => import('../views/page/essay/EssayControl.vue')
-  },
-  {
-    path: '/control/essay/writing',
-    name: 'EssayWriting',
-    component: () => import('../views/page/essay/EssayWriting.vue')
-  },
-  {
-    path: '/control/message',
-    name: 'messageControl',
-    component: () => import('../views/page/message/MessageControl.vue')
-  },
-  {
-    path: '/control/record',
-    name: 'RecordControl',
-    component: () => import('../views/page/record/RecordControl.vue')
-  },
-  {
-    path: '/control/project',
-    name: 'ProjectControl',
-    component: () => import('../views/page/project/ProjectControl.vue')
-  },
-  {
-    path: '/control/project/writing',
-    name: 'ProjectWriting',
-    component: () => import('../views/page/project/ProjectWriting.vue')
   },
   {
     path: '/message',
     name: 'message',
+    meta: { name: '留言', icon: '' },
     component: () => import('../views/page/message/MessagePage.vue')
   },
   {
     path: '/aboutme',
     name: 'aboutme',
+    meta: { name: '关于我', icon: '' },
     component: () => import('../views/page/aboutme/AboutMe.vue')
   },
   {
     path: '/note/essay',
     name: 'Essay',
+    meta: { name: '文章', icon: '' },
     component: () => import('../views/page/essay/EssayPage.vue')
   },
   {
     path: '/note/project',
     name: 'Project',
+    meta: { name: '项目', icon: '' },
     component: () => import('../views/page/project/ProjectPage.vue')
-  },
-  {
-    path: '/control/user',
-    name: 'UserControl',
-    component: () => import('@/views/page/user/userControl.vue')
   },
   {
     path: '/user',
     name: 'User',
+    meta: { name: '用户页', icon: '' },
     component: () => import('@/views/page/user/user.vue')
   },
   {
     path: '/login',
     name: 'Login',
+    meta: { name: '登录', icon: '' },
     component: () => import('../views/page/login/LoginPage.vue')
   },
   {
     path: '/register',
     name: 'Register',
+    meta: { name: '注册', icon: '' },
     component: () => import('../views/page/login/RegisterPage.vue')
   }
 ]
@@ -103,7 +78,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const whiteList = ['/login']
+  // const whiteList = ['/login']
   var token = getToken('token')
   if (token) {
     if (to.path === '/login') {
@@ -113,11 +88,7 @@ router.beforeEach((to, from, next) => {
       next()
     }
   } else {
-    if (whiteList.indexOf(to.path) !== -1) {
-      next()
-    } else {
-      next('/login')
-    }
+    next()
   }
 })
 

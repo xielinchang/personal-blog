@@ -99,7 +99,6 @@ class SysMenuController extends Controller {
   async getCurUserMenu() {
     const { ctx } = this;
     const query = ctx.query;
-    console.log(111, query);
     const res = await ctx.service.sys.menu.getCurUserMenu(query);
     if (res) {
       this.success(res);

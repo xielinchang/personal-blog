@@ -5,7 +5,7 @@ module.exports = app => {
 
   const project = app.model.define('save_project',
     Object.assign(base(app), {
-      id: { type: INTEGER, primaryKey: true, autoIncrement: true },
+      id: { type: INTEGER, primaryKey: true },
       title: STRING,
       link: STRING,
       coverUrl: STRING,

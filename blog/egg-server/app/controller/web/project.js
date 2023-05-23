@@ -8,6 +8,16 @@ class ProjectController extends Controller {
     const project = await ctx.service.web.project.queryProject(ctx.request.body);
     ctx.body = project;
   }
+  async queryProjectState() {
+    const { ctx } = this;
+    const project = await ctx.service.web.project.queryProjectState(ctx.request.body);
+    ctx.body = project;
+  }
+  async changeState() {
+    const { ctx } = this;
+    const project = await ctx.service.web.project.changeState(ctx.request.body);
+    ctx.body = project;
+  }
   async createProject() {
     const { ctx } = this;
     const project = await ctx.service.web.project.createProject(ctx.request.body);

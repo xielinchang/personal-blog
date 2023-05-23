@@ -13,7 +13,7 @@
 
 <script>
 import { isDay } from '@/utils/tool'
-import { bg } from '@/api/default/api'
+import { bg } from '@/api/default/index'
 export default {
   name: 'TemplatePage',
   data() {

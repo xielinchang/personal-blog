@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { getUserIp } from '@/api/default/api'
+import { getUserIp } from '@/api/default/index'
 import { baiduWhether, baiduLocation } from '@/api/baidu/baiduapi'
 export default {
   name: 'MyWhether',

@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import { essayQuery } from '@/api/main/essayapi'
+import { essayQuery } from '@/api/main/essay'
 export default {
   name: 'EssayList',
   props: {

@@ -15,7 +15,7 @@
         class="img-wrap"
         :style="{ backgroundImage: `url(${image})` }"
       >
-        <div class="cover">
+        <div class="cover" v-show="!disabled">
           <svg-icon
             name="upload"
             @click="handleUpload"
@@ -29,6 +29,7 @@
     </div>
     <!-- 限制上传格式为png/jpg/jpeg三种。 -->
     <input
+    :disabled="disabled"
       ref="fileInt"
       type="file"
       title=""
@@ -59,6 +60,10 @@ export default {
     image: {
       type: String,
       default: ''
+    },
+    disabled:{
+      type: [String,Boolean],
+      default: false
     }
   },
   emits: ['upload-success', 'delete-img'],
@@ -81,7 +86,7 @@ export default {
             'Content-Type': 'multipart/form-data'
           }
         }).then(res => {
-          this.$emit('upload-success', res.data.data.url)
+          this.$emit('upload-success', res.data.url)
         }).catch(err => {
           console.log(err)
         })

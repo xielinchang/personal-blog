@@ -98,64 +98,51 @@
   width: 80%;
   margin-left: 10%;
   height: auto;
-  min-height: 120px;
+  padding: 10px 5px;
   background: rgba(160, 197, 255, 0.5);
   position: relative;
   border-radius: 8px;
-  .author-portrait{
-  width: 40px;
-  height: 40px;
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  border-radius: 50%;
-  overflow: hidden;
+  .author-name{
+    width: 200px;
+    height: 20px;
+    line-height: 20px;
+    display: flex;
+    justify-content: left;
+    padding-left: 20px;
+    top: 5px;
+  }
+  .author-border{
+    color: #3e8683;
+    border-radius: 4px;
+    border: 1px solid #c0fffc;
+    background: rgba(199, 255, 252, 0.3);
+    width: auto;
+    padding: 0 5px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+  }
+  .author-update-time{
+    padding-left: 20px;
+    top: 35px;
+    font-size: 12px;
+    margin-top: 10px;
+    color: rgb(1, 119, 8);
+  }
+  .author-message{
+    width: 80%;
+    margin-left: 2%;
+    min-height:60px;
+    height: auto;
+    bottom: 0;
+    padding-left: 20px;
+    text-align: left;
+    line-height: 40px;
+    font-family: YouYuan;
+    font-size: 18px;
+  }
 }
-.author-portrait img{
-  width: 100%;
-  height: 100%;
-}
-}
-.author-name{
-  width: 200px;
-  height: 20px;
-  line-height: 20px;
-  display: flex;
-  justify-content: left;
-  position: absolute;
-  top: 5px;
-  left: 60px;
-}
-.author-border{
-  color: #3e8683;
-  border-radius: 4px;
-  border: 1px solid #c0fffc;
-  background: rgba(199, 255, 252, 0.3);
-  width: auto;
-  padding: 0 5px;
-  height: 20px;
-  line-height: 20px;
-  text-align: center;
-}
-.author-update-time{
-  position: absolute;
-  left: 65px;
-  top: 30px;
-  font-size: 12px;
-  color: rgb(1, 119, 8);
-}
-.author-message{
-  width: 80%;
-  margin-left: 2%;
-  height: 80px;
-  position: absolute;
-  bottom: 0;
-  left: 50px;
-  text-align: left;
-  line-height: 40px;
-  font-family: YouYuan;
-  font-size: 18px;
-}
+
 }
 .query-page-box{
   width: 96%;
@@ -174,17 +161,19 @@
 }
 }
 }
-.essaymessage-body{
+.message-body{
   width: 100%;
   height: 500px;
   min-height: 50px;
-  .essaymessage-main{
+  position: relative;
+  z-index: 999;
+  .message-main{
   padding: 0;
   margin: 0;
   width: 100%;
   height: auto;
   min-height: 208px;
-  z-index: 2;
+  z-index: 999;
   position: relative;
   margin-left: 0px;
   padding-bottom: 15px;
@@ -192,7 +181,7 @@
   /* box-shadow: 0 0 0 2px rgb(255 255 255 / 40%) inset,
     0 13px 15px rgb(31 45 61 / 15%); */
     border-radius: 12px;
-    .essaymessage-msg{
+    .message-msg{
   width: 100%;
   position: absolute;
   top: 10px;

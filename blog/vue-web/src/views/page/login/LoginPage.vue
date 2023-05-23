@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { login, validate } from '@/api/default/loginapi'
+import { login } from '@/api/default/user'
 import { setToken, getToken } from '@/utils/author'
 export default {
   name: 'LoginPage',

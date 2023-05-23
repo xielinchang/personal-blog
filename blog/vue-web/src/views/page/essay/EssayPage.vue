@@ -175,18 +175,6 @@
                   <div class="c-msg">
                     {{ item.message }}
                   </div>
-                  <div
-                    v-if="hasPermi"
-                    class="more"
-                  >
-                    <svg-icon
-                      style="position: absolute"
-                      icon-name="delete"
-                      size="24px"
-                      right-title="删除该条评论"
-                      @click="deleteComment(item.id)"
-                    ></svg-icon>
-                  </div>
                 </div>
 
               </li>
@@ -202,14 +190,6 @@
       </div>
     </div>
     <div class="icon-buttons">
-      <router-link :to="'/control/essay/writing?id=' + $route.query.id">
-        <icon-button
-          v-if="hasPermi"
-          class="icon-button"
-          icon="edit"
-          left-title="编辑"
-        ></icon-button>
-      </router-link>
       <icon-button
         class="icon-button"
         icon="comment-filled"
@@ -244,8 +224,8 @@
 // import user from './user.vue'
 import store from '@/store'
 import { userDetailUpdate, queryUser } from '@/api/default/user'
-import { essayQuery, essayDetailUpdate } from '@/api/main/essayapi'
-import { essayCommentsQuery, essayCommentsCreate, essayCommentsDelete } from '@/api/main/essayComments'
+import { essayQuery, essayDetailUpdate } from '@/api/main/essay'
+import { essayCommentsQuery, essayCommentsCreate } from '@/api/main/essayComments'
 import { getToken } from '@/utils/author'
 export default {
   name: 'EssayPage',
@@ -296,9 +276,6 @@ export default {
     }
   },
   computed: {
-    hasPermi() {
-      return store.state.hasPermi
-    },
     justStyle() {
       if (this.scrollHeight > 470) {
         return {
@@ -507,8 +484,8 @@ export default {
       this.initPage()
       if (getToken('token')) {
         store.dispatch('getUserInfo').then(user => {
-          if (user.user.user_detail !== null) {
-            this.userDetail = { ...user.user.user_detail }
+          if (user.user_detail !== null) {
+            this.userDetail = { ...user.user_detail }
             // 判断文章的id是否符合此篇文章
             if (this.userDetail.collect) {
               this.collectIds = this.userDetail.collect.split(',')
@@ -539,18 +516,19 @@ export default {
           } else {
             this.userDetail = {
               id: null,
-              user_id: user.user.id,
+              user_id: user.id,
               collect: '',
               good: ''
             }
           }
           this.commentForm = {
-            ...user.user,
+            ...user,
             address: localStorage.getItem('address'),
-            user_id: user.user.id,
+            user_id: user.id,
             essay_id: this.$route.query.id * 1
           }
           delete this.commentForm.id
+          console.log(this.commentForm)
         })
       } else {
         this.$msg({
@@ -561,6 +539,7 @@ export default {
     },
     publishComment() {
       if (getToken('token')) {
+        console.log(this.commentForm)
         essayCommentsCreate(this.commentForm).then(res => {
           this.initComments()
           this.commentForm.message = ''
@@ -585,18 +564,18 @@ export default {
       const timer = setInterval(function() {
         const offset = document.documentElement.scrollTop
         const speed = 80
-        if (offset <= height + 300) {
+        if (offset <= height + 100) {
           document.documentElement.scrollTop = offset + speed
           // 设置一些偏差，以免与判断矛盾卡住页面
-          if (offset * 1 >= height + 400) {
-            _this.publishShow = true
+          if (offset * 1 >= height + 200) {
             clearInterval(timer)
+            _this.publishShow = true
           }
         } else {
           document.documentElement.scrollTop = offset - speed
-          if (offset * 1 <= height + 400) {
-            _this.publishShow = true
+          if (offset * 1 <= height + 200) {
             clearInterval(timer)
+            _this.publishShow = true
           }
         }
       }, 1)
