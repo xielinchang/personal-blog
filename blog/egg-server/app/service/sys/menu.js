@@ -114,7 +114,7 @@ class SysMenuService extends Service {
       return null;
     }
   }
-// 获取现在用户的菜单
+  // 获取现在用户的菜单
   async getCurUserMenu() {
     const { app, ctx } = this;
     const Op = app.Sequelize.Op;

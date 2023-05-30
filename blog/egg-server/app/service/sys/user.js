@@ -24,7 +24,7 @@ class SysUserService extends Service {
         username: user.username,
         name: user.name,
         roleid: role.role_id,
-      }, app.config.jwt.secret, { expiresIn: 60 * 60 * 24 * 7 });
+      }, app.config.jwt.secret, { expiresIn: 60 * 60 * 24 * 1 });
       return token;
     }
     return false;

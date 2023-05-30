@@ -8,12 +8,11 @@
 -->
 <template>
   <div class="essay-control">
-    <ul class="header">
+    <ul class="my-header">
       <li>
         <my-input
           label="标题"
-          size="small"
-          width="180"
+          width="80"
           v-model="search.title"
           class="input"
           placeholder="请输入标题"
@@ -21,27 +20,26 @@
       </li>
       <li>
         <my-input
+         width="150"
           label="内容"
-          size="small"
           v-model="search.html"
           class="input"
-          placeholder="请输入标题"
+          placeholder="请输入内容"
         />
       </li>
       <li>
         <my-input
-        width="180"
+         width="100"
           label="标签"
-          size="small"
           v-model="search.tags"
           class="input"
-          placeholder="请输入标题"
+          placeholder="请输入标签"
         />
       </li>
       <li style="display: flex">
         <span style="margin-top: 0px">领域：</span>
         <my-select
-          width="100"
+          width="80"
           style="height: 35px; z-index: 9"
           :options="domainOptions"
           :selected="domainSelected"
@@ -53,7 +51,7 @@
       <li style="display: flex">
         <span style="margin-top: 0px">状态:</span>
         <my-select
-          width="100"
+          width="80"
           style="height: 35px; z-index: 9"
           :options="options"
           :selected="selected"
@@ -63,7 +61,6 @@
       </li>
       <my-button
         class="my-button"
-        size="mini"
         type="primary"
         icon-name="search"
         @click="searched"
@@ -71,14 +68,13 @@
       >
       <my-button
         class="my-button"
-        size="mini"
         icon-name="refresh"
         @click="reset"
         >重置</my-button
       >
     </ul>
     <el-card class="box-card">
-      <div class="main">
+      <div class="main-body">
         <el-table :data="tableData" style="width: 100%">
           <el-table-column
             align="center"

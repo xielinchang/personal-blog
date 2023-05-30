@@ -3,6 +3,7 @@ module.exports = {
     publicPath: './',
     productionSourceMap: false,
     lintOnSave: process.env.NODE_ENV === 'development',
+    outputDir: 'vue-admin',
     chainWebpack: config => {
         config.module
             .rule('svg-sprite')

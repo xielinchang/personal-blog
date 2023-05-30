@@ -8,10 +8,9 @@
 -->
 <template>
   <div class="essay-control">
-    <div class="header">
+    <div class="my-header block">
       <my-input
         label="标题"
-        size="small"
         v-model="search.title"
         class="input"
         placeholder="请输入标题"

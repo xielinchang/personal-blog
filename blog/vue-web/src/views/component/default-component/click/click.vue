@@ -35,14 +35,14 @@ export default {
     return {
       waves: [],
       wavesConfig: {
-        maxSize: 100, // px，波纹最大尺寸
-        minSize: 30, // px，波纹最小尺寸
+        maxSize: 250, // px，波纹最大尺寸
+        minSize: 100, // px，波纹最小尺寸
         zIndexCount: 999, // 波纹父元素其z-index数值
-        waveColor: '#3E8CE3', // 波纹基础颜色
-        total: 6 // 波纹圈层数
+        waveColor: '#1DAfff', // 波纹基础颜色
+        total: 8 // 波纹圈层数
       },
       clear: {
-        delay: 5000,
+        delay: 3000,
         timeoutId: null
       }
     }

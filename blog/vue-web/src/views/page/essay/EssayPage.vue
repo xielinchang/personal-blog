@@ -25,25 +25,30 @@
           </div>
 
         </div>
-        <ul
-          v-show="catalog.length>0&&catalogShow"
-          class="catalog"
+        <div
+          class="catalog-box block"
           :style="justStyle"
         >
-          目录:
-          <li
-            v-for="(item,index) in catalog"
-            :key="index"
-            @click="jumpToCatalog(item)"
-          >{{ item.key }}</li>
-        </ul>
+          <p>目录:</p>
+          <ul
+            v-show="catalog.length>0&&catalogShow"
+            class="catalog"
+          >
+            <li
+              v-for="(item,index) in catalog"
+              :key="index"
+              @click="jumpToCatalog(item)"
+            >{{ item.key }}</li>
+          </ul>
+        </div>
+
         <div
           class="main-page"
           :style="{width: (catalog.length>0&&catalogShow)?'78%':'100%'}"
         >
           <div
             v-if="essayForm.digest!==''"
-            class="digest shadow-demo"
+            class="digest block"
           >
             <div class="digest-content">
               <div class="digest-head">
@@ -59,12 +64,12 @@
               {{ essayForm.digest }}
             </div>
           </div>
-          <div class="essay shadow-demo">
+          <div class="essay">
             <div
               class="essay-content"
               v-html="essayForm.html"
             ></div>
-            <div class="operation shadow-demo">
+            <div class="operation block">
               <div
                 class="good-icon"
                 @click="addGood"
@@ -114,7 +119,7 @@
               </div>
             </div>
           </div>
-          <div class="comment shadow-demo">
+          <div class="comment">
             <div
               :class="publishShow?'':'c-publish-close'"
               class="c-publish"
@@ -153,7 +158,7 @@
             </div>
             <ul
               v-if="commentList.length>0"
-              class="comment-list shadow-demo"
+              class="comment-list block"
             >
               <li
                 v-for="(item,index) in commentList"
@@ -280,14 +285,14 @@ export default {
       if (this.scrollHeight > 470) {
         return {
           position: 'fixed',
-          top: 100 + 'px',
-          right: '11.7%',
-          width: '15.3%'
+          top: 80 + 'px',
+          right: '10%',
+          width: '16.4%'
         }
       } else {
         return {
           position: 'absolute',
-          top: 470 + 'px',
+          top: 450 + 'px',
           right: 0
         }
       }

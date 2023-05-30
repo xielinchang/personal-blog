@@ -19,7 +19,6 @@
         style="margin-right: 10px"
         @click="searched"
         class="my-button"
-        size="mini"
         type="primary"
         icon="search"
         >搜索</my-button
@@ -27,7 +26,6 @@
       <my-button
         @click="reset"
         class="my-button"
-        size="mini"
         type="primary"
         icon="search"
         >重置</my-button

@@ -118,7 +118,7 @@ module.exports = app => {
 
   // 背景图片
   router.post('/blog/bg', controller.web.bg.queryBg);
-  router.post('/blog/bg/gif', controller.web.bg.queryBgGif);
+  router.post('/blog/bg/gif', controller.web.bg.queryHomeBg);
 
   // 文章的增删改查
   router.post('/essay/query', controller.web.essay.queryEssay);

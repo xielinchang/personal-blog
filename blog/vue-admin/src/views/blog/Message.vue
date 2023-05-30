@@ -7,7 +7,7 @@
         class="my-input"
         placeholder="请输入用户名"
       />
-      <my-button class="my-button" size="mini" type="primary" icon="search"
+      <my-button class="my-button"  type="primary" icon="search"
         >搜索</my-button
       >
     </div>

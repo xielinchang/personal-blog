@@ -47,17 +47,14 @@
             </my-input>
             摘要：
             <my-textarea
-            style="height: 100px;"
+              style="height: 100px"
               v-model="Essay.digest"
               :width="inputSize"
               placeholder="（选填）简要的摘要能帮助读者更好的了解内容"
               maxlength="350"
             ></my-textarea>
             标签：
-            <my-tags 
-            @update-tags="update" 
-            :value="newTags">
-            </my-tags>
+            <my-tags @update-tags="update" :value="newTags"> </my-tags>
             领域：
             <my-select
               :options="domain"
@@ -76,46 +73,19 @@
     </div>
     <div class="edit-foot">
       <div class="foot-box">
-        <div
-          v-if="isSave"
-          class="btns"
-        >
-          <my-button
-            @click="reset"
-          >重置</my-button>
-          <my-button
-            plain
-            type="info"
-            @click="save"
-          >保存草稿</my-button>
-          <my-button
-            type="danger"
-            @click="publish"
-          >发布</my-button>
+        <div v-if="isSave" class="btns">
+          <my-button @click="reset">重置</my-button>
+          <my-button plain type="info" @click="save">保存草稿</my-button>
+          <my-button type="danger" @click="publish">发布</my-button>
         </div>
-        <div
-          v-else
-          class="btns"
-        >
-        <router-link to="/blog/essay/writing">
-        <my-button
-            type="success"
-            @click="reset"
-          >新增</my-button>
-        </router-link>
-          <my-button
-            @click="reset"
-          >重置</my-button>
-          <my-button
-            type="warning"
-            @click="edit"
-          >修改</my-button>
-          <my-button
-            type="danger"
-            @click="deleted"
-          >删除</my-button>
+        <div v-else class="btns">
+          <router-link to="/blog/essay/writing">
+            <my-button type="success" @click="reset">新增</my-button>
+          </router-link>
+          <my-button @click="reset">重置</my-button>
+          <my-button type="warning" @click="edit">修改</my-button>
+          <my-button type="danger" @click="deleted">删除</my-button>
         </div>
-
       </div>
     </div>
   </div>
@@ -141,19 +111,21 @@ export default {
   beforeRouteLeave(to, from, next) {
     var _this = this;
     if (this.isModified) {
-        this.$confirm('您还没有保存哦，需要保存吗', '提醒', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'danger'
-        }).then(() => {
-            this.edit();
+      this.$confirm("您还没有保存哦，需要保存吗", "提醒", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "danger",
+      })
+        .then(() => {
+          this.edit();
           next();
-        }).catch(() => {
-            next();
+        })
+        .catch(() => {
+          next();
           this.$message({
             type: "warning",
             message: "您取消了保存",
-          });        
+          });
         });
     } else {
       next();
@@ -192,9 +164,9 @@ export default {
         tags: "",
         domain: null,
         radio: 1,
-        state:1
+        state: 1,
       },
-      inputSize: 600,
+      inputSize: 500,
       imgurl: "",
       customImageFile: null,
       changeImg: false,
@@ -352,18 +324,19 @@ export default {
     },
     reset() {
       this.Essay = {
-        id: 0,
-        html: " ",
+        id: "",
+        html: "",
         coverUrl: "",
         title: "",
         subtitle: "",
         digest: "",
         tags: "",
+        state: 1,
         domain: null,
-        radio: null,
+        radio: 1,
       };
+      this.deleteCallback()
       this.newTags = [];
-      this.imgurl = "";
     },
     save() {
       /* join=>数组转字符串，split=>字符串转数组 */
@@ -383,12 +356,12 @@ export default {
             },
           })
           .then((res) => {
-            this.Essay.coverUrl =res.data.data.url;
+            this.Essay.coverUrl = res.data.data.url;
             this.essaySaveApi();
           })
           .catch((err) => {
             this.$message({
-                message: err,
+              message: err,
               type: "danger",
             });
           });
@@ -397,21 +370,22 @@ export default {
       }
     },
     essaySaveApi() {
+      console.log(this.Essay);
       var _this = this;
       essaySave(this.Essay).then((res) => {
         this.$message({
-            message: "保存成功",
+          message: "保存成功",
           type: "success",
         });
-        setTimeout(() => {
-          _this.initEssay();
-        }, 100);
+        _this.initEssay();
       });
     },
     publish() {
       var _this = this;
       this.initDomain();
-      this.Essay.tags = this.newTags.join(",");
+      if (this.Essay.tags !== "") {
+        this.Essay.tags = this.newTags.join(",");
+      }
       if (this.customImageFile) {
         const data = new FormData();
         data.append("file", this.customImageFile);
@@ -422,7 +396,7 @@ export default {
             },
           })
           .then((res) => {
-            this.Essay.coverUrl =res.data.data.url;
+            this.Essay.coverUrl = res.data.data.url;
             this.essayCreateApi();
           })
           .catch((err) => {
@@ -435,10 +409,10 @@ export default {
         this.essayCreateApi();
       }
     },
-    essayCreateApi() {
-      essayCreate(this.Essay).then((res) => {
+     essayCreateApi() {
+       essayCreate(this.Essay).then((res) => {
         this.$message({
-            message: "创建成功",
+          message: "创建成功",
           type: "success",
         });
         this.reset();
@@ -451,7 +425,7 @@ export default {
     essayUpdateApi() {
       essayUpdate(this.Essay).then((res) => {
         this.$message({
-            message: "更新成功",
+          message: "更新成功",
           type: "success",
         });
         this.initEssay();
@@ -485,30 +459,36 @@ export default {
       }
     },
     deleted() {
-        this.$confirm( "要删除名为" + this.Essay.title + "的文章吗？一旦删除将不可恢复", '提醒', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-            essayDelete({ id: this.Essay.id }).then((res) => {
+      this.$confirm(
+        "要删除名为" + this.Essay.title + "的文章吗？一旦删除将不可恢复",
+        "提醒",
+        {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        }
+      )
+        .then(() => {
+          essayDelete({ id: this.Essay.id }).then((res) => {
             this.$message({
               type: "success",
               message: "删除成功!",
             });
             this.initEssay();
           });
-        }).catch(() => {
-            this.$message({
+        })
+        .catch(() => {
+          this.$message({
             type: "info",
             message: "已取消删除",
-          });         
+          });
         });
     },
     changeSelect(label, value) {
       this.selected.label = label;
       this.selected.value = value;
       this.Essay.domain = value;
-    },      
+    },
   },
 };
 </script>

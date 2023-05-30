@@ -155,7 +155,7 @@ export default {
       inputVisible: false,
       inputValue: "",
       Project: {},
-      inputSize: 600,
+      inputSize: 500,
       imgurl: "",
       customImageFile: null,
       changeImg: false,
@@ -292,7 +292,6 @@ export default {
     },
     reset() {
       this.Project = {
-        id: 0,
         html: " ",
         coverUrl: "",
         title: "",
@@ -328,7 +327,6 @@ export default {
     saveProjectApi() {
       var _this = this;
       saveProject(this.Project).then((res) => {
-        console.log(res);
         this.$message({
             message: "保存成功",
           type: "success",
@@ -364,14 +362,17 @@ export default {
       }
     },
     createProjectApi() {
+      console.log(this.Project);
+      delete this.Project.id
+      this.Project.state=1
       createProject(this.Project).then((res) => {
         this.$message({
-            message: "创建成功",
+          message: "创建成功",
           type: "success",
         });
         this.reset();
         this.save();
-        this.$router.push("/home");
+        this.$router.push("/");
       });
     },
     update(e) {

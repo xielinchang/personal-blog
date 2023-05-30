@@ -3,11 +3,13 @@ const path = require('path')
 function resolve(dir) {
   return path.join(__dirname, dir)
 }
-const CompressionPlugin = require('compression-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+// const CompressionPlugin = require('compression-webpack-plugin')
 module.exports = {
   publicPath: './',
   productionSourceMap: false,
   lintOnSave: process.env.NODE_ENV === 'development',
+  outputDir: 'vue-web',
   devServer: {
     // host: 'localhost', // 本地
     // port: 8080,
@@ -35,6 +37,11 @@ module.exports = {
         }
       }
     }
+  },
+  configureWebpack: {
+    plugins: [
+      new CleanWebpackPlugin()
+    ]
   },
   chainWebpack: config => {
     // config.module.rule('images')

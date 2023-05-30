@@ -4,17 +4,19 @@
       <my-input
         :disabled="!editShow"
         label="标题："
+        width="200"
         style="margin-right: 20px"
         v-model="defaultRecord.title"
       ></my-input>
       <my-input
         :disabled="!editShow"
         label="话题："
-        width="500"
+        width="400"
         style="margin-right: 20px"
         v-model="defaultRecord.content"
       ></my-input>
-      <span>封面：</span>
+      <div style="display: flex;">
+        <span>封面：</span>
       <my-upload
         :disabled="!editShow"
         style="margin-right: 20px"
@@ -26,6 +28,8 @@
         @upload-success="uploadCallback"
       >
       </my-upload>
+      </div>
+
       <my-button
         v-if="!editShow"
         type="primary"
@@ -61,7 +65,7 @@
           >新增</el-button
         >
       </div>
-      <div class="main">
+      <div class="record-main">
         <el-table :data="tableData" style="width: 100%">
           <el-table-column
             align="center"
@@ -123,7 +127,7 @@
       <div style="display: flex; flex-direction: column">
         <span style="margin: 10px">内容：</span>
         <my-textarea
-          style="width: 100%"
+          width="400"
           v-model="recordForm.message"
         ></my-textarea>
       </div>
@@ -242,6 +246,7 @@ export default {
           type: "success",
           message: "添加成功!",
         });
+        this.recordVisible=false
         this.initRecord();
       });
     },
@@ -282,7 +287,7 @@ export default {
       this.initRecord();
     },
     handleClose() {
-      this.userVisible = false;
+      this.recordVisible = false;
     },
   },
 };

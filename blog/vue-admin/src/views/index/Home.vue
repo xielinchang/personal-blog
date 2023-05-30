@@ -17,7 +17,7 @@
                 </el-dropdown>
             </div>
         </div>
-        <div class="main">
+        <div class="main" style="width: 100%;">
             <div class="left">
                 <Menu
                     :is-collapse="isCollapse"
@@ -191,7 +191,8 @@ $headerHeight: 60px;
 }
 .home {
   .header {
-    height: $headerHeight;
+    height: $headerHeight !important;
+    padding: 0 !important;
     background: $baseColor;
     position: relative;
     .user-center {
@@ -208,6 +209,7 @@ $headerHeight: 60px;
   .main {
     height: calc(100vh - #{$headerHeight});
     display: flex;
+    margin: 0;
     .left {
       height: 100%;
     }

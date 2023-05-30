@@ -20,6 +20,7 @@
           ></svg-icon>
         </div>
         <input
+        :style="justInputStyle"
           :class="{'is-disabled':disabled}"
           :placeholder="placeholder"
           :type="type"
@@ -100,8 +101,15 @@ export default {
     justStyle() {
       return {
         borderColor: this.value.length > 0 ? this.isFocus ? '#1DA9E0' : '#ccc' : '#FC9709',
-        width: this.width ? this.width + 'px' : '240px',
+        width: this.width ?  (this.width * 1 + 34*this.label.length)  + 'px' : '240px',
         height: this.height ? this.height + 'px' : '34px'
+      }
+    },
+    justInputStyle(){
+      return {
+        width: this.width ? (this.width) + 'px' : '240px',
+        height: this.height ? this.height - 2 + 'px' : '33px',
+        fontSize:this.fontSize?this.fontSize +'px':'14px'
       }
     }
   },
