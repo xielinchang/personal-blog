@@ -8,7 +8,8 @@
       <div class="main-conatiner">
         <my-input
           v-model="ruleForm.username"
-          :width="size"
+          :width="width"
+          :height="height"
           class="input"
           icon="user"
           label="账号："
@@ -16,7 +17,8 @@
         ></my-input>
         <my-input
           v-model="ruleForm.password"
-          :width="size"
+          :width="width"
+          :height="height"
           class="input"
           label="密码："
           icon="lock"
@@ -25,22 +27,24 @@
         ></my-input>
         <my-input
           v-model="ruleForm.name"
-          :width="size"
+          :width="width"
+          :height="height"
           label="名称："
           icon="user"
           class="input"
           placeholder="请输入名称"
         ></my-input>
         <div class="btns">
-          <my-button
+          <button
+            class="login-btn"
             style="margin-right: 20px"
             @click="register"
-          >注册</my-button>
-          <my-button
+          >注册</button>
+          <button
             plain
-            type="info"
+            class="register-btn"
             @click="turnToLogin"
-          >返回登录</my-button>
+          >返回登录</button>
         </div>
       </div>
     </div>
@@ -62,7 +66,8 @@ export default {
         portrait: ''
       },
       imgurl: require('@/assets/images/动漫1.jpg'),
-      size: 300
+      width: 250,
+      height: 40
     }
   },
   methods: {

@@ -142,7 +142,9 @@ export default {
   methods: {
     initUser() {
       if (getToken('token')) {
-        // this.newmessage.user_id = store.state.user.id
+        store.dispatch('getUserInfo').then(user => {
+          this.newmessage.user_id = user.id
+        })
       } else {
         removeToken('token')
         this.$msg({
@@ -197,11 +199,12 @@ export default {
     },
     publishmessage() {
       var _this = this
+      console.log(this.newmessage)
       this.newmessage.address = localStorage.getItem('address')
       if (getToken('token')) {
         if (this.newmessage.content !== '' && this.publishAgain === true) {
           messageCreate(this.newmessage).then((res) => {
-            // this.initmessage()
+            this.initmessage()
             this.reset()
           })
         } else if (this.newmessage.content === '') {

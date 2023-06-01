@@ -4,7 +4,7 @@
       class="my-input"
       :style="justStyle"
     >
-      <span v-show="label!==''">{{ label }}</span>
+      <span v-show="label!==''" :style="justLableStyle">{{ label }}</span>
       <div
         class="input-main"
         :style="justStyle"
@@ -20,7 +20,7 @@
           ></svg-icon>
         </div>
         <input
-        :style="justInputStyle"
+          :style="justInputStyle"
           :class="{'is-disabled':disabled}"
           :placeholder="placeholder"
           :type="type"
@@ -107,9 +107,16 @@ export default {
     },
     justInputStyle(){
       return {
-        width: this.width ? (this.width) + 'px' : '240px',
+        width: this.width ? this.value.length > 0 ? (this.width - 20) + 'px' : this.width + 'px' : '240px',
         height: this.height ? this.height - 2 + 'px' : '33px',
         fontSize:this.fontSize?this.fontSize +'px':'14px'
+      }
+    },
+    justLableStyle() {
+      return {
+        height: this.height ? this.height - 2 + 'px' : '33px',
+        fontSize: this.fontSize ? this.fontSize + 'px' : '14px',
+        lineHeight: this.height ? this.height - 2 + 'px' : '33px'
       }
     }
   },

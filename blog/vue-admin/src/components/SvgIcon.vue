@@ -1,5 +1,6 @@
 <template>
     <svg 
+    :style="{ width: size, height: size }"
     :class="className" 
     v-on="$listeners"  
     aria-hidden="true">
@@ -23,7 +24,7 @@ export default {
         },
         size:{
             type: [String,Number],
-            default: 16
+            default: '16px'
         }
     },
 

@@ -5,6 +5,7 @@ import { getCurUserInfo } from '@/api/login'
 import { dictionary } from './modules/dictionary'
 import { constantRoutes } from '@/router'
 import param from './modules/param'
+import {removeToken} from '@/utils/cookie'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
@@ -81,8 +82,9 @@ const store = new Vuex.Store({
 })
 
 function filterAsyncRouter(routers) {
-    if(routers){
-            // 遍历后台传来的路由字符串，转换为组件对象
+    //判断是否传回数组
+    if(Array.isArray(routers)){
+        // 遍历后台传来的路由字符串，转换为组件对象
     const accessedRouters = routers.filter(router => {
         router.meta = {
             title: router.meta_title,
@@ -101,6 +103,10 @@ function filterAsyncRouter(routers) {
         return true
     })
     return accessedRouters
+    } else{
+        //解决token冲突
+        removeToken('token')
+        this.$router.push('/login')
     }
 
 }

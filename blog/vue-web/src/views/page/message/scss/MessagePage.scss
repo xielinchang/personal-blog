@@ -54,15 +54,17 @@
 .c-name span{
   width: auto;
   height: 30px;
-  color: #3e8683;
+  color: #595959;
   font-size: 20px;
   overflow: hidden;
 	text-overflow: ellipsis;
   white-space: nowrap;
+  font-weight: 600;
 }
 .c-name span:nth-child(2){
   color: #595959;
   font-size: 14px;
+  font-weight: 400;
 }
 .c-create-time{
   width: 200px;
@@ -72,7 +74,7 @@
   left: 80px;
   top: 10px;
   font-size: 14px;
-  color: rgb(74, 136, 74);
+  color: #999;
   font-weight: 600;
 }
 .c-address{
@@ -92,7 +94,8 @@
   position: relative;
   left: 80px;
   top: 10px;
-  font-size: 18px;
+  font-size: 16px;
+  line-height: 26px;
 }
 .reply-container{
   width: 80%;

@@ -4,19 +4,27 @@
       v-lazy="imgurl"
       alt=""
     >
+
     <div class="shadow">
-      <div class="main-conatiner">
+      <div
+        class="main-conatiner"
+        style="height: 250px;"
+      >
         <my-input
           v-model="ruleForm.username"
-          :width="size"
+          :width="width"
+          :height="height"
+          style="padding-bottom: 20px;"
           class="input"
+          type="text"
           icon="user"
           label="账号："
           placeholder="请输入账号"
         ></my-input>
         <my-input
           v-model="ruleForm.password"
-          :width="size"
+          :width="width"
+          :height="height"
           icon="lock"
           class="input"
           label="密码："
@@ -24,15 +32,16 @@
           type="password"
         ></my-input>
         <div class="btns">
-          <my-button
-            style="margin-right: 20px"
+          <button
+            class="login-btn"
             @click="login"
-          >登录</my-button>
-          <my-button
+          >登 录</button>
+          <button
             plain
+            class="register-btn"
             type="info"
             @click="turnToRegister"
-          >去注册</my-button>
+          >去注册</button>
         </div>
       </div>
     </div>
@@ -52,7 +61,8 @@ export default {
         password: ''
       },
       imgurl: require('@/assets/images/动漫1.jpg'),
-      size: 300
+      width: 250,
+      height: 40
     }
   },
   methods: {

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <MyLoading :loadShow="loading"></MyLoading>
     <div class="write-main">
       <div class="edit-container">
         <div class="edit-main block">
@@ -106,7 +107,7 @@ export default {
   name: "WritingPage",
   components: {
     Editor,
-    Toolbar,
+    Toolbar
   },
   beforeRouteLeave(to, from, next) {
     var _this = this;
@@ -183,6 +184,7 @@ export default {
       // 文章数据是否被修改
       isModified: false,
       editNum: 0,
+      loading:false
     };
   },
   watch: {
@@ -255,6 +257,7 @@ export default {
     querySaveEssay() {
       var _this = this;
       this.isSave = true;
+      this.loading=true
       essayQuerySave().then((res) => {
         _this.selected.label = res.rows[0].domain;
         _this.imgurl = process.env.VUE_APP_BASE_API + res.rows[0].coverUrl;
@@ -273,6 +276,7 @@ export default {
       var _this = this;
       var id = this.$route.query.id;
       this.isSave = false;
+      this.loading=true
       essayQuery({
         limit: 1,
         offset: 1,
@@ -383,7 +387,7 @@ export default {
     publish() {
       var _this = this;
       this.initDomain();
-      if (this.Essay.tags !== "") {
+      if (this.newTags.length > 0) {
         this.Essay.tags = this.newTags.join(",");
       }
       if (this.customImageFile) {
@@ -410,11 +414,13 @@ export default {
       }
     },
      essayCreateApi() {
+      this.loading=true
        essayCreate(this.Essay).then((res) => {
         this.$message({
           message: "创建成功",
           type: "success",
         });
+        this.loading=false
         this.reset();
         this.save();
       });

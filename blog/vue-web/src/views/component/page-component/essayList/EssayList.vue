@@ -1,5 +1,6 @@
 <template>
   <div>
+    <my-loading :load-show="loading"></my-loading>
     <div
       class="essay-body"
       :style="{ width: width + '%' }"
@@ -72,7 +73,6 @@ export default {
   data() {
     return {
       essay_list: [],
-      params: {},
       /* 当前页 */
       currentPage: 1,
       /* 总数 */
@@ -85,27 +85,25 @@ export default {
         { label: '8条/页', value: 8 },
         { label: '12条/页', value: 12 },
         { label: '16条/页', value: 16 }
-      ]
+      ],
+      loading: false
     }
   },
 
   watch: {
     '$route.path': function(to, from) {
-      this.init()
+      this.initEssayList()
     },
     '$route.params': function(to, from) {
-      this.init()
+      // 参数变化，搜索时自动跳转第一页
+      this.changePage(1)
     }
   },
 
   mounted() {
-    this.init()
+    this.initEssayList()
   },
   methods: {
-    init() {
-      this.params = this.$route.query
-      this.initEssayList()
-    },
     foreachEssay(item) {
       this.essay_list = []
       for (let i = 0; i < item.length; i++) {
@@ -116,11 +114,10 @@ export default {
       }
     },
     initEssayList() {
-      var params = this.params
-      var _this = this
+      this.loading = true
+      var params = this.$route.query
       var query = {
         id: undefined,
-
         domain: undefined,
         html: undefined,
         tags: undefined
@@ -131,6 +128,7 @@ export default {
         offset: this.currentPage,
         query: query
       }).then(res => {
+        this.loading = false
         this.total = res.data.count
         this.foreachEssay(res.data.rows)
       })

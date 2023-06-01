@@ -61,7 +61,7 @@ class SysMenuController extends Controller {
     if (res.success) {
       this.success('删除成功');
     } else {
-      this.error('删除失败 ' + (res.msg || ''));
+      this.error('删除失败' + (res.msg || ''));
     }
   }
 
@@ -77,7 +77,7 @@ class SysMenuController extends Controller {
     if (res.success) {
       this.success('修改成功');
     } else {
-      this.error('修改失败！');
+      this.error('修改失败');
     }
   }
 
@@ -92,7 +92,7 @@ class SysMenuController extends Controller {
     if (res) {
       this.success(res);
     } else {
-      this.error('查询失败！');
+      this.error('查询失败');
     }
   }
 
@@ -104,7 +104,7 @@ class SysMenuController extends Controller {
       this.success(res);
     } else {
       // 报错地方
-      this.error('查询失败！');
+      this.error('查询失败');
     }
   }
 }

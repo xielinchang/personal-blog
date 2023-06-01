@@ -6,16 +6,15 @@
       <div class="main-container">
         <div class="banner">
           <div class="baner-mark">
-            <div
+            <img
+              v-lazy="essayForm.coverUrl"
               class="mark"
-              :style="{'backgroundImage':`url(${essayForm.coverUrl})`}"
-            ></div>
+            />
             <div class="shadow-mark"></div>
-            <div
+            <img
+              v-lazy="essayForm.coverUrl"
               class="banner-img"
-              :style="{'backgroundImage':`url(${essayForm.coverUrl})`}"
-            >
-            </div>
+            />
           </div>
           <MyBuble class="buble"></MyBuble>
           <div class="banner-tit-box">

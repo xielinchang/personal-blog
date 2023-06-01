@@ -4,7 +4,10 @@
       class="my-input"
       :style="justStyle"
     >
-      <span v-show="label!==''">{{ label }}</span>
+      <span
+        v-show="label!==''"
+        :style="justLableStyle"
+      >{{ label }}</span>
       <div
         class="input-main"
         :style="justStyle"
@@ -20,13 +23,13 @@
           ></svg-icon>
         </div>
         <input
-          onfocus="this.removeAttribute('readonly');"
-          :readonly="readonly"
+          :style="justInputStyle"
           :class="{'is-disabled':disabled}"
           :placeholder="placeholder"
           :type="type"
           :disabled="disabled"
           :value="value"
+          :maxlength="maxlength"
           @input="handleInput"
           @focus="handleFocus"
           @blur="handleBlur"
@@ -86,9 +89,9 @@ export default {
       type: String,
       default: ''
     },
-    readonly: {
-      type: [String, Boolean],
-      default: true
+    maxlength: {
+      type: [String, Number],
+      default: 20
     }
   },
   emits: ['input'],
@@ -101,13 +104,31 @@ export default {
     justStyle() {
       return {
         borderColor: this.value.length > 0 ? this.isFocus ? '#1DA9E0' : '#ccc' : '#FC9709',
-        width: this.width ? this.width + 'px' : '240px',
+        width: this.width ? (this.width * 1 + 34 * this.label.length) + 'px' : '240px',
         height: this.height ? this.height + 'px' : '34px'
+      }
+    },
+    justInputStyle() {
+      return {
+        width: this.width ? this.value.length > 0 ? (this.width - 20) + 'px' : this.width + 'px' : '240px',
+        height: this.height ? this.height - 2 + 'px' : '33px',
+        fontSize: this.fontSize ? this.fontSize + 'px' : '14px'
+      }
+    },
+    justLableStyle() {
+      return {
+        height: this.height ? this.height - 2 + 'px' : '33px',
+        fontSize: this.fontSize ? this.fontSize + 'px' : '14px',
+        lineHeight: this.height ? this.height - 2 + 'px' : '33px'
       }
     }
   },
   methods: {
     handleInput(e) {
+      const newValue = e.target.value
+      if (newValue.length <= this.maxlength) {
+        this.$emit('input', newValue)
+      }
       this.$emit('input', e.target.value)
     },
     clear(e) {
