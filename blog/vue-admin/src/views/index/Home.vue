@@ -1,5 +1,6 @@
 <template>
     <div class="home">
+        <MyLoading :loadShow="$store.state.loading"></MyLoading>
         <div class="header">
             <div class="user-center">
                 <el-dropdown trigger="click" @command="handleCommand">
@@ -46,7 +47,7 @@
                     </div>
                 </div>
                 <div class="content">
-                    <router-view v-slot="{ Component }">
+                    <router-view v-slot="{ Component }">    
                         <!-- tabs切换时缓存组件-->
                         <keep-alive :include="$store.state.keepAlive">
                             <component :is="Component" class="view" />
@@ -185,7 +186,7 @@ export default {
 
 <style lang="scss" scoped>
 $baseColor: #409eff;
-$headerHeight: 60px;
+$headerHeight: 45px;
 .el-dropdown__popper .el-dropdown-menu {
   text-align: center !important;
 }
@@ -198,7 +199,7 @@ $headerHeight: 60px;
     .user-center {
       position: absolute;
       right: 30px;
-      top: 20px;
+      line-height: $headerHeight !important;
       ::v-deep .el-dropdown {
         .el-dropdown-link {
           cursor: pointer;
@@ -223,6 +224,7 @@ $headerHeight: 60px;
         }
       }
       .content {
+        position: relative;
         height: calc(100% - 30px);
         overflow-y: auto;
         padding: 5px 10px 30px 10px;

@@ -7,12 +7,13 @@
  * @LastEditTime: 2022-05-07 17:25:06
 -->
 <template>
-  <div class="essay-control">
+  <div class="essay-control"> 
     <div class="my-header block">
       <my-input
         label="标题"
         v-model="search.title"
         class="input"
+        style="margin-right: 10px;"
         placeholder="请输入标题"
       />
       <div style="display: flex">
@@ -30,6 +31,7 @@
         size="small"
         type="primary"
         icon-name="search"
+        style="margin: 0 10px;"
         @click="searched"
         >搜索</my-button
       >
@@ -194,6 +196,7 @@ export default {
     },
     initProject() {
       this.tableData = [];
+      this.$store.state.loading=true
       var _this = this;
       queryProject({
         limit: this.pagesize,
@@ -209,6 +212,7 @@ export default {
 
         });
         this.tableData=res.rows
+        _this.$store.state.loading=false
       });
     },
     changeState(item) {

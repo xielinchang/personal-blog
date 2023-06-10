@@ -1,18 +1,20 @@
 .block{
   border-radius: 4px;
   box-shadow: 0 0 10px 1px #cdcdcd;
+  padding: 0;
 }
 .write-main {
     width: 100%;
     min-height: calc(100vh);
     height: auto;
     z-index: 1;
+    position: relative;
     .edit-container{
       width: 80%;
       height: auto;
       position: relative;
       margin: auto;
-      top: 30px;
+      top: 10px;
       box-sizing: border-box;
       border-radius: 4px;
       .edit-main {
@@ -25,9 +27,7 @@
         position: absolute;
         top: 600px;
         width: 100%;
-        margin-top: 60px;
         box-sizing: border-box;
-
         height: auto;
         .form-main {
           position: absolute;
@@ -45,19 +45,19 @@
   }
   .edit-foot{
     width: 100%;
-    height: 65px;
+    height: 50px;
     position: fixed;
     overflow: hidden;
-    background-color: rgba(255, 255, 255,0.6);
+    background-color: rgba(255, 255, 255,0.25);
     bottom: 0;
-    z-index: 999;
+    z-index: 1;
     border-top: 2px solid #f0f5fb;
       .foot-box{
     width: 30%;
     position: fixed;
     right: 200px;
     height: 100%;
-    line-height: 50px;
+    line-height: 40px;
     display: flex;
     justify-content: space-around;
       .btns {

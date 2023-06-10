@@ -23,17 +23,3 @@ export function isDay(daytime, dusk, night) {
   }
 }
 
-// 获取用户信息
-export function getUser() {
-  const getinfoTimer = setInterval(() => {
-    if (store.state.user.user) {
-      store.state.loading = false
-      clearInterval(getinfoTimer)
-      console.log(store.state.user)
-      return store.state.user
-    } else {
-      store.state.loading = true
-    }
-  }, 10)
-}
-

@@ -25,16 +25,18 @@ class MessageService extends Service {
   }
   async createMessage(body) {
     const { ctx } = this;
+    return await ctx.model.transaction(async t => {
+      const createMessage = await ctx.model.Web.Message.create(body, { transaction: t });
 
-    const createMessage = await ctx.model.Web.Message.create(body);
-
-    if (createMessage) {
-      await ctx.model.Web.MessageUser.create({
-        message_id: createMessage.id,
-        user_id: body.user_id,
-      });
-      return { success: true, msg: '添加成功' };
-    }
+      if (createMessage) {
+        await ctx.model.Web.MessageUser.create({
+          message_id: createMessage.id,
+          user_id: body.user_id,
+          transaction: t,
+        });
+        return { success: true, msg: '添加成功' };
+      }
+    });
   }
 
   async deleteMessage(body) {

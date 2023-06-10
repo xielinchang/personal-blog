@@ -26,6 +26,8 @@ export default function request(config) {
     const status = error.response.status
     if (status === 401 && !store.state.loginInvalidBox) {
       store.commit('setLoginInvalidBox', true)
+      store.commit('reSetUserInfo')
+      removeToken('token')
       msg({
         content: '登录已过时',
         type: 'warning'

@@ -20,6 +20,7 @@
             class="item-bottom"
           >
             <div class="item-time">{{ item.updated_at }}</div>
+            <div class="permission">{{ item.radio*1===2?"转载":"" }}</div>
             <div
               class="item-title"
             >{{ item.title }}</div>

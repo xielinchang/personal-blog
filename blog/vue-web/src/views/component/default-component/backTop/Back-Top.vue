@@ -57,13 +57,27 @@ export default {
         this.btnShow = false
       }
     },
+    // 阻止滚动事件
+    disableScroll() {
+      document.addEventListener('wheel', this.preventDefault, { passive: false })
+    },
+    // 开启滚动事件
+    enableScroll() {
+      document.removeEventListener('wheel', this.preventDefault, { passive: false })
+    },
+    preventDefault(e) {
+      e.preventDefault()
+    },
     backTop() {
+      var _this = this
       const timer = setInterval(function () {
+        _this.disableScroll()
         const backTop =
         window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
         const speedTop = backTop / 10
         document.documentElement.scrollTop = backTop - speedTop
         if (backTop <= 10) {
+          _this.enableScroll()
           clearInterval(timer)
         }
       }, 10)

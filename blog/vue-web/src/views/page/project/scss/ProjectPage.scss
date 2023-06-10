@@ -8,6 +8,7 @@ top: 100px;
 .block{
   margin: 0;
   padding: 8px;
+  background-color: rgba(255 ,255 ,255 , 0.95);
   .label{
     font-size: 16px;
   }
@@ -91,7 +92,8 @@ top: 100px;
   height: auto;
   padding: 10px 10px;
   box-sizing: border-box;
-  margin-top: 20px;
+  margin: 20px 0;
+  margin-bottom: 150px;
 }
 }
 .icon-buttons{

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="menu animated animate__bounceInDown">
+    <aside class="menu animated animate__bounceInDown">
       <div class="menu-container">
         <div class="menu-header">
           <div
@@ -82,7 +82,7 @@
           </ul>
         </div>
       </div>
-    </div>
+    </aside>
   </div>
 </template>
 

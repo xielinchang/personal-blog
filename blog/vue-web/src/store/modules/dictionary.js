@@ -70,6 +70,14 @@ export const dictionary = {
       label: '标签',
       value: 'tags'
     }]
+    // 原创还是转载
+    // permission: [{
+    //   label: '原创',
+    //   value: 1
+    // }, {
+    //   label: '转载',
+    //   value: 2
+    // }]
   },
   mutations: {
   }

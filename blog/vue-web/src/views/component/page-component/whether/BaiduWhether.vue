@@ -16,9 +16,9 @@
       <div class="temperature">{{ now.temp }}</div>
       <div class="whether-text">{{ now.text }}</div>
       <ul class="whether-detail">
-        <span>体感温度:</span> <li>{{ now.feels_like }}</li>
-        <span>风向:</span> <li>{{ now.wind_dir }}</li>
-        <span>等级:</span> <li>{{ now.wind_class }}</li>
+        <li><span>体感温度:</span>{{ now.feels_like }}</li>
+        <li><span>风向:</span>{{ now.wind_dir }}</li>
+        <li><span>等级:</span>{{ now.wind_class }}</li>
       </ul>
     </div>
     <ul class="more-whether">
@@ -99,7 +99,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped lang="scss">
 .baidu-whether{
     width: 100%;
     height: 150px;
@@ -170,31 +170,15 @@ export default {
     display: flex;
     justify-content: left;
     font-size: 12px;
-}
-.whether-detail li{
-    margin-right: 10px;
-}
-.whether-more{
-width: 25px;
-height: 25px;
-position: absolute;
-right: 5px;
-top: 5px;
-}
-.whether-more img{
-    width: 100%;
-    height: 100%;
+    flex-wrap: nowrap;
+    & li{
+      width: 100%;
+      margin: 0px;
+      text-align: center;
+    }
 }
 .more-whether{
-    width: 100%;
-    height: 130px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    position: relative;
-    margin-top: 5px;
-    display: flex;
-    flex-direction: column;
+margin-top: 10px;
 }
 .more-whether li{
     width: 100%;
@@ -203,6 +187,7 @@ top: 5px;
     display: flex;
     justify-content: left;
     font-size: 12px;
+    margin: 0;
 }
 .more-whether-left{
     width: 70%;

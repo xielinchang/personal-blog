@@ -1,11 +1,12 @@
+// 宽度随父元素，父元素需要设置相对定位,否则默认全屏
 .loading-shadow {
-    position: fixed;
-    top: 0;
+  position: fixed;
     left: 0;
+    bottom: 0;
+    right: 0;
     width: 100%;
-    height: calc(100vh);
-    background: rgb(0, 0, 0);
-    opacity: 0.6;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
     z-index: 9999;
   }
   .loading {
@@ -15,7 +16,7 @@
     transform: translateX(-50%);
     justify-content: center;
     text-align: center;
-    z-index: 99999;
+    z-index: 10000;
     animation: loading 3s linear infinite;
   }
  @keyframes loading{

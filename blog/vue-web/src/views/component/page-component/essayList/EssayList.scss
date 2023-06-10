@@ -12,7 +12,6 @@
       position: relative;
       box-sizing: border-box;
       width: 100%;
-
       height: auto;
       margin: auto;
       list-style: none;
@@ -47,6 +46,14 @@
             position: absolute;
             margin-left: 10px;
             margin-top: 3px;
+          }
+          .permission{
+            font-size: 12px;
+            position: absolute;
+            right: 5px;
+            top: 0;
+            margin-top: 3px;
+            color: #ffb2b2;
           }
           .item-title {
             width: 90%;

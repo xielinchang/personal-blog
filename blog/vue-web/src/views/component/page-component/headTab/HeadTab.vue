@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div
+    <header
       class="header"
     >
       <div class="header-box">
@@ -62,7 +62,7 @@
         </div>
       </div>
 
-    </div>
+    </header>
   </div>
 </template>
 

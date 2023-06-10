@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="write-main" v-loading="loading">
+    <div class="write-main">
       <div class="edit-container">
         <div class="edit-main block">
           <Toolbar
@@ -48,8 +48,7 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="edit-foot">
+      <div class="edit-foot">
       <div class="foot-box">
         <div
           v-if="isSave"
@@ -93,6 +92,8 @@
 
       </div>
     </div>
+    </div>
+
   </div>
 </template>
 <script>
@@ -163,7 +164,6 @@ export default {
       headers: {
         Authorization: "",
       },
-      loading:false,
       // 文章数据是否被修改
       isModified: false,
       editNum: 0,
@@ -236,11 +236,11 @@ export default {
     querySaveProject() {
       var _this = this;
       this.isSave = true;
-      this.loading=true
+      this.$store.state.loading=true
      queryProjectSave().then((res) => {
         _this.imgurl = process.env.VUE_APP_BASE_API + res.coverUrl;
         _this.Project = res
-        _this.loading = false;
+        _this.$store.state.loading=false
         _this.editNum = 0;
       });
     },
@@ -248,7 +248,7 @@ export default {
       var _this = this;
       var id = this.$route.query.id;
       this.isSave = false;
-      this.loading=true
+      this.$store.state.loading=true
      queryProject({
         limit: 1,
         offset: 1,
@@ -258,7 +258,7 @@ export default {
       }).then((res) => {
         _this.imgurl = process.env.VUE_APP_BASE_API + res.rows[0].coverUrl;
         _this.Project = res.rows[0];
-        _this.loading = false;
+        _this.$store.state.loading=false
         _this.editNum = 0;
       });
     },
@@ -379,7 +379,9 @@ export default {
       this.newTags = e;
     },
     updateProjectApi() {
+      console.log(this.Project);
       updateProject(this.Project).then((res) => {
+        console.log(res);
         this.$message({
             message: "更新成功",
           type: "success",

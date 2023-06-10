@@ -125,7 +125,7 @@ module.exports = app => {
   router.post('/essay/create', jwt, controller.web.essay.createEssay);
   router.post('/essay/update', jwt, controller.web.essay.updateEssay);
   router.post('/essay/delete', jwt, controller.web.essay.deleteEssay);
-  router.post('/essay/change/state', jwt, controller.web.essay.changeState);
+  router.post('/essay/change/state', controller.web.essay.changeState);
   // 查询已发布的文章
   router.post('/essay/query/state', controller.web.essay.queryEssayState);
 

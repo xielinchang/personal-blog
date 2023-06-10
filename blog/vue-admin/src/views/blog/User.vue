@@ -13,10 +13,11 @@
         label="用户名："
         v-model="search.username"
         class="my-input"
+        height="38"
         placeholder="请输入用户名"
       />
       <my-button
-        style="margin-right: 10px"
+        style="margin:0 10px"
         @click="searched"
         class="my-button"
         type="primary"

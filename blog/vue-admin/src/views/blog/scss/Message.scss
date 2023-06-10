@@ -6,6 +6,8 @@
     background: white;
     box-shadow: 0 0 10px 1px #eaeaea;
     display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
     .my-button{
       margin:0px 10px;
     }

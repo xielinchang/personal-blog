@@ -7,12 +7,12 @@
         <div class="banner">
           <div class="baner-mark">
             <img
-              v-lazy="essayForm.coverUrl"
+              v-lazy="prefix+essayForm.coverUrl"
               class="mark"
             />
             <div class="shadow-mark"></div>
             <img
-              v-lazy="essayForm.coverUrl"
+              v-lazy="prefix+essayForm.coverUrl"
               class="banner-img"
             />
           </div>
@@ -25,12 +25,12 @@
 
         </div>
         <div
+          v-show="catalog.length>0&&catalogShow"
           class="catalog-box block"
           :style="justStyle"
         >
           <p>目录:</p>
           <ul
-            v-show="catalog.length>0&&catalogShow"
             class="catalog"
           >
             <li
@@ -40,7 +40,6 @@
             >{{ item.key }}</li>
           </ul>
         </div>
-
         <div
           class="main-page"
           :style="{width: (catalog.length>0&&catalogShow)?'78%':'100%'}"
@@ -165,13 +164,13 @@
               >
                 <div class="c-portrait">
                   <img
-                    v-lazy="item.portrait"
+                    v-lazy="prefix+item.users[0].portrait"
                     alt=""
                   >
                 </div>
                 <div class="c-right">
                   <div class="c-top">
-                    <div class="c-name">{{ item.name }}</div>
+                    <div class="c-name">{{ item.users[0].name }}</div>
                     <div class="c-address">{{ item.address }}</div>
                   </div>
 
@@ -413,19 +412,34 @@ export default {
         })
       }
     },
+    // 阻止滚动事件
+    disableScroll() {
+      document.addEventListener('wheel', this.preventDefault, { passive: false })
+    },
+    // 开启滚动事件
+    enableScroll() {
+      document.removeEventListener('wheel', this.preventDefault, { passive: false })
+    },
+    preventDefault(e) {
+      e.preventDefault()
+    },
     jumpToCatalog(item) {
+      var _this = this
       const timer = setInterval(function() {
         const offset = document.documentElement.scrollTop
-        const speed = 35
-        if (offset <= item.offset + 300) {
+        const speed = 80
+        _this.disableScroll()
+        if (offset <= item.offset + 400) {
           document.documentElement.scrollTop = offset + speed
           // 设置一些偏差，以免与判断矛盾卡住页面
-          if (offset * 1 >= item.offset + 400) {
+          if (offset * 1 >= item.offset + 500) {
+            _this.enableScroll()
             clearInterval(timer)
           }
         } else {
           document.documentElement.scrollTop = offset - speed
-          if (offset * 1 <= item.offset + 400) {
+          if (offset * 1 <= item.offset + 500) {
+            _this.enableScroll()
             clearInterval(timer)
           }
         }
@@ -454,7 +468,6 @@ export default {
             collect: 0
           }
         }
-        res.data.rows[0].coverUrl = process.env.VUE_APP_BASE_API + res.data.rows[0].coverUrl
         _this.essayForm = res.data.rows[0]
         // 修改代码块的背景色
         setTimeout(() => {
@@ -472,15 +485,8 @@ export default {
           essay_id: this.essayData.essay_id
         }
       }).then(res => {
+        console.log(res)
         this.commentNum = res.data.count
-        res.data.rows.forEach(element => {
-          queryUser({ id: element.user_id }).then(res => {
-            Object.assign(element, {
-              portrait: this.prefix + res.data.user.rows[0].portrait,
-              name: res.data.user.rows[0].name
-            })
-          })
-        })
         this.commentList = res.data.rows
       })
     },
@@ -532,18 +538,11 @@ export default {
             essay_id: this.$route.query.id * 1
           }
           delete this.commentForm.id
-          console.log(this.commentForm)
-        })
-      } else {
-        this.$msg({
-          content: '请先登录',
-          type: 'info'
         })
       }
     },
     publishComment() {
       if (getToken('token')) {
-        console.log(this.commentForm)
         essayCommentsCreate(this.commentForm).then(res => {
           this.initComments()
           this.commentForm.message = ''
@@ -568,16 +567,16 @@ export default {
       const timer = setInterval(function() {
         const offset = document.documentElement.scrollTop
         const speed = 80
-        if (offset <= height + 100) {
+        if (offset <= height + 200) {
           document.documentElement.scrollTop = offset + speed
           // 设置一些偏差，以免与判断矛盾卡住页面
-          if (offset * 1 >= height + 200) {
+          if (offset * 1 >= height + 300) {
             clearInterval(timer)
             _this.publishShow = true
           }
         } else {
           document.documentElement.scrollTop = offset - speed
-          if (offset * 1 <= height + 200) {
+          if (offset * 1 <= height + 300) {
             clearInterval(timer)
             _this.publishShow = true
           }

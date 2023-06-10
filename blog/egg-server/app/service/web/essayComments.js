@@ -25,10 +25,18 @@ class EssayCommentsService extends Service {
     const { ctx } = this;
     body.created_at = ctx.helper.formatTime(new Date());
     body.updated_at = ctx.helper.formatTime(new Date());
-    const created = await ctx.model.Web.EssayComments.create(body);
-    if (created) {
-      return { success: true, data: body };
-    }
+    // 错一个便为false
+    return await ctx.model.transaction(async t => {
+      const created = await ctx.model.Web.EssayComments.create(body, { transaction: t });
+      if (created) {
+        await ctx.model.Web.CommentUser.create({
+          comment_id: created.id,
+          user_id: body.user_id,
+          transaction: t,
+        });
+        return { success: true, msg: '添加成功' };
+      }
+    });
   }
   async deleteEssayComments(body) {
     const { ctx } = this;

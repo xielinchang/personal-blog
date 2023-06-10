@@ -308,7 +308,7 @@ export default {
   methods: {
     initOptions(){
       this.options = this.$store.state.dictionary.states;
-    this.domainOptions = this.$store.state.dictionary.domain;
+      this.domainOptions = this.$store.state.dictionary.domain;
     },
     reset() {
       this.search = {
@@ -325,6 +325,7 @@ export default {
     initEssay() {
       this.tableData = [];
       var _this = this;
+      this.$store.state.loading=true
       essayQuery({
         limit: this.pagesize,
         offset: this.currentPage,
@@ -353,10 +354,11 @@ export default {
           }).then((res) => {
             element.commentNum = res.count;
             element.tags = element.tags.split(",");
-            element.state = element.state === (1 || "1") ? true : false;
+            element.state = element.state * 1 ===  1 ? true : false;
             this.tableData.push(element);
           });
         });
+        this.$store.state.loading=false
       });
     },
     changeState(item) {

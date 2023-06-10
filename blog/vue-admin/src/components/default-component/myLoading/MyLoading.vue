@@ -1,14 +1,11 @@
 <template>
   <div v-if="loadShow">
-    <div class="loading-shadow" @touchmove.prevent @mousewheel.prevent></div>
+    <div class="loading-shadow" @wheel.prevent></div>
     <div
       class="loading"
       :style="{ width: size, height: size }"
-      @touchmove.prevent
-      @mousewheel.prevent
     >
-      <svg-icon
-        
+      <svg-icon  
         :size="size"
         :name="icon"
         color="#3B8EEA"

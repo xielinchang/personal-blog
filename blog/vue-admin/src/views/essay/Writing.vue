@@ -1,6 +1,5 @@
 <template>
   <div>
-    <MyLoading :loadShow="loading"></MyLoading>
     <div class="write-main">
       <div class="edit-container">
         <div class="edit-main block">
@@ -71,8 +70,7 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="edit-foot">
+        <div class="edit-foot">
       <div class="foot-box">
         <div v-if="isSave" class="btns">
           <my-button @click="reset">重置</my-button>
@@ -89,6 +87,8 @@
         </div>
       </div>
     </div>
+    </div>
+
   </div>
 </template>
 <script>
@@ -184,7 +184,6 @@ export default {
       // 文章数据是否被修改
       isModified: false,
       editNum: 0,
-      loading:false
     };
   },
   watch: {
@@ -192,7 +191,7 @@ export default {
       var _this = this;
       setTimeout(() => {
         _this.initEssay();
-      }, 100);
+      }, 1000);
     },
     "$route.query": {
       // 监听参数变化重新初始化，比直接location.href刷新页面更加顺滑
@@ -200,7 +199,7 @@ export default {
         var _this = this;
         setTimeout(() => {
           _this.initEssay();
-        }, 100);
+        }, 1000);
       },
       deep: true,
     },
@@ -230,7 +229,6 @@ export default {
     // 关闭浏览器时确认是否保存
     var _this = this;
     this.headers.Authorization = Cookie.get("token");
-    document.documentElement.scrollTop = 0;
   },
   beforeUnmount() {
     window.removeEventListener("beforeunload", this.beforeClose);
@@ -257,7 +255,7 @@ export default {
     querySaveEssay() {
       var _this = this;
       this.isSave = true;
-      this.loading=true
+      this.$store.state.loading=true
       essayQuerySave().then((res) => {
         _this.selected.label = res.rows[0].domain;
         _this.imgurl = process.env.VUE_APP_BASE_API + res.rows[0].coverUrl;
@@ -267,8 +265,7 @@ export default {
         } else {
           _this.newTags = [];
         }
-        _this.loading = false;
-
+        _this.$store.state.loading=false
         _this.editNum = 0;
       });
     },
@@ -276,7 +273,7 @@ export default {
       var _this = this;
       var id = this.$route.query.id;
       this.isSave = false;
-      this.loading=true
+      this.$store.state.loading=true
       essayQuery({
         limit: 1,
         offset: 1,
@@ -291,7 +288,7 @@ export default {
         _this.imgurl = process.env.VUE_APP_BASE_API + res.rows[0].coverUrl;
         _this.Essay = res.rows[0];
         _this.newTags = _this.Essay.tags.split(",");
-        _this.loading = false;
+        _this.$store.state.loading=false
         _this.editNum = 0;
       });
     },
@@ -322,8 +319,9 @@ export default {
       var _this = this;
       this.editor = Object.seal(editor); // 一定要用 Object.seal() ，否则会报错
       // 初始化富文本后初始化文章
+      window.scrollTo(0, 0);
       if (this.editor) {
-        await this.initEssay();
+       await this.initEssay();
       }
     },
     reset() {
