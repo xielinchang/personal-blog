@@ -7,16 +7,18 @@ import 'animate.css'
 import VEmojiPicker from 'v-emoji-picker'
 import './assets/scss/index.scss'
 import msg from './views/component/default-component/message/index'
-Vue.prototype.$msg = msg
 import msgBox from './views/component/default-component/messageBox/index'
-Vue.use(msgBox)
 import VueLazyload from 'vue-lazyload'
-Vue.use(VueLazyload, {
+Vue.use(VEmojiPicker) // 表情包插件
+Vue.prototype.$msg = msg // 注册消息事件
+Vue.use(msgBox) // 注册消息框事件
+Vue.use(VueLazyload, { // 图片懒加载
   preLoad: 1.3,
   error: require('./assets/images/loading.gif'),
   loading: require('./assets/images/loading.gif'),
   attempt: 1
 })
+// 按目录全局注册组件
 const requirePageComponent = require.context(
   './views/component/page-component',
   true,
@@ -25,7 +27,6 @@ const requirePageComponent = require.context(
 requirePageComponent.keys().forEach(fileName => {
   // 获取组件配置
   const componentConfig = requirePageComponent(fileName)
-  // 全局注册组件
   Vue.component(
     componentConfig.default.name,
     componentConfig.default
@@ -39,13 +40,11 @@ const requireDefaultComponent = require.context(
 requireDefaultComponent.keys().forEach(fileName => {
   // 获取组件配置
   const componentConfig = requireDefaultComponent(fileName)
-  // // 全局注册组件
   Vue.component(
     componentConfig.default.name,
     componentConfig.default
   )
 })
-Vue.use(VEmojiPicker)
 new Vue({
   router,
   store,

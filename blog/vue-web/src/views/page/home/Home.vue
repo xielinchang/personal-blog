@@ -83,7 +83,7 @@
       class="main"
     >
       <essayList
-        width="74"
+        width="75"
       ></essayList>
       <right-tab
         id="right-tab"
@@ -97,7 +97,7 @@
 </template>
 
 <script>
-import { bgGif } from '@/api/default/index'
+import { homeBg } from '@/api/default/index'
 import { essayQuery } from '@/api/main/essay'
 import { shuffleArray } from '@/utils/array'
 export default {
@@ -117,7 +117,7 @@ export default {
   },
   computed: {},
   async mounted() {
-    this.initBgGif()
+    this.initBg()
     this.initBanner()
     this.bannerTimer()
   },
@@ -142,11 +142,9 @@ export default {
         })
       })
     },
-    initBgGif() {
-      bgGif().then((res) => {
-        var item = res.data
-        var randomNum = Math.floor(Math.random() * item.length)
-        this.bgshadow = process.env.VUE_APP_BASE_API + res.data[randomNum].url
+    initBg() {
+      homeBg().then((res) => {
+        this.bgshadow = process.env.VUE_APP_BASE_API + res.data[0].url
       })
     },
     bannerPre() {
@@ -187,11 +185,6 @@ export default {
   font-family: YouYuan;
   font-weight: 600;
 }
-
-ul {
-  list-style: none;
-}
-
 .block {
   border-radius: 20px;
   background: -webkit-linear-gradient(

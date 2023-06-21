@@ -5,18 +5,18 @@
         v-model="message"
         readonly
         onfocus="this.removeAttribute('readonly');"
-        placeholder="输入搜索关键字，更多搜索方式点击右下角搜索按钮"
+        placeholder="输入搜索关键字，更多搜索方式点击右下角搜索"
         type="text"
       >
     </div>
     <router-link :to="'/home?html='+message">
-      <div class="search-btn">
+      <a class="search-btn">
         <svg-icon
           icon-name="search"
           color="#fff"
         ></svg-icon>
         <span>搜索</span>
-      </div>
+      </a>
     </router-link>
   </div>
 </template>

@@ -68,9 +68,7 @@ export default {
   methods: {
     login() {
       login(this.ruleForm).then((res) => {
-        console.log(res.data.data.token)
-        if (res.data.success) {
-          /* cookie存储token,可持久性储存 */
+        if (res.data.data.success === true) {
           setToken('token', res.data.data.token)
           this.$msg({
             content: '登录成功',
@@ -94,5 +92,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import './index.scss'
+@import './index.scss';
 </style>

@@ -1,20 +1,10 @@
 <template>
   <div>
     <header
+      v-show="$store.state.isHead"
       class="header"
     >
       <div class="header-box">
-        <div
-          class="back"
-        >
-          <svg-icon
-            color="#F39800"
-            icon-name="back"
-            size="35px"
-            right-title="返回"
-            @click="back()"
-          />
-        </div>
         <SearchBox class="search-box"></SearchBox>
         <div class="header-tab">
           <ul class="item">
@@ -41,24 +31,50 @@
             :style="{ transform: `translateX(${line_move}px)` }"
           ></div>
         </div>
-      </div>
-      <div v-show="haspermi">
-        <div
-          v-show="stShow"
-          class="second-tab"
-        >
-          <ul
-            class="second-item"
-          >
-            <li
-              v-for="(item, index) in secondTab"
-              :key="index"
+        <div class="user-center">
+          <div v-if="userInfo.name">
+            <div
+              class="user-portrait"
+              right-title="点击打开用户页"
             >
-              <router-link :to="item.router">
-                {{ item.title }}
+              <router-link to="/user">
+                <img
+                  v-lazy="prefix+userInfo.portrait"
+                  @contextmenu.prevent="show()"
+                />
               </router-link>
-            </li>
-          </ul>
+            </div>
+            <ul
+              v-show="logoutShow"
+              class="logout"
+            >
+              <li
+                ref="box"
+                @click="logoutUser()"
+              >退出登录</li>
+            </ul>
+            <div
+              v-if="userInfo.name"
+              class="user-name"
+              style="font-size: 14px;"
+            >{{ userInfo.name }}</div>
+          </div>
+          <router-link
+            v-else
+            to="/login"
+          >
+            <div
+              class="user-name-login"
+            >登录
+            </div>
+          </router-link>
+
+        </div>
+        <div class="writing-center">
+          <a
+            target="blank"
+            :href="controllerUrl"
+          >创作中心</a>
         </div>
       </div>
 
@@ -67,8 +83,8 @@
 </template>
 
 <script>
+import { getToken, removeToken } from '@/utils/author'
 import SearchBox from './search/search.vue'
-import store from '@/store'
 export default {
   name: 'HeadTab',
   components: {
@@ -82,13 +98,10 @@ export default {
       routerIndex: '',
       line_move: 0,
       path: '',
-      stShow: false,
-      stIndex: 3
-    }
-  },
-  computed: {
-    haspermi() {
-      return store.state.hasPermi
+      userInfo: {},
+      prefix: process.env.VUE_APP_BASE_API,
+      controllerUrl: process.env.VUE_APP_BASE_API_ADMIN,
+      logoutShow: false
     }
   },
   watch: {
@@ -104,30 +117,22 @@ export default {
   },
   created () {
     this.contract_list = this.$store.state.dictionary.menu
-    this.secondTab = this.$store.state.dictionary.secondMenu
   },
   async mounted() {
+    this.initUser()
     this.lineMoveIndex()
+    document.addEventListener('click', (e) => {
+      if (!this.$refs.box.contains(e.target)) {
+        this.logoutShow = false
+      }
+    })
   },
   methods: {
-    back() {
-      this.$router.go(-1)
-    },
-    secondTabOut() {
-      var _this = this
-      var st = document.querySelector('.second-tab')
-      st.onmouseover = function() {
-        _this.stShow = true
-        _this.moveLine(_this.stIndex)
-      }
-      st.onmouseout = function() {
-        _this.stShow = false
-        _this.contract_list.find((item) => {
-          if (item.router === _this.path) {
-            return _this.moveLine(item.id)
-          }
-        })
-      }
+    initUser() {
+      this.$store.dispatch('getUserInfo').then(res => {
+        var userInfo = res
+        this.userInfo = userInfo
+      })
     },
     lineMoveIndex() {
       var _this = this
@@ -145,7 +150,6 @@ export default {
           _this.moveOutLine(i)
         }
       }
-      this.secondTabOut()
     },
     moveLine(index) {
       /* 如果移入了 */
@@ -159,11 +163,20 @@ export default {
     },
     judgeIndex(i) {
       /* 根据i调整每个下标对应的移动距离 */
-      this.line_move = (i - 1) * 80
+      this.line_move = i * 80
     },
     changeRouter(index) {
       this.routerIndex = index
       this.moveLine(index)
+    },
+    show() {
+      this.logoutShow = true
+    },
+    logoutUser() {
+      this.logoutShow = false
+      removeToken('token')
+      location.reload()
+      this.userInfo = ''
     }
   }
 }

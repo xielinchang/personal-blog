@@ -1,14 +1,15 @@
+$search-height:32px;
 .search-box{
-    width: 440px;
-    height: 36px;
+    width: 420px;
+    height: $search-height;
     background-color: aliceblue;
     border-radius: 30px;
     overflow: hidden;
     position: relative;
     margin-right: 0;
     .search-main{
-        width: 340px;
-        height: 36px;
+        width: 330px;
+        height: $search-height;
         position: absolute;
         left: 0;
         background-color: antiquewhite;
@@ -31,13 +32,13 @@
         }
     }
     .search-btn{
-        background-color: #4cccff;
-        width: 100px;
+        background-color: rgb(56, 157, 112);
+        width: 90px;
         position: absolute;
         right: 0;
         top: 0;
-        height: 36px;
-        line-height: 36px;
+        height: $search-height;
+        line-height: $search-height;
         display: flex;
         justify-content: center;
         & span{

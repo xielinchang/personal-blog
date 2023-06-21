@@ -21,8 +21,8 @@
             <div class="banner-title">{{ essayForm.title }}</div>
             <div class="banner-line"></div>
             <div class="banner-subtitle">{{ essayForm.subtitle }}</div>
+            <div class="updated-time">最近更新：{{ essayForm.updated_at }}</div>
           </div>
-
         </div>
         <div
           v-show="catalog.length>0&&catalogShow"
@@ -283,7 +283,7 @@ export default {
       if (this.scrollHeight > 470) {
         return {
           position: 'fixed',
-          top: 80 + 'px',
+          top: 60 + 'px',
           right: '10%',
           width: '16.4%'
         }
@@ -566,19 +566,19 @@ export default {
       }
       const timer = setInterval(function() {
         const offset = document.documentElement.scrollTop
-        const speed = 80
-        if (offset <= height + 200) {
+        const speed = height / 35
+        if (offset <= height + 50) {
           document.documentElement.scrollTop = offset + speed
-          // 设置一些偏差，以免与判断矛盾卡住页面
-          if (offset * 1 >= height + 300) {
-            clearInterval(timer)
+          // 设置一些偏差大于速度，以免与判断矛盾卡住页面
+          if (offset * 1 >= height + speed * 1.5) {
             _this.publishShow = true
+            clearInterval(timer)
           }
         } else {
           document.documentElement.scrollTop = offset - speed
-          if (offset * 1 <= height + 300) {
-            clearInterval(timer)
+          if (offset * 1 <= height + speed * 1.5) {
             _this.publishShow = true
+            clearInterval(timer)
           }
         }
       }, 1)

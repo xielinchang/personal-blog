@@ -7,16 +7,16 @@ export function getUserIp(data) {
   })
 }
 
-export function bg(data) {
+export function dayImg(data) {
   return request({
-    url: '/blog/bg',
+    url: '/blog/dayimg',
     method: 'post',
     data
   })
 }
-export function bgGif(data) {
+export function homeBg(data) {
   return request({
-    url: '/blog/bg/gif',
+    url: '/blog/home/bg/now',
     method: 'post',
     data
   })

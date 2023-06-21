@@ -24,7 +24,7 @@ ul{
   .icon-buttons{
     position: fixed;
     right: 50px;
-    bottom: 170px;
+    bottom: 70px;
     width: 40px;
     height: auto;
     display: flex;
@@ -39,7 +39,7 @@ ul{
     width: 80%;
     min-width: 800px;
     margin: auto;
-    margin-top: 90px;
+    margin-top: 50px;
     padding-bottom: 200px;
     height: auto;
     position: relative;
@@ -118,7 +118,7 @@ ul{
           top: 100px;
           padding-left: 50px;
           box-sizing: border-box;
-
+          color: white;
           .banner-subtitle {
             width: 90%;
             overflow: hidden;
@@ -127,7 +127,6 @@ ul{
             height: 25px;
             position: absolute;
             top: 20px;
-            color: white;
             text-shadow: 0 2px 2px rgb(0 0 0 / 30%);
             opacity: .75;
             font-size: 20px;
@@ -151,11 +150,17 @@ ul{
             font-weight: 400;
             font-size: 40px;
             text-shadow: 0 3px 5px rgb(0 0 0 / 30%);
-            color: white;
             line-height: 60px;
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
+          }
+          .updated-time{
+            width: 90%;
+            height: 100px;
+            position: absolute;
+            top: 140px;
+            font-size: 12px;
           }
         }
       }
@@ -163,6 +168,7 @@ ul{
         width: 20.5%;
         height: auto;
         position: absolute;
+        overflow: hidden;
         right: 0;
         border-radius: 4px;
         top: 450px;
@@ -314,7 +320,7 @@ ul{
           width: 100%;
           height: auto;
           box-sizing: border-box;
-          padding-bottom: 120px;
+          padding-bottom: 300px;
           .c-publish {
             width: 100%;
             height: 200px;

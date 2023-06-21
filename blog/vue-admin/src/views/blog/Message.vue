@@ -8,9 +8,7 @@
         height="38"
         placeholder="请输入用户名"
       />
-      <my-button class="my-button"  type="primary" icon="search"
-        >搜索</my-button
-      >
+      <my-button class="my-button" type="primary" icon="search">搜索</my-button>
     </div>
     <el-card class="box-card">
       <div class="main">
@@ -39,10 +37,14 @@
             label="用户头像"
             width="150"
           >
-          <template slot-scope="scpoe">
-              <img width="80%" :src="prefix + scpoe.row.users[0].portrait" alt="" />
+            <template slot-scope="scpoe">
+              <img
+                width="80%"
+                :src="prefix + scpoe.row.users[0].portrait"
+                alt=""
+              />
             </template>
-        </el-table-column>
+          </el-table-column>
           <el-table-column
             align="center"
             prop="content"
@@ -112,12 +114,14 @@
       width="40%"
       :before-close="handleClose"
     >
-    <my-textarea width="500" v-model="newReply.reply" class="reply-area"></my-textarea>
+      <my-textarea
+        width="500"
+        v-model="newReply.reply"
+        class="reply-area"
+      ></my-textarea>
       <span slot="footer" class="dialog-footer">
         <el-button @click="replyVisible = false">取 消</el-button>
-        <el-button type="primary" @click="replymessage"
-          >确 定</el-button
-        >
+        <el-button type="primary" @click="replymessage">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -159,9 +163,9 @@ export default {
         { label: "15条/页", value: 15 },
       ],
       //回复框
-      replyVisible:false,
+      replyVisible: false,
       prefix: process.env.VUE_APP_BASE_API,
-      isReply:false
+      isReply: false,
     };
   },
   mounted() {
@@ -189,38 +193,37 @@ export default {
       });
     },
     handleReply(item, index) {
-      this.replyVisible=true
+      this.replyVisible = true;
       // 每条回复只能回复一次，但可以修改
-      if(item.message_reply!==null){
-        this.isReply=true
-        this.newReply.id=item.message_reply.id
-        this.newReply.reply=item.message_reply.reply
-      }else{
-        this.isReply=false
+      if (item.message_reply !== null) {
+        this.isReply = true;
+        this.newReply.id = item.message_reply.id;
+        this.newReply.reply = item.message_reply.reply;
+      } else {
+        this.isReply = false;
       }
-      this.newReply.message_id=item.id
+      this.newReply.message_id = item.id;
     },
     replymessage() {
-      if(this.isReply){
-        messageReplyUpdate(this.newReply).then((res)=>{
+      if (this.isReply) {
+        messageReplyUpdate(this.newReply).then((res) => {
           this.$message({
-          type: "success",
-          message: "更新回复成功!",
+            type: "success",
+            message: "更新回复成功!",
+          });
+          this.initmessage();
+          this.replyVisible = false;
         });
-        this.initmessage();
-        this.replyVisible=false
-        })
-      }else{
+      } else {
         messageReplyCreate(this.newReply).then((res) => {
-        this.$message({
-          type: "success",
-          message: "回复成功!",
+          this.$message({
+            type: "success",
+            message: "回复成功!",
+          });
+          this.initmessage();
+          this.replyVisible = false;
         });
-        this.initmessage();
-        this.replyVisible=false
-      });
       }
-     
     },
     deleteReply(id) {
       this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
@@ -269,13 +272,9 @@ export default {
         });
     },
     handleClose(done) {
-        this.$confirm('确认关闭？')
-          .then(_ => {
-            done();
-          })
-          .catch(_ => {});
-      },
-      handleSizeChange(val) {
+      done();
+    },
+    handleSizeChange(val) {
       this.pageSize = val;
       this.initmessage();
     },

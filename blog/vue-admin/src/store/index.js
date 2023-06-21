@@ -6,6 +6,7 @@ import { dictionary } from './modules/dictionary'
 import { constantRoutes } from '@/router'
 import param from './modules/param'
 import {removeToken} from '@/utils/cookie'
+import router from '@/router';
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
@@ -103,11 +104,12 @@ function filterAsyncRouter(routers) {
         }
         return true
     })
-    return accessedRouters
+        return accessedRouters
     } else{
         //解决token冲突
         removeToken('token')
-        this.$router.push('/login')
+        router.push('/login')
+        location.reload()
     }
 
 }

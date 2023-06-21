@@ -6,7 +6,7 @@
     <right-button></right-button>
     <head-tab></head-tab>
     <left-menu></left-menu>
-    <click v-if="$store.state.click.clickShow"></click>
+    <click v-if="$store.state.clickShow"></click>
     <keep-alive>
       <router-view></router-view>
     </keep-alive>

@@ -1,14 +1,14 @@
 .message-container{
     height: auto;
-    width: 54%;
-    margin-left: 23%;
+    width: 60%;
+    margin: auto;
     .all-message{
     width: 100%;
     height: auto;
     padding: 20px 0;
     padding-bottom: 20px;
-    border-radius: 12px;
-    margin-top: 100px;
+    border-radius: 4px;
+    margin-top: 60px;
     zoom:1;
     position: relative;
     .message-list{
@@ -20,7 +20,7 @@
     margin: 0;
     padding: 0 2%;
     padding-bottom: 60px;
-    border-radius: 12px;
+    border-radius: 4px;
     list-style: none;
     & li{
   position: relative;
@@ -104,7 +104,7 @@
   padding: 10px 5px;
   background: rgba(160, 197, 255, 0.5);
   position: relative;
-  border-radius: 8px;
+  border-radius: 4px;
   .author-name{
     width: 200px;
     height: 20px;
@@ -153,7 +153,7 @@
  /*  background-color: rgba(247, 247, 247, 0.8); */
   position: absolute;
   margin-top: 15px;
-  border-radius: 12px;
+  border-radius: 4px;
   .message-page{
   position: absolute;
   margin-left: 50%;
@@ -183,7 +183,7 @@
   margin-bottom: 30px;
   /* box-shadow: 0 0 0 2px rgb(255 255 255 / 40%) inset,
     0 13px 15px rgb(31 45 61 / 15%); */
-    border-radius: 12px;
+    border-radius: 4px;
     .message-msg{
   width: 100%;
   position: absolute;
@@ -198,7 +198,7 @@
   font-size: 16px;
   box-shadow: 0 0 0 2px rgb(255 255 255 / 40%) inset,
     0 13px 15px rgb(31 45 61 / 15%);
-  border-radius: 12px;
+  border-radius: 4px;
   resize: none;
   overflow: hidden;
 }

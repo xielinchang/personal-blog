@@ -13,7 +13,7 @@
 
 <script>
 import { isDay } from '@/utils/tool'
-import { bg } from '@/api/default/index'
+import { dayImg } from '@/api/default/index'
 export default {
   name: 'TemplatePage',
   data() {
@@ -28,7 +28,7 @@ export default {
   },
   methods: {
     initBg() {
-      bg().then(res => {
+      dayImg().then(res => {
         this.isday = this.getdayTime() * 1
         if (isDay(5, 17, 19).type === 'daytime') {
           this.bgimg = process.env.VUE_APP_BASE_API + res.data[0].url

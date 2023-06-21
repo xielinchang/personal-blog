@@ -29,7 +29,7 @@ export default function request(config) {
       store.commit('reSetUserInfo')
       removeToken('token')
       msg({
-        content: '登录已过时',
+        content: '登录失效，请前往登录',
         type: 'warning'
       })
     }

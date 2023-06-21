@@ -1,14 +1,16 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { click } from './modules/click'
+import createPersistedState from 'vuex-persistedstate'
 import { dictionary } from './modules/dictionary'
 import { getUserInfo } from '@/api/default/user'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    user: {}, // visitor,user,admin,superAdmin
-    loginInvalidBox: false // 登录失效盒子，只要显示一次
+    user: {},
+    loginInvalidBox: false, // 登录失效盒子，只要显示一次
+    isHead: true, // 是显示头部栏还是侧边栏
+    clickShow: false // 点击特效
   },
   getters: {
   },
@@ -21,6 +23,9 @@ export default new Vuex.Store({
     },
     reSetUserInfo(state) {
       state.user = {}
+    },
+    changeTab(state) {
+      state.isHead = !state.isHead
     }
   },
   actions: {
@@ -35,7 +40,16 @@ export default new Vuex.Store({
   },
   modules: {
     namespaced: true,
-    click,
     dictionary
-  }
+  },
+  // 数据持久化
+  /* 或者在main.js 利用
+  store.replaceState(persistedState) 进行持久化 */
+  plugins: [
+    createPersistedState({
+      key: 'isHead',
+      paths: ['isHead']
+    })
+  ]
 })
+

@@ -78,7 +78,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  // const whiteList = ['/login']
+  const whiteList = ['/user']
   var token = getToken('token')
   if (token) {
     if (to.path === '/login') {
@@ -88,7 +88,17 @@ router.beforeEach((to, from, next) => {
       next()
     }
   } else {
-    next()
+    if (!whiteList.find(e => {
+      return e === to.path
+    })) {
+      next()
+    } else {
+      msg({
+        content: '登录失效，请先登录',
+        type: 'warning'
+      })
+      next('/login')
+    }
   }
 })
 

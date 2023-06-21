@@ -116,9 +116,15 @@ module.exports = app => {
   // 默认头像列表
   router.post('/default/portrait', controller.web.defaultPortrait.queryDefaultPortrait);
 
-  // 背景图片
-  router.post('/blog/bg', controller.web.bg.queryBg);
-  router.post('/blog/bg/gif', controller.web.bg.queryHomeBg);
+  // 背景
+
+  // 模板默认图片
+  router.post('/blog/dayimg', controller.web.bg.queryDayImg);
+  // 背景图片列表
+  router.post('/blog/home/bg', controller.web.bg.queryHomeBg);
+  // 当前背景图片
+  router.post('/blog/home/bg/now', controller.web.bg.queryHomeBgNow);
+  router.post('/blog/home/bg/now/update', controller.web.bg.updateHomeBgNow);
 
   // 文章的增删改查
   router.post('/essay/query', controller.web.essay.queryEssay);
@@ -126,6 +132,7 @@ module.exports = app => {
   router.post('/essay/update', jwt, controller.web.essay.updateEssay);
   router.post('/essay/delete', jwt, controller.web.essay.deleteEssay);
   router.post('/essay/change/state', controller.web.essay.changeState);
+
   // 查询已发布的文章
   router.post('/essay/query/state', controller.web.essay.queryEssayState);
 

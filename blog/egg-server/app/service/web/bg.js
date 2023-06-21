@@ -3,28 +3,33 @@
 const Service = require('egg').Service;
 
 class RecreationService extends Service {
-  async queryBg() {
+  async queryDayImg() {
     const { ctx } = this;
-    const msg = await ctx.model.Web.BlogBg.findAll();
+    const msg = await ctx.model.Web.DayImg.findAll();
     return msg;
   }
   async queryHomeBg() {
     const { ctx } = this;
-    const msg = await ctx.model.Web.BlogHomeBg.findAll();
+    const msg = await ctx.model.Web.HomeBg.findAll();
     return msg;
   }
-  // async createHomeBg(body) {
-  //   const { ctx } = this;
-  //   const msg = await ctx.model.Web.BlogHomeBg.create(body);
-  //   return msg;
-  // }
-  // async deleteHomeBg(body) {
-  //   const { ctx } = this;
-  //   const msg = await ctx.model.Web.BlogHomeBg.update({ upt_act: 'D' }, {
-  //     where: { id: body.id },
-  //   });
-  //   return msg;
-  // }
+  async queryHomeBgNow() {
+    const { ctx } = this;
+    const msg = await ctx.model.Web.HomeBgNow.findAll();
+    const bg = await ctx.model.Web.HomeBg.findAll({
+      where: {
+        id: msg[0].bg_id,
+      },
+    });
+    return bg;
+  }
+  async updateHomeBgNow(body) {
+    const { ctx } = this;
+    const msg = await ctx.model.Web.HomeBgNow.update(body, {
+      where: { id: 1 },
+    });
+    return msg;
+  }
 }
 
 module.exports = RecreationService;

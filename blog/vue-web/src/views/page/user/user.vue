@@ -218,7 +218,6 @@ export default {
       this.$router.push('/note/essay?id=' + item.id)
     },
     changePswCheck() {
-      console.log(this.changePswForm)
       if (this.changePswForm.old_pass !== '' &&
           this.changePswForm.pass !== '' &&
           this.changePswForm.pass.length > 6) {

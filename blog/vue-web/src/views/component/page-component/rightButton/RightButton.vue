@@ -7,6 +7,11 @@
       :icon="isSearching()===false?'search-filled':'close'"
       @click.native="searchShow()"
     ></icon-button>
+    <icon-button
+      :left-title="$store.state.isHead?'切换侧边栏':'切换头部栏'"
+      icon="change"
+      @click.native="tabChange()"
+    ></icon-button>
     <router-link to="/register">
       <IconButton
         left-title="注册"
@@ -14,7 +19,7 @@
       ></IconButton>
     </router-link>
     <IconButton
-      :left-title="$store.state.click.clickShow?'关闭点击特效' : '打开点击特效'"
+      :left-title="$store.state.clickShow?'关闭点击特效' : '打开点击特效'"
       icon="click"
       @click.native="clickShow()"
     ></IconButton>
@@ -148,7 +153,7 @@ export default {
       }
     },
     clickShow() {
-      if (this.$store.state.click.clickShow) {
+      if (this.$store.state.clickShow) {
         this.$msg({
           content: '你已取消了点击特效',
           type: 'success'
@@ -159,7 +164,14 @@ export default {
           type: 'success'
         })
       }
-      this.$store.state.click.clickShow = !this.$store.state.click.clickShow
+      this.$store.state.clickShow = !this.$store.state.clickShow
+    },
+    tabChange() {
+      this.$msg({
+        content: '切换成功',
+        type: 'success'
+      })
+      this.$store.commit('changeTab')
     }
   }
 }

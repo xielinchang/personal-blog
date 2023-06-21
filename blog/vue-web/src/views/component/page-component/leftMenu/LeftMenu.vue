@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-show="!$store.state.isHead">
     <aside class="menu animated animate__bounceInDown">
       <div class="menu-container">
         <div class="menu-header">
@@ -10,7 +10,7 @@
           ></div>
         </div>
         <div class="portrait-box">
-          <div v-if="userInfo">
+          <div v-if="userInfo.name">
             <div
               class="user-portrait"
               right-title="点击打开用户页"
@@ -43,7 +43,7 @@
           >
             <div
               class="user-name-login"
-            >登陆
+            >登录
             </div>
           </router-link>
 
@@ -113,14 +113,10 @@ export default {
   },
   methods: {
     initUser() {
-      if (getToken('token')) {
-        this.$store.dispatch('getUserInfo').then(res => {
-          var userInfo = res
-          this.userInfo = userInfo
-        })
-      } else {
-        this.userInfo = null
-      }
+      this.$store.dispatch('getUserInfo').then(res => {
+        var userInfo = res
+        this.userInfo = userInfo
+      })
     },
     menuitemhover() {
       var menuitem = document.querySelectorAll('.menu-list li')
@@ -143,7 +139,7 @@ export default {
     },
     menuout() {
       var menu = document.querySelector('.menu')
-      menu.style.left = '-65px'
+      menu.style.left = '-62px'
     },
     menulock() {
       var menu = document.querySelector('.menu')
@@ -156,7 +152,7 @@ export default {
         return
       } else {
         this.isLock = 'unlock'
-        menu.style.left = '-54px'
+        menu.style.left = '-50px'
         menu.addEventListener('mouseover', this.menuover, true)
         menu.addEventListener('mouseout', this.menuout, true)
         this.lock = false

@@ -1,7 +1,7 @@
 <template>
   <div>
     <TemplatePage></TemplatePage>
-
+    <my-loading :load-show="loading"></my-loading>
     <div class="message-container animated animate__fadeInUp">
       <div class="all-message">
         <ul
@@ -130,7 +130,8 @@ export default {
         { label: '10条/页', value: 10 },
         { label: '15条/页', value: 15 }
       ],
-      prefix: process.env.VUE_APP_BASE_API
+      prefix: process.env.VUE_APP_BASE_API,
+      loading: false
     }
   },
 
@@ -148,20 +149,21 @@ export default {
       } else {
         removeToken('token')
         this.$msg({
-          content: '请先登录',
+          content: '登录失效，请先登录',
           type: 'warning'
         })
+        store.commit('reSetUserInfo')
       }
     },
     initmessage() {
-      var _this = this
-      _this.message_list = []
+      this.message_list = []
+      this.loading = true
       messageQuery({
         limit: this.pageSize,
         offset: this.currentPage
       }).then((res) => {
-        console.log(res)
-        _this.total = res.data.count
+        this.loading = false
+        this.total = res.data.count
         this.message_list = res.data.rows
       })
     },

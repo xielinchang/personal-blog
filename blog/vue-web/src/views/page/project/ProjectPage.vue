@@ -42,7 +42,7 @@
       </div>
 
       <div
-        class="main block"
+        class="project-content block"
       >
         <div class="label">项目介绍</div>
         <div v-html="projectForm.html"></div>

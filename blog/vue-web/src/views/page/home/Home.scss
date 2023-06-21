@@ -1,10 +1,11 @@
+
 [v-cloak] {
     display: none;
   }
   .home {
     box-shadow: 0 0 10px rgba(0,0,10,.3);
-    width: 1200px;
-    min-width: 1200px;
+    width: 1260px;
+    min-width: 1260px;
     height: auto;
     min-height: calc(110vh);
     margin: 0 auto;
@@ -20,11 +21,11 @@
       filter: blur(3px);
     }
   .banner{
-    width: 95%;
+    width: 96%;
     height: 400px;
     margin: auto;
     position: relative;
-    top: 100px;
+    top: 80px;
     border-radius: 4px;
     box-shadow: 0 0 10px 1px #fff;
     overflow: hidden;
@@ -145,6 +146,7 @@
       height: 12px;
       justify-content: space-between;
       & li{
+        margin: 0;
         width: 12px;
         height: 12px;
         background-color: rgba(255,255,255,.7);
@@ -155,11 +157,11 @@
     }
   }
     .main {
-      width: 95%;
+      width: 96%;
       height: auto;
       margin: auto;
       position: relative;
-      top: 150px;
+      top: 100px;
       
     }
     .right-tab {

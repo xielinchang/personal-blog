@@ -21,20 +21,22 @@
          .inputs{
             display: flex;
             flex-direction: column;
-            .my-input{
-                margin: 15px 0;
+            color: #666;
+            .input-item{
+                margin-bottom: 15px;
+                margin-top: 5px;
             }
         }
         .techniques{
             width: 100%;
             display: flex;
-            & span{
-                line-height: 40px;
-                color: #666;
-                font-size: 16px;
-            }
+            line-height: 40px;
+            // & span{    
+            //     color: #666;
+            //     font-size: 16px;
+            // }
             .techniques-tags{
-                width: 60%;
+                width: 75%;
                 height: auto;
                 margin: 0;
                 padding: 0;

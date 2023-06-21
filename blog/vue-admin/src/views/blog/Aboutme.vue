@@ -6,25 +6,25 @@
       </div>
       <div class="edit-aboutme-c">
         <div class="inputs">
+          qq:
           <my-input
             :disabled="editFlag"
             v-model="aboutmeForm.qq"
-            class="my-input"
-            label="qq"
+            class="input-item"
             :width="inputSize"
           ></my-input>
+          email:
           <my-input
           :disabled="editFlag"
             v-model="aboutmeForm.email"
-            class="my-input"
-            label="email"
+            class="input-item"
             :width="inputSize"
           ></my-input>
+          phone:
           <my-input
             :disabled="editFlag"
             v-model="aboutmeForm.phone"
-            class="my-input"
-            label="phone"
+            class="input-item"
             :width="inputSize"
           ></my-input>
         </div>
@@ -79,7 +79,7 @@ export default {
 data () {
     return {
         prefix: process.env.VUE_APP_BASE_API,
-        inputSize: 350,
+        inputSize: 300,
       aboutmeForm: {
         qq: '',
         email: '',
