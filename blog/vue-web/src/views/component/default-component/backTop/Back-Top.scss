@@ -20,13 +20,13 @@
 .right{
     right: 0px;
     animation: inFromRight 150ms linear infinite;
-    transform: translateX(-50px);
+    transform: translateX(-30px);
     animation-iteration-count: 1;
 }
 .left{
     left: 0;
     animation: inFromLeft 150ms linear infinite;
-    transform: translateX(50px);
+    transform: translateX(30px);
     animation-iteration-count: 1;
 }
 
@@ -35,7 +35,7 @@
         transform: translateX(0);
     }
     to {
-        transform: translateX(-50px);
+        transform: translateX(-30px);
     }
 }
 @keyframes inFromLeft {
@@ -43,6 +43,6 @@
         transform: translateX(0);
     }
     to {
-        transform: translateX(50px);
+        transform: translateX(30px);
     }
 }
