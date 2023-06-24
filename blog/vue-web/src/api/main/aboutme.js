@@ -1,4 +1,4 @@
-import request from '../../network/request'
+import request from '../../utils/request'
 
 export function queryAboutme(data) {
   return request({

@@ -1,4 +1,4 @@
-import request from '../../network/baiduapi'
+import request from './index'
 
 export function baiduLocation(data) {
   return request({

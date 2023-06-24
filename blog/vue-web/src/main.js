@@ -6,8 +6,8 @@ import axios from 'axios'
 import 'animate.css'
 import VEmojiPicker from 'v-emoji-picker'
 import './assets/scss/index.scss'
-import msg from './views/component/default-component/message/index'
-import msgBox from './views/component/default-component/messageBox/index'
+import msg from './components/default-component/message/index'
+import msgBox from './components/default-component/messageBox/index'
 import VueLazyload from 'vue-lazyload'
 Vue.use(VEmojiPicker) // 表情包插件
 Vue.prototype.$msg = msg // 注册消息事件
@@ -20,7 +20,7 @@ Vue.use(VueLazyload, { // 图片懒加载
 })
 // 按目录全局注册组件
 const requirePageComponent = require.context(
-  './views/component/page-component',
+  './components/page-component',
   true,
   /\.vue$/
 )
@@ -33,7 +33,7 @@ requirePageComponent.keys().forEach(fileName => {
   )
 })
 const requireDefaultComponent = require.context(
-  './views/component/default-component',
+  './components/default-component',
   true,
   /\.vue$/
 )

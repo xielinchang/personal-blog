@@ -1,0 +1,58 @@
+@import '../../../assets/scss/index.scss';
+.my-button {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+  transition: 0.1s;
+  border-radius: 4px;
+  color: white;
+  .icon{
+    margin: 0 4px;
+  }
+}
+.large,.small,.mini{
+  padding: 0 5px;
+  box-sizing: border-box;
+  width: auto;
+}
+.large{
+  
+    min-width: 90px;
+    height: 42px;
+    font-size: 16px;
+}
+.small{
+    min-width: 80px;
+    height: 38px;
+    font-size: 14px;
+}
+.mini{
+    min-width: 70px;
+    height: 32px;
+    font-size: 12px;
+}
+@each $key,$val in $bg-colors {
+    .#{$key} {
+        background-color: $val;
+    }
+    .#{$key}plain {
+        color: $val;
+        border: 1px solid $val;
+    }
+    .#{$key}plain:hover {
+        background-color: $val;
+        color: white;
+    }
+  }
+@each $key,$val in $bg-hover {
+    .#{$key}:hover {
+        background-color: $val;
+    }
+  }
+  @each $key,$val in $plain-bg-colors {
+    .#{$key}plain {
+        background-color: $val;
+    }
+  }

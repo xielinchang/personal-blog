@@ -53,13 +53,13 @@ module.exports = {
     config.module.rules.delete('svg') // 重点：删除默认配置中处理 svg
     config.module.rule('svg-sprite-loader').test(/\.svg$/)
       .include
-      .add(path.resolve('./src/views/component/default-component/SvgIcon/icons/svg')) // 处理 svg 保存路径
+      .add(path.resolve('./src/components/default-component/SvgIcon/icons/svg')) // 处理 svg 保存路径
       .end()
       .use('svg-sprite-loader')
       .loader('svg-sprite-loader')
       .options({
         symbolId: 'icon-[name]' // 给 symbol 配置 id
       })
-    config.module.rule('svg').exclude.add(path.resolve('./src/views/component/default-component/SvgIcon/icons/svg')) // 其他 svg loader 排除 svg 目录
+    config.module.rule('svg').exclude.add(path.resolve('./src/components/default-component/SvgIcon/icons/svg')) // 其他 svg loader 排除 svg 目录
   }
 }

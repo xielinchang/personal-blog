@@ -1,4 +1,4 @@
-import request from '../../network/request'
+import request from '../../utils/request'
 export function essayCommentsQuery(data) {
   return request({
     url: '/essay/comments/query',

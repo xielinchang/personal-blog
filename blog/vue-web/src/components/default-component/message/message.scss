@@ -1,0 +1,74 @@
+@import '../../../assets/scss/index.scss';
+  .message {
+    z-index: 9999;
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 30px;
+      min-width: 140px;
+      width: auto;
+      border-radius: 5px;
+      padding: 5px 25px;
+      line-height: 2;
+      color: #fff;
+      transition: 0.4s;
+      font-size: 13px;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      opacity: 1;
+      .content{
+        margin-left: 5px;
+      }
+      @each $key,$val in $bg-colors {
+        &-#{$key} {
+            color: $val;
+            border: 1px solid $val;
+        }
+        .icon-#{$key}{
+          color: $val;
+        }
+      }
+      @each $key,$val in $plain-bg-colors {
+        &-#{$key} {
+            background-color: $val;
+        }
+      }
+  
+    }
+    .icon-box{
+      box-sizing: border-box;
+      padding-top: 3px;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+   }
+
+
+  .msg-fade-enter-active {
+    animation: alert-fade-in .4s;
+    }
+     
+    .msg-fade-leave-active {
+    animation: alert-fade-out .4s;
+    }
+
+  @keyframes alert-fade-in {
+    0% {
+    opacity: 0;
+    }
+    100% {
+    opacity: 1;
+    }
+    }
+     
+    @keyframes alert-fade-out {
+    0% {
+    opacity: 1;
+    top: 20px;
+    }
+    100% {
+    opacity: 0;
+    top: 0px;
+    }
+    }
