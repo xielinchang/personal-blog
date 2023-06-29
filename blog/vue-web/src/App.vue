@@ -15,8 +15,6 @@
 </template>
 
 <script>
-import { colors_light } from '@/style/colors_light.js'
-import { colors_dark } from '@/style/colors_dark.js'
 import { getUserIp } from '@/api/default/index'
 import { baiduLocation } from '@/api/baidu/baiduapi'
 export default {
@@ -38,6 +36,7 @@ export default {
   },
   mounted() {
     var _this = this
+    this.setSkin()
     this.getIp()
     this.updateTitle()
   },
@@ -47,6 +46,17 @@ export default {
       getUserIp().then(res => {
         _this.ip = res.data.ip
         _this.initAddress()
+      })
+    },
+    setSkin() {
+      // 全局色系
+      const data = this.$store.state.skinStore.state.skin
+      // 将数据转换为CSS变量
+      const dataArray = data.split(';').filter(item => item.trim() !== '')
+
+      dataArray.forEach(item => {
+        const [key, value] = item.split(':')
+        document.documentElement.style.setProperty(key, value)
       })
     },
     updateTitle () {

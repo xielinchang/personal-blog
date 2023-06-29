@@ -11,8 +11,8 @@ export default new Vuex.Store({
     user: {},
     loginInvalidBox: false, // 登录失效盒子，只要显示一次
     isHead: true, // 是显示头部栏还是侧边栏
-    clickShow: false,// 点击特效
-    skinStore //换肤
+    clickShow: false, // 点击特效
+    skinStore // 换肤
   },
   getters: {
   },

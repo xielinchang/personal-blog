@@ -117,14 +117,13 @@ const colors_light = {
   rose8: '#9e1068',
   rose9: '#780650',
   rose10: '#520339',
-  rose15: '#34987A', // 为什么又独立一个色值？
   // 彩虹色
   rainbow0: '#EC4D3E',
   rainbow1: '#F29938',
   rainbow2: '#F9D76E',
   rainbow3: '#65C366',
-  rainbow4: '#76C7F5',
-  rainbow5: '#2E7DF7',
+  rainbow4: '#7184AD',
+  rainbow5: '#409EFF',
   rainbow6: '#565BCF',
   rainbow7: '#A35DD7',
   rainbow8: '#EB455A',

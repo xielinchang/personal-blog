@@ -32,7 +32,7 @@ $search-height:32px;
         }
     }
     .search-btn{
-        background-color: rgb(56, 157, 112);
+        background-color: var(--success11);
         width: 90px;
         position: absolute;
         right: 0;
@@ -47,6 +47,10 @@ $search-height:32px;
             font-weight: 600;
             color: #fff;
             margin-left: 8px;
+        }
+        &:hover{
+            transition: 300ms;
+            background-color: var(--success12);
         }
     }
 }

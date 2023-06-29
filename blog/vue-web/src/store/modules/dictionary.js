@@ -3,35 +3,35 @@ export const dictionary = {
   state: {
     menu: [{
       menuicon: 'home-filled',
-      color: '#F5A7B2',
+      color: 'var(--rose3)',
       title: '首页',
       router: '/home',
       id: 0
     },
     {
       menuicon: 'about-me',
-      color: '#00B753',
+      color: 'var(--rainbow3)',
       title: '关于我',
       router: '/aboutme',
       id: 1
     },
     {
       menuicon: 'comment-filled',
-      color: '#1DA9E0',
+      color: 'var(--rainbow5)',
       title: '留言',
       router: '/message',
       id: 2
     },
     {
       menuicon: 'setting-filled',
-      color: '#7184AD',
+      color: 'var(--rainbow4)',
       title: '管理',
       router: '/user',
       id: 3
     },
     {
       menuicon: 'more-filled',
-      color: '#FC9709',
+      color: 'var(--rainbow1)',
       title: '更多',
       router: '/more',
       id: 4

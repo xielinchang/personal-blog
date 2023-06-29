@@ -9,6 +9,7 @@ import './assets/scss/index.scss'
 import msg from './components/default-component/message/index'
 import msgBox from './components/default-component/messageBox/index'
 import VueLazyload from 'vue-lazyload'
+
 Vue.use(VEmojiPicker) // 表情包插件
 Vue.prototype.$msg = msg // 注册消息事件
 Vue.use(msgBox) // 注册消息框事件
@@ -45,6 +46,7 @@ requireDefaultComponent.keys().forEach(fileName => {
     componentConfig.default
   )
 })
+
 new Vue({
   router,
   store,
