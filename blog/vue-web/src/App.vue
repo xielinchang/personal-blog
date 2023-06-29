@@ -15,6 +15,8 @@
 </template>
 
 <script>
+import { colors_light } from '@/style/colors_light.js'
+import { colors_dark } from '@/style/colors_dark.js'
 import { getUserIp } from '@/api/default/index'
 import { baiduLocation } from '@/api/baidu/baiduapi'
 export default {

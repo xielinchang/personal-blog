@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 import { dictionary } from './modules/dictionary'
 import { getUserInfo } from '@/api/default/user'
+import skinStore from './modules/skinStore'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -10,7 +11,8 @@ export default new Vuex.Store({
     user: {},
     loginInvalidBox: false, // 登录失效盒子，只要显示一次
     isHead: true, // 是显示头部栏还是侧边栏
-    clickShow: false // 点击特效
+    clickShow: false,// 点击特效
+    skinStore //换肤
   },
   getters: {
   },
