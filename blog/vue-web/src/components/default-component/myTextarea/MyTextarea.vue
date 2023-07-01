@@ -10,7 +10,7 @@
       >
         <textarea
           :style="justStyle"
-          :class="{'is-disabled':disabled}"
+          :class="[{'is-disabled':disabled},isResize?'':'no-resize']"
           :value="value"
           :placeholder="placeholder"
           :disabled="disabled"
@@ -60,6 +60,10 @@ export default {
     label: {
       type: String,
       default: ''
+    },
+    isResize: {
+      type: [Boolean || String],
+      default: true
     }
   },
   emits: ['input'],

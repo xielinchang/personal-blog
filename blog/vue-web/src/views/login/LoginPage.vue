@@ -75,7 +75,7 @@ export default {
             type: 'success'
           })
           location.reload()
-          this.$router.push('/')
+          this.$router.go(-1)
         } else {
           this.$msg({
             content: '登录失败！账号或者密码有误！！',

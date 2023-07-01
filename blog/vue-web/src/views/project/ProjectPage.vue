@@ -32,7 +32,8 @@
           </div>
           <my-textarea
             v-model="projectForm.link"
-            :width="400"
+            :width="500"
+            :is-resize="false"
             :height="100"
             border-width="0"
             disabled
