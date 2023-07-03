@@ -68,14 +68,15 @@ export default {
   methods: {
     login() {
       login(this.ruleForm).then((res) => {
+        console.log(res);
         if (res.data.data.success === true) {
           setToken('token', res.data.data.token)
           this.$msg({
             content: '登录成功',
             type: 'success'
           })
-          location.reload()
           this.$router.go(-1)
+          location.reload()
         } else {
           this.$msg({
             content: '登录失败！账号或者密码有误！！',

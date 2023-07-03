@@ -4,7 +4,7 @@ const md5 = require('md5');
 class UserService extends Service {
   async register(body) {
     const { ctx, app } = this;
-    body.password = md5(md5(body.password)) + app.config.password_salt;
+    body.password = md5(md5(body.password)+ app.config.password_salt);
     // 创建或者查询用户
     // created表示这条是否是创建出来的
     const [ , created ] = await ctx.model.User.User.findOrCreate({
@@ -75,7 +75,7 @@ class UserService extends Service {
         updated_at: ctx.helper.formatTime(new Date()),
         upt_act: 'U',
       });
-      return { success: true, msg: '重置成功！！' };
+      return { success: true, msg: '重置成功！！初始密码为：888888' };
     } catch (error) {
       console.log(error);
       return { success: false, msg: '密码重置失败！！' };
@@ -104,8 +104,9 @@ class UserService extends Service {
     return { ip: ctx.request.ip };
   }
   async queryUser(body) {
-    const { ctx } = this;
-    const where = {};
+    const { ctx,app } = this;
+    const Op = app.Sequelize.Op;
+    const where = {upt_act: { [Op.ne]: 'D' }};
     if (body.id) {
       where.id = body.id;
     }

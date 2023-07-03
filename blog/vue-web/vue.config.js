@@ -6,6 +6,11 @@ function resolve(dir) {
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 // const CompressionPlugin = require('compression-webpack-plugin')
 module.exports = {
+  // mode: 'production',
+  // optimization: {
+  //   usedExports: true,
+  //   minimize: true,
+  // },
   publicPath: './',
   productionSourceMap: false,
   lintOnSave: process.env.NODE_ENV === 'development',
