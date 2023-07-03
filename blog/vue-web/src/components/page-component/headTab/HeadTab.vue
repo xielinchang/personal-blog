@@ -111,6 +111,10 @@ export default {
       this.contract_list.find((item) => {
         if (item.router === this.path) {
           return this.moveLine(item.id)
+        } else if (this.path === '/note/essay') {
+          return this.moveLine(0)
+        } else if (this.path === '/note/project') {
+          return this.moveLine(1)
         }
       })
     }
