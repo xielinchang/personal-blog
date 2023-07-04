@@ -82,9 +82,7 @@
     <div
       class="main"
     >
-      <essayList
-        width="75"
-      ></essayList>
+      <essayList class="essay-list"></essayList>
       <right-tab
         id="right-tab"
         class="right-tab"

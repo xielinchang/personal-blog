@@ -1,6 +1,6 @@
 <template>
   <div>
-    <my-loading :load-show="loading"></my-loading>
+    <my-loading :load-show="loading">
     <div
       class="essay-body"
       :style="{ width: width + '%' }"
@@ -56,9 +56,8 @@
         ></QueryPage>
       </div>
     </div>
-
+  </my-loading>
   </div>
-
 </template>
 
 <script>
