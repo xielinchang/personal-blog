@@ -1,5 +1,6 @@
 <template>
   <div>
+    <my-loading :load-show="loading">
     <div class="write-main">
       <div class="edit-container">
         <div class="edit-main block">
@@ -93,7 +94,7 @@
       </div>
     </div>
     </div>
-
+  </my-loading>
   </div>
 </template>
 <script>
@@ -167,6 +168,7 @@ export default {
       // 文章数据是否被修改
       isModified: false,
       editNum: 0,
+      loading:false,
     };
   },
   watch: {
@@ -236,11 +238,11 @@ export default {
     querySaveProject() {
       var _this = this;
       this.isSave = true;
-      this.$store.state.loading=true
+      this.loading=true
      queryProjectSave().then((res) => {
         _this.imgurl = process.env.VUE_APP_BASE_API + res.coverUrl;
         _this.Project = res
-        _this.$store.state.loading=false
+        _this.loading=false
         _this.editNum = 0;
       });
     },
@@ -248,7 +250,7 @@ export default {
       var _this = this;
       var id = this.$route.query.id;
       this.isSave = false;
-      this.$store.state.loading=true
+      this.loading=true
      queryProject({
         limit: 1,
         offset: 1,
@@ -258,7 +260,7 @@ export default {
       }).then((res) => {
         _this.imgurl = process.env.VUE_APP_BASE_API + res.rows[0].coverUrl;
         _this.Project = res.rows[0];
-        _this.$store.state.loading=false
+        _this.loading=false
         _this.editNum = 0;
       });
     },

@@ -1,6 +1,5 @@
 <template>
     <div class="home">
-        <MyLoading :loadShow="$store.state.loading"></MyLoading>
         <div class="header">
             <div class="user-center">
                 <el-dropdown trigger="click" @command="handleCommand">

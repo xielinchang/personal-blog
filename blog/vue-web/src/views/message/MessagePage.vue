@@ -1,7 +1,7 @@
 <template>
   <div>
     <TemplatePage></TemplatePage>
-    <my-loading :load-show="loading"></my-loading>
+    <my-loading :load-show="loading" icon-top="400">
     <div class="message-container animated animate__fadeInUp">
       <div class="all-message">
         <ul
@@ -94,6 +94,7 @@
         </div>
       </div>
     </div>
+  </my-loading>
   </div>
 </template>
 

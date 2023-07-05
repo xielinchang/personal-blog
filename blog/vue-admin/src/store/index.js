@@ -12,7 +12,6 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
     state: {
         user: {},
-        loading:false, //主页面的加载
         loginInvalidBox: false, // 登录失效盒子，只要显示一次
         routers: constantRoutes,
         addRouters: [], // 动态路由 [Vue warn]: Vue received a Component which was made a reactive object. This can lead to unnecessary performance overhead, and should be avoided by marking the component with `markRaw` or using `shallowRef` instead of `ref`.

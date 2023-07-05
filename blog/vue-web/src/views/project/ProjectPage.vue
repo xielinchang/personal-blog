@@ -1,77 +1,48 @@
 <template>
   <div>
     <TemplatePage></TemplatePage>
-    <my-loading :load-show="loading"></my-loading>
-    <div class="project">
-      <div class="project-top">
-        <div class="banner">
-          <div class="baner-mark">
-            <div
-              class="mark"
-              :style="{'backgroundImage':`url(${ prefix+projectForm.coverUrl})`}"
-            ></div>
-            <div class="shadow-mark"></div>
-            <div
-              class="banner-img"
-              :style="{'backgroundImage':`url(${prefix+projectForm.coverUrl})`}"
-            >
+    <my-loading :load-show="loading" icon-top="400">
+      <div class="project">
+        <div class="project-top">
+          <div class="banner">
+            <div class="baner-mark">
+              <div class="mark" :style="{ 'backgroundImage': `url(${prefix + projectForm.coverUrl})` }"></div>
+              <div class="shadow-mark"></div>
+              <div class="banner-img" :style="{ 'backgroundImage': `url(${prefix + projectForm.coverUrl})` }">
+              </div>
             </div>
           </div>
-        </div>
-        <div class="title block">
-          <div class="label">
-            项目名称:
+          <div class="title block">
+            <div class="label">
+              项目名称:
+            </div>
+            <span>
+              {{ projectForm.title }}
+            </span>
           </div>
-          <span>
-            {{ projectForm.title }}
-          </span>
-        </div>
-        <div class="link block">
-          <div class="label">
-            相关链接:
+          <div class="link block">
+            <div class="label">
+              相关链接:
+            </div>
+            <my-textarea v-model="projectForm.link" :width="500" :is-resize="false" :height="100" border-width="0"
+              disabled>
+            </my-textarea>
           </div>
-          <my-textarea
-            v-model="projectForm.link"
-            :width="500"
-            :is-resize="false"
-            :height="100"
-            border-width="0"
-            disabled
-          >
-          </my-textarea>
+        </div>
+
+        <div class="project-content block">
+          <div class="label">项目介绍</div>
+          <div v-html="projectForm.html"></div>
         </div>
       </div>
-
-      <div
-        class="project-content block"
-      >
-        <div class="label">项目介绍</div>
-        <div v-html="projectForm.html"></div>
+      <div class="icon-buttons">
+        <router-link :to="'/control/project/writing?id=' + $route.query.id">
+          <icon-button v-if="hasPermi" class="icon-button" icon="edit" left-title="编辑"></icon-button>
+        </router-link>
+        <icon-button class="icon-button" icon="left" left-title="上一篇" @click.native="preProject()"></icon-button>
+        <icon-button class="icon-button" icon="right" left-title="下一篇" @click.native="nextProject()"></icon-button>
       </div>
-    </div>
-    <div class="icon-buttons">
-      <router-link :to="'/control/project/writing?id='+ $route.query.id">
-        <icon-button
-          v-if="hasPermi"
-          class="icon-button"
-          icon="edit"
-          left-title="编辑"
-        ></icon-button>
-      </router-link>
-      <icon-button
-        class="icon-button"
-        icon="left"
-        left-title="上一篇"
-        @click.native="preProject()"
-      ></icon-button>
-      <icon-button
-        class="icon-button"
-        icon="right"
-        left-title="下一篇"
-        @click.native="nextProject()"
-      ></icon-button>
-    </div>
-
+    </my-loading>
   </div>
 </template>
 <script>
@@ -79,7 +50,7 @@ import store from '@/store'
 import { queryProject } from '@/api/main/project'
 export default {
   name: 'ProjectPage',
-  data () {
+  data() {
     return {
       projectForm: {},
       loading: false,
@@ -102,7 +73,7 @@ export default {
       deep: true
     }
   },
-  mounted () {
+  mounted() {
     this.initProject()
   },
   methods: {

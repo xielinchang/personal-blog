@@ -1,7 +1,7 @@
 <template>
   <div class="body">
+    <my-loading :load-show="loading" icon-top="400">
     <TemplatePage></TemplatePage>
-    <my-loading :load-show="loading"></my-loading>
     <div class="main-body">
       <div class="main-container">
         <div class="banner">
@@ -219,7 +219,7 @@
         @click.native="nextEssay()"
       ></icon-button>
     </div>
-
+  </my-loading>
   </div>
 </template>
 

@@ -1,9 +1,9 @@
 <template>
   <div class="loading-container">
     <!-- 显示 loading -->
-    <div class="overlay" v-if="loadShow">
-      <div class="loading-icon" :style="{ width: size, height: size }" @touchmove.prevent @mousewheel.prevent>
-        <svg-icon :size="size" icon-name="loading" color="#3B8EEA"></svg-icon>
+    <div class="overlay" v-if="loadShow" @touchmove.prevent @mousewheel.prevent>
+      <div class="loading-icon" :style="{ width: size, height: size, top: iconTop + 'px' }" >
+        <svg-icon :size="size" name="loading" color="#3B8EEA"></svg-icon>
       </div>
     </div>
     <!-- 内部内容 -->
@@ -24,6 +24,11 @@ export default {
     size: {
       type: [String, Number],
       default: '50px'
+    },
+    // 自定义图标高度
+    iconTop:{
+      type: [String,Number],
+      default: null
     }
   },
   data() {
@@ -33,6 +38,11 @@ export default {
   },
   mounted() {
 
+  },
+  methods:{
+    stopScroll(event){
+      event.preventDefault();  
+    }
   }
 }
 </script>

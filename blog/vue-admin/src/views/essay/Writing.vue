@@ -1,94 +1,61 @@
 <template>
   <div>
-    <div class="write-main">
-      <div class="edit-container">
-        <div class="edit-main block">
-          <Toolbar
-            style="border-bottom: 1px solid #ccc"
-            :editor="editor"
-            :default-config="toolbarConfig"
-            :mode="mode"
-          />
-          <Editor
-            v-model="Essay.html"
-            style="height: 500px; overflow-y: hidden"
-            :default-config="editorConfig"
-            :mode="mode"
-            @onCreated="onCreated"
-          />
+    <my-loading :load-show="loading">
+      <div class="write-main">
+        <div class="edit-container">
+          <div class="edit-main block">
+            <Toolbar style="border-bottom: 1px solid #ccc" :editor="editor" :default-config="toolbarConfig"
+              :mode="mode" />
+            <Editor v-model="Essay.html" style="height: 500px; overflow-y: hidden" :default-config="editorConfig"
+              :mode="mode" @onCreated="onCreated" />
+          </div>
+          <div class="form-container block">
+            <div class="form-main">
+              封面：
+              <my-upload v-model="file" :action="uploadApi" :image="imgurl" :preview="true" @delete-img="deleteCallback"
+                @upload-success="uploadCallback">
+              </my-upload>
+              标题：
+              <my-input v-model="Essay.title" :width="inputSize" placeholder="请输入标题" icon="edit">
+              </my-input>
+              副标题：
+              <my-input v-model="Essay.subtitle" placeholder="请输入副标题" :width="inputSize" icon="edit">
+              </my-input>
+              摘要：
+              <my-textarea style="height: 100px" v-model="Essay.digest" :width="inputSize"
+                placeholder="（选填）简要的摘要能帮助读者更好的了解内容" maxlength="350"></my-textarea>
+              标签：
+              <my-tags @update-tags="update" :value="newTags"> </my-tags>
+              领域：
+              <my-select :options="domain" :selected="selected" @change-select="changeSelect">
+              </my-select>
+              类型：
+              <div>
+                <my-radio v-model="Essay.radio" label="1">原创</my-radio>
+                <my-radio v-model="Essay.radio" label="2">转载</my-radio>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="form-container block">
-          <div class="form-main">
-            封面：
-            <my-upload
-              v-model="file"
-              :action="uploadApi"
-              :image="imgurl"
-              :preview="true"
-              @delete-img="deleteCallback"
-              @upload-success="uploadCallback"
-            >
-            </my-upload>
-            标题：
-            <my-input
-              v-model="Essay.title"
-              :width="inputSize"
-              placeholder="请输入标题"
-              icon="edit"
-            >
-            </my-input>
-            副标题：
-            <my-input
-              v-model="Essay.subtitle"
-              placeholder="请输入副标题"
-              :width="inputSize"
-              icon="edit"
-            >
-            </my-input>
-            摘要：
-            <my-textarea
-              style="height: 100px"
-              v-model="Essay.digest"
-              :width="inputSize"
-              placeholder="（选填）简要的摘要能帮助读者更好的了解内容"
-              maxlength="350"
-            ></my-textarea>
-            标签：
-            <my-tags @update-tags="update" :value="newTags"> </my-tags>
-            领域：
-            <my-select
-              :options="domain"
-              :selected="selected"
-              @change-select="changeSelect"
-            >
-            </my-select>
-            类型：
-            <div>
-              <my-radio v-model="Essay.radio" label="1">原创</my-radio>
-              <my-radio v-model="Essay.radio" label="2">转载</my-radio>
+        <div class="edit-foot">
+          <div class="foot-box">
+            <div v-if="isSave" class="btns">
+              <my-button @click="reset">重置</my-button>
+              <my-button plain type="info" @click="save">保存草稿</my-button>
+              <my-button type="danger" @click="publish">发布</my-button>
+            </div>
+            <div v-else class="btns">
+              <router-link to="/blog/essay/writing">
+                <my-button type="success" @click="reset">新增</my-button>
+              </router-link>
+              <my-button @click="reset">重置</my-button>
+              <my-button type="warning" @click="edit">修改</my-button>
+              <my-button type="danger" @click="deleted">删除</my-button>
             </div>
           </div>
         </div>
       </div>
-        <div class="edit-foot">
-      <div class="foot-box">
-        <div v-if="isSave" class="btns">
-          <my-button @click="reset">重置</my-button>
-          <my-button plain type="info" @click="save">保存草稿</my-button>
-          <my-button type="danger" @click="publish">发布</my-button>
-        </div>
-        <div v-else class="btns">
-          <router-link to="/blog/essay/writing">
-            <my-button type="success" @click="reset">新增</my-button>
-          </router-link>
-          <my-button @click="reset">重置</my-button>
-          <my-button type="warning" @click="edit">修改</my-button>
-          <my-button type="danger" @click="deleted">删除</my-button>
-        </div>
-      </div>
-    </div>
-    </div>
-
+    </my-loading>
   </div>
 </template>
 <script>
@@ -184,6 +151,7 @@ export default {
       // 文章数据是否被修改
       isModified: false,
       editNum: 0,
+      loading: true,
     };
   },
   watch: {
@@ -255,7 +223,7 @@ export default {
     querySaveEssay() {
       var _this = this;
       this.isSave = true;
-      this.$store.state.loading=true
+      this.loading = true
       essayQuerySave().then((res) => {
         _this.selected.label = res.rows[0].domain;
         _this.imgurl = process.env.VUE_APP_BASE_API + res.rows[0].coverUrl;
@@ -265,7 +233,7 @@ export default {
         } else {
           _this.newTags = [];
         }
-        _this.$store.state.loading=false
+        _this.loading = false
         _this.editNum = 0;
       });
     },
@@ -273,7 +241,7 @@ export default {
       var _this = this;
       var id = this.$route.query.id;
       this.isSave = false;
-      this.$store.state.loading=true
+      this.loading = true
       essayQuery({
         limit: 1,
         offset: 1,
@@ -288,7 +256,7 @@ export default {
         _this.imgurl = process.env.VUE_APP_BASE_API + res.rows[0].coverUrl;
         _this.Essay = res.rows[0];
         _this.newTags = _this.Essay.tags.split(",");
-        _this.$store.state.loading=false
+        _this.loading = false
         _this.editNum = 0;
       });
     },
@@ -321,7 +289,7 @@ export default {
       // 初始化富文本后初始化文章
       window.scrollTo(0, 0);
       if (this.editor) {
-       await this.initEssay();
+        await this.initEssay();
       }
     },
     reset() {
@@ -411,14 +379,14 @@ export default {
         this.essayCreateApi();
       }
     },
-     essayCreateApi() {
-      this.loading=true
-       essayCreate(this.Essay).then((res) => {
+    essayCreateApi() {
+      this.loading = true
+      essayCreate(this.Essay).then((res) => {
         this.$message({
           message: "创建成功",
           type: "success",
         });
-        this.loading=false
+        this.loading = false
         this.reset();
         this.save();
       });

@@ -1,41 +1,52 @@
 <template>
-  <div v-if="loadShow">
-    <div class="loading-shadow" @wheel.prevent></div>
-    <div
-      class="loading"
-      :style="{ width: size, height: size }"
-    >
-      <svg-icon  
-        :size="size"
-        :name="icon"
-        color="#3B8EEA"
-      ></svg-icon>
+  <div class="loading-container">
+    <!-- 显示 loading -->
+    <div class="overlay" v-if="loadShow" @touchmove.prevent @mousewheel.prevent>
+      <div class="loading-icon" :style="{ width: size, height: size, top: iconTop + 'px' }" >
+        <svg-icon :size="size" name="loading" color="#3B8EEA"></svg-icon>
+      </div>
+    </div>
+    <!-- 内部内容 -->
+    <div class="content" >
+      <slot></slot>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "MyLoading",
+  name: 'MyLoading',
   props: {
     loadShow: {
       type: Boolean,
-      default: false,
+      default: false
     },
     size: {
       type: [String, Number],
-      default: "50px",
+      default: '50px'
     },
+    // 自定义图标高度
+    iconTop:{
+      type: [String,Number],
+      default: null
+    }
   },
   data() {
     return {
-      icon: "loading",
-    };
+
+    }
   },
-  mounted() {},
-};
+  mounted() {
+
+  },
+  methods:{
+    stopScroll(event){
+      event.preventDefault();  
+    }
+  }
+}
 </script>
 
 <style scpoed lang="scss">
-@import "./MyLoading.scss";
+@import './MyLoading.scss';
 </style>
