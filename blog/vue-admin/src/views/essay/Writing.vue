@@ -1,6 +1,6 @@
 <template>
   <div>
-    <my-loading :load-show="loading">
+    <my-loading :load-show="loading" icon-top="300">
       <div class="write-main">
         <div class="edit-container">
           <div class="edit-main block">
