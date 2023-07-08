@@ -1,13 +1,25 @@
 <template>
   <div class="loading-container">
     <!-- 显示 loading -->
-    <div class="overlay" v-if="loadShow" @touchmove.prevent @mousewheel.prevent>
-      <div class="loading-icon" :style="{ width: size, height: size, top: iconTop + 'px' }" >
-        <svg-icon :size="size" name="loading" color="#3B8EEA"></svg-icon>
+    <div
+      v-if="loadShow"
+      class="overlay"
+      @touchmove.prevent
+      @mousewheel.prevent
+    >
+      <div
+        class="loading-icon"
+        :style="{ width: size, height: size, top: iconTop + 'px' }"
+      >
+        <svg-icon
+          :size="size"
+          name="loading"
+          color="#3B8EEA"
+        ></svg-icon>
       </div>
     </div>
     <!-- 内部内容 -->
-    <div class="content" >
+    <div class="content">
       <slot></slot>
     </div>
   </div>
@@ -26,8 +38,8 @@ export default {
       default: '50px'
     },
     // 自定义图标高度
-    iconTop:{
-      type: [String,Number],
+    iconTop: {
+      type: [String, Number],
       default: null
     }
   },
@@ -39,9 +51,9 @@ export default {
   mounted() {
 
   },
-  methods:{
-    stopScroll(event){
-      event.preventDefault();  
+  methods: {
+    stopScroll(event) {
+      event.preventDefault()
     }
   }
 }
