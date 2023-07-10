@@ -9,11 +9,14 @@
     >
       <div
         class="loading-icon"
-        :style="{ width: size, height: size, top: iconTop + 'px' }"
+        :style="{
+          width: size,
+          height: size,
+          top: iconTop + 'px' }"
       >
         <svg-icon
           :size="size"
-          name="loading"
+          icon-name="loading"
           color="#3B8EEA"
         ></svg-icon>
       </div>
@@ -52,9 +55,7 @@ export default {
 
   },
   methods: {
-    stopScroll(event) {
-      event.preventDefault()
-    }
+
   }
 }
 </script>

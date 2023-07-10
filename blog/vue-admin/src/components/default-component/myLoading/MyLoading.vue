@@ -1,8 +1,14 @@
 <template>
   <div class="loading-container">
     <!-- 显示 loading -->
-    <div class="overlay" v-if="loadShow" @touchmove.prevent @mousewheel.prevent>
-      <div class="loading-icon" :style="{ width: size, height: size, top: iconTop + 'px' }" >
+    <div class="overlay" v-if="loadShow" 
+    @touchmove.prevent 
+    @mousewheel.prevent>
+      <div class="loading-icon" 
+      :style="{ 
+        width: size, 
+      height: size, 
+        top: iconTop + 'px' }" >
         <svg-icon :size="size" name="loading" color="#3B8EEA"></svg-icon>
       </div>
     </div>
@@ -40,9 +46,7 @@ export default {
 
   },
   methods:{
-    stopScroll(event){
-      event.preventDefault();  
-    }
+
   }
 }
 </script>
