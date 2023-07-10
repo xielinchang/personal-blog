@@ -235,7 +235,7 @@ export default {
   data () {
     return {
       essayForm: {
-        essay_id: null,
+        essay_id: '',
         coverUrl: '',
         title: '',
         subtitle: '',
@@ -258,7 +258,7 @@ export default {
         good: 0,
         collect: 0
       },
-      essay_id: '',
+      query: this.$route.query,
       commentNum: 0,
       publishShow: false,
       showDialog: false,
@@ -297,16 +297,11 @@ export default {
     }
   },
   watch: {
-    // '$route.path': {
-    //   immediate: true,
-    //   handler(value, oldValue) {
-    //     this.init()
-    //   }
-    // },
     '$route.query': {
       // 监听参数变化重新初始化，比直接location.href刷新页面更加顺滑
       handler(value, oldValue) {
         var _this = this
+        this.query.id=value.id
         this.init()
       },
       deep: true
@@ -321,7 +316,6 @@ export default {
   },
   methods: {
     init() {
-      this.initPage()
       this.initUser()
       this.initEssay()
       this.initComments()
@@ -343,7 +337,7 @@ export default {
         }
       }).then(res => {
         const arr = res.data.rows
-        const idIndex = arr.findIndex(item => item.id * 1 === this.commentForm.essay_id * 1)
+        const idIndex = arr.findIndex(item =>item.id * 1 === this.query.id * 1)
         if (idIndex * 1 === arr.length - 1 && type === 'next') {
           this.$msg({
             content: '已经是最后一篇了',
@@ -393,13 +387,6 @@ export default {
     },
     emojiPickerOff() {
       this.showDialog = false
-    },
-    initPage() {
-      // 获取文章id
-      // 文章详细信息的文章id
-      this.essayData.essay_id = this.$route.query.id * 1
-      // 通用id
-      this.essay_id = this.$route.query.id * 1
     },
     initCatalog() {
       this.catalog = []
@@ -452,7 +439,7 @@ export default {
         limit: 1,
         offset: 1,
         query: {
-          id: this.essayData.essay_id * 1,
+          id: this.query.id * 1,
           title: undefined,
           subtitle: undefined,
           domain: undefined
@@ -482,16 +469,14 @@ export default {
         limit: 999,
         offset: 1,
         query: {
-          essay_id: this.essayData.essay_id
+          essay_id: this.query.id
         }
       }).then(res => {
-        console.log(res)
         this.commentNum = res.data.count
         this.commentList = res.data.rows
       })
     },
     initUser() {
-      this.initPage()
       if (getToken('token')) {
         store.dispatch('getUserInfo').then(user => {
           if (user.user_detail !== null) {
@@ -505,7 +490,7 @@ export default {
             if (this.collectIds.length > 0) {
               this.isCollect = false
               this.collectIds.find((item, index) => {
-                if (item * 1 === this.essayData.essay_id * 1) {
+                if (item * 1 === this.query.id * 1) {
                   this.isCollect = true
                 }
               })
@@ -518,7 +503,7 @@ export default {
             if (this.goodIds.length > 0) {
               this.isGood = false
               this.goodIds.find((item, index) => {
-                if (item * 1 === this.essayData.essay_id) {
+                if (item * 1 === this.query.id) {
                   this.isGood = true
                 }
               })
@@ -584,15 +569,14 @@ export default {
       }, 1)
     },
     addCollect() {
-      this.initPage()
       if (getToken('token')) {
         this.isCollect = !this.isCollect
         if (this.isCollect) {
           this.essayData.collect++
-          this.collectIds.push(this.essayData.essay_id)
+          this.collectIds.push(this.query.id)
         } else {
           this.essayData.collect--
-          this.collectIds.splice(this.collectIds.indexOf(String(this.essayData.essay_id)), 1)
+          this.collectIds.splice(this.collectIds.indexOf(String(this.query.id)), 1)
         }
         if (this.collectIds.length > 1) {
           this.userDetail.collect = this.collectIds.join(',')
@@ -624,15 +608,14 @@ export default {
       }
     },
     addGood() {
-      this.initPage()
       if (getToken('token')) {
         this.isGood = !this.isGood
         if (this.isGood) {
           this.essayData.good++
-          this.goodIds.push(this.essayData.essay_id)
+          this.goodIds.push(this.query.id)
         } else {
           this.essayData.good--
-          this.goodIds.splice(this.goodIds.indexOf(String(this.essayData.essay_id)), 1)
+          this.goodIds.splice(this.goodIds.indexOf(String(this.query.id)), 1)
         }
         if (this.goodIds.length > 1) {
           this.userDetail.good = this.goodIds.join(',')
