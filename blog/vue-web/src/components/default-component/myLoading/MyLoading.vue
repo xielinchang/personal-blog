@@ -13,7 +13,7 @@
       >
         <svg-icon
           :size="size"
-          name="loading"
+          icon-name="loading"
           color="#3B8EEA"
         ></svg-icon>
       </div>
