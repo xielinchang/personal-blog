@@ -6,6 +6,7 @@
   animation-duration: 0.8s;
   background: rgb(255, 255, 255, 0.6);
   padding-bottom: 60px;
+  min-height: 400px;
   border-radius: 4px;
     .essay-list {
       position: relative;
@@ -96,9 +97,11 @@
           }
         }
       }
+      .nothing{
+        line-height: 400px;
+      }
     }
     .essay-list .essay-item:hover {
-      // transform: translateY(10px);
       transform: scale(1.01);
       box-shadow: 0 0 10px rgba(0,0,10,.52);
       transition: 300ms;
@@ -117,9 +120,6 @@
       top: 4px;
       z-index: 99;
     }
-    }
-    .nothing{
-      min-height: 400px;
     }
 }
 @media screen and (max-width:500px) {

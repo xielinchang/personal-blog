@@ -9,7 +9,7 @@
     >
       <div
         class="loading-icon"
-        :style="{ width: size, height: size, top: iconTop + 'px' }"
+        :style="{ width: size, height: size, top: fixed + 'px',position:fixed?'fixed':'' }"
       >
         <svg-icon
           :size="size"
@@ -38,7 +38,7 @@ export default {
       default: '50px'
     },
     // 自定义图标高度
-    iconTop: {
+    fixed: {
       type: [String, Number],
       default: null
     }
