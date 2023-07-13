@@ -1,23 +1,14 @@
 <template>
   <div>
     <TemplatePage></TemplatePage>
-    <my-loading
-      :load-show="loading"
-      icon-top="400"
-    >
+    <my-loading :load-show="loading" fixed="400">
       <div class="project">
         <div class="project-top">
           <div class="banner">
             <div class="baner-mark">
-              <div
-                class="mark"
-                :style="{ 'backgroundImage': `url(${prefix + projectForm.coverUrl})` }"
-              ></div>
+              <div class="mark" :style="{ 'backgroundImage': `url(${prefix + projectForm.coverUrl})` }"></div>
               <div class="shadow-mark"></div>
-              <div
-                class="banner-img"
-                :style="{ 'backgroundImage': `url(${prefix + projectForm.coverUrl})` }"
-              >
+              <div class="banner-img" :style="{ 'backgroundImage': `url(${prefix + projectForm.coverUrl})` }">
               </div>
             </div>
           </div>
@@ -33,14 +24,8 @@
             <div class="label">
               相关链接:
             </div>
-            <my-textarea
-              v-model="projectForm.link"
-              :width="500"
-              :is-resize="false"
-              :height="100"
-              border-width="0"
-              disabled
-            >
+            <my-textarea v-model="projectForm.link" :width="500" :is-resize="false" :height="100" border-width="0"
+              disabled>
             </my-textarea>
           </div>
         </div>
@@ -52,25 +37,10 @@
       </div>
       <div class="icon-buttons">
         <router-link :to="'/control/project/writing?id=' + $route.query.id">
-          <icon-button
-            v-if="hasPermi"
-            class="icon-button"
-            icon="edit"
-            left-title="编辑"
-          ></icon-button>
+          <icon-button v-if="hasPermi" class="icon-button" icon="edit" left-title="编辑"></icon-button>
         </router-link>
-        <icon-button
-          class="icon-button"
-          icon="left"
-          left-title="上一篇"
-          @click.native="preProject()"
-        ></icon-button>
-        <icon-button
-          class="icon-button"
-          icon="right"
-          left-title="下一篇"
-          @click.native="nextProject()"
-        ></icon-button>
+        <icon-button class="icon-button" icon="left" left-title="上一篇" @click.native="preProject()"></icon-button>
+        <icon-button class="icon-button" icon="right" left-title="下一篇" @click.native="nextProject()"></icon-button>
       </div>
     </my-loading>
   </div>
@@ -85,7 +55,6 @@ export default {
       projectForm: {},
       loading: false,
       prefix: process.env.VUE_APP_BASE_API
-
     }
   },
   computed: {
@@ -108,6 +77,7 @@ export default {
   },
   methods: {
     initProject() {
+      this.loading = true
       queryProject({
         limit: 1,
         offset: 1,
@@ -115,7 +85,7 @@ export default {
           id: this.$route.query.id
         }
       }).then(res => {
-        console.log(res)
+        this.loading =false
         this.projectForm = res.data.rows[0]
       })
     },
