@@ -1,14 +1,23 @@
 <template>
   <div>
     <TemplatePage></TemplatePage>
-    <my-loading :load-show="loading" icon-top="400">
+    <my-loading
+      :load-show="loading"
+      icon-top="400"
+    >
       <div class="project">
         <div class="project-top">
           <div class="banner">
             <div class="baner-mark">
-              <div class="mark" :style="{ 'backgroundImage': `url(${prefix + projectForm.coverUrl})` }"></div>
+              <div
+                class="mark"
+                :style="{ 'backgroundImage': `url(${prefix + projectForm.coverUrl})` }"
+              ></div>
               <div class="shadow-mark"></div>
-              <div class="banner-img" :style="{ 'backgroundImage': `url(${prefix + projectForm.coverUrl})` }">
+              <div
+                class="banner-img"
+                :style="{ 'backgroundImage': `url(${prefix + projectForm.coverUrl})` }"
+              >
               </div>
             </div>
           </div>
@@ -24,8 +33,14 @@
             <div class="label">
               相关链接:
             </div>
-            <my-textarea v-model="projectForm.link" :width="500" :is-resize="false" :height="100" border-width="0"
-              disabled>
+            <my-textarea
+              v-model="projectForm.link"
+              :width="500"
+              :is-resize="false"
+              :height="100"
+              border-width="0"
+              disabled
+            >
             </my-textarea>
           </div>
         </div>
@@ -37,10 +52,25 @@
       </div>
       <div class="icon-buttons">
         <router-link :to="'/control/project/writing?id=' + $route.query.id">
-          <icon-button v-if="hasPermi" class="icon-button" icon="edit" left-title="编辑"></icon-button>
+          <icon-button
+            v-if="hasPermi"
+            class="icon-button"
+            icon="edit"
+            left-title="编辑"
+          ></icon-button>
         </router-link>
-        <icon-button class="icon-button" icon="left" left-title="上一篇" @click.native="preProject()"></icon-button>
-        <icon-button class="icon-button" icon="right" left-title="下一篇" @click.native="nextProject()"></icon-button>
+        <icon-button
+          class="icon-button"
+          icon="left"
+          left-title="上一篇"
+          @click.native="preProject()"
+        ></icon-button>
+        <icon-button
+          class="icon-button"
+          icon="right"
+          left-title="下一篇"
+          @click.native="nextProject()"
+        ></icon-button>
       </div>
     </my-loading>
   </div>
@@ -65,7 +95,7 @@ export default {
   },
   watch: {
     '$route.query': {
-      // 监听参数变化重新初始化，比直接location.href刷新页面更加顺滑
+      // 监听参数变化重新初始化
       handler(value, oldValue) {
         var _this = this
         this.initProject()
@@ -133,5 +163,5 @@ export default {
 }
 </script>
 <style lang='scss' scoped>
-@import './scss/ProjectPage.scss'
+@import './scss/ProjectPage.scss';
 </style>

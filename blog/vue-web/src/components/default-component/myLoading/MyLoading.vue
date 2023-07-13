@@ -52,9 +52,7 @@ export default {
 
   },
   methods: {
-    stopScroll(event) {
-      event.preventDefault()
-    }
+
   }
 }
 </script>

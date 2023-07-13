@@ -1,87 +1,82 @@
 <template>
-  <div class="note-main">
-    <my-loading :load-show="loading">
-    <TemplatePage></TemplatePage>
-    <div class="about-me">
-      <div class="person introduce block">
-        <div class="label">
-          个人信息
-        </div>
-        <div class="introduce-main">
-          <div class="user-msg">
-            <div class="my-qq"><span>
-              qq: &nbsp;&nbsp;&nbsp;
-            </span>{{ detail.qq }}</div>
-            <div class="my-email"><span>
-              邮箱 :
-            </span>{{ detail.email }}</div>
-            <div class="my-phone"><span>
-              电话 :
-            </span>{{ detail.phone }}</div>
-          </div>
-        </div>
+  <div>
+    <my-loading
+      :load-show="loading"
+    >
+      <div class="note-main">
+        <TemplatePage></TemplatePage>
 
-      </div>
-      <div class="person techniques block">
-        <div class="label">
-          技术栈
-        </div>
-        <ul class="techniques-tags">
-          <li
-            v-for="item in detail.techniques"
-            :key="item"
-          >
-            {{ item }}
-          </li>
-        </ul>
-      </div>
-      <div class="person web-intro block">
-        <div class="label">
-          网站申明
-        </div>
-        <div class="web-intro-main">
-          {{ detail.web_declare }}
-        </div>
-      </div>
-      <div class="project block">
-        <div class="label">
-          项目之旅
-        </div>
-        <ul class="project-list">
-          <li
-            v-for="item in projectList"
-            :key="item.id"
-            class="block"
-          >
-            <router-link
-              style="color:#333"
-              :to="'/note/project?id=' + item.id"
-            >
-              <div class="p-item">
-                <div class="cover">
-                  <img
-                    v-lazy="prefix+item.coverUrl"
-                    alt=""
-                  >
+        <div class="about-me">
+          <div class="person introduce block">
+            <div class="label">个人信息</div>
+            <div class="introduce-main">
+              <div class="user-msg">
+                <div class="my-qq">
+                  <span> qq: &nbsp;&nbsp;&nbsp; </span>{{ detail.qq }}
                 </div>
-                <div class="project-msg">
-                  <div class="p-name">
-                    {{ item.title }}
-                  </div>
-                  <div class="p-create">
-                    {{ item.created_at }}
-                  </div>
-
+                <div class="my-email">
+                  <span> 邮箱 : </span>{{ detail.email }}
+                </div>
+                <div class="my-phone">
+                  <span> 电话 : </span>{{ detail.phone }}
                 </div>
               </div>
-
-            </router-link>
-          </li>
-        </ul>
+            </div>
+          </div>
+          <div class="person techniques block">
+            <div class="label">技术栈</div>
+            <ul class="techniques-tags">
+              <li
+                v-for="item in detail.techniques"
+                :key="item"
+              >
+                {{ item }}
+              </li>
+            </ul>
+          </div>
+          <div class="person web-intro block">
+            <div class="label">网站申明</div>
+            <div class="web-intro-main">
+              {{ detail.web_declare }}
+            </div>
+          </div>
+          <div class="project block">
+            <div class="label">项目之旅</div>
+            <ul class="project-list">
+              <li
+                v-for="item in projectList"
+                :key="item.id"
+                class="block"
+              >
+                <router-link
+                  style="color: #333"
+                  :to="'/note/project?id=' + item.id"
+                >
+                  <div class="p-item">
+                    <div class="cover">
+                      <img
+                        v-lazy="prefix + item.coverUrl"
+                        alt=""
+                      />
+                    </div>
+                    <div class="project-msg">
+                      <div class="p-name">
+                        {{ item.title }}
+                      </div>
+                      <div class="p-create">
+                        {{ item.created_at }}
+                      </div>
+                    </div>
+                  </div>
+                </router-link>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
-    </div>
     </my-loading>
   </div>
+
 </template>
 
 <script>
@@ -91,29 +86,28 @@ import { queryUser } from '@/api/default/user'
 import store from '@/store'
 export default {
   name: 'NotePage',
-  data () {
+  data() {
     return {
       detail: {},
       projectList: [],
       prefix: process.env.VUE_APP_BASE_API,
-      loading:false
+      loading: false
     }
   },
-  mounted () {
+  mounted() {
     document.documentElement.scrollTop = 0
     this.initAboutme()
   },
   methods: {
     initAboutme() {
-      queryAboutme().then(res => {
+      queryAboutme().then((res) => {
         res.data[0].techniques = res.data[0].techniques.split(',')
         this.detail = { ...res.data[0] }
         this.initProject()
-       
       })
     },
     initProject() {
-      this.loading=true
+      this.loading = true
       queryProject({
         limit: 999,
         offset: 1,
@@ -122,15 +116,14 @@ export default {
           html: undefined,
           name: undefined
         }
-      }).then(res => {
-        this.loading=false
+      }).then((res) => {
+        this.loading = false
         this.projectList = res.data.rows
-      }
-      )
+      })
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-@import './AboutMe';
+@import "./AboutMe";
 </style>

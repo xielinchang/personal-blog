@@ -1,6 +1,7 @@
 .essay-body {
   width: 100%;
   height: auto;
+  min-height: 400px;
   position: relative;
   animation: flipInX;
   animation-duration: 0.8s;
@@ -120,6 +121,9 @@
       top: 4px;
       z-index: 99;
     }
+    }
+    .nothing{
+      line-height: 400px;
     }
 }
 @media screen and (max-width:500px) {

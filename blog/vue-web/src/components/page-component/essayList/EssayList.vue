@@ -1,62 +1,62 @@
 <template>
   <div>
     <my-loading :load-show="loading">
-    <div
-      class="essay-body"
-      :style="{ width: width + '%' }"
-    >
-      <ul class="essay-list">
-        <li
-          v-for="(item, index) in essay_list"
-          :key="index"
-          class="essay-item"
-          @click="jumpToEssay(item)"
-        >
-          <img
-            v-lazy="item.coverUrl"
-            class="item-main"
-          />
-          <div
-            class="item-bottom"
-          >
-            <div class="item-time">{{ item.updated_at }}</div>
-            <div class="permission">{{ item.radio*1===2?"转载":"" }}</div>
-            <div
-              class="item-title"
-            >{{ item.title }}</div>
-            <ul class="item-type">
-              <li
-                v-for="(item, index) in essay_list[index].tags"
-                :key="index"
-              >
-                {{ item }}
-              </li>
-            </ul>
-          </div>
-        </li>
-        <div
-          v-show="essay_list.length===0"
-          class="nothing"
-        >无数据匹配</div>
-      </ul>
       <div
-        v-show="essay_list.length>0"
-        class="query-page-box"
+        class="essay-body"
+        :style="{ width: width + '%' }"
       >
-        <QueryPage
-          class="query-page"
-          :current-page="currentPage"
-          :total="total"
-          :is-one-show="false"
-          :page-size="pageSize"
-          :page-count="pageCount"
-          :size-options="sizeOptions"
-          @change-page-size="changeSize"
-          @change-page="changePage"
-        ></QueryPage>
+        <ul class="essay-list">
+          <li
+            v-for="(item, index) in essay_list"
+            :key="index"
+            class="essay-item"
+            @click="jumpToEssay(item)"
+          >
+            <img
+              v-lazy="item.coverUrl"
+              class="item-main"
+            />
+            <div
+              class="item-bottom"
+            >
+              <div class="item-time">{{ item.updated_at }}</div>
+              <div class="permission">{{ item.radio*1===2?"转载":"" }}</div>
+              <div
+                class="item-title"
+              >{{ item.title }}</div>
+              <ul class="item-type">
+                <li
+                  v-for="(item, index) in essay_list[index].tags"
+                  :key="index"
+                >
+                  {{ item }}
+                </li>
+              </ul>
+            </div>
+          </li>
+          <div
+            v-show="essay_list.length===0"
+            class="nothing"
+          >无数据匹配</div>
+        </ul>
+        <div
+          v-show="essay_list.length>0"
+          class="query-page-box"
+        >
+          <QueryPage
+            class="query-page"
+            :current-page="currentPage"
+            :total="total"
+            :is-one-show="false"
+            :page-size="pageSize"
+            :page-count="pageCount"
+            :size-options="sizeOptions"
+            @change-page-size="changeSize"
+            @change-page="changePage"
+          ></QueryPage>
+        </div>
       </div>
-    </div>
-  </my-loading>
+    </my-loading>
   </div>
 </template>
 
