@@ -1,225 +1,228 @@
 <template>
   <div class="body">
-    <my-loading :load-show="loading" icon-top="400">
-    <TemplatePage></TemplatePage>
-    <div class="main-body">
-      <div class="main-container">
-        <div class="banner">
-          <div class="baner-mark">
-            <img
-              v-lazy="prefix+essayForm.coverUrl"
-              class="mark"
-            />
-            <div class="shadow-mark"></div>
-            <img
-              v-lazy="prefix+essayForm.coverUrl"
-              class="banner-img"
-            />
-          </div>
-          <MyBuble class="buble"></MyBuble>
-          <div class="banner-tit-box">
-            <div class="banner-title">{{ essayForm.title }}</div>
-            <div class="banner-line"></div>
-            <div class="banner-subtitle">{{ essayForm.subtitle }}</div>
-            <div class="updated-time">最近更新：{{ essayForm.updated_at }}</div>
-          </div>
-        </div>
-        <div
-          v-show="catalog.length>0&&catalogShow"
-          class="catalog-box block"
-          :style="justStyle"
-        >
-          <p>目录:</p>
-          <ul
-            class="catalog"
-          >
-            <li
-              v-for="(item,index) in catalog"
-              :key="index"
-              @click="jumpToCatalog(item)"
-            >{{ item.key }}</li>
-          </ul>
-        </div>
-        <div
-          class="main-page"
-          :style="{width: (catalog.length>0&&catalogShow)?'78%':'100%'}"
-        >
-          <div
-            v-if="essayForm.digest!==''"
-            class="digest block"
-          >
-            <div class="digest-content">
-              <div class="digest-head">
-                <svg-icon
-                  class="digest-icon"
-                  color="#1DA9E0"
-                  size="20px"
-                  icon-name="digest"
-                  right-title="摘要"
-                ></svg-icon>
-                <p>简要的摘要能帮助读者更好的理解文章</p>
-              </div>
-              {{ essayForm.digest }}
-            </div>
-          </div>
-          <div class="essay">
-            <div
-              class="essay-content"
-              v-html="essayForm.html"
-            ></div>
-            <div class="operation block">
-              <div
-                class="good-icon"
-                @click="addGood"
-              >
-                <svg-icon
-                  v-if="isGood"
-                  icon-name="good-filled"
-                  size="20px"
-                  color="#ffa109"
-                ></svg-icon>
-                <svg-icon
-                  v-else
-                  icon-name="good"
-                  size="20px"
-                  color="#666"
-                ></svg-icon>
-                {{ essayData.good }}
-              </div>
-              <div
-                class="collect-icon"
-                @click="addCollect"
-              >
-                <svg-icon
-                  v-if="isCollect===true"
-                  icon-name="collect-filled"
-                  size="20px"
-                  color="#ffa109"
-                ></svg-icon>
-                <svg-icon
-                  v-else
-                  color="#666"
-                  icon-name="collect"
-                  size="20px"
-                ></svg-icon>
-                {{ essayData.collect }}
-              </div>
-              <div
-                class="comment-icon"
-                @click="publishShow=!publishShow"
-              >
-                <svg-icon
-                  color="#666"
-                  icon-name="comment"
-                  size="20px"
-                ></svg-icon>
-                {{ commentNum }}
-              </div>
-            </div>
-          </div>
-          <div class="comment">
-            <div
-              :class="publishShow?'':'c-publish-close'"
-              class="c-publish"
-            >
-              <textarea
-                id="input"
-                v-model="commentForm.message"
-                placeholder="请输入评论，最多不超过200字"
-                rows="5"
-                maxlength="200"
-                @click="showDialog = false"
-              ></textarea>
-              <div
-                class="emoji-btn"
-                @click="emojiShow"
-              >
-                Emoji😃
-              </div>
-              <div
-                class="c-publish-btn"
-                @click="publishComment"
-              >
-                <svg-icon
-                  class="publish-icon"
-                  icon-name="publish"
-                  size="24px"
-                  color="#00B753"
-                />
-                <span>发布</span>
-              </div>
-              <VEmojiPicker
-                v-show="showDialog"
-                class="emoji-picker"
-                @select="selectEmoji"
+    <my-loading
+      :load-show="loading"
+      icon-top="400"
+    >
+      <TemplatePage></TemplatePage>
+      <div class="main-body">
+        <div class="main-container">
+          <div class="banner">
+            <div class="baner-mark">
+              <img
+                v-lazy="prefix+essayForm.coverUrl"
+                class="mark"
+              />
+              <div class="shadow-mark"></div>
+              <img
+                v-lazy="prefix+essayForm.coverUrl"
+                class="banner-img"
               />
             </div>
+            <MyBuble class="buble"></MyBuble>
+            <div class="banner-tit-box">
+              <div class="banner-title">{{ essayForm.title }}</div>
+              <div class="banner-line"></div>
+              <div class="banner-subtitle">{{ essayForm.subtitle }}</div>
+              <div class="updated-time">最近更新：{{ essayForm.updated_at }}</div>
+            </div>
+          </div>
+          <div
+            v-show="catalog.length>0&&catalogShow"
+            class="catalog-box block"
+            :style="justStyle"
+          >
+            <p>目录:</p>
             <ul
-              v-if="commentList.length>0"
-              class="comment-list block"
+              class="catalog"
             >
               <li
-                v-for="(item,index) in commentList"
+                v-for="(item,index) in catalog"
                 :key="index"
-              >
-                <div class="c-portrait">
-                  <img
-                    v-lazy="prefix+item.users[0].portrait"
-                    alt=""
-                  >
-                </div>
-                <div class="c-right">
-                  <div class="c-top">
-                    <div class="c-name">{{ item.users[0].name }}</div>
-                    <div class="c-address">{{ item.address }}</div>
-                  </div>
-
-                  <div class="c-publish-time">{{ item.created_at }}</div>
-                  <div class="c-msg">
-                    {{ item.message }}
-                  </div>
-                </div>
-
-              </li>
+                @click="jumpToCatalog(item)"
+              >{{ item.key }}</li>
             </ul>
+          </div>
+          <div
+            class="main-page"
+            :style="{width: (catalog.length>0&&catalogShow)?'78%':'100%'}"
+          >
             <div
-              v-else
-              class="no-comments"
+              v-if="essayForm.digest!==''"
+              class="digest block"
             >
-              暂 无 评 论
+              <div class="digest-content">
+                <div class="digest-head">
+                  <svg-icon
+                    class="digest-icon"
+                    color="#1DA9E0"
+                    size="20px"
+                    icon-name="digest"
+                    right-title="摘要"
+                  ></svg-icon>
+                  <p>简要的摘要能帮助读者更好的理解文章</p>
+                </div>
+                {{ essayForm.digest }}
+              </div>
+            </div>
+            <div class="essay">
+              <div
+                class="essay-content"
+                v-html="essayForm.html"
+              ></div>
+              <div class="operation block">
+                <div
+                  class="good-icon"
+                  @click="addGood"
+                >
+                  <svg-icon
+                    v-if="isGood"
+                    icon-name="good-filled"
+                    size="20px"
+                    color="#ffa109"
+                  ></svg-icon>
+                  <svg-icon
+                    v-else
+                    icon-name="good"
+                    size="20px"
+                    color="#666"
+                  ></svg-icon>
+                  {{ essayData.good }}
+                </div>
+                <div
+                  class="collect-icon"
+                  @click="addCollect"
+                >
+                  <svg-icon
+                    v-if="isCollect===true"
+                    icon-name="collect-filled"
+                    size="20px"
+                    color="#ffa109"
+                  ></svg-icon>
+                  <svg-icon
+                    v-else
+                    color="#666"
+                    icon-name="collect"
+                    size="20px"
+                  ></svg-icon>
+                  {{ essayData.collect }}
+                </div>
+                <div
+                  class="comment-icon"
+                  @click="publishShow=!publishShow"
+                >
+                  <svg-icon
+                    color="#666"
+                    icon-name="comment"
+                    size="20px"
+                  ></svg-icon>
+                  {{ commentNum }}
+                </div>
+              </div>
+            </div>
+            <div class="comment">
+              <div
+                :class="publishShow?'':'c-publish-close'"
+                class="c-publish"
+              >
+                <textarea
+                  id="input"
+                  v-model="commentForm.message"
+                  placeholder="请输入评论，最多不超过200字"
+                  rows="5"
+                  maxlength="200"
+                  @click="showDialog = false"
+                ></textarea>
+                <div
+                  class="emoji-btn"
+                  @click="emojiShow"
+                >
+                  Emoji😃
+                </div>
+                <div
+                  class="c-publish-btn"
+                  @click="publishComment"
+                >
+                  <svg-icon
+                    class="publish-icon"
+                    icon-name="publish"
+                    size="24px"
+                    color="#00B753"
+                  />
+                  <span>发布</span>
+                </div>
+                <VEmojiPicker
+                  v-show="showDialog"
+                  class="emoji-picker"
+                  @select="selectEmoji"
+                />
+              </div>
+              <ul
+                v-if="commentList.length>0"
+                class="comment-list block"
+              >
+                <li
+                  v-for="(item,index) in commentList"
+                  :key="index"
+                >
+                  <div class="c-portrait">
+                    <img
+                      v-lazy="prefix+item.users[0].portrait"
+                      alt=""
+                    >
+                  </div>
+                  <div class="c-right">
+                    <div class="c-top">
+                      <div class="c-name">{{ item.users[0].name }}</div>
+                      <div class="c-address">{{ item.address }}</div>
+                    </div>
+
+                    <div class="c-publish-time">{{ item.created_at }}</div>
+                    <div class="c-msg">
+                      {{ item.message }}
+                    </div>
+                  </div>
+
+                </li>
+              </ul>
+              <div
+                v-else
+                class="no-comments"
+              >
+                暂 无 评 论
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="icon-buttons">
-      <icon-button
-        class="icon-button"
-        icon="comment-filled"
-        left-title="评论"
-        @click.native="jumpToComment()"
-      ></icon-button>
-      <icon-button
-        v-show="catalog.length>0"
-        class="icon-button"
-        icon="hide-filled"
-        :left-title="catalogShow?'隐藏目录':'打开目录'"
-        @click.native="catalogShow=!catalogShow"
-      ></icon-button>
-      <icon-button
-        class="icon-button"
-        icon="left"
-        left-title="上一篇"
-        @click.native="preEssay()"
-      ></icon-button>
-      <icon-button
-        class="icon-button"
-        icon="right"
-        left-title="下一篇"
-        @click.native="nextEssay()"
-      ></icon-button>
-    </div>
-  </my-loading>
+      <div class="icon-buttons">
+        <icon-button
+          class="icon-button"
+          icon="comment-filled"
+          left-title="评论"
+          @click.native="jumpToComment()"
+        ></icon-button>
+        <icon-button
+          v-show="catalog.length>0"
+          class="icon-button"
+          icon="hide-filled"
+          :left-title="catalogShow?'隐藏目录':'打开目录'"
+          @click.native="catalogShow=!catalogShow"
+        ></icon-button>
+        <icon-button
+          class="icon-button"
+          icon="left"
+          left-title="上一篇"
+          @click.native="preEssay()"
+        ></icon-button>
+        <icon-button
+          class="icon-button"
+          icon="right"
+          left-title="下一篇"
+          @click.native="nextEssay()"
+        ></icon-button>
+      </div>
+    </my-loading>
   </div>
 </template>
 
@@ -253,7 +256,7 @@ export default {
       isGood: false,
       isCollect: false,
       essayData: {
-        id: null,
+        id: this.$route.query,
         essay_id: null,
         good: 0,
         collect: 0
@@ -301,7 +304,7 @@ export default {
       // 监听参数变化重新初始化，比直接location.href刷新页面更加顺滑
       handler(value, oldValue) {
         var _this = this
-        this.query.id=value.id
+        this.query.id = value.id
         this.init()
       },
       deep: true
@@ -337,7 +340,7 @@ export default {
         }
       }).then(res => {
         const arr = res.data.rows
-        const idIndex = arr.findIndex(item =>item.id * 1 === this.query.id * 1)
+        const idIndex = arr.findIndex(item => item.id * 1 === this.query.id * 1)
         if (idIndex * 1 === arr.length - 1 && type === 'next') {
           this.$msg({
             content: '已经是最后一篇了',
@@ -450,7 +453,7 @@ export default {
         } else {
           _this.essayData = {
             id: null,
-            essay_id: null,
+            essay_id: this.query.id,
             good: 0,
             collect: 0
           }
@@ -583,6 +586,7 @@ export default {
         } else {
           this.userDetail.collect = this.collectIds.join('')
         }
+        console.log(this.essayData);
         essayDetailUpdate(this.essayData).then(res => {
           userDetailUpdate(this.userDetail).then(res => {
             if (this.isCollect === true) {
