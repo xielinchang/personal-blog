@@ -28,6 +28,9 @@ export const dictionary = {
     }, {
       label: 'NODE',
       value: 'NODE'
+    },{
+      label: 'REACT',
+      value: 'REACT'
     }, {
       label: '其他',
       value: '其他'

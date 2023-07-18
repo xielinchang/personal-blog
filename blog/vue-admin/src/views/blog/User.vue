@@ -9,132 +9,49 @@
 <template>
   <div class="user-control">
     <div class="header block">
-      <my-input
-        label="用户名："
-        v-model="search.username"
-        class="my-input"
-        height="38"
-        placeholder="请输入用户名"
-      />
-      <my-button
-        style="margin:0 10px"
-        @click="searched"
-        class="my-button"
-        type="primary"
-        icon="search"
-        >搜索</my-button
-      >
-      <my-button
-        @click="reset"
-        class="my-button"
-        type="primary"
-        icon="search"
-        >重置</my-button
-      >
+      <my-input label="用户名：" v-model="search.username" class="my-input" height="38" placeholder="请输入用户名" />
+      <my-button style="margin:0 10px" @click="searched" class="my-button" type="primary" icon="search">搜索</my-button>
+      <my-button @click="reset" class="my-button" type="primary" icon="search">重置</my-button>
     </div>
     <el-card class="box-card">
       <div class="main">
         <el-table :data="tableData" style="width: 100%">
-          <el-table-column
-            align="center"
-            prop="id"
-            label="用户id"
-            width="120"
-          />
-          <el-table-column
-            align="center"
-            prop="name"
-            label="名称"
-            width="150"
-          />
-          <el-table-column
-            align="center"
-            prop="portrait"
-            label="头像"
-            width="250"
-          >
+          <el-table-column align="center" prop="id" label="用户id" width="120" />
+          <el-table-column align="center" prop="name" label="名称" width="150" />
+          <el-table-column align="center" prop="portrait" label="头像" width="250">
             <template slot-scope="scpoe">
               <img width="80%" :src="prefix + scpoe.row.portrait" alt="" />
             </template>
           </el-table-column>
-          <el-table-column
-            align="center"
-            prop="username"
-            label="用户名"
-            width="150"
-          >
+          <el-table-column align="center" prop="username" label="用户名" width="150">
           </el-table-column>
-          <el-table-column
-            align="center"
-            prop="created_at"
-            label="用户创建时间"
-            width="200"
-          >
+          <el-table-column align="center" prop="created_at" label="用户创建时间" width="200">
           </el-table-column>
-          <el-table-column
-            align="center"
-            fixed="right"
-            label="操作"
-            width="200"
-          >
+          <el-table-column align="center" fixed="right" label="操作" width="200">
             <template slot-scope="scope">
-              <el-button
-                type="text"
-                size="small"
-                icon="el-icon-refresh"
-                @click="handleChangePsw(scope.row, scope.$index)"
-                >重置密码</el-button
-              >
-              <el-button
-                type="text"
-                size="small"
-                icon="el-icon-edit"
-                @click="handleEdit(scope.row, scope.$index)"
-                >编辑</el-button
-              >
-              <el-button
-                slot="reference"
-                type="text"
-                icon="el-icon-delete"
-                size="small"
-                @click="handleDelete(scope.row, scope.$index)"
-                >删除</el-button
-              >
+              <el-button type="text" size="small" icon="el-icon-refresh"
+                @click="handleChangePsw(scope.row, scope.$index)">重置密码</el-button>
+              <el-button type="text" size="small" icon="el-icon-edit"
+                @click="handleEdit(scope.row, scope.$index)">编辑</el-button>
+              <el-button slot="reference" type="text" icon="el-icon-delete" size="small"
+                @click="handleDelete(scope.row, scope.$index)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
         <div class="pages">
-          <el-pagination
-            class="page-box"
-            :current-page="currentPage"
-            :page-sizes="[5, 10, 15, 20, totalpage]"
-            :page-size="pagesize"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="totalpage"
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-          />
+          <el-pagination class="page-box" :current-page="currentPage" :page-sizes="[5, 10, 15, 20, totalpage]"
+            :page-size="pagesize" layout="total, sizes, prev, pager, next, jumper" :total="totalpage"
+            @size-change="handleSizeChange" @current-change="handleCurrentChange" />
         </div>
       </div>
     </el-card>
-    <el-dialog
-      title="用户编辑"
-      :visible.sync="userVisible"
-      width="30%"
-      :before-close="handleClose"
-    >
+    <el-dialog title="用户编辑" :visible.sync="userVisible" width="30%" :before-close="handleClose">
       <div style="display: flex; flex-direction: column">
         <span style="margin: 10px">用户名称：</span>
         <my-input v-model="userForm.name"></my-input>
         <span style="margin: 10px">用户头像：</span>
-        <my-upload
-          v-model="file"
-          :action="uploadApi"
-          :image="imgurl"
-          :preview="true"
-          @delete-img="deleteCallback"
-          @upload-success="uploadCallback"
-        >
+        <my-upload v-model="file" :action="uploadApi" :image="imgurl" :preview="true" @delete-img="deleteCallback"
+          @upload-success="uploadCallback">
         </my-upload>
       </div>
 
@@ -147,7 +64,7 @@
 </template>
 
 <script>
-import { queryUser,resetPsw, updateUser, deleteUser } from "@/api/index/user";
+import { queryUser, resetPsw, updateUser, deleteUser } from "@/api/index/user";
 import { getToken } from "../../utils/cookie";
 import axios from "axios";
 export default {
@@ -179,16 +96,17 @@ export default {
     this.initUser();
   },
   methods: {
-    reset(){
-      this.search.username=''
+    reset() {
+      this.search.username = ''
       this.searched()
     },
     searched() {
-      initUser();
+      this.initUser();
     },
     initUser() {
       this.tableData = [];
       var _this = this;
+      console.log(this.search.username);
       queryUser({
         limit: 999,
         offset: 1,
@@ -197,6 +115,7 @@ export default {
           username: this.search.username ? this.search.username : undefined,
         },
       }).then((res) => {
+        console.log(res);
         this.tableData = res.user.rows;
       });
     },
