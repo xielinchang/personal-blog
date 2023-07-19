@@ -4,10 +4,10 @@ const md5 = require('md5');
 class UserService extends Service {
   async register(body) {
     const { ctx, app } = this;
-    body.password = md5(md5(body.password)+ app.config.password_salt);
+    body.password = md5(md5(body.password) + app.config.password_salt);
     // 创建或者查询用户
     // created表示这条是否是创建出来的
-    const [ , created ] = await ctx.model.User.User.findOrCreate({
+    const [, created] = await ctx.model.User.User.findOrCreate({
       where: { username: body.username },
       defaults: body,
     });
@@ -104,11 +104,14 @@ class UserService extends Service {
     return { ip: ctx.request.ip };
   }
   async queryUser(body) {
-    const { ctx,app } = this;
+    const { ctx, app } = this;
     const Op = app.Sequelize.Op;
-    const where = {upt_act: { [Op.ne]: 'D' }};
-    if (body.id) {
-      where.id = body.id;
+    const where = { upt_act: { [Op.ne]: 'D' } };
+    if (body.query.id) {
+      where.id = body.query.id;
+    }
+    if (body.query.username) {
+      where.username = body.query.username
     }
     const user = await ctx.model.User.User.findAndCountAll({
       where,
