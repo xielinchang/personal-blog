@@ -27,7 +27,8 @@ module.exports = {
           ['^' + process.env.VUE_APP_BASE_API]: ''
         }
       },
-      '/baidu-api': {
+      // 部署服务器时得手动配置
+      '/baidu-api/': {
         target: 'https://api.map.baidu.com',
         changeOrigin: true,
         pathRewrite: {

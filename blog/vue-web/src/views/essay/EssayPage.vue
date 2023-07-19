@@ -451,6 +451,7 @@ export default {
         if (res.data.rows[0].essay_detail) {
           _this.essayData = res.data.rows[0].essay_detail
         } else {
+          // 没有详情则对详情数据初始化
           _this.essayData = {
             id: null,
             essay_id: this.query.id,
@@ -586,7 +587,6 @@ export default {
         } else {
           this.userDetail.collect = this.collectIds.join('')
         }
-        console.log(this.essayData);
         essayDetailUpdate(this.essayData).then(res => {
           userDetailUpdate(this.userDetail).then(res => {
             if (this.isCollect === true) {
