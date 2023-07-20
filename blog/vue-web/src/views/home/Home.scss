@@ -6,11 +6,7 @@
     box-shadow: 0 0 10px rgba(0,0,10,.3);
     width: 1260px;
     min-width: 1260px;
-    height: auto;
-    min-height: calc(110vh);
     margin: 0 auto;
-    overflow: hidden;
-    padding-bottom: 500px;
     .bg-shadow {
       width: 100%;
       height: calc(100vh);
@@ -167,6 +163,7 @@
         width: 75%;
         height: auto;
         left: 0;
+        padding-bottom: 100px;
         top: 0;
       }
       .right-tab {
