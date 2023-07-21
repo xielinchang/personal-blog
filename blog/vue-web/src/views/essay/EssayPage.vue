@@ -2,7 +2,7 @@
   <div class="body">
     <my-loading
       :load-show="loading"
-      icon-top="400"
+      fixed-top="400"
     >
       <TemplatePage></TemplatePage>
       <div class="main-body">

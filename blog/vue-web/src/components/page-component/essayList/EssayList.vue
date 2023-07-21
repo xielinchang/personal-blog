@@ -1,6 +1,6 @@
 <template>
   <div class="essay-list">
-    <my-loading :load-show="loading" class="loading">
+    <my-loading :load-show="loading" fixed-top="400" class="loading">
       <div
         class="essay-body"
         :style="{ width: width + '%' }"

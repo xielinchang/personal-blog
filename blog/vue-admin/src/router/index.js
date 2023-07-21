@@ -49,12 +49,13 @@ VueRouter.prototype.push = function push(location) {
 }
 const router = new VueRouter({
     mode: 'hash',
-    routes: constantRoutes
+    routes: constantRoutes,
 })
 
 const whiteList = ['/login']
 router.beforeEach((to, from, next) => {
     document.title = to.meta.title || '系统'
+    document.scrollingElement.scrollTop = 0
     const token = getToken('token')
     if (token) {
         if (to.path === '/login') {
