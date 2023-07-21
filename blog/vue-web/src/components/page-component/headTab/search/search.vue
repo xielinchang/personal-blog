@@ -4,20 +4,19 @@
       <input
         v-model="message"
         readonly
+        @keyup.enter="search"
         onfocus="this.removeAttribute('readonly');"
         placeholder="输入搜索关键字，更多搜索方式点击右下角搜索"
         type="text"
       >
     </div>
-    <router-link :to="'/home?html='+message">
-      <a class="search-btn">
+      <a class="search-btn" @click="search">
         <svg-icon
           icon-name="search"
           color="#fff"
         ></svg-icon>
         <span>搜索</span>
       </a>
-    </router-link>
   </div>
 </template>
 <script>
@@ -26,6 +25,12 @@ export default {
   data () {
     return {
       message: ''
+    }
+  },
+  methods:{
+    search(){
+      this.$router.push('/home?html='+ this.message)
+      this.message = ''
     }
   }
 }
