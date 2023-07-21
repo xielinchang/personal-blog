@@ -252,8 +252,7 @@
       </el-table>
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="commentsVisible = false"
-          >确 定</el-button
-        >
+          >确 定</el-button>
       </span>
     </el-dialog>
   </div>

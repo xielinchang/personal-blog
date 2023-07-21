@@ -4,12 +4,12 @@
     <div
       v-if="loadShow"
       class="overlay"
-      @touchmove.prevent
-      @mousewheel.prevent
     >
+    <!--@touchmove.prevent
+      @mousewheel.prevent -->
       <div
         class="loading-icon"
-        :style="{ width: size, height: size, top: fixed + 'px',position:fixed?'fixed':'' }"
+        :style="{ width: size, height: size, top: fixedTop + 'px',position:fixedTop?'fixed':'' }"
       >
         <svg-icon
           :size="size"
@@ -38,7 +38,7 @@ export default {
       default: '50px'
     },
     // 自定义图标高度
-    fixed: {
+    fixedTop: {
       type: [String, Number],
       default: null
     }
