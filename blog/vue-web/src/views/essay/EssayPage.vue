@@ -507,7 +507,7 @@ export default {
             if (this.goodIds.length > 0) {
               this.isGood = false
               this.goodIds.find((item, index) => {
-                if (item * 1 === this.query.id) {
+                if (item * 1 === this.query.id * 1) {
                   this.isGood = true
                 }
               })
