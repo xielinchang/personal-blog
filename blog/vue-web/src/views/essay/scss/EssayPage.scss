@@ -1,11 +1,10 @@
-
-$opacityColor:rgb(255, 255, 255, 0.95);
-.block{
+$opacityColor: rgb(255, 255, 255, 0.95);
+.block {
   padding: 0;
   margin: 0;
   background-color: white;
 }
-ul{
+ul {
   padding: 0;
 }
 .body {
@@ -21,7 +20,7 @@ ul{
     top: 0;
     left: 0;
   }
-  .icon-buttons{
+  .icon-buttons {
     position: fixed;
     right: 30px;
     bottom: 70px;
@@ -30,9 +29,9 @@ ul{
     display: flex;
     flex-direction: column;
     z-index: 999;
-    .icon-button{
+    .icon-button {
       box-sizing: border-box;
-     margin-bottom: 10px;
+      margin-bottom: 10px;
     }
   }
   .main-body {
@@ -101,7 +100,8 @@ ul{
           background-repeat: no-repeat;
           z-index: 3;
           border-radius: 4px;
-          box-shadow: 0 0 0 2px rgb(255 255 255 / 40%) inset, 0 13px 15px rgb(31 45 61 / 15%);
+          box-shadow: 0 0 0 2px rgb(255 255 255 / 40%) inset,
+            0 13px 15px rgb(31 45 61 / 15%);
         }
 
         .buble {
@@ -128,7 +128,7 @@ ul{
             position: absolute;
             top: 20px;
             text-shadow: 0 2px 2px rgb(0 0 0 / 30%);
-            opacity: .75;
+            opacity: 0.75;
             font-size: 20px;
           }
 
@@ -139,7 +139,7 @@ ul{
             position: absolute;
             top: 55px;
             box-shadow: 0 2px 2px rgb(0 0 0 / 30%);
-            opacity: .75;
+            opacity: 0.75;
           }
 
           .banner-title {
@@ -155,7 +155,7 @@ ul{
             white-space: nowrap;
             text-overflow: ellipsis;
           }
-          .updated-time{
+          .updated-time {
             width: 90%;
             height: 100px;
             position: absolute;
@@ -164,7 +164,7 @@ ul{
           }
         }
       }
-      .catalog-box{
+      .catalog-box {
         width: 20.5%;
         height: auto;
         position: absolute;
@@ -173,16 +173,16 @@ ul{
         border-radius: 4px;
         top: 450px;
         background-color: white;
-        & p{
+        & p {
           height: 40px;
           margin-left: 10px;
           font-size: 18px;
           font-weight: 600;
           line-height: 40px;
         }
-        .catalog{
+        .catalog {
           list-style: none;
-          width: 100%;
+          width: 98%;
           height: auto;
           background: $opacityColor;
           color: #666;
@@ -190,35 +190,41 @@ ul{
           z-index: 2;
           max-height: 620px;
           overflow-y: scroll;
-          &::-webkit-scrollbar{
-            //设置opacity后会存在位置
-            display: none;
+          margin-right: 5px;
+
+          &::-webkit-scrollbar {
+            width: 4px;
+            height: auto;
           }
-          & li{
+          &::-webkit-scrollbar-thumb {
+            background-color: #eee;
+            border-radius: 30px;
+          }
+          & li {
             margin: 15px 0px;
             padding: 0px 15px;
           }
-          & li:hover{
-            background-color: #FAFAFA;
+          & li:hover {
+            background-color: #fafafa;
             transition: 300ms;
             color: var(--rainbow0);
           }
         }
       }
 
-        @media (max-width:1300px) {
-          .catalog-box{
-            display: none;
-          }
-          .main-page{
-            width: 100% !important;
-          }
+      @media (max-width: 1300px) {
+        .catalog-box {
+          display: none;
         }
-        @media screen and (min-width:1300px) {
-          .main-page{
-            width: 78%;
-          }
+        .main-page {
+          width: 100% !important;
         }
+      }
+      @media screen and (min-width: 1300px) {
+        .main-page {
+          width: 78%;
+        }
+      }
       .main-page {
         position: relative;
         height: auto;
@@ -289,7 +295,7 @@ ul{
           color: #666;
           box-sizing: border-box;
         }
-        .essay-content{
+        .essay-content {
           padding-bottom: 100px;
         }
         .digest-content {
@@ -297,23 +303,23 @@ ul{
           padding: 5px 15px;
           line-height: 40px;
           font-size: 18px;
-          .digest-head{
+          .digest-head {
             display: flex;
             justify-content: space-between;
             position: relative;
             width: 100%;
-            height:30px;
+            height: 30px;
             line-height: 30px;
             top: 0px;
-            & p{
+            & p {
               margin-left: 10px;
               font-size: 12px;
               color: #999;
             }
-            & .digest-icon{
+            & .digest-icon {
               position: relative;
             }
-        }
+          }
         }
 
         .comment {
@@ -355,20 +361,21 @@ ul{
               font-weight: 500;
               font-size: 14px;
             }
-            .emoji-btn,.c-publish-btn{
+            .emoji-btn,
+            .c-publish-btn {
               box-shadow: 0 0 0 2px rgb(255 255 255 / 40%) inset,
-              0 13px 15px rgb(31 45 61 / 15%);
-                background: rgb(240, 240, 240,0.75);
-                margin-top: 6px;
-                width: 90px;
-                font-size: 16px;
+                0 13px 15px rgb(31 45 61 / 15%);
+              background: rgb(240, 240, 240, 0.75);
+              margin-top: 6px;
+              width: 90px;
+              font-size: 16px;
               height: 35px;
               position: absolute;
               border-radius: 8px;
               text-align: center;
               color: rgb(78, 78, 78);
               line-height: 35px;
-              }
+            }
             .emoji-btn {
               right: 140px;
               bottom: 23px;
@@ -420,50 +427,52 @@ ul{
               margin: 10px 1%;
               padding: 10px;
               box-sizing: border-box;
-              position:  relative;
+              position: relative;
               display: flex;
               justify-content: left;
-              .c-portrait{
+              .c-portrait {
                 width: 10%;
                 height: 60px;
                 border-radius: 4px;
                 overflow: hidden;
-                & img{
+                & img {
                   width: 60px;
                   height: 100%;
                 }
               }
-               .c-right{
+              .c-right {
                 width: 90%;
                 height: 100%;
-                 position: relative;
-                .c-top,.c-publish-time,.c-msg{
+                position: relative;
+                .c-top,
+                .c-publish-time,
+                .c-msg {
                   width: calc(90% - 70px);
                 }
-                .c-top{
+                .c-top {
                   height: 30px;
                   line-height: 30px;
                   display: flex;
                   justify-content: left;
-                   .c-name{
+                  .c-name {
                     margin-right: 10px;
                     font-size: 18px;
                   }
-                   .c-address{
+                  .c-address {
                     font-size: 16px;
                     color: #666;
                   }
                 }
-                .c-publish-time{
+                .c-publish-time {
                   font-size: 12px;
                   color: #666;
                 }
-                .c-msg{
+                .c-msg {
                   font-size: 14px;
                   height: auto;
                   margin-top: 5px;
                 }
-                .more{
+                .more {
                   width: 20px;
                   height: 20px;
                   position: absolute;
@@ -471,10 +480,9 @@ ul{
                   top: 20px;
                 }
               }
-
             }
           }
-          .no-comments{
+          .no-comments {
             width: 100%;
             height: 100px;
             line-height: 100px;

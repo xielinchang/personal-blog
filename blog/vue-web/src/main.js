@@ -20,6 +20,7 @@ Vue.use(VueLazyload, { // 图片懒加载
   attempt: 1
 })
 // 按目录全局注册组件
+// 页面组件
 const requirePageComponent = require.context(
   './components/page-component',
   true,
@@ -33,6 +34,8 @@ requirePageComponent.keys().forEach(fileName => {
     componentConfig.default
   )
 })
+
+// 通用组件
 const requireDefaultComponent = require.context(
   './components/default-component',
   true,
@@ -47,6 +50,7 @@ requireDefaultComponent.keys().forEach(fileName => {
   )
 })
 
+// 挂载
 new Vue({
   router,
   store,
