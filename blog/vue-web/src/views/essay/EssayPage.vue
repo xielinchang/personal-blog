@@ -32,7 +32,9 @@
             class="catalog-box block"
             :style="justStyle"
           >
-            <p>目录:</p>
+            <div class="catalog-tit">
+              <span>目录:</span>
+            </div>
             <ul
               class="catalog"
             >
