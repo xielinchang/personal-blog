@@ -126,9 +126,7 @@
     </el-dialog>
   </div>
 </template>
-  
   <script>
-import { queryUser } from "@/api/index/user";
 import {
   messageQuery,
   messageDelete,
@@ -185,11 +183,7 @@ export default {
         offset: this.currentPage,
       }).then((res) => {
         this.total = res.count;
-        res.rows.forEach((item, i) => {
-          queryUser({ id: item.user_id }).then((res) => {
-            this.tableData.push(item);
-          });
-        });
+        this.tableData=res.rows
       });
     },
     handleReply(item, index) {
