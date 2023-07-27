@@ -32,7 +32,9 @@
             class="catalog-box block"
             :style="justStyle"
           >
-            <p>目录:</p>
+            <div class="catalog-tit">
+              <span>目录:</span>
+            </div>
             <ul
               class="catalog"
             >
@@ -507,7 +509,7 @@ export default {
             if (this.goodIds.length > 0) {
               this.isGood = false
               this.goodIds.find((item, index) => {
-                if (item * 1 === this.query.id) {
+                if (item * 1 === this.query.id * 1) {
                   this.isGood = true
                 }
               })
