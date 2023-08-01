@@ -1,10 +1,13 @@
 <template>
-  <div class="background"></div>
+  <div class="background">
+    <h2>获取所有金币进入下一关！</h2>
+    <!-- <button @click="next" class="next">下一关</button> -->
+  </div>
 </template>
 
 <script>
 import { maps } from "./map";
-//定义玛丽
+// 定义游戏坐标向量
 class Vec {
   constructor(x, y) {
     this.x = x;
@@ -17,7 +20,7 @@ class Vec {
     return new Vec(this.x * factor, this.y * factor);
   }
 }
-//读取关卡
+//读取地图
 class Level {
   constructor(plan) {
     let rows = plan
@@ -36,10 +39,8 @@ class Level {
         return "empty";
       });
     });
-    // console.log(this.startActors);
   }
 }
-
 //持久化的数据
 class State {
   constructor(level, actors, status) {
@@ -51,7 +52,6 @@ class State {
   static start(level) {
     return new State(level, level.startActors, "playing");
   }
-
   get player() {
     return this.actors.find((a) => a.type === "player");
   }
@@ -71,9 +71,7 @@ class Player {
     return new Player(pos.plus(new Vec(0, -0.5)), new Vec(0, 0));
   }
 }
-
 Player.prototype.size = new Vec(0.8, 1.5);
-
 //熔岩
 class Lava {
   constructor(pos, speed, reset) {
@@ -111,10 +109,11 @@ class Coin {
   }
 
   static create(pos) {
-    let basePos = pos.plus(new Vec(0.2, 0.1));
-    return new Coin(basePos, basePos, Math.random() * Math.PI * 2);
+    return new Coin(pos, pos, Math.random() * Math.PI * 2);
   }
 }
+Coin.prototype.size = new Vec(0.6, 0.6);
+
 //把地图抽象成代码
 const levelChars = {
   ".": "empty",
@@ -126,7 +125,6 @@ const levelChars = {
   "|": Lava,
   v: Lava,
 };
-Coin.prototype.size = new Vec(0.6, 0.6);
 //绘制地图
 function elt(name, attrs, ...children) {
   let dom = document.createElement(name);
@@ -138,20 +136,20 @@ function elt(name, attrs, ...children) {
   }
   return dom;
 }
-
+// 渲染DOM
 class DOMDisplay {
   constructor(parent, level) {
     this.dom = elt("div", { class: "game" }, drawGrid(level));
     this.actorLayer = null;
     parent.appendChild(this.dom);
   }
-
+  // 清除DOM
   clear() {
     this.dom.remove();
   }
 }
-
-const scale = 16;
+// 地图大小
+const scale = 15;
 
 function drawGrid(level) {
   return elt(
@@ -220,16 +218,6 @@ DOMDisplay.prototype.scrollPlayerIntoView = function (state) {
     this.dom.scrollTop = center.y + margin - height;
   }
 };
-
-DOMDisplay.prototype.syncState = function (state) {
-  // ...
-  if (this.actorLayer) this.actorLayer.remove();
-  this.actorLayer = drawActors(state.actors);
-  this.dom.appendChild(this.actorLayer);
-  this.dom.className = `game ${state.status}`;
-  this.scrollPlayerIntoView(state);
-};
-
 //判断碰到岩浆就取消动作
 Level.prototype.touches = function (pos, size, type) {
   var xStart = Math.floor(pos.x);
@@ -246,7 +234,6 @@ Level.prototype.touches = function (pos, size, type) {
   }
   return false;
 };
-
 //判断是否碰到了岩浆
 State.prototype.update = function (time, keys) {
   let actors = this.actors.map((actor) => actor.update(time, this, keys));
@@ -346,25 +333,27 @@ export default {
   data() {
     return {
       arrowKeys: {},
-      playerXSpeed: 12, // 速度
-      gravity: 30, // 重力系数
-      jumpSpeed: 18, // 跳的高度
+      status: null,
+      level: 0,
     };
+  },
+  watch: {
+    status: function () {},
   },
   mounted() {
     this.runGame(maps, DOMDisplay);
   },
   methods: {
     async runGame(plans, Display) {
-      for (let level = 0; level < plans.length; ) {
-        let status = await this.runLevel(new Level(plans[level]), Display);
-        if (status == "won") level++;
+      // 自动进入下一关
+      while (this.level < plans.length) {
+        let status = await this.runLevel(new Level(plans[this.level]), Display);
+        if (status == "won") ++this.level;
       }
-      console.log("You've won!");
     },
     // 定义函数入口
     runLevel(level, Display) {
-      let display = new Display(document.body, level);
+      let display = new Display(document.querySelector(".background"), level);
       let state = State.start(level);
       let ending = 1;
       // 设置按键
@@ -394,6 +383,7 @@ export default {
           if (frameFunc(timeStep) === false) return;
         }
         lastTime = time;
+        // 代替定时器做流畅动画，类似定时器，传入一个回调函数
         requestAnimationFrame(frame);
       }
       requestAnimationFrame(frame);
@@ -416,6 +406,18 @@ export default {
 </script>
 
 <style lang="scss">
+h2{
+  color: #666;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 60px;
+}
+.next {
+  position: absolute;
+  top: 100px;
+  z-index: 2;
+}
 .background {
   width: 100%;
   height: calc(100vh);
@@ -429,6 +431,7 @@ export default {
 .game {
   position: absolute;
   overflow: hidden;
+  z-index: 1;
   margin-top: 100px;
 }
 .background td {
