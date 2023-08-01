@@ -55,12 +55,12 @@ const router = new VueRouter({
 const whiteList = ['/login']
 router.beforeEach((to, from, next) => {
     document.title = to.meta.title || '系统'
-    document.scrollingElement.scrollTop = 0
     const token = getToken('token')
     if (token) {
         if (to.path === '/login') {
             next('/')
         } else {
+            //  展示用户路由菜单
             if (store.getters.addRouters.length === 0) {
                 roleMenu().then(res => {
                     store.dispatch('generateRoutes', res.data).then(() => {
