@@ -279,9 +279,9 @@ Level.prototype.touches = function (pos, size, type) {
   }
   return false
 }
-// 判断是否碰到了岩浆
+// 状态更新(判断是否碰到了岩浆)
 State.prototype.update = function (time, keys) {
-  // 这边actor的update方法即Lava和Coin原型的update
+  // 这边actor的update方法即Lava，Coin，Player等原型的update
   const actors = this.actors.map((actor) => actor.update(time, this, keys))
   let newState = new State(this.level, actors, this.status)
 
