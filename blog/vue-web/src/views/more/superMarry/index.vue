@@ -535,6 +535,7 @@ h3{
     position:fixed;
     left: 50px;
     top: 80px;
+    z-index: 99;
   }
 }
 .map-table {
@@ -545,7 +546,7 @@ h3{
   position: absolute;
   overflow: hidden;
   z-index: 1;
-  margin-top: 100px;
+  top: 120px;
 }
 .background td {
   padding: 0;
