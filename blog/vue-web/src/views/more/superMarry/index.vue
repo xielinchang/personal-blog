@@ -379,35 +379,8 @@ export default {
       stop: false
     }
   },
-  created() {
-    const playerXSpeed = this.playerXSpeed * 1 // 速度
-    const gravity = this.gravity * 1 // 重力系数
-    const jumpSpeed = this.jumpSpeed * 1 // 跳的高度
-    // 玩家的更新
-    Player.prototype.update = function (time, state, keys) {
-      let xSpeed = 0
-      if (keys.ArrowLeft) xSpeed -= playerXSpeed
-      if (keys.ArrowRight) xSpeed += playerXSpeed
-      let pos = this.pos
-      const movedX = pos.plus(new Vec(xSpeed * time, 0))
-      if (!state.level.touches(movedX, this.size, 'wall')) {
-        pos = movedX
-      }
-
-      let ySpeed = this.speed.y + time * gravity
-      const movedY = pos.plus(new Vec(0, ySpeed * time))
-      if (!state.level.touches(movedY, this.size, 'wall')) {
-        pos = movedY
-      } else if (keys.ArrowUp && ySpeed > 0) {
-        ySpeed = -jumpSpeed
-      } else {
-        ySpeed = 0
-      }
-      return new Player(pos, new Vec(xSpeed, ySpeed))
-    }
-  },
   mounted() {
-    console.log(Coin.prototype);
+    console.log(Coin.prototype)
   },
   methods: {
     // 选取关卡
@@ -418,6 +391,7 @@ export default {
     start() {
       if (this.playerXSpeed && this.gravity && this.jumpSpeed) {
         if (this.playerXSpeed < 100 && this.gravity < 100 && this.jumpSpeed < 100) {
+          this.initPlayer()
           this.panelShow = false
           this.stop = false
           this.runGame(maps, DOMDisplay)
@@ -432,6 +406,33 @@ export default {
     exit() {
       this.panelShow = true
       this.stop = true
+    },
+    initPlayer() {
+      const playerXSpeed = this.playerXSpeed * 1 // 速度
+      const gravity = this.gravity * 1 // 重力系数
+      const jumpSpeed = this.jumpSpeed * 1 // 跳的高度
+      // 玩家的更新
+      Player.prototype.update = function (time, state, keys) {
+        let xSpeed = 0
+        if (keys.ArrowLeft) xSpeed -= playerXSpeed
+        if (keys.ArrowRight) xSpeed += playerXSpeed
+        let pos = this.pos
+        const movedX = pos.plus(new Vec(xSpeed * time, 0))
+        if (!state.level.touches(movedX, this.size, 'wall')) {
+          pos = movedX
+        }
+
+        let ySpeed = this.speed.y + time * gravity
+        const movedY = pos.plus(new Vec(0, ySpeed * time))
+        if (!state.level.touches(movedY, this.size, 'wall')) {
+          pos = movedY
+        } else if (keys.ArrowUp && ySpeed > 0) {
+          ySpeed = -jumpSpeed
+        } else {
+          ySpeed = 0
+        }
+        return new Player(pos, new Vec(xSpeed, ySpeed))
+      }
     },
     async runGame(plans, Display) {
       let level = this.selectedLevel.value
