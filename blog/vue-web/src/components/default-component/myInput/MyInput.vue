@@ -36,12 +36,12 @@
         >
         <div class="right-icon">
           <svg-icon
-            :icon-name="value.length>0?'circle-check-filled':'warning-filled'"
+            :icon-name="(value!==null||value!=='')?'circle-check-filled':'warning-filled'"
             size="16px"
-            :color="value.length>0?'#00B753':'#FC9709'"
+            :color="(value!==null||value!=='')?'#00B753':'#FC9709'"
           ></svg-icon>
           <svg-icon
-            v-show="value.length>0"
+            v-show="(value!==null||value!=='')"
             icon-name="circle-close-filled"
             size="16px"
             color="#ddd"
@@ -82,7 +82,7 @@ export default {
       default: false
     },
     value: {
-      type: String,
+      type: [String, Number, Boolean],
       default: ''
     },
     label: {
@@ -103,14 +103,14 @@ export default {
   computed: {
     justStyle() {
       return {
-        borderColor: this.value.length > 0 ? this.isFocus ? '#1DA9E0' : '#ccc' : '#FC9709',
+        borderColor: (this.value !== null || this.value !== '') > 0 ? this.isFocus ? '#1DA9E0' : '#ccc' : '#FC9709',
         width: this.width ? (this.width * 1 + 34 * this.label.length) + 'px' : '240px',
         height: this.height ? this.height + 'px' : '34px'
       }
     },
     justInputStyle() {
       return {
-        width: this.width ? this.value.length > 0 ? (this.width - 20) + 'px' : this.width + 'px' : '240px',
+        width: this.width ? (this.value !== null || this.value !== '') ? (this.width - 20) + 'px' : this.width + 'px' : '240px',
         height: this.height ? this.height - 2 + 'px' : '33px',
         fontSize: this.fontSize ? this.fontSize + 'px' : '14px'
       }
