@@ -247,5 +247,5 @@ export default {
 }
 </script>
 <style lang='scss' scoped>
-@import "./scss/user";
+@import "./scss/index";
 </style>

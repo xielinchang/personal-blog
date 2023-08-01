@@ -133,5 +133,5 @@ export default {
 }
 </script>
 <style lang='scss' scoped>
-@import './scss/ProjectPage.scss';
+@import './scss/index.scss';
 </style>

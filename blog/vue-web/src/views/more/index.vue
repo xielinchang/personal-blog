@@ -10,6 +10,12 @@
       >
         自定义组件测试
       </router-link>
+      <router-link
+        to="/more/supermarry"
+        class="more-part"
+      >
+        超级玛丽小游戏
+      </router-link>
     </div>
   </div>
 </template>
@@ -31,5 +37,5 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import "./MorePage.scss";
+@import "./index.scss";
 </style>

@@ -125,5 +125,5 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import "./AboutMe";
+@import "./index";
 </style>

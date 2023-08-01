@@ -194,5 +194,5 @@ export default {
 </style>
 /* 背景框架 */
 <style scoped lang="scss">
-@import './Home.scss';
+@import './index.scss';
 </style>

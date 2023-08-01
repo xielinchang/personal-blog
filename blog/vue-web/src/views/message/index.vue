@@ -245,5 +245,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "./scss/MessagePage.scss";
+@import "./scss/index.scss";
 </style>

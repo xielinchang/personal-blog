@@ -14,49 +14,56 @@ const routes = [
     path: '/home',
     name: 'home',
     meta: { name: '首页', icon: '' },
-    component: () => import('@/views/home/Home.vue')
+    component: () => import('@/views/home')
   },
   {
     path: '/more',
     name: 'More',
     meta: { name: '更多', icon: '' },
-    component: () => import('@/views/more/MorePage.vue')
+    component: () => import('@/views/more')
   },
   {
     path: '/more/component',
     name: 'component',
     meta: { name: '组件测试', icon: '' },
-    component: () => import('@/views/more/componentTest/index.vue')
+    component: () => import('@/views/more/componentTest')
+  },
+  {
+    path: '/more/supermarry',
+    name: 'superMarry',
+    meta: { name: '超级玛丽', icon: '' },
+    /* 如果有index.js  默认先拿js文件，所以这边要加index.vue */
+    component: () => import('@/views/more/superMarry/index.vue')
   },
   {
     path: '/message',
     name: 'message',
     meta: { name: '留言', icon: '' },
-    component: () => import('@/views/message/MessagePage.vue')
+    component: () => import('@/views/message')
   },
   {
     path: '/aboutme',
     name: 'aboutme',
     meta: { name: '关于我', icon: '' },
-    component: () => import('@/views/aboutme/AboutMe.vue')
+    component: () => import('@/views/aboutme')
   },
   {
     path: '/note/essay',
     name: 'Essay',
     meta: { name: '文章', icon: '' },
-    component: () => import('@/views/essay/EssayPage.vue')
+    component: () => import('@/views/essay')
   },
   {
     path: '/note/project',
     name: 'Project',
     meta: { name: '项目', icon: '' },
-    component: () => import('@/views/project/ProjectPage.vue')
+    component: () => import('@/views/project')
   },
   {
     path: '/user',
     name: 'User',
     meta: { name: '用户页', icon: '' },
-    component: () => import('@/views/user/user.vue')
+    component: () => import('@/views/user')
   },
   {
     path: '/login',

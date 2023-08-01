@@ -658,5 +658,5 @@ export default {
 </script>
 <!-- 头部,框架和banner -->
 <style scoped lang="scss">
-@import './scss/EssayPage.scss';
+@import './scss/index.scss';
 </style>
