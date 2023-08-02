@@ -52,7 +52,7 @@
 
 <script>
 import { maps } from './map'
-// 定义游戏坐标向量
+// 定义游戏坐标向量 (Vector)
 class Vec {
   constructor(x, y) {
     this.x = x
@@ -116,7 +116,9 @@ class Player {
     return new Player(pos.plus(new Vec(0, -0.5)), new Vec(0, 0))
   }
 }
+// 角色大小
 Player.prototype.size = new Vec(0.8, 1.5)
+
 // 熔岩
 class Lava {
   constructor(pos, speed, reset) {
