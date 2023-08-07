@@ -17,21 +17,21 @@
         速度系数：
         <my-input
           v-model="playerXSpeed"
-          placeholder="参考12-18"
+          placeholder="参考10-18"
         ></my-input>
       </div>
       <div class="panel-item">
         重力系数：
         <my-input
           v-model="gravity"
-          placeholder="参考25-35"
+          placeholder="参考30-50"
         ></my-input>
       </div>
       <div class="panel-item">
         弹跳系数 ：
         <my-input
           v-model="jumpSpeed"
-          placeholder="参考15-20"
+          placeholder="参考16-25"
         ></my-input>
       </div>
       <div
@@ -117,7 +117,7 @@ class Player {
   }
 }
 // 角色大小
-Player.prototype.size = new Vec(0.8, 1.5)
+Player.prototype.size = new Vec(0.6, 1.2)
 
 // 熔岩
 class Lava {
@@ -374,9 +374,9 @@ export default {
         label: '关卡一',
         value: 0
       },
-      playerXSpeed: 18,
-      gravity: 25,
-      jumpSpeed: 18,
+      playerXSpeed: 12,
+      gravity: 30,
+      jumpSpeed: 16,
       panelShow: true,
       stop: false
     }
