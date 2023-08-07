@@ -24,8 +24,8 @@ export default {
     }
   },
   watch: {
-    $route () {
-      this.updateTitle()
+    $route() {
+      this.initTitle()
     }
   },
   created() {
@@ -38,7 +38,7 @@ export default {
     var _this = this
     this.setSkin()
     this.getIp()
-    this.updateTitle()
+    this.initTitle()
   },
   methods: {
     getIp() {
@@ -46,6 +46,14 @@ export default {
       getUserIp().then(res => {
         _this.ip = res.data.ip
         _this.initAddress()
+      })
+    },
+    initTitle() {
+      // 判断是否有用户信息，有则显示用户信息的标题
+      this.$store.dispatch('getUserInfo').then(user => {
+        document.title = user.name + ' の blog'
+      }).catch(_ => {
+        document.title = this.$route.meta.name || 'Blog'
       })
     },
     setSkin() {
@@ -58,10 +66,6 @@ export default {
         const [key, value] = item.split(':')
         document.documentElement.style.setProperty(key, value)
       })
-    },
-    updateTitle () {
-      const title = this.$route.meta.name || 'Blog'
-      document.title = title
     },
     initAddress() {
       var _this = this

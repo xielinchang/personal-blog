@@ -311,7 +311,6 @@ export default {
       },
       deep: true
     }
-
   },
   created() {
     // 页面高度初始化
@@ -450,6 +449,7 @@ export default {
           domain: undefined
         }
       }).then(res => {
+        document.title = res.data.rows[0].title
         if (res.data.rows[0].essay_detail) {
           _this.essayData = res.data.rows[0].essay_detail
         } else {
