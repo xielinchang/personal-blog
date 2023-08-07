@@ -4,19 +4,22 @@
       <input
         v-model="message"
         readonly
-        @keyup.enter="search"
         onfocus="this.removeAttribute('readonly');"
         placeholder="输入搜索关键字，更多搜索方式点击右下角搜索"
         type="text"
+        @keyup.enter="search"
       >
     </div>
-      <a class="search-btn" @click="search">
-        <svg-icon
-          icon-name="search"
-          color="#fff"
-        ></svg-icon>
-        <span>搜索</span>
-      </a>
+    <a
+      class="search-btn"
+      @click="search"
+    >
+      <svg-icon
+        icon-name="search"
+        color="#fff"
+      ></svg-icon>
+      <span>搜索</span>
+    </a>
   </div>
 </template>
 <script>
@@ -27,9 +30,9 @@ export default {
       message: ''
     }
   },
-  methods:{
-    search(){
-      this.$router.push('/home?html='+ this.message)
+  methods: {
+    search() {
+      this.$router.push('/home?html=' + this.message)
       this.message = ''
     }
   }

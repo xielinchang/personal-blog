@@ -7,11 +7,14 @@ class EssayService extends Service {
     const { ctx, app } = this;
     const Op = app.Sequelize.Op;
     const where = { upt_act: { [Op.ne]: 'D' } };
+    if (body.query.html) {
+      // 搜索内容时，用匹配搜索
+      const key = ctx.request.body.query.html;
+      const essay = await ctx.model.Web.BlogEssay.findAll();
+      return ctx.tool.matchSearch(key, essay);
+    }
     if (body.query.id) {
       where.id = body.query.id;
-    }
-    if (body.query.html) {
-      where.html = { [Op.like]: `%${body.query.html}%` };
     }
     if (body.query.title) {
       where.title = { [Op.like]: `%${body.query.title}%` };
@@ -29,12 +32,16 @@ class EssayService extends Service {
       where,
       limit: body.limit * 1,
       offset: (body.offset - 1) * body.limit,
-      include: [{
-        model: this.app.model.Web.EssayDetail,
-      }],
+      include: [
+        {
+          model: this.app.model.Web.EssayDetail,
+        },
+      ],
       order: [[ this.app.model.Web.EssayDetail, 'good', 'desc' ]],
     });
     return essay;
+
+
   }
   async queryEssayState(body) {
     const { ctx, app } = this;
@@ -59,18 +66,23 @@ class EssayService extends Service {
       where,
       limit: body.limit * 1,
       offset: (body.offset - 1) * body.limit,
-      include: [{
-        model: this.app.model.Web.EssayDetail,
-      }],
+      include: [
+        {
+          model: this.app.model.Web.EssayDetail,
+        },
+      ],
       order: [[ this.app.model.Web.EssayDetail, 'good', 'desc' ]],
     });
     return essay;
   }
   async changeState(body) {
     const { ctx } = this;
-    const changed = await ctx.model.Web.BlogEssay.update({ state: body.state }, {
-      where: { id: body.id },
-    });
+    const changed = await ctx.model.Web.BlogEssay.update(
+      { state: body.state },
+      {
+        where: { id: body.id },
+      }
+    );
     if (changed) {
       return { success: true, data: changed };
     }
@@ -81,17 +93,18 @@ class EssayService extends Service {
     if (created) {
       return { success: true, data: body };
     }
-
   }
   async deleteEssay(body) {
     const { ctx } = this;
-    const deleted = await ctx.model.Web.BlogEssay.update({ upt_act: 'D' }, {
-      where: { id: body.id },
-    });
+    const deleted = await ctx.model.Web.BlogEssay.update(
+      { upt_act: 'D' },
+      {
+        where: { id: body.id },
+      }
+    );
     if (deleted) {
       return { success: true, data: deleted };
     }
-
   }
   async updateEssay(body) {
     const { ctx } = this;
@@ -104,7 +117,6 @@ class EssayService extends Service {
     if (updated) {
       return { success: true, data: body };
     }
-
   }
   async querySaveEssay() {
     const { ctx } = this;
