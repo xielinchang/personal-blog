@@ -50,7 +50,6 @@ const routes = [
   {
     path: '/note/essay',
     name: 'Essay',
-    meta: { name: '文章', icon: '' },
     component: () => import('@/views/essay')
   },
   {

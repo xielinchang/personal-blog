@@ -83,6 +83,7 @@ export default {
     /* 监听路由变化 */
     "$route.path": function (to, from) {
       this.path = this.$router.history.current.path;
+      // 优化
       this.contract_list.find((item) => {
         if (item.router === this.path) {
           return this.moveLine(item.id);

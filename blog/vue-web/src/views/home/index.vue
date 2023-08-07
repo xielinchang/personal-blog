@@ -113,13 +113,18 @@ export default {
       bannerTime: 4000
     }
   },
+
   computed: {},
+  watch: {
+
+  },
   async mounted() {
     this.initBg()
     this.initBanner()
     this.bannerTimer()
   },
   methods: {
+
     initBanner() {
       essayQuery({
         limit: 999,

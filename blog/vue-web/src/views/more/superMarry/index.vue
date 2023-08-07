@@ -17,7 +17,7 @@
         速度系数：
         <my-input
           v-model="playerXSpeed"
-          placeholder="参考12-18"
+          placeholder="参考8-18"
         ></my-input>
       </div>
       <div class="panel-item">
@@ -31,7 +31,7 @@
         弹跳系数 ：
         <my-input
           v-model="jumpSpeed"
-          placeholder="参考15-20"
+          placeholder="参考16-24"
         ></my-input>
       </div>
       <div
@@ -65,7 +65,7 @@ class Vec {
     return new Vec(this.x * factor, this.y * factor)
   }
 }
-// 读取地图
+// 读取关卡地图
 class Level {
   constructor(plan) {
     const rows = plan
@@ -135,7 +135,7 @@ class Lava {
     } else if (ch === '|') {
       return new Lava(pos, new Vec(0, 2))
     } else if (ch === 'v') {
-      return new Lava(pos, new Vec(0, 3, pos))
+      return new Lava(pos, new Vec(0, 3))
     }
   }
 }
@@ -194,7 +194,7 @@ class DOMDisplay {
   }
 }
 // 地图大小
-const scale = 15
+const scale = 13
 
 function drawGrid(level) {
   return elt(
@@ -407,6 +407,7 @@ export default {
       this.panelShow = true
       this.stop = true
     },
+    // 初始化玩家，选取对应参数
     initPlayer() {
       const playerXSpeed = this.playerXSpeed * 1 // 速度
       const gravity = this.gravity * 1 // 重力系数
