@@ -449,6 +449,7 @@ export default {
           domain: undefined
         }
       }).then(res => {
+        console.log(res)
         document.title = res.data.rows[0].title
         if (res.data.rows[0].essay_detail) {
           _this.essayData = res.data.rows[0].essay_detail

@@ -1,27 +1,60 @@
 <template>
   <div class="essay-list">
-    <my-loading :load-show="loading" class="loading">
-      <div class="essay-body" :style="{ width: width + '%' }">
+    <my-loading
+      :load-show="loading"
+      class="loading"
+    >
+      <div
+        class="essay-body"
+        :style="{ width: width + '%' }"
+      >
         <ul class="essay-list">
-          <li v-for="(item, index) in essay_list" :key="index" class="essay-item" @click="jumpToEssay(item)">
-            <img v-lazy="item.coverUrl" class="item-main" />
+          <li
+            v-for="(item, index) in essay_list"
+            :key="index"
+            class="essay-item"
+            @click="jumpToEssay(item)"
+          >
+            <img
+              v-lazy="item.coverUrl"
+              class="item-main"
+            />
             <div class="item-bottom">
               <div class="item-time">{{ item.updated_at }}</div>
-              <div class="permission">{{ item.radio * 1 === 2 ? "转载" : "" }}</div>
+              <div class="permission">
+                {{ item.radio * 1 === 2 ? "转载" : "" }}
+              </div>
               <div class="item-title">{{ item.title }}</div>
               <ul class="item-type">
-                <li v-for="(item, index) in essay_list[index].tags" :key="index">
+                <li
+                  v-for="(item, index) in essay_list[index].tags"
+                  :key="index"
+                >
                   {{ item }}
                 </li>
               </ul>
             </div>
           </li>
-          <div v-show="essay_list.length === 0" class="nothing">无数据匹配</div>
+          <div
+            v-show="essay_list.length === 0"
+            class="nothing"
+          >无数据匹配</div>
         </ul>
-        <div v-show="essay_list.length > 0" class="query-page-box">
-          <QueryPage class="query-page" :current-page="currentPage" :total="total" :is-one-show="false"
-            :page-size="pageSize" :page-count="pageCount" :size-options="sizeOptions" @change-page-size="changeSize"
-            @change-page="changePage"></QueryPage>
+        <div
+          v-show="essay_list.length > 0"
+          class="query-page-box"
+        >
+          <QueryPage
+            class="query-page"
+            :current-page="currentPage"
+            :total="total"
+            :is-one-show="false"
+            :page-size="pageSize"
+            :page-count="pageCount"
+            :size-options="sizeOptions"
+            @change-page-size="changeSize"
+            @change-page="changePage"
+          ></QueryPage>
         </div>
       </div>
     </my-loading>
@@ -76,8 +109,7 @@ export default {
       this.essay_list = []
       for (let i = 0; i < item.length; i++) {
         item[i].tags = item[i].tags.split(',')
-        item[i].coverUrl =
-          process.env.VUE_APP_BASE_API + item[i].coverUrl
+        item[i].coverUrl = process.env.VUE_APP_BASE_API + item[i].coverUrl
         this.essay_list.push(item[i])
       }
     },
@@ -94,11 +126,11 @@ export default {
       essayQuery({
         limit: this.pageSize,
         offset: this.currentPage,
-        query: query
-      }).then(res => {
-        this.loading = false
+        query
+      }).then((res) => {
         this.total = res.data.count
         this.foreachEssay(res.data.rows)
+        this.loading = false
       })
     },
     jumpToEssay(item) {
