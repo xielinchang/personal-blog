@@ -50,30 +50,30 @@ class EssayService extends Service {
       where.html = { [Op.like]: `%${body.query.html}%` };
     }
     // 优化搜索
-    if (body.query.html) {
-      const key = body.query.html;
-      const essay = await ctx.model.Web.BlogEssay.findAndCountAll(
-        {
-          where,
-          limit: 999,
-          offset: 1,
-          include: [
-            {
-              model: this.app.model.Web.EssayDetail,
-            },
-          ],
-        });
-      const htmlList = [];
-      console.log(essay);
-      essay.rows.forEach(item => {
-        htmlList.push(item.html);
-      });
-      const dataList = [];
+    // if (body.query.html) {
+    //   const key = body.query.html;
+    //   const essay = await ctx.model.Web.BlogEssay.findAndCountAll(
+    //     {
+    //       where,
+    //       limit: 999,
+    //       offset: 1,
+    //       include: [
+    //         {
+    //           model: this.app.model.Web.EssayDetail,
+    //         },
+    //       ],
+    //     });
+    //   const htmlList = [];
+    //   console.log(essay);
+    //   essay.rows.forEach(item => {
+    //     htmlList.push(item.html);
+    //   });
+    //   const dataList = [];
 
-      // 根据相似度进行排序
-      dataList.sort((a, b) => b.similarity - a.similarity);
-      return dataList;
-    }
+    //   // 根据相似度进行排序
+    //   dataList.sort((a, b) => b.similarity - a.similarity);
+    //   return dataList;
+    // }
     if (body.query.title) {
       where.title = { [Op.like]: `%${body.query.title}%` };
     }

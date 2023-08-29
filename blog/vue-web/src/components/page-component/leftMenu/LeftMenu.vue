@@ -105,11 +105,13 @@ export default {
   mounted() {
     this.initUser()
     this.menuitemhover()
-    document.addEventListener('click', (e) => {
-      if (!this.$refs.box.contains(e.target)) {
-        this.logoutShow = false
-      }
-    })
+    if (this.$refs.box) {
+      document.addEventListener('click', (e) => {
+        if (!this.$refs.box.contains(e.target)) {
+          this.logoutShow = false
+        }
+      })
+    }
   },
   methods: {
     initUser() {
