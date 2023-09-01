@@ -1,5 +1,6 @@
 'use strict';
 /* const md5 = require('blueimp-md5'); */
+// const tool = require('../../extend/tool');
 const Service = require('egg').Service;
 
 class EssayService extends Service {
@@ -8,10 +9,7 @@ class EssayService extends Service {
     const Op = app.Sequelize.Op;
     const where = { upt_act: { [Op.ne]: 'D' } };
     if (body.query.html) {
-      // 搜索内容时，用匹配搜索
-      const key = ctx.request.body.query.html;
-      const essay = await ctx.model.Web.BlogEssay.findAll();
-      return ctx.tool.matchSearch(key, essay);
+      where.html = { [Op.like]: `%${body.query.html}%` };
     }
     if (body.query.id) {
       where.id = body.query.id;
@@ -40,8 +38,6 @@ class EssayService extends Service {
       order: [[ this.app.model.Web.EssayDetail, 'good', 'desc' ]],
     });
     return essay;
-
-
   }
   async queryEssayState(body) {
     const { ctx, app } = this;
@@ -53,6 +49,31 @@ class EssayService extends Service {
     if (body.query.html) {
       where.html = { [Op.like]: `%${body.query.html}%` };
     }
+    // 优化搜索
+    // if (body.query.html) {
+    //   const key = body.query.html;
+    //   const essay = await ctx.model.Web.BlogEssay.findAndCountAll(
+    //     {
+    //       where,
+    //       limit: 999,
+    //       offset: 1,
+    //       include: [
+    //         {
+    //           model: this.app.model.Web.EssayDetail,
+    //         },
+    //       ],
+    //     });
+    //   const htmlList = [];
+    //   console.log(essay);
+    //   essay.rows.forEach(item => {
+    //     htmlList.push(item.html);
+    //   });
+    //   const dataList = [];
+
+    //   // 根据相似度进行排序
+    //   dataList.sort((a, b) => b.similarity - a.similarity);
+    //   return dataList;
+    // }
     if (body.query.title) {
       where.title = { [Op.like]: `%${body.query.title}%` };
     }

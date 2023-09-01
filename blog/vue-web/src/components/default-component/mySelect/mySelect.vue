@@ -146,7 +146,6 @@ export default {
       // 当点击其他空白处，关闭选择框
       document.addEventListener('click', (e) => {
         if (this.$refs.box) {
-          // 如果有这个实例，则执行，因为是全局组件，不添加判断会报错
           if (!this.$refs.box.contains(e.target) && this.openFlag === true) {
             this.openFlag = false
           }

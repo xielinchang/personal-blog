@@ -99,10 +99,10 @@ router.beforeEach((to, from, next) => {
     })) {
       next()
     } else {
-      msg({
-        content: '登录失效，请先登录',
-        type: 'warning'
-      })
+      // msg({
+      //   content: '登录失效，请先登录',
+      //   type: 'warning'
+      // })
       next('/login')
     }
   }

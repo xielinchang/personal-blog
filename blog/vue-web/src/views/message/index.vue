@@ -1,100 +1,103 @@
 <template>
   <div>
     <TemplatePage></TemplatePage>
-    <my-loading :load-show="loading"   fixed-top="400">
-    <div class="message-container animated animate__fadeInUp">
-      <div class="all-message">
-        <ul
-          v-if="message_list.length > 0"
-          class="message-list"
-        >
-          <li
-            v-for="(item, index) in message_list"
-            :key="index"
+    <my-loading
+      :load-show="loading"
+      fixed-top="400"
+    >
+      <div class="message-container animated animate__fadeInUp">
+        <div class="all-message">
+          <ul
+            v-if="message_list.length > 0"
+            class="message-list"
           >
-            <div class="c-portrait">
-              <img
-                v-lazy="prefix + item.users[0].portrait"
-                alt=""
-              />
-            </div>
-            <div class="c-name">
-              <span> {{ item.users[0].name }}</span>&nbsp;
-              <span>{{ item.address }}</span>
-            </div>
-            <div class="c-create-time">{{ item.created_at }}</div>
-            <div class="c-message">{{ item.content }}</div>
-            <!-- 用v-show时不管符不符合都会将其渲染，
+            <li
+              v-for="(item, index) in message_list"
+              :key="index"
+            >
+              <div class="c-portrait">
+                <img
+                  v-lazy="prefix + item.users[0].portrait"
+                  alt=""
+                />
+              </div>
+              <div class="c-name">
+                <span> {{ item.users[0].name }}</span>&nbsp;
+                <span>{{ item.address }}</span>
+              </div>
+              <div class="c-create-time">{{ item.created_at }}</div>
+              <div class="c-message">{{ item.content }}</div>
+              <!-- 用v-show时不管符不符合都会将其渲染，
               而有的为null时因不能渲染时会报错，
               用v-if时不会将其渲染 -->
-            <div
-              v-if="item.message_reply !== null"
-              class="reply-container"
-            >
-              <div class="author-name">
-                <div class="author-border">博主</div>
+              <div
+                v-if="item.message_reply !== null"
+                class="reply-container"
+              >
+                <div class="author-name">
+                  <div class="author-border">博主</div>
+                </div>
+                <div class="author-update-time">
+                  {{ item.message_reply.updated_at }}
+                </div>
+                <div class="author-message">{{ item.message_reply.reply }}</div>
               </div>
-              <div class="author-update-time">
-                {{ item.message_reply.updated_at }}
-              </div>
-              <div class="author-message">{{ item.message_reply.reply }}</div>
+            </li>
+            <div class="query-page-box">
+              <QueryPage
+                class="message-page"
+                :current-page="currentPage"
+                :total="total"
+                :page-size="pageSize"
+                :page-count="pageCount"
+                :size-options="sizeOptions"
+                @change-page-size="changeSize"
+                @change-page="changePage"
+              ></QueryPage>
             </div>
-          </li>
-          <div class="query-page-box">
-            <QueryPage
-              class="message-page"
-              :current-page="currentPage"
-              :total="total"
-              :page-size="pageSize"
-              :page-count="pageCount"
-              :size-options="sizeOptions"
-              @change-page-size="changeSize"
-              @change-page="changePage"
-            ></QueryPage>
-          </div>
-        </ul>
-        <div
-          v-else
-          class="nothing"
-        >暂无留言</div>
+          </ul>
+          <div
+            v-else
+            class="nothing"
+          >暂无留言</div>
         <!-- 方法名不能加括号 -->
-      </div>
-      <div class="message-body">
-        <div class="message-main">
-          <textarea
-            id="input"
-            v-model="newmessage.content"
-            placeholder="说点什么~😃"
-            class="message-msg"
-            rows="5"
-            maxlength="200"
-            @click="emojiPickerOff()"
-          ></textarea>
-          <div
-            class="emoji-btn"
-            @click="emojiShow"
-          >Emoji😃</div>
-          <div
-            class="message-publish-btn"
-            @click="publishmessage"
-          >
-            <svg-icon
-              class="publish-icon"
-              icon-name="publish"
-              size="24px"
-              color="#00B753"
+        </div>
+        <div class="message-body">
+          <div class="message-main">
+            <textarea
+              id="input"
+              v-model="newmessage.content"
+              placeholder="说点什么~😃"
+              class="message-msg"
+              rows="5"
+              maxlength="200"
+              @click="emojiPickerOff()"
+            ></textarea>
+            <div
+              class="emoji-btn"
+              @click="emojiShow"
+            >Emoji😃</div>
+            <div
+              class="message-publish-btn"
+              @click="publishmessage"
+            >
+              <svg-icon
+                class="publish-icon"
+                icon-name="publish"
+                size="24px"
+                color="#00B753"
+              />
+              <span>发布</span>
+            </div>
+            <VEmojiPicker
+              v-show="showDialog"
+              class="emoji-picker"
+              @select="selectEmoji"
             />
-            <span>发布</span>
           </div>
-          <VEmojiPicker
-            v-show="showDialog"
-            class="emoji-picker"
-            @select="selectEmoji"
-          />
         </div>
       </div>
-    </div>
-  </my-loading>
+    </my-loading>
   </div>
 </template>
 
@@ -149,10 +152,10 @@ export default {
         })
       } else {
         removeToken('token')
-        this.$msg({
-          content: '登录失效，请先登录',
-          type: 'warning'
-        })
+        // this.$msg({
+        //   content: '登录失效，请先登录',
+        //   type: 'warning'
+        // })
         store.commit('reSetUserInfo')
       }
     },

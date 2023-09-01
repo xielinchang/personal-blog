@@ -1,6 +1,7 @@
 'use strict';
 module.exports = {
-  calculateLevenshteinDistance(str1, str2) {
+  // 计算字符串
+  calculateEditDistance(str1, str2) {
     const m = str1.length;
     const n = str2.length;
     const dp = [];
@@ -30,19 +31,13 @@ module.exports = {
 
     return dp[m][n];
   },
-  matchSearch(target, array) {
-    const matches = [];
-    const threshold = 5; // 定义一个阈值，表示相差最大允许的距离
-    array.forEach(item => {
-      const distance = this.calculateLevenshteinDistance(target, item);
-      if (distance <= threshold) {
-        matches.push({ item, distance });
-      }
-    });
-    // 根据距离进行排序
-    return matches.sort((a, b) => a.distance - b.distance);
+  // 计算字符串相似度
+  calculateStringSimilarity(str1, str2) {
+    const distance = this.calculateEditDistance(str1, str2);
+    const maxLength = Math.max(str1.length, str2.length);
+    const similarity = (maxLength - distance) / maxLength;
+    return similarity;
   },
-
 
 };
 
