@@ -393,6 +393,7 @@ export default {
       this.showDialog = false
     },
     initCatalog() {
+      // 优化跳转目录
       this.catalog = []
       var titleList = document.querySelectorAll('h1, h2, h3, h4, h5, h6, h7')
       for (let i = 0; i < titleList.length; i++) {
