@@ -2,6 +2,7 @@
   <div class="loading-container">
     <!-- 显示 loading -->
     <div class="overlay" v-if="loadShow">
+      <!-- loading图标高度看看能否通过clientHeight让他处于当前的可视高度中间 -->
       <div class="loading-icon" 
       :style="{ width: size, height: size, top: iconTop + 'px' }">
         <svg-icon :size="size" name="loading" color="#3B8EEA"></svg-icon>

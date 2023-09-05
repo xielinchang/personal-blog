@@ -1,7 +1,6 @@
 <template>
   <div>
-    <my-loading :load-show="loading" icon-top="300">
-    <div class="write-main">
+    <div class="write-main" v-loading="loading">
       <div class="edit-container">
         <div class="edit-main block">
           <Toolbar
@@ -94,7 +93,6 @@
       </div>
     </div>
     </div>
-  </my-loading>
   </div>
 </template>
 <script>
