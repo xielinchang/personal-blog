@@ -1,21 +1,27 @@
 <template>
-  <div class="body">
+  <div
+
+    class="body"
+  >
     <my-loading
       :load-show="loading"
       fixed-top="400"
     >
       <TemplatePage></TemplatePage>
-      <div class="main-body">
+      <div
+        ref="scrollBar"
+        class="main-body"
+      >
         <div class="main-container">
           <div class="banner">
             <div class="baner-mark">
               <img
-                v-lazy="prefix+essayForm.coverUrl"
+                v-lazy="prefix + essayForm.coverUrl"
                 class="mark"
               />
               <div class="shadow-mark"></div>
               <img
-                v-lazy="prefix+essayForm.coverUrl"
+                v-lazy="prefix + essayForm.coverUrl"
                 class="banner-img"
               />
             </div>
@@ -24,33 +30,38 @@
               <div class="banner-title">{{ essayForm.title }}</div>
               <div class="banner-line"></div>
               <div class="banner-subtitle">{{ essayForm.subtitle }}</div>
-              <div class="updated-time">最近更新：{{ essayForm.updated_at }}</div>
+              <div class="updated-time">
+                最近更新：{{ essayForm.updated_at }}
+              </div>
             </div>
           </div>
           <div
-            v-show="catalog.length>0&&catalogShow"
+            v-show="catalog.length > 0 && catalogShow"
             class="catalog-box block"
             :style="justStyle"
           >
             <div class="catalog-tit">
               <span>目录:</span>
             </div>
-            <ul
-              class="catalog"
-            >
+            <ul class="catalog">
               <li
-                v-for="(item,index) in catalog"
+                v-for="(item, index) in catalog"
                 :key="index"
                 @click="jumpToCatalog(item)"
-              >{{ item.key }}</li>
+              >
+                {{ item.key }}
+              </li>
             </ul>
           </div>
           <div
             class="main-page"
-            :style="{width: (catalog.length>0&&catalogShow)?'78%':'100%'}"
+            :style="{
+              width: catalog.length > 0 && catalogShow ? '78%' : '100%',
+            }"
           >
             <div
-              v-if="essayForm.digest!==''"
+              v-if="essayForm.digest !== ''"
+              id="digest"
               class="digest block"
             >
               <div class="digest-content">
@@ -69,6 +80,7 @@
             </div>
             <div class="essay">
               <div
+                ref="aContent"
                 class="essay-content"
                 v-html="essayForm.html"
               ></div>
@@ -96,7 +108,7 @@
                   @click="addCollect"
                 >
                   <svg-icon
-                    v-if="isCollect===true"
+                    v-if="isCollect === true"
                     icon-name="collect-filled"
                     size="20px"
                     color="#ffa109"
@@ -111,7 +123,7 @@
                 </div>
                 <div
                   class="comment-icon"
-                  @click="publishShow=!publishShow"
+                  @click="publishShow = !publishShow"
                 >
                   <svg-icon
                     color="#666"
@@ -124,7 +136,7 @@
             </div>
             <div class="comment">
               <div
-                :class="publishShow?'':'c-publish-close'"
+                :class="publishShow ? '' : 'c-publish-close'"
                 class="c-publish"
               >
                 <textarea
@@ -138,9 +150,7 @@
                 <div
                   class="emoji-btn"
                   @click="emojiShow"
-                >
-                  Emoji😃
-                </div>
+                >Emoji😃</div>
                 <div
                   class="c-publish-btn"
                   @click="publishComment"
@@ -160,18 +170,18 @@
                 />
               </div>
               <ul
-                v-if="commentList.length>0"
+                v-if="commentList.length > 0"
                 class="comment-list block"
               >
                 <li
-                  v-for="(item,index) in commentList"
+                  v-for="(item, index) in commentList"
                   :key="index"
                 >
                   <div class="c-portrait">
                     <img
-                      v-lazy="prefix+item.users[0].portrait"
+                      v-lazy="prefix + item.users[0].portrait"
                       alt=""
-                    >
+                    />
                   </div>
                   <div class="c-right">
                     <div class="c-top">
@@ -184,15 +194,12 @@
                       {{ item.message }}
                     </div>
                   </div>
-
                 </li>
               </ul>
               <div
                 v-else
                 class="no-comments"
-              >
-                暂 无 评 论
-              </div>
+              >暂 无 评 论</div>
             </div>
           </div>
         </div>
@@ -205,11 +212,11 @@
           @click.native="jumpToComment()"
         ></icon-button>
         <icon-button
-          v-show="catalog.length>0"
+          v-show="catalog.length > 0"
           class="icon-button"
           icon="hide-filled"
-          :left-title="catalogShow?'隐藏目录':'打开目录'"
-          @click.native="catalogShow=!catalogShow"
+          :left-title="catalogShow ? '隐藏目录' : '打开目录'"
+          @click.native="catalogShow = !catalogShow"
         ></icon-button>
         <icon-button
           class="icon-button"
@@ -233,11 +240,14 @@
 import store from '@/store'
 import { userDetailUpdate, queryUser } from '@/api/default/user'
 import { essayQuery, essayDetailUpdate } from '@/api/main/essay'
-import { essayCommentsQuery, essayCommentsCreate } from '@/api/main/essayComments'
+import {
+  essayCommentsQuery,
+  essayCommentsCreate
+} from '@/api/main/essayComments'
 import { getToken } from '@/utils/author'
 export default {
   name: 'EssayPage',
-  data () {
+  data() {
     return {
       essayForm: {
         essay_id: '',
@@ -276,6 +286,7 @@ export default {
       loading: false,
       // 目录
       catalog: [],
+      tocData: [],
       // 滚动高度，(和目录相关)
       scrollHeight: '',
       // 目录显示
@@ -323,10 +334,10 @@ export default {
       this.initUser()
       this.initEssay()
       this.initComments()
-      this.initCatalog()
     },
     onScroll() {
-      var scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+      var scrollTop =
+        document.documentElement.scrollTop || document.body.scrollTop
       this.scrollHeight = scrollTop
     },
     changeEssay(type) {
@@ -339,9 +350,11 @@ export default {
           subtitle: undefined,
           domain: undefined
         }
-      }).then(res => {
+      }).then((res) => {
         const arr = res.data.rows
-        const idIndex = arr.findIndex(item => item.id * 1 === this.query.id * 1)
+        const idIndex = arr.findIndex(
+          (item) => item.id * 1 === this.query.id * 1
+        )
         if (idIndex * 1 === arr.length - 1 && type === 'next') {
           this.$msg({
             content: '已经是最后一篇了',
@@ -375,9 +388,12 @@ export default {
       const input = document.getElementById('input')
       const startPos = input.selectionStart
       const endPos = input.selectionEnd
-      const resultText = input.value.substring(0, startPos) + emoji.data + input.value.substring(endPos)
+      const resultText =
+        input.value.substring(0, startPos) +
+        emoji.data +
+        input.value.substring(endPos)
       input.value = resultText
-      setTimeout(function() {
+      setTimeout(function () {
         input.focus()
       }, 200)
       input.selectionStart = startPos + emoji.data.length
@@ -397,44 +413,70 @@ export default {
       var titleList = document.querySelectorAll('h1, h2, h3, h4, h5, h6, h7')
       for (let i = 0; i < titleList.length; i++) {
         const element = titleList[i]
+        element.id = 'h-' + (i + 1) * 1
         this.catalog.push({
           key: element.innerText,
-          offset: element.offsetTop
+          id: element.id
         })
       }
+      console.log(this.catalog)
     },
     // 阻止滚动事件
     disableScroll() {
-      document.addEventListener('wheel', this.preventDefault, { passive: false })
+      document.addEventListener('wheel', this.preventDefault, {
+        passive: false
+      })
     },
     // 开启滚动事件
     enableScroll() {
-      document.removeEventListener('wheel', this.preventDefault, { passive: false })
+      document.removeEventListener('wheel', this.preventDefault, {
+        passive: false
+      })
     },
     preventDefault(e) {
       e.preventDefault()
     },
     jumpToCatalog(item) {
-      var _this = this
-      const timer = setInterval(function() {
-        const offset = document.documentElement.scrollTop
-        const speed = 80
+      const el = document.documentElement
+      const _this = this
+      var record = document.getElementById(item.id).offsetTop
+      var cur = el.scrollTop
+      var step = 40
+      var flag = false
+      var over = 440
+      if (this.essayForm.digest) {
+        var digest = document.getElementById('digest').offsetHeight
+        over += digest
+      }
+
+      if (record < cur) {
+        step = -step
+        flag = true
+      } else if (record === cur) {
+        return
+      }
+      var timer = setInterval(() => {
         _this.disableScroll()
-        if (offset <= item.offset + 400) {
-          document.documentElement.scrollTop = offset + speed
-          // 设置一些偏差，以免与判断矛盾卡住页面
-          if (offset * 1 >= item.offset + 500) {
+        if (flag) {
+        //  说明小于0
+          if (cur + step < record) {
+            el.scrollTop = record + over
             _this.enableScroll()
             clearInterval(timer)
+          } else {
+            el.scrollTop = cur + step + over
           }
         } else {
-          document.documentElement.scrollTop = offset - speed
-          if (offset * 1 <= item.offset + 500) {
+          if (cur + step > record) {
+            el.scrollTop = record + over
             _this.enableScroll()
             clearInterval(timer)
+          } else {
+            el.scrollTop = cur + step + over
           }
         }
-      }, 1)
+        cur += step
+      }, 5)
     },
     initEssay() {
       var _this = this
@@ -448,8 +490,7 @@ export default {
           subtitle: undefined,
           domain: undefined
         }
-      }).then(res => {
-        console.log(res)
+      }).then((res) => {
         document.title = res.data.rows[0].title
         if (res.data.rows[0].essay_detail) {
           _this.essayData = res.data.rows[0].essay_detail
@@ -467,8 +508,8 @@ export default {
         setTimeout(() => {
           // 初始化目录
           _this.initCatalog()
-        })
-        this.loading = false
+          _this.loading = false
+        }, 1000)
       })
     },
     initComments() {
@@ -478,14 +519,14 @@ export default {
         query: {
           essay_id: this.query.id
         }
-      }).then(res => {
+      }).then((res) => {
         this.commentNum = res.data.count
         this.commentList = res.data.rows
       })
     },
     initUser() {
       if (getToken('token')) {
-        store.dispatch('getUserInfo').then(user => {
+        store.dispatch('getUserInfo').then((user) => {
           if (user.user_detail !== null) {
             this.userDetail = { ...user.user_detail }
             // 判断文章的id是否符合此篇文章
@@ -535,7 +576,7 @@ export default {
     },
     publishComment() {
       if (getToken('token')) {
-        essayCommentsCreate(this.commentForm).then(res => {
+        essayCommentsCreate(this.commentForm).then((res) => {
           this.initComments()
           this.commentForm.message = ''
         })
@@ -556,7 +597,7 @@ export default {
           type: 'warning'
         })
       }
-      const timer = setInterval(function() {
+      const timer = setInterval(function () {
         const offset = document.documentElement.scrollTop
         const speed = height / 35
         if (offset <= height + 50) {
@@ -583,15 +624,18 @@ export default {
           this.collectIds.push(this.query.id)
         } else {
           this.essayData.collect--
-          this.collectIds.splice(this.collectIds.indexOf(String(this.query.id)), 1)
+          this.collectIds.splice(
+            this.collectIds.indexOf(String(this.query.id)),
+            1
+          )
         }
         if (this.collectIds.length > 1) {
           this.userDetail.collect = this.collectIds.join(',')
         } else {
           this.userDetail.collect = this.collectIds.join('')
         }
-        essayDetailUpdate(this.essayData).then(res => {
-          userDetailUpdate(this.userDetail).then(res => {
+        essayDetailUpdate(this.essayData).then((res) => {
+          userDetailUpdate(this.userDetail).then((res) => {
             if (this.isCollect === true) {
               this.$msg({
                 content: '收藏成功，前往个人管理查看',
@@ -630,8 +674,8 @@ export default {
           this.userDetail.good = this.goodIds.join('')
         }
 
-        essayDetailUpdate(this.essayData).then(res => {
-          userDetailUpdate(this.userDetail).then(res => {
+        essayDetailUpdate(this.essayData).then((res) => {
+          userDetailUpdate(this.userDetail).then((res) => {
             if (this.isGood === true) {
               this.$msg({
                 content: '点赞成功',
@@ -659,5 +703,5 @@ export default {
 </script>
 <!-- 头部,框架和banner -->
 <style scoped lang="scss">
-@import './scss/index.scss';
+@import "./scss/index.scss";
 </style>

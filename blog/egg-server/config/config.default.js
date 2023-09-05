@@ -24,12 +24,12 @@ module.exports = appInfo => {
     password_salt: 'ntihcbRbx1mnFKKW38ZI7hoBMKbe35Me',
   };
 
-  config.cluster = {
-    listen: {
-      port: 7001,
-      hostname: '127.0.0.1',
-    },
-  };
+  // config.cluster = {
+  //   listen: {
+  //     port: 7001,
+  //     hostname: '127.0.0.1',
+  //   },
+  // };
 
   config.sequelize = {
     dialect: 'mysql',
