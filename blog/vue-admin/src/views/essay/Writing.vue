@@ -1,7 +1,6 @@
 <template>
   <div>
-    <my-loading :load-show="loading" icon-top="300">
-      <div class="write-main">
+      <div class="write-main" v-loading="loading">
         <div class="edit-container">
           <div class="edit-main block">
             <Toolbar style="border-bottom: 1px solid #ccc" :editor="editor" :default-config="toolbarConfig"
@@ -55,7 +54,6 @@
           </div>
         </div>
       </div>
-    </my-loading>
   </div>
 </template>
 <script>
@@ -151,7 +149,7 @@ export default {
       // 文章数据是否被修改
       isModified: false,
       editNum: 0,
-      loading: true,
+      loading: false,
     };
   },
   watch: {
