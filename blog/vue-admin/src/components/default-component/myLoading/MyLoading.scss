@@ -1,15 +1,8 @@
 .loading-container {
   position: relative;
-  .loading-icon {
-    position: absolute;
-    bottom: 50%;
-    left: 50%;
-    transform: translateX(-50%);
-    justify-content: center;
-    text-align: center;
+  #icon {
     z-index: 10000;
     animation: loading 3s linear infinite;
-    z-index: 10000;
   }
   .overlay {
     position: absolute;

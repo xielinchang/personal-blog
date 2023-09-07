@@ -35,24 +35,12 @@
               </div>
             </div>
           </div>
-          <div
+          <catalog
             v-show="catalog.length > 0 && catalogShow"
-            class="catalog-box block"
-            :style="justStyle"
-          >
-            <div class="catalog-tit">
-              <span>目录:</span>
-            </div>
-            <ul class="catalog">
-              <li
-                v-for="(item, index) in catalog"
-                :key="index"
-                @click="jumpToCatalog(item)"
-              >
-                {{ item.key }}
-              </li>
-            </ul>
-          </div>
+            :catalog="catalog"
+            :over="overHeight"
+            @jump-catalog="jumpToCatalog"
+          ></catalog>
           <div
             class="main-page"
             :style="{
@@ -245,8 +233,12 @@ import {
   essayCommentsCreate
 } from '@/api/main/essayComments'
 import { getToken } from '@/utils/author'
+import catalog from './component/catalog.vue'
 export default {
   name: 'EssayPage',
+  components: {
+    catalog
+  },
   data() {
     return {
       essayForm: {
@@ -286,32 +278,13 @@ export default {
       loading: false,
       // 目录
       catalog: [],
-      tocData: [],
-      // 滚动高度，(和目录相关)
-      scrollHeight: '',
       // 目录显示
       catalogShow: true,
-      prefix: process.env.VUE_APP_BASE_API
+      prefix: process.env.VUE_APP_BASE_API,
+      overHeight: 0 //  跳转目录的偏离高度，和其他元素的高度相关
     }
   },
-  computed: {
-    justStyle() {
-      if (this.scrollHeight > 470) {
-        return {
-          position: 'fixed',
-          top: 60 + 'px',
-          right: '10%',
-          width: '16.4%'
-        }
-      } else {
-        return {
-          position: 'absolute',
-          top: 450 + 'px',
-          right: 0
-        }
-      }
-    }
-  },
+
   watch: {
     '$route.query': {
       // 监听参数变化重新初始化，比直接location.href刷新页面更加顺滑
@@ -324,9 +297,6 @@ export default {
     }
   },
   created() {
-    // 页面高度初始化
-    document.documentElement.scrollTop = 0
-    window.addEventListener('scroll', this.onScroll)
     this.init()
   },
   methods: {
@@ -335,11 +305,7 @@ export default {
       this.initEssay()
       this.initComments()
     },
-    onScroll() {
-      var scrollTop =
-        document.documentElement.scrollTop || document.body.scrollTop
-      this.scrollHeight = scrollTop
-    },
+
     changeEssay(type) {
       essayQuery({
         limit: 999,
@@ -408,20 +374,6 @@ export default {
     emojiPickerOff() {
       this.showDialog = false
     },
-    initCatalog() {
-      // 优化跳转目录
-      this.catalog = []
-      var titleList = document.querySelectorAll('h1, h2, h3, h4, h5, h6, h7')
-      for (let i = 0; i < titleList.length; i++) {
-        const element = titleList[i]
-        element.id = 'h-' + (i + 1) * 1
-        this.catalog.push({
-          key: element.innerText,
-          id: element.id
-        })
-      }
-      console.log(this.catalog)
-    },
     // 阻止滚动事件
     disableScroll() {
       document.addEventListener('wheel', this.preventDefault, {
@@ -437,6 +389,64 @@ export default {
     preventDefault(e) {
       e.preventDefault()
     },
+
+    initEssay() {
+      var _this = this
+      this.loading = true
+      essayQuery({
+        limit: 1,
+        offset: 1,
+        query: {
+          id: this.query.id * 1,
+          title: undefined,
+          subtitle: undefined,
+          domain: undefined
+        }
+      }).then((res) => {
+        if (this.$route.path === '/note/essay') {
+          document.title = res.data.rows[0].title
+        }
+
+        if (res.data.rows[0].essay_detail) {
+          _this.essayData = res.data.rows[0].essay_detail
+        } else {
+          // 没有详情则对详情数据初始化
+          _this.essayData = {
+            id: null,
+            essay_id: this.query.id,
+            good: 0,
+            collect: 0
+          }
+        }
+        _this.essayForm = res.data.rows[0]
+        // 修改代码块的背景色
+        setTimeout(() => {
+          // 初始化目录
+          _this.initCatalog()
+          _this.loading = false
+        }, 1000)
+      })
+    },
+    initCatalog() {
+      // 优化跳转目录=> 根据h1 - h3生成目录树有层级关系，h4以后的不生成目录
+      this.catalog = []
+      var titleList = document.querySelectorAll('h1, h2, h3, h4, h5, h6, h7')
+      for (let i = 0; i < titleList.length; i++) {
+        const element = titleList[i]
+        element.id = 'h-' + (i + 1) * 1
+        this.catalog.push({
+          key: element.innerText,
+          id: element.id,
+          offset: element.offsetTop
+        })
+      }
+      if (this.essayForm.digest) {
+        var digest = document.getElementById('digest').offsetHeight
+        this.overHeight = digest + 440
+      } else {
+        this.overHeight = 440
+      }
+    },
     jumpToCatalog(item) {
       const el = document.documentElement
       const _this = this
@@ -444,12 +454,7 @@ export default {
       var cur = el.scrollTop
       var step = 40
       var flag = false
-      var over = 440
-      if (this.essayForm.digest) {
-        var digest = document.getElementById('digest').offsetHeight
-        over += digest
-      }
-
+      var over = this.overHeight
       if (record < cur) {
         step = -step
         flag = true
@@ -478,40 +483,6 @@ export default {
         }
         cur += step
       }, 5)
-    },
-    initEssay() {
-      var _this = this
-      this.loading = true
-      essayQuery({
-        limit: 1,
-        offset: 1,
-        query: {
-          id: this.query.id * 1,
-          title: undefined,
-          subtitle: undefined,
-          domain: undefined
-        }
-      }).then((res) => {
-        document.title = res.data.rows[0].title
-        if (res.data.rows[0].essay_detail) {
-          _this.essayData = res.data.rows[0].essay_detail
-        } else {
-          // 没有详情则对详情数据初始化
-          _this.essayData = {
-            id: null,
-            essay_id: this.query.id,
-            good: 0,
-            collect: 0
-          }
-        }
-        _this.essayForm = res.data.rows[0]
-        // 修改代码块的背景色
-        setTimeout(() => {
-          // 初始化目录
-          _this.initCatalog()
-          _this.loading = false
-        }, 1000)
-      })
     },
     initComments() {
       essayCommentsQuery({

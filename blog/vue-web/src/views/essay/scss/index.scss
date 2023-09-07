@@ -164,75 +164,8 @@ ul {
           }
         }
       }
-      .catalog-box {
-        width: 20.5%;
-        height: auto;
-        position: absolute;
-        overflow: hidden;
-        right: 0;
-        border-radius: 4px;
-        top: 450px;
-        background-color: white;
-        & .catalog-tit {
-          width: 100%;
-          position: relative;
-          text-align: center;
-          height: 40px;
-          padding: 10px 0;
-          & span{
-            position: absolute;
-            width: 80px;
-            left: 10px;
-            top: 10px;
-            font-size: 18px;
-            font-weight: 600;
-            border-radius: 30px;
-            z-index: 1;
-            color: #666;
-            letter-spacing: 3px;
-            line-height: 40px;
-            background-color: #eee;
-          }
-        }
-        .catalog {
-          list-style: none;
-          width: 98%;
-          height: auto;
-          background: $opacityColor;
-          color: #666;
-          box-sizing: border-box;
-          z-index: 2;
-          max-height: 620px;
-          overflow-y: scroll;
-          margin-right: 5px;
-
-          &::-webkit-scrollbar {
-            width: 4px;
-            height: auto;
-          }
-          &::-webkit-scrollbar-thumb {
-            background-color: #eee;
-            border-radius: 30px;
-          }
-          & li {
-            margin: 15px 0px;
-            padding: 0px 15px;
-          }
-          & li:nth-child(1){
-            margin-top: 5px;
-          }
-          & li:hover {
-            background-color: #fafafa;
-            transition: 300ms;
-            color: var(--rainbow0);
-          }
-        }
-      }
 
       @media (max-width: 1300px) {
-        .catalog-box {
-          display: none;
-        }
         .main-page {
           width: 100% !important;
         }

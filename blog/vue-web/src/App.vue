@@ -1,7 +1,5 @@
 <template>
-  <div
-    id="app"
-  >
+  <div id="app">
     <my-loading :load-show="$store.state.loadShow"></my-loading>
     <right-button></right-button>
     <head-tab></head-tab>
@@ -10,7 +8,6 @@
     <keep-alive>
       <router-view></router-view>
     </keep-alive>
-
   </div>
 </template>
 
@@ -20,12 +17,14 @@ import { baiduLocation } from '@/api/baidu/baiduapi'
 export default {
   name: 'App',
   data() {
-    return {
-    }
+    return {}
   },
   watch: {
-    $route() {
-      this.initTitle()
+    $route: {
+      handler() {
+        this.initTitle()
+      },
+      deep: true
     }
   },
   created() {
@@ -43,26 +42,31 @@ export default {
   methods: {
     getIp() {
       var _this = this
-      getUserIp().then(res => {
+      getUserIp().then((res) => {
         _this.ip = res.data.ip
         _this.initAddress()
       })
     },
     initTitle() {
       // 判断是否有用户信息，有则显示用户信息的标题
-      this.$store.dispatch('getUserInfo').then(user => {
-        document.title = user.name + ' の blog'
-      }).catch(_ => {
-        document.title = this.$route.meta.name || 'Blog'
-      })
+      if (this.$route.path !== '/note/essay') {
+        this.$store
+          .dispatch('getUserInfo')
+          .then((user) => {
+            document.title = user.name + ' の blog'
+          })
+          .catch((_) => {
+            document.title = this.$route.meta.name || 'Blog'
+          })
+      }
     },
     setSkin() {
       // 全局色系
       const data = this.$store.state.skinStore.state.skin
       // 将数据转换为CSS变量
-      const dataArray = data.split(';').filter(item => item.trim() !== '')
+      const dataArray = data.split(';').filter((item) => item.trim() !== '')
 
-      dataArray.forEach(item => {
+      dataArray.forEach((item) => {
         const [key, value] = item.split(':')
         document.documentElement.style.setProperty(key, value)
       })
@@ -72,7 +76,7 @@ export default {
       if (this.ip === '127.0.0.1') {
         this.ip = ''
       }
-      baiduLocation(String(this.ip)).then(res => {
+      baiduLocation(String(this.ip)).then((res) => {
         localStorage.setItem('address', res.data.content.address)
       })
     }
@@ -80,7 +84,7 @@ export default {
 }
 </script>
 <style>
-*{
+* {
   padding: 0;
   margin: 0px;
 }
@@ -93,5 +97,4 @@ body {
     width: 12px;
   }
 }
-
 </style>

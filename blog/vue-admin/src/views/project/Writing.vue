@@ -1,103 +1,85 @@
 <template>
   <div>
-    <div class="write-main" v-loading="loading">
-      <div class="edit-container">
-        <div class="edit-main block">
-          <Toolbar
-            style="border-bottom: 1px solid #ccc"
-            :editor="editor"
-            :default-config="toolbarConfig"
-            :mode="mode"
-          />
-          <Editor
-            v-model="Project.html"
-            style="height: 500px; overflow-y: hidden"
-            :default-config="editorConfig"
-            :mode="mode"
-            @onCreated="onCreated"
-          />
+    <my-loading :load-show="loading">
+      <div class="write-main">
+        <div class="edit-container">
+          <div class="edit-main block">
+            <Toolbar
+              style="border-bottom: 1px solid #ccc"
+              :editor="editor"
+              :default-config="toolbarConfig"
+              :mode="mode"
+            />
+            <Editor
+              v-model="Project.html"
+              style="height: 500px; overflow-y: hidden"
+              :default-config="editorConfig"
+              :mode="mode"
+              @onCreated="onCreated"
+            />
+          </div>
+          <div class="form-container block">
+            <div class="form-main">
+              封面：
+              <my-upload
+                v-model="file"
+                :action="uploadApi"
+                :image="imgurl"
+                :preview="true"
+                @delete-img="deleteCallback"
+                @upload-success="uploadCallback"
+              >
+              </my-upload>
+              标题：
+              <my-input
+                v-model="Project.title"
+                :width="inputSize"
+                placeholder="请输入标题"
+                icon="edit"
+              >
+              </my-input>
+              链接：
+              <my-textarea
+                style="height: 100px"
+                v-model="Project.link"
+                :width="inputSize"
+                placeholder="（选填）简要的摘要能帮助读者更好的了解内容"
+                maxlength="350"
+              ></my-textarea>
+            </div>
+          </div>
         </div>
-        <div class="form-container block">
-          <div class="form-main">
-            封面：
-            <my-upload
-              v-model="file"
-              :action="uploadApi"
-              :image="imgurl"
-              :preview="true"
-              @delete-img="deleteCallback"
-              @upload-success="uploadCallback"
-            >
-            </my-upload>
-            标题：
-            <my-input
-              v-model="Project.title"
-              :width="inputSize"
-              placeholder="请输入标题"
-              icon="edit"
-            >
-            </my-input>
-            链接：
-            <my-textarea
-              style="height: 100px;"
-              v-model="Project.link"
-              :width="inputSize"
-              placeholder="（选填）简要的摘要能帮助读者更好的了解内容"
-              maxlength="350"
-            ></my-textarea>
+        <div class="edit-foot">
+          <div class="foot-box">
+            <div v-if="isSave" class="btns">
+              <my-button @click="reset">重置</my-button>
+              <my-button plain type="info" @click="save">保存草稿</my-button>
+              <my-button type="danger" @click="publish">发布</my-button>
+            </div>
+            <div v-else class="btns">
+              <router-link to="/blog/project/writing">
+                <my-button type="success" @click="reset">新增</my-button>
+              </router-link>
+              <my-button @click="reset">重置</my-button>
+              <my-button type="warning" @click="edit">修改</my-button>
+              <my-button type="danger" @click="deleted">删除</my-button>
+            </div>
           </div>
         </div>
       </div>
-      <div class="edit-foot">
-      <div class="foot-box">
-        <div
-          v-if="isSave"
-          class="btns"
-        >
-          <my-button
-            @click="reset"
-          >重置</my-button>
-          <my-button
-            plain
-            type="info"
-            @click="save"
-          >保存草稿</my-button>
-          <my-button
-            type="danger"
-            @click="publish"
-          >发布</my-button>
-        </div>
-        <div
-          v-else
-          class="btns"
-        >
-        <router-link to="/blog/project/writing">
-        <my-button
-            type="success"
-            @click="reset"
-          >新增</my-button>
-        </router-link>
-          <my-button
-            @click="reset"
-          >重置</my-button>
-          <my-button
-            type="warning"
-            @click="edit"
-          >修改</my-button>
-          <my-button
-            type="danger"
-            @click="deleted"
-          >删除</my-button>
-        </div>
-
-      </div>
-    </div>
-    </div>
+    </my-loading>
   </div>
 </template>
 <script>
 import { Editor, Toolbar } from "@wangeditor/editor-for-vue";
-import {queryProject,createProject,updateProject,deleteProject,saveProject,queryProjectSave}from "@/api/main/project";
+import {
+  queryProject,
+  createProject,
+  updateProject,
+  deleteProject,
+  saveProject,
+  queryProjectSave,
+} from "@/api/main/project";
 import axios from "axios";
 import Cookie from "js-cookie";
 export default {
@@ -109,23 +91,25 @@ export default {
   beforeRouteLeave(to, from, next) {
     var _this = this;
     if (this.isModified) {
-        this.$confirm('您还没有保存哦，需要保存吗', '提醒', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'danger'
-        }).then(() => {
-          if(this.isSave){
-            this.save()
-          }else{
+      this.$confirm("您还没有保存哦，需要保存吗", "提醒", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "danger",
+      })
+        .then(() => {
+          if (this.isSave) {
+            this.save();
+          } else {
             this.edit();
           }
-            next();
-        }).catch(() => {
-            next();
+          next();
+        })
+        .catch(() => {
+          next();
           this.$message({
             type: "warning",
             message: "您取消了保存",
-          });        
+          });
         });
     } else {
       next();
@@ -166,7 +150,7 @@ export default {
       // 文章数据是否被修改
       isModified: false,
       editNum: 0,
-      loading:false,
+      loading: false,
     };
   },
   watch: {
@@ -236,11 +220,11 @@ export default {
     querySaveProject() {
       var _this = this;
       this.isSave = true;
-      this.loading=true
-     queryProjectSave().then((res) => {
+      this.loading = true;
+      queryProjectSave().then((res) => {
         _this.imgurl = process.env.VUE_APP_BASE_API + res.coverUrl;
-        _this.Project = res
-        _this.loading=false
+        _this.Project = res;
+        _this.loading = false;
         _this.editNum = 0;
       });
     },
@@ -248,8 +232,8 @@ export default {
       var _this = this;
       var id = this.$route.query.id;
       this.isSave = false;
-      this.loading=true
-     queryProject({
+      this.loading = true;
+      queryProject({
         limit: 1,
         offset: 1,
         query: {
@@ -258,7 +242,7 @@ export default {
       }).then((res) => {
         _this.imgurl = process.env.VUE_APP_BASE_API + res.rows[0].coverUrl;
         _this.Project = res.rows[0];
-        _this.loading=false
+        _this.loading = false;
         _this.editNum = 0;
       });
     },
@@ -314,7 +298,7 @@ export default {
             },
           })
           .then((res) => {
-            this.Project.coverUrl =res.data.data.url;
+            this.Project.coverUrl = res.data.data.url;
             this.saveProjectApi();
           })
           .catch((err) => {
@@ -328,7 +312,7 @@ export default {
       var _this = this;
       saveProject(this.Project).then((res) => {
         this.$message({
-            message: "保存成功",
+          message: "保存成功",
           type: "success",
         });
         setTimeout(() => {
@@ -348,7 +332,7 @@ export default {
             },
           })
           .then((res) => {
-            this.Project.coverUrl =res.data.data.url;
+            this.Project.coverUrl = res.data.data.url;
             this.createProjectApi();
           })
           .catch((err) => {
@@ -363,8 +347,8 @@ export default {
     },
     createProjectApi() {
       console.log(this.Project);
-      delete this.Project.id
-      this.Project.state=1
+      delete this.Project.id;
+      this.Project.state = 1;
       createProject(this.Project).then((res) => {
         this.$message({
           message: "创建成功",
@@ -383,7 +367,7 @@ export default {
       updateProject(this.Project).then((res) => {
         console.log(res);
         this.$message({
-            message: "更新成功",
+          message: "更新成功",
           type: "success",
         });
         this.initProject();
@@ -416,25 +400,31 @@ export default {
       }
     },
     deleted() {
-        this.$confirm( "要删除名为" + this.Project.title + "的文章吗？一旦删除将不可恢复", '提醒', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-            deleteProject({ id: this.Project.id }).then((res) => {
+      this.$confirm(
+        "要删除名为" + this.Project.title + "的文章吗？一旦删除将不可恢复",
+        "提醒",
+        {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        }
+      )
+        .then(() => {
+          deleteProject({ id: this.Project.id }).then((res) => {
             this.$message({
               type: "success",
               message: "删除成功!",
             });
             this.initProject();
           });
-        }).catch(() => {
-            this.$message({
+        })
+        .catch(() => {
+          this.$message({
             type: "info",
             message: "已取消删除",
-          });         
+          });
         });
-    }
+    },
   },
 };
 </script>
