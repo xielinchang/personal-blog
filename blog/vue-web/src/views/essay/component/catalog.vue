@@ -68,13 +68,24 @@ export default {
   },
   methods: {
     onScroll() {
-      var scrollTop =
-        document.documentElement.scrollTop || document.body.scrollTop
-      this.scrollHeight = scrollTop
-      const cur = document.documentElement.scrollTop
-      for (let i = 0; i < this.catalog.length; i++) {
-        if (cur > this.catalog[i].offset + this.over && cur < this.catalog[i + 1].offset + this.over) {
+      const el = document.documentElement
+      this.scrollHeight = el.scrollTop
+      const cur = this.scrollHeight
+      for (let i = 0; i < this.catalog.length - 1; i++) {
+        const top = document.getElementById(this.catalog[i].id).offsetTop
+        const bottom = document.getElementById(this.catalog[i + 1].id).offsetTop
+        if (cur > top + this.over && cur < bottom + this.over) {
           this.activeIndex = i
+        }
+        // 头尾特殊处理
+        if (i === this.catalog.length - 2) {
+          if (cur > top + this.over) {
+            this.activeIndex = this.catalog.length - 1
+          }
+        } if (i === 0) {
+          if (cur < bottom + this.over) {
+            this.activeIndex = i
+          }
         }
       }
     },
@@ -126,7 +137,7 @@ $opacityColor: rgb(255, 255, 255, 0.95);
           color: #666;
           box-sizing: border-box;
           z-index: 2;
-          max-height: 620px;
+          max-height: calc(100vh - 200px);
           overflow-y: scroll;
           &::-webkit-scrollbar {
             width: 4px;

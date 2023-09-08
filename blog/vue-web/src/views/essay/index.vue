@@ -430,16 +430,20 @@ export default {
     initCatalog() {
       // 优化跳转目录=> 根据h1 - h3生成目录树有层级关系，h4以后的不生成目录
       this.catalog = []
+      var id = 1
       var titleList = document.querySelectorAll('h1, h2, h3, h4, h5, h6, h7')
       for (let i = 0; i < titleList.length; i++) {
-        const element = titleList[i]
-        element.id = 'h-' + (i + 1) * 1
-        this.catalog.push({
-          key: element.innerText,
-          id: element.id,
-          offset: element.offsetTop
-        })
+        if (titleList[i].innerText.length) {
+          const element = titleList[i]
+          element.id = 'h-' + id++ * 1
+          this.catalog.push({
+            key: element.innerText,
+            id: element.id,
+            offset: element.offsetTop
+          })
+        }
       }
+      console.log(this.catalog)
       if (this.essayForm.digest) {
         var digest = document.getElementById('digest').offsetHeight
         this.overHeight = digest + 440
@@ -465,7 +469,7 @@ export default {
         _this.disableScroll()
         if (flag) {
         //  说明小于0
-          if (cur + step < record) {
+          if (cur < record) {
             el.scrollTop = record + over
             _this.enableScroll()
             clearInterval(timer)
@@ -473,7 +477,7 @@ export default {
             el.scrollTop = cur + step + over
           }
         } else {
-          if (cur + step > record) {
+          if (cur > record) {
             el.scrollTop = record + over
             _this.enableScroll()
             clearInterval(timer)
@@ -482,7 +486,7 @@ export default {
           }
         }
         cur += step
-      }, 5)
+      }, 1)
     },
     initComments() {
       essayCommentsQuery({
