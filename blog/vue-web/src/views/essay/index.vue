@@ -182,6 +182,7 @@
                       {{ item.message }}
                     </div>
                   </div>
+
                 </li>
               </ul>
               <div
@@ -226,7 +227,7 @@
 <script>
 // import user from './user.vue'
 import store from '@/store'
-import { userDetailUpdate, queryUser } from '@/api/default/user'
+import { userDetailUpdate } from '@/api/default/user'
 import { essayQuery, essayDetailUpdate } from '@/api/main/essay'
 import {
   essayCommentsQuery,
@@ -443,7 +444,6 @@ export default {
           })
         }
       }
-      console.log(this.catalog)
       if (this.essayForm.digest) {
         var digest = document.getElementById('digest').offsetHeight
         this.overHeight = digest + 440
@@ -496,8 +496,13 @@ export default {
           essay_id: this.query.id
         }
       }).then((res) => {
-        this.commentNum = res.data.count
-        this.commentList = res.data.rows
+        this.commentList = []
+        res.data.rows.map(item => {
+          if (item.users[0].length > 0) {
+            this.commentList.push(item)
+          }
+        })
+        this.commentNum = this.commentList.length
       })
     },
     initUser() {
