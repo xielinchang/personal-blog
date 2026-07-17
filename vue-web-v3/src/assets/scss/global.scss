@@ -1,0 +1,39 @@
+$font-size-normal: 18px;
+$box-light-shadow: 0 0 10px 1px var(--text11);
+
+@mixin box-shadow($bulr: 20px, $color: #aeaeae) {
+  -webkit-box-shadow: 0px 0px $bulr 1px $color;
+  -moz-box-shadow: 0px 0px $bulr 1px $color;
+  box-shadow: 0px 0px $bulr 1px $color;
+}
+
+$bg-low: var(--warning1);
+$bg-middle: var(--goldFlower4);
+$bg-high: var(--goldFlower6);
+$top-gap: 120px;
+
+.block {
+  border-radius: 4px;
+  box-sizing: border-box;
+  padding: 10px;
+  background-color: var(--opacity2);
+
+  @include box-shadow;
+  margin: 5px 10px;
+
+  .label {
+    font-size: 20px;
+    font-weight: 600;
+    padding-bottom: 5px;
+    color: var(--text6);
+    text-shadow: var(--text3);
+  }
+}
+// 圆润风
+@font-face {
+  font-family: 'Ali';
+  src: url('../fonts/Alimama/Alimama.ttf') format('truetype');
+}
+*{
+  font-family: 'Ali' !important;
+}

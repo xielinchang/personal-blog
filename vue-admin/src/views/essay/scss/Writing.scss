@@ -1,0 +1,19 @@
+@import '@/assets/scss/writing/index.scss';
+
+.form-container{
+    height: 450px;
+    .form-main{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        .form-item{
+            display: flex;
+            align-items: center;
+        }
+    }
+}
+/* 编辑图片位置显示bug */
+::v-deep .w-e-modal{
+    right: 0 !important;
+}

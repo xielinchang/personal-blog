@@ -1,0 +1,59 @@
+import request from '../../utils/request'
+export function getUserIp(data) {
+  return request({
+    url: '/user/ip',
+    method: 'post',
+    data
+  })
+}
+export function createVisit(data) {
+  return request({
+    url: '/visit/create',
+    method: 'post',
+    data
+  })
+}
+export function updateVisitLeaveTime(data) {
+  return request({
+    url: '/visit/update/leavetime',
+    method: 'post',
+    data
+  })
+}
+// export function dayImg(data) {
+//   return request({
+//     url: '/blog/dayimg',
+//     method: 'post',
+//     data
+//   })
+// }
+
+export function homeBg(data) {
+  return request({
+    url: '/blog/home/bg/now',
+    method: 'post',
+    data
+  })
+}
+export function homeBgNight(data) {
+  return request({
+    url: '/blog/home/bg/now/night',
+    method: 'post',
+    data
+  })
+}
+export function uploadimg(data) {
+  return request({
+    url: '/api/file',
+    method: 'post',
+    data
+  })
+}
+
+export function defaultPortrait(data) {
+  return request({
+    url: '/default/portrait',
+    method: 'post',
+    data
+  })
+}

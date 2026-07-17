@@ -1,0 +1,29 @@
+.box-card {
+    margin-top: 20px;
+}
+
+.block {
+    padding: 15px 10px;
+}
+
+.buttons {
+    width: 350px;
+    height: 28px;
+    margin: 20px 15px;
+}
+
+.photo-main {
+    width: 98%;
+    margin: 0 1%;
+    margin-bottom: 50px;
+    padding-bottom: 50px;
+    box-sizing: border-box;
+    position: relative;
+
+    .pages {
+        height: 40px;
+        position: absolute;
+        bottom: 0px;
+        right: 10px;
+    }
+}

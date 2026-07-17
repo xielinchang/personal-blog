@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>vue-web-v3</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 100%; height: 100%; }
+      #app { width: 100%; min-height: 100vh; }
+      
+      .preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #f2f3f5;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 99999;
+        transition: opacity 0.5s ease, visibility 0.5s ease;
+      }
+      
+      .preloader.hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
+      
+      .loader-circle {
+        width: 60px;
+        height: 60px;
+        border: 3px solid rgba(232, 122, 144, 0.3);
+        border-radius: 50%;
+        border-top-color: #e87a90;
+        animation: spin 1s ease-in-out infinite;
+        margin-bottom: 24px;
+      }
+      
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+      
+      .loader-text {
+        color: #e87a90;
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        animation: pulse 2s ease-in-out infinite;
+      }
+      
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.6; }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="preloader" id="preloader">
+        <div class="loader-circle"></div>
+        <div class="loader-text">Loading</div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

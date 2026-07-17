@@ -1,0 +1,1 @@
+import{A as e,V as t}from"./_plugin-vue_export-helper-B1YI6WaW.js";t();function n(t,n){return e(()=>{for(let e of n)if(t[e]!==void 0)return t[e];return t[n[n.length-1]]})}export{n as t};

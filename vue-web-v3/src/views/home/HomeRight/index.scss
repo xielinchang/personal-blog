@@ -1,0 +1,352 @@
+@import '../../../assets/scss/index.scss';
+$spanHeight: 40px;
+@media screen and (max-width:600px) {
+  .r-tab-box {
+    display: none;
+  }
+}
+
+$tag-color: #fff;
+$colors: (
+  $warning,
+  var(--rainbow1),
+  // var(--rainbow2),
+  var(--rainbow3),
+  var(--rainbow4),
+  var(--rainbow5),
+  var(--rainbow6),
+  var(--rainbow7),
+);
+
+.r-tab-box {
+  height: auto;
+  min-width: 300px;
+  padding: 0 2% 0 2%;
+
+  .whether-container {
+    width: 100%;
+    height: 150px;
+    position: relative;
+    right: 0px;
+    top: 0px;
+    border-radius: 4px;
+    // background: var(--opacity2);
+    transition: 500ms;
+    overflow: hidden;
+    // box-shadow: $box-light-shadow;
+  }
+
+  .tit-line-active {
+    width: 30px;
+    height: 5px;
+    background: var(--theme0);;
+    position: absolute;
+    left: 5%;
+    margin-top: -3px;
+    border-radius: 4px;
+    box-shadow: 1px 1px 10px var(--theme0);
+  }
+
+  .r-tab:hover .tit-line-active {
+    width: 65px;
+    transition: 400ms;
+  }
+
+  .tab-author {
+    width: 100%;
+    height: 80px;
+    position: relative;
+  }
+
+  .tab-author-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 4px;
+    position: absolute;
+    overflow: hidden;
+    left: 10px;
+
+    & img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .tab-author-name {
+    width: 150px;
+    height: 24px;
+    position: absolute;
+    left: 100px;
+    top: 10px;
+    font-weight: 600;
+    color: var(--text7);
+    font-size: 20px;
+
+  }
+
+  .tab-author-saying {
+    width: 70%;
+    height: auto;
+    text-align: left;
+    position: absolute;
+    left: 100px;
+    top: 45px;
+    font-size: 12px;
+    color: var(--text7);
+  }
+
+  .r-tab {
+    border-radius: 4px;
+    width: 100%;
+    height: calc(100% - 150px - 200px);
+    position: relative;
+    transition: 500ms;
+    overflow: hidden;
+  }
+
+  .tab-main {
+    width: 100%;
+    height: 100%;
+    border-bottom: 1px solid var(--line1);
+  }
+
+  .record {
+    width: 95%;
+    position: relative;
+    height: calc(100% - 150px);
+    overflow: scroll;
+    overflow-x: hidden;
+    border-bottom: 2px solid var(--line6);
+    top: 20px;
+  }
+
+
+
+  .record::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .record::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  .record::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  .record-msg {
+    width: 90%;
+    height: auto;
+    list-style: none;
+    padding: 0;
+    position: absolute;
+    margin-left: 38px;
+  }
+
+  .record-msg::before {
+    content: '';
+    width: 4px;
+    border-radius: 2px;
+    height: 100%;
+    background:var(--themeHover0);
+    position: absolute;
+    left: -13px;
+    top: 0px;
+  }
+
+  .record-msg li {
+    width: 80%;
+    height: auto;
+    min-height: 50px;
+    border-radius: 4px;
+    border: 1px solid #c0c7cf;
+    background: #e0e6ed;
+    z-index: 2;
+    position: relative;
+    box-shadow: 0 0 0 2px rgb(255 255 255 / 40%) inset,
+      0 13px 15px rgb(31 45 61 / 15%);
+    margin-left: 20px;
+    padding-bottom: 15px;
+    padding-right: 10px;
+    margin-top: 15px;
+    margin-bottom: 30px;
+  }
+
+  .record-msg li:nth-child(1) {
+    margin-top: 0;
+  }
+
+  .arrow {
+    width: 9px;
+    overflow: hidden;
+    position: absolute;
+    z-index: 1;
+    left: -5px;
+    border: 1px solid #b5beca;
+    border-right: none;
+    border-top: none;
+    background: #e0e6ed;
+    transform: rotate(47deg);
+    top: 15px;
+    font-size: 18px;
+    height: 9px;
+    border-radius: 26%;
+    box-shadow: 0 0 0 3px rgb(255 255 255 / 40%) inset,
+      0 13px 15px rgb(31 45 61 / 15%);
+  }
+
+  .shadow-hide {
+    width: 9px;
+    height: 9px;
+    position: absolute;
+    background: #e0e6ed;
+    top: 16px;
+    z-index: 99;
+  }
+
+  .record-shadow {
+    position: absolute;
+    width: 94%;
+    margin-left: 3%;
+    height: 20px;
+    background: -webkit-linear-gradient(top, white, #e0e6ed);
+    border-radius: 10px;
+    z-index: 100;
+    content: "";
+  }
+
+  .record-shadow-two {
+    position: absolute;
+    bottom: 0;
+    width: 94%;
+    margin-left: 3%;
+    height: 10px;
+    filter: blur(1px);
+    background: -webkit-linear-gradient(bottom, #f2f5f7, #e0e6ed);
+    border-radius: 10px;
+    z-index: 100;
+    content: "";
+  }
+
+  .tit-line {
+    width: 90%;
+    margin-left: 5%;
+    height: 1px;
+    border-radius: 30px;
+    background: #B9C3CD;
+  }
+
+  .tit-line-name {
+    position: relative;
+    font-size: 14px;
+
+    font-weight: 600;
+    color: var(--text7);
+    margin: 15px;
+    margin-left: 10px;
+  }
+
+  .record-content {
+    width: 100%;
+    text-align: left;
+    text-shadow: 0 1px rgb(255 255 255 / 50%);
+    color: #5d6b7d;
+    font-size: 13px;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+
+  .record-time {
+    width: 120px;
+    height: 24px;
+    position: absolute;
+    top: 0;
+    left: 10px;
+    font-size: 10px;
+    color: #5d6b7d;
+  }
+
+  .record-msg-item::before {
+    content: '';
+    width: 9px;
+    height: 9px;
+    background: #a6b4c7;
+    border-radius: 50%;
+    position: absolute;
+    left: -37px;
+    top: 17px;
+    box-shadow: 0 0 0 1px #cad1db inset, 0 0 0 2px #f0f2f7 inset;
+
+  }
+
+  .record-msg-item:hover .record-time {
+    transform: translateY(-25px);
+    transition: 300ms;
+  }
+
+  .record-msg-item:hover {
+    transform: translateY(22px);
+    transition: 300ms;
+  }
+
+  .essay-types {
+    width: 100%;
+    height: auto;
+    padding: 6px;
+    box-sizing: border-box;
+    position: relative;
+    // box-shadow: 0 0 10px 1px var(--text7);
+    border-radius: 10px;
+    background-color: var(--opacity3);
+    margin: 10% 0%;
+
+    .span {
+
+      width: 100%;
+      height: $spanHeight;
+      position: relative;
+      display: flex;
+      align-items: center;
+
+      span {
+        color: var(--text1);
+        margin: 10px;
+      }
+    }
+
+    ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+
+      li {
+        width: auto;
+        height: 30px;
+        line-height: 30px;
+        margin: 8px;
+        padding: 0 8px;
+        background-color: $success-hover;
+        color: $tag-color;
+        border-radius: 4px;
+        text-align: center;
+
+        font-weight: 600;
+
+        @for $i from 1 through 20 {
+          $color-index: $i % length($colors); // 计算颜色数组的索引
+
+          &:nth-child(#{$i}) {
+            background-color: nth($colors, $color-index + 1); // 根据索引选择颜色
+            box-shadow: 0 0 8px 2px nth($colors, $color-index + 1); // 同样应用于阴影
+          }
+        }
+      }
+
+    }
+  }
+}

@@ -1,0 +1,213 @@
+@import '../../../assets/scss/index.scss';
+
+.essay-list {
+  height: auto;
+
+  .essay-body {
+    width: 100%;
+    height: auto;
+    min-height: 400px;
+    position: relative;
+    // background: var(--opacity1);
+    // box-shadow: $box-light-shadow;
+    padding-bottom: 60px;
+    min-height: 400px;
+    border-radius: 4px;
+
+    .essay-list-main {
+      position: relative;
+      box-sizing: border-box;
+      width: 100%;
+      height: auto;
+      margin: auto;
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      .essay-item {
+        width: calc((100% - 40px) / 3);
+        height: 285px;
+        margin-bottom: 30px;
+        border-radius: 10px;
+        position: relative;
+        overflow: hidden;
+        transform: perspective(500px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+        transition: .3s;
+        box-shadow: 1px 1px 10px 2px var(--line1);
+
+        .item-main {
+          width: 100%;
+          height: 65%;
+          object-fit: cover;
+        }
+
+        .item-bottom {
+          width: 100%;
+          height: 35%;
+          position: absolute;
+          bottom: 0;
+          background: var(--opacity3);
+          padding: 3px 10px;
+          box-sizing: border-box;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+          text-align: left;
+
+          .item-time {
+            width: 100%;
+            font-size: 12px;
+            color: var(--text7);
+            display: flex;
+            align-items: center;
+
+            .update-icon {
+              margin-right: 5px;
+            }
+          }
+
+          .item-title {
+            width: 100%;
+            font-size: 16px;
+            font-weight: 400;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            color: var(--text7);
+          }
+
+          .item-type {
+            list-style: none;
+            width: 100%;
+            padding: 0;
+            display: flex;
+            justify-content: left;
+
+            & li {
+              padding: 0 5px;
+              width: auto;
+              height: 20px;
+              background: var(--theme0);
+              color: var(--same0);
+              font-weight: 500;
+              border-radius: 2px;
+              box-shadow: 0px 0px 5px 1px var(--themeHover0);;
+              text-align: center;
+              line-height: 20px;
+              font-size: 12px;
+              margin-right: 10px;
+            }
+          }
+          .item-reading {
+            width: auto;
+            font-size: 12px;
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            display: flex;
+            align-items: center;
+            color: var(--text7);
+            .view-icon {
+              margin: 0px 5px;
+            }
+          }
+
+          .permission {
+            position: absolute;
+            right: 15px;
+            top: 6px;
+            font-size: 12px;
+            color: var(--rainbow1);
+          }
+        }
+      }
+
+      .nothing {
+        line-height: 400px;
+      }
+    }
+
+    .essay-list .essay-item:hover {
+      transform: scale(1.01);
+      box-shadow: 0 0 10px rgba(0, 0, 10, 0.52);
+      transition: 300ms;
+    }
+
+    .query-page-box {
+      width: 96%;
+      height: 38px;
+      // background-color: var(--opacity2);
+      // box-shadow: $box-light-shadow;
+      position: absolute;
+      margin-top: 15px;
+      padding: 10px 0 6px 0;
+      border: 1px solid var(--line1);
+      border-left: none;
+      border-right: none;
+
+      .query-page {
+        margin: auto;
+        transform: scale(1.1);
+        z-index: 99;
+
+      }
+    }
+
+    .nothing {
+      line-height: 400px;
+    }
+  }
+
+  .gap-line {
+    width: 80%;
+    height: .5px;
+    background-color: var(--line1);
+    margin: auto;
+  }
+}
+
+// .loading {
+//   animation: flipInX;
+//   animation-duration: 0.8s;
+// }
+
+@media screen and (max-width: 600px) {
+  .essay-list {
+    width: 100% !important;
+    padding: 0 !important;
+
+    .essay-body {
+      width: 100% !important;
+      height: auto !important;
+      // overflow-x: hidden;
+      position: relative;
+      box-sizing: border-box;
+      left: 0;
+      padding: 0;
+      .essay-list-main {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+
+        .essay-item {
+          width: 100%;
+          height: 200px;
+
+          .item-main {
+            height: 120px;
+          }
+        }
+      }
+
+      .query-page-box {
+        width: 100vw;
+        scale: 0.7;
+        margin: auto;
+      }
+    }
+  }
+
+  .loading {
+    width: 100%;
+  }
+}

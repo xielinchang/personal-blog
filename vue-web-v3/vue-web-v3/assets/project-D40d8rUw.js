@@ -1,0 +1,1 @@
+import{o as e}from"./_plugin-vue_export-helper-B1YI6WaW.js";function t(t){return e({url:`/project/query/state`,method:`post`,data:t})}export{t};

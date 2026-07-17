@@ -1,0 +1,44 @@
+.wave {
+    width: 100%;
+    height: calc(100vh);
+    position: fixed;
+    bottom: 0;
+    overflow: hidden;
+
+    .mask {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: var(--opacity10);
+        z-index: 99;
+    }
+
+    .wave-cover {
+        width: 100%;
+        height: auto;
+        position: fixed;
+        top: 0;
+        z-index: 100;
+        img{
+            width: 100%;
+            height: auto;
+        }
+    }
+
+    .wave-container {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+
+        .wave-bg {
+            width: 100%;
+            height: auto;
+            position: absolute;
+            transform: translateY(-28%);
+            background-size: cover;
+           /* z-index: 100; */
+        }
+    }
+}
