@@ -1,0 +1,29 @@
+{
+  "hash": "ac0a8a94",
+  "browserHash": "4ec25693",
+  "optimized": {
+    "vue": {
+      "src": "../../../../node_modules/vue/dist/vue.runtime.esm-bundler.js",
+      "file": "vue.js",
+      "fileHash": "ece925c9",
+      "needsInterop": false
+    },
+    "@vueuse/core": {
+      "src": "../../../../node_modules/@vueuse/core/index.mjs",
+      "file": "@vueuse_core.js",
+      "fileHash": "5ad4f028",
+      "needsInterop": false
+    },
+    "joyd-demo": {
+      "src": "../../../../node_modules/joyd-demo/joyd-demo.umd.js",
+      "file": "joyd-demo.js",
+      "fileHash": "2fefc338",
+      "needsInterop": true
+    }
+  },
+  "chunks": {
+    "chunk-77VXVWAQ": {
+      "file": "chunk-77VXVWAQ.js"
+    }
+  }
+}

@@ -1,0 +1,11 @@
+.j-header {
+  // @include set-component-css-var('header', $header);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  background-color: rgb(82, 147, 197);
+  text-align: center;
+}
